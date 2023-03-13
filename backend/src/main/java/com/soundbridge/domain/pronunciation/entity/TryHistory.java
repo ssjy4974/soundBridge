@@ -65,5 +65,9 @@ public class TryHistory {
         this.type = type;
     }
 
+    public void increaseTryCount() {
+        this.tryCount++;
+    }
+
 
 }
