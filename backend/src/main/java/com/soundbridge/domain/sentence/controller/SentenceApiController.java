@@ -1,14 +1,18 @@
 package com.soundbridge.domain.sentence.controller;
 
 import com.soundbridge.domain.sentence.request.MySentenceLogReq;
+import com.soundbridge.domain.sentence.response.MySentenceLogRes;
 import com.soundbridge.domain.sentence.service.MySentenceLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +40,19 @@ public class SentenceApiController {
         sentenceLogService.saveOrUpdateMySentenceLog(req, 1L);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/my-sentence-logs/{sentence}")
+    @Operation(summary = "내가 쓴 문장 자동완성 조회")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "내가 쓴 문장 자동완성 조회 성공")
+    })
+    public ResponseEntity<List<MySentenceLogRes>> mySentenceLogList(
+        @PathVariable String sentence,
+        Authentication
+            authentication) {
+
+        return ResponseEntity.ok(sentenceLogService.findMySentenceLog(sentence, 1L));
     }
 
 }
