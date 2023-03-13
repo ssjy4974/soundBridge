@@ -71,4 +71,7 @@ public class Member {
     public void modifyNickname(String nickname) {
         this.nickname = nickname;
     }
+    public void modifyProfile(String profile) {
+        this.profile = profile;
+    }
 }

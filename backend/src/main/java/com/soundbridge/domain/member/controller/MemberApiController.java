@@ -1,6 +1,7 @@
 package com.soundbridge.domain.member.controller;
 
 import com.soundbridge.domain.member.request.ModifyNicknameReq;
+import com.soundbridge.domain.member.request.ModifyProfileReq;
 import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.domain.member.service.MemberService;
@@ -11,11 +12,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Optional;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -78,5 +82,25 @@ public class MemberApiController {
 
         return ResponseEntity.ok().body(nickname);
     }
+
+
+    @Operation(summary = "프로필 이미지 수정", description = "프로필 이미지 수정 메소드 입니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
+        @ApiResponse(responseCode = "400", description = "필수값 누락"),
+        @ApiResponse(responseCode = "403", description = "권한 없음"),
+        @ApiResponse(responseCode = "413", description = "파일용량 초과"),
+        @ApiResponse(responseCode = "415", description = "지원하지않는 확장자"),
+        @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    @PutMapping("/profile/{memberId}")
+    public ResponseEntity modifyMemberProfile(@PathVariable Long memberId, @ModelAttribute @Valid
+        ModifyProfileReq profileReq){
+
+        String newProfileName = memberService.modifyMemberProfile(memberId, profileReq.getProfile());
+
+        return ResponseEntity.ok().body(newProfileName);
+    }
+
 
 }
