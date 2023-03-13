@@ -19,10 +19,20 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public MemberInfoRes getMemberById(Long memberId) {
+        log.info("memberId {}", memberId);
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         return MemberInfoRes.of(member.getId(), member.getEmail(), member.getNickname()
             , member.getProfile(), member.getRole());
+    }
+
+    @Transactional
+    public void modifyMemberNickname(Long id, String nickname) {
+        Member member = memberRepository.findById(id).get();
+
+        if(!member.getNickname().equals(nickname)) {
+            member.modifyNickname(nickname);
+        }
     }
 }
