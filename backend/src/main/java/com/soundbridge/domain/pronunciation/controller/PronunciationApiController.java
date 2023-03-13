@@ -4,6 +4,7 @@ import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import com.soundbridge.domain.pronunciation.service.BasicLetterService;
 import com.soundbridge.domain.pronunciation.service.DailyWordService;
+import com.soundbridge.domain.pronunciation.service.TryHistoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +25,7 @@ public class PronunciationApiController {
 
     private final BasicLetterService basicLetterService;
     private final DailyWordService dailyWordService;
+    private final TryHistoryService tryHistoryService;
 
     @GetMapping("/basic-letters")
     @Operation(summary = "기본 발음 전체 조회")
@@ -35,10 +39,23 @@ public class PronunciationApiController {
     @GetMapping("/daily-words")
     @Operation(summary = "일상 단어 전체 조회")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "일상 단어 전체 조회 성공")
+        @ApiResponse(responseCode = "200", description = "일상 단어 전체 조회 성공"),
     })
     public ResponseEntity<List<DailyWordRes>> dailyWordList(Authentication authentication) {
         return ResponseEntity.ok(dailyWordService.findAllDailyWords(1L));
+    }
+
+    @PostMapping("/try-histories/basic-letters/{basicLetterId}")
+    @Operation(summary = "기본 발음 연습, 시도횟수 업데이트")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "기본 발음 연습, 시도횟수 업데이트 성공"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 기본 발음")
+    })
+    public ResponseEntity tryHistorySaveOrUpdateByBasicLetter(@PathVariable Long basicLetterId,
+        Authentication authentication) {
+        tryHistoryService.saveOrUpdateByBasicLetter(basicLetterId, 1L);
+        return ResponseEntity.ok().build();
     }
 
 }

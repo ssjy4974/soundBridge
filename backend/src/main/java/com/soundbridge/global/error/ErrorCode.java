@@ -11,6 +11,7 @@ public enum ErrorCode {
     MY_SENTENCE_LOG_NOT_FOUND(404, "mySentenceLog not found."),
     BASIC_LETTER_NOT_FOUND(404, "basicLetter not found."),
     DAILY_WORD_NOT_FOUND(404, "dailyWord not found,"),
+    TRY_HISTORY_NOT_FOUND(404, "tryHistory not found."),
     VOICE_NOT_FOUND(404, "voice not found."),
     QUICK_SENTENCE(404, "quickSentence not found."),
     FEEDBACK_BOARD_NOT_FOUND(404, "feedBackBoard not found."),

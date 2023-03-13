@@ -46,11 +46,11 @@ public class TryHistory {
 
     @Column(columnDefinition = "INT UNSIGNED")
     @ColumnDefault("1")
-    private int tryCount;
+    private Integer tryCount;
 
     @Column(columnDefinition = "INT UNSIGNED")
     @ColumnDefault("0")
-    private int successCount;
+    private Integer successCount;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 15)
