@@ -4,6 +4,7 @@ import static com.soundbridge.domain.pronunciation.entity.QDailyWord.dailyWord;
 import static com.soundbridge.domain.pronunciation.entity.QTryHistory.tryHistory;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.soundbridge.domain.pronunciation.entity.PronunciationType;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import com.soundbridge.domain.pronunciation.response.QDailyWordRes;
 import java.util.List;
@@ -18,7 +19,6 @@ public class DailyWordRepositoryImpl implements DailyWordRepositorySupport {
     public List<DailyWordRes> findAllByMemberId(Long memberId) {
         return jpaQueryFactory.select(
                 new QDailyWordRes(
-                    tryHistory.id.as("tryHistoryId"),
                     dailyWord.id.as("dailyWordId"),
                     dailyWord.word.as("word"),
                     dailyWord.guideWord.as("guidWord"),
@@ -27,8 +27,10 @@ public class DailyWordRepositoryImpl implements DailyWordRepositorySupport {
                 )
             )
             .from(dailyWord)
-            .join(tryHistory).on(tryHistory.dailyWord.id.eq(dailyWord.id))
-            .where(tryHistory.member.id.eq(memberId))
+            .leftJoin(tryHistory)
+            .on(tryHistory.type.eq(PronunciationType.DAILY_WORD),
+                tryHistory.dailyWord.id.eq(dailyWord.id),
+                tryHistory.member.id.eq(memberId))
             .fetch();
     }
 }

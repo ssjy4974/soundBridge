@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class BasicLetterRes {
-    private Long tryHistoryId;
     private Long basicLetterId;
     private String letter;
     private String guidLetter;
@@ -19,8 +18,7 @@ public class BasicLetterRes {
     private int successCount;
 
     @QueryProjection
-    public BasicLetterRes(Long tryHistoryId, Long basicLetterId, String letter, String guidLetter, String letterImage, String guidImage, int tryCount, int successCount) {
-        this.tryHistoryId = tryHistoryId;
+    public BasicLetterRes(Long basicLetterId, String letter, String guidLetter, String letterImage, String guidImage, int tryCount, int successCount) {
         this.basicLetterId = basicLetterId;
         this.letter = letter;
         this.guidLetter = guidLetter;

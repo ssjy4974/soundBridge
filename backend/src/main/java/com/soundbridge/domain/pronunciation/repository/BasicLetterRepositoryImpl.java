@@ -19,7 +19,6 @@ public class BasicLetterRepositoryImpl implements BasicLetterRepositorySupport {
     public List<BasicLetterRes> findAllByMemberId(Long memberId) {
         return jpaQueryFactory.select(
                 new QBasicLetterRes(
-                    tryHistory.id.as("tryHistoryId"),
                     basicLetter.id.as("basicLetterId"),
                     basicLetter.letter.as("letter"),
                     basicLetter.guideLetter.as("guidLetter"),
