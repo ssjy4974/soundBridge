@@ -3,6 +3,8 @@ package com.soundbridge.domain.pronunciation.entity;
 import com.soundbridge.domain.member.entity.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -35,8 +37,12 @@ public class TryHistory {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "daily_word_id", nullable = false, foreignKey = @ForeignKey(name = "fk_try_history_daily_word_idx"))
+    @JoinColumn(name = "daily_word_id", foreignKey = @ForeignKey(name = "fk_try_history_daily_word_idx"))
     private DailyWord dailyWord;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "basic_letter_id", foreignKey = @ForeignKey(name = "fk_try_history_basic_letter_idx"))
+    private BasicLetter basicLetter;
 
     @Column(columnDefinition = "INT UNSIGNED")
     @ColumnDefault("1")
@@ -46,9 +52,18 @@ public class TryHistory {
     @ColumnDefault("0")
     private int successCount;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15)
+    private PronunciationType type; // BASIC_LETTER 기본발음, DAILY_WORD 일상단어
+
     @Builder
-    public TryHistory(Member member, DailyWord dailyWord) {
+    public TryHistory(Member member, BasicLetter basicLetter, DailyWord dailyWord,
+        PronunciationType type) {
         this.member = member;
+        this.basicLetter = basicLetter;
         this.dailyWord = dailyWord;
+        this.type = type;
     }
+
+
 }
