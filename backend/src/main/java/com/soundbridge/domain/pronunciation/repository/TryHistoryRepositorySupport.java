@@ -7,4 +7,5 @@ public interface TryHistoryRepositorySupport {
 
     Optional<TryHistory> findByBasicLetterIdAndMemberId(Long basicLetterId, Long memberId);
 
+    Optional<TryHistory> findByDailyWordIdAndMemberId(Long dailyWordId, Long memberId);
 }

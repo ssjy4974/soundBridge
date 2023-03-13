@@ -58,4 +58,34 @@ public class TryHistoryService {
         }
     }
 
+    /**
+     * 일상 단어 발음 연습 , 시도횟수 업데이트
+     *
+     * @param dailyWordId
+     * @param memberId
+     */
+    public void saveOrUpdateByDailyWord(Long dailyWordId, Long memberId) {
+        final Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        final DailyWord dailyWord = dailyWordRepository.findById(dailyWordId)
+            .orElseThrow(() ->
+                new NotFoundException(ErrorCode.DAILY_WORD_NOT_FOUND));
+
+        final Optional<TryHistory> getTryHistory = tryHistoryRepository.findByDailyWordIdAndMemberId(
+            dailyWordId, memberId);
+
+        // 이미 존재 하는 경우 업데이트 로직 수행
+        if (getTryHistory.isPresent()) {
+            getTryHistory.get().increaseTryCount();
+        } else { // 없으면 save 로직 수행
+            final TryHistory tryHistory = TryHistory.builder()
+                .member(member)
+                .dailyWord(dailyWord)
+                .type(PronunciationType.DAILY_WORD)
+                .build();
+
+            tryHistoryRepository.save(tryHistory);
+        }
+    }
 }

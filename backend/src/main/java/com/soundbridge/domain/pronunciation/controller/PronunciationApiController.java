@@ -58,4 +58,17 @@ public class PronunciationApiController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/try-histories/daily-words/{dailyWordId}")
+    @Operation(summary = "일살 단어 발음 연습, 시도횟수 업데이트")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "일상 단어 발음 연습, 시도횟수 업데이트 성공"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 일상 단어")
+    })
+    public ResponseEntity tryHistorySaveOrUpdateByDailyWord(@PathVariable Long dailyWordId,
+        Authentication authentication) {
+        tryHistoryService.saveOrUpdateByDailyWord(dailyWordId, 1L);
+        return ResponseEntity.ok().build();
+    }
+
 }

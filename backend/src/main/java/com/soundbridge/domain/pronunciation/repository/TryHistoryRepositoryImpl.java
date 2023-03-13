@@ -23,4 +23,15 @@ public class TryHistoryRepositoryImpl implements TryHistoryRepositorySupport {
                 .fetchOne());
     }
 
+    @Override
+    public Optional<TryHistory> findByDailyWordIdAndMemberId(Long dailyWordId, Long memberId) {
+        return Optional.ofNullable(
+            jpaQueryFactory.select(tryHistory)
+                .from(tryHistory)
+                .where(tryHistory.dailyWord.id.eq(dailyWordId),
+                    tryHistory.member.id.eq(memberId))
+                .fetchOne());
+    }
+
+
 }
