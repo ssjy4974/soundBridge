@@ -4,6 +4,7 @@ import static com.soundbridge.domain.pronunciation.entity.QBasicLetter.basicLett
 import static com.soundbridge.domain.pronunciation.entity.QTryHistory.tryHistory;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.soundbridge.domain.pronunciation.entity.PronunciationType;
 import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
 import com.soundbridge.domain.pronunciation.response.QBasicLetterRes;
 import java.util.List;
@@ -29,8 +30,10 @@ public class BasicLetterRepositoryImpl implements BasicLetterRepositorySupport {
                 )
             )
             .from(basicLetter)
-            .join(tryHistory).on(tryHistory.basicLetter.id.eq(basicLetter.id))
-            .where(tryHistory.member.id.eq(memberId))
+            .leftJoin(tryHistory)
+            .on(tryHistory.type.eq(PronunciationType.BASIC_LETTER),
+                tryHistory.basicLetter.id.eq(basicLetter.id),
+                tryHistory.member.id.eq(memberId))
             .fetch();
     }
 }
