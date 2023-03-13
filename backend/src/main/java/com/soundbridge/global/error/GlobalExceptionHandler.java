@@ -1,6 +1,7 @@
 package com.soundbridge.global.error;
 
 import com.soundbridge.global.error.exception.AccessDeniedException;
+import com.soundbridge.global.error.exception.AlreadyExistResourceException;
 import com.soundbridge.global.error.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,17 @@ public class GlobalExceptionHandler {
 
         final ErrorResponse response = ErrorResponse.of(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * 이미 존재하는 자원에 대한 예외 처리
+     */
+    @ExceptionHandler(AlreadyExistResourceException.class)
+    protected ResponseEntity<ErrorResponse> handleNotFoundException(AlreadyExistResourceException e) {
+        log.error("handleAlreadyExistResourceException", e);
+
+        final ErrorResponse response = ErrorResponse.of(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**
