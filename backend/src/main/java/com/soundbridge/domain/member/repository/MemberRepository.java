@@ -1,6 +1,7 @@
 package com.soundbridge.domain.member.repository;
 
 import com.soundbridge.domain.member.entity.Member;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +11,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     //Support Repository 는 select 만
     //Command는 그냥 Repository에서 Support를 다시 상속 받아서 사용한다.'
 
-    Member findByEmail();
+    Optional<Member> findByEmail(String email);
 
 
 }

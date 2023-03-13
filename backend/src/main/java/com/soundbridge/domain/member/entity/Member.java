@@ -43,7 +43,7 @@ public class Member {
     private String email;
 
     @Column(length = 150)
-    @ColumnDefault("'default.png")
+    @ColumnDefault("'default.png'")
     private String profile;
 
     @Column(nullable = false)
