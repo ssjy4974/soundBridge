@@ -46,11 +46,11 @@ public class TryHistory {
 
     @Column(columnDefinition = "INT UNSIGNED")
     @ColumnDefault("1")
-    private int tryCount;
+    private Integer tryCount;
 
     @Column(columnDefinition = "INT UNSIGNED")
     @ColumnDefault("0")
-    private int successCount;
+    private Integer successCount;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 15)
@@ -63,6 +63,14 @@ public class TryHistory {
         this.basicLetter = basicLetter;
         this.dailyWord = dailyWord;
         this.type = type;
+    }
+
+    public void increaseTryCount() {
+        this.tryCount++;
+    }
+
+    public void increaseSuccessCount() {
+        this.successCount++;
     }
 
 
