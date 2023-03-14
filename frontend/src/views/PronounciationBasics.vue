@@ -1,0 +1,9 @@
+<template>
+  <div>
+    <h1>발음 교정 기본 자음모음 메뉴 페이지</h1>
+  </div>
+</template>
+
+<script setup></script>
+
+<style lang="scss" scoped></style>

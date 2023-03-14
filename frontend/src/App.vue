@@ -1,30 +1,26 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+// style import
+import "./style.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+
+// component import
+import FooterDisabled from "./components/FooterDisabled.vue";
+import Header from "./components/Header.vue";
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <Header />
+  <div class="dummy"></div>
+  <router-view class="router" />
+  <FooterDisabled />
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.router {
+  padding-top: 70px;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+
+/* .dummy {
+  height: 20000px;
+} */
 </style>
