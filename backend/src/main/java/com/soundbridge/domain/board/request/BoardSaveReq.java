@@ -6,6 +6,7 @@ import com.soundbridge.domain.board.entity.FeedbackBoard;
 import com.soundbridge.domain.member.entity.Member;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,10 +18,10 @@ public class BoardSaveReq {
 
     @NotEmpty(message = "title cannot be empty.")
     private String title;
-    @NotEmpty(message = "startTime cannot be empty")
+    @NotNull(message = "startTime cannot be null")
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime startTime;
-    @NotEmpty(message = "endTIme cannot be empty")
+    @NotNull(message = "endTIme cannot be null")
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime endTime;
 

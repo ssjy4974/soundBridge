@@ -1,2 +1,5 @@
-package com.soundbridge.domain.meeting.repository;public interface MeetingRepositorySupport {
+package com.soundbridge.domain.meeting.repository;
+
+public interface MeetingRepositorySupport {
+
 }

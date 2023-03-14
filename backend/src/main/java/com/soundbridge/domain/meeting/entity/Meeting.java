@@ -46,24 +46,23 @@ public class Meeting {
     @ColumnDefault("0")
     private short openChk;
 
-    @Column(length = 6, nullable = false)
+    @Column(length = 40, nullable = false)
     private String code;
 
     @Column(nullable = false)
     private LocalDateTime startTime;
 
     @Column(nullable = false)
-    private LocalDateTime entTime;
+    private LocalDateTime endTime;
 
     @Builder
-    public Meeting(Member helper, Member applicant, String title, short openChk, String code,
-        LocalDateTime startTime, LocalDateTime entTime) {
+    public Meeting(Member helper, Member applicant, String title, String code,
+        LocalDateTime startTime, LocalDateTime endTime) {
         this.helper = helper;
         this.applicant = applicant;
         this.title = title;
-        this.openChk = openChk;
         this.code = code;
         this.startTime = startTime;
-        this.entTime = entTime;
+        this.endTime = endTime;
     }
 }
