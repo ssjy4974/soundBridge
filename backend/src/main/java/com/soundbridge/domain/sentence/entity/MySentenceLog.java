@@ -46,4 +46,8 @@ public class MySentenceLog {
         this.member = member;
         this.sentenceLog = sentenceLog;
     }
+
+    public void increaseCount() {
+        this.count++;
+    }
 }
