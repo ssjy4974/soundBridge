@@ -37,9 +37,7 @@ public class BoardApiController {
     })
     public ResponseEntity feedbackBoardSave(@RequestBody BoardSaveReq req,
         Authentication authentication) {
-        for (int i = 0; i < 1000; i++) {
-            boardService.saveFeedbackBoard(req, 1L);
-        }
+        boardService.saveFeedbackBoard(req, 1L);
         return ResponseEntity.ok().build();
     }
 
