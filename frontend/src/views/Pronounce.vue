@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Pronounce 발화 페이지</h1>
+    <h1>Pronounce 발화 페이지 성공</h1>
     <div>
       <FreqUsedPhrase />
     </div>
