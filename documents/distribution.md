@@ -78,7 +78,7 @@ server {
   }
 
   location /jenkins {
-    proxy_pass http://localhost:8000/jenkins;
+    proxy_pass http://localhost:8000;
   }
 
   location /swagger-ui/ {
@@ -135,7 +135,7 @@ FLUSH PRIVILEGES;
 
 ```sql
 create database soundbridge;
-GRANT ALL PRIVILEGES ON dearmybaby.* to 'ssafy'@'%';
+GRANT ALL PRIVILEGES ON soundbridge.* to 'ssafy'@'%';
 FLUSH PRIVILEGES;
 ```
 
@@ -196,7 +196,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 소스코드를 클론 한다
 
 ```
-git clone [gitLab 주]
+git clone [gitLab 주소]
 ```
 
 빌드에 필요한 자바와 gradle, nodejs를 설치한다
@@ -208,8 +208,8 @@ sudo apt-get install openjdk-11-jdk
 gradle
 sudo apt install gradle
 
-nodejs (16버전 기준)
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+nodejs (18버전 기준)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
@@ -247,7 +247,7 @@ cd ..
 soundbridge-backend:latest 이미지로 soundbridge-backend 컨테이너를 만들어 실행한다. 이때 환경 변수로 DATABASE_URL, DATABASE_ID, DATABASE_PASSWORD, SERVER_ENV, FILE_DIR를 주입해줘야 한다.
 
 ```
-sudo docker run -d -p 8080:8080 --env DATABASE_URL=172.17.0.1 --env DATABASE_ID=ssafy --env DATABASE_PASSWORD=ssafy --env SERVER_ENV=production --env FILE_DIR=/workspace/files --name soundbridge-backend soundbridge-backend:latest
+sudo docker run -d -p 9999:9999 --env DATABASE_URL=172.17.0.1 --env DATABASE_ID=ssafy --env DATABASE_PASSWORD=ssafy --env SERVER_ENV=production --env FILE_DIR=/workspace/files --name soundbridge-backend soundbridge-backend:latest
 ```
 
 ## 5. CI/CD 설정하기
@@ -275,7 +275,7 @@ Docker 이미지로 실행하기
 # jenkins 실행
 docker run \
   --name jenkins-docker \
-  -p 8080:8080 -p 50000:50000 \
+  -p 8000:8080 -p 50000:50000 \
   -v /home/jenkins:/var/jenkins_home \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /usr/bin/docker:/usr/bin/docker \
