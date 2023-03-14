@@ -88,4 +88,22 @@ public class TryHistoryService {
             tryHistoryRepository.save(tryHistory);
         }
     }
+
+    /**
+     * 기본 발음 성공 카운트 업데이트
+     *
+     * @param basicLetterId
+     * @param memberId
+     */
+    public void updateByBasicLetter(Long basicLetterId, Long memberId) {
+        basicLetterRepository.findById(basicLetterId)
+            .orElseThrow(() ->
+                new NotFoundException(ErrorCode.BASIC_LETTER_NOT_FOUND));
+
+        TryHistory tryHistory = tryHistoryRepository.findByBasicLetterIdAndMemberId(
+            basicLetterId, memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.TRY_HISTORY_NOT_FOUND));
+
+        tryHistory.increaseSuccessCount();
+    }
 }

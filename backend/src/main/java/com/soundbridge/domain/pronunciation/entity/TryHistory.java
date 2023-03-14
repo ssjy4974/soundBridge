@@ -69,5 +69,9 @@ public class TryHistory {
         this.tryCount++;
     }
 
+    public void increaseSuccessCount() {
+        this.successCount++;
+    }
+
 
 }
