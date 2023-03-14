@@ -6,6 +6,7 @@ import com.soundbridge.domain.board.service.BoardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -35,7 +36,7 @@ public class BoardApiController {
         @ApiResponse(responseCode = "400", description = "입력 파라미터 오류"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
     })
-    public ResponseEntity feedbackBoardSave(@RequestBody BoardSaveReq req,
+    public ResponseEntity feedbackBoardSave(@Valid @RequestBody BoardSaveReq req,
         Authentication authentication) {
         boardService.saveFeedbackBoard(req, 1L);
         return ResponseEntity.ok().build();

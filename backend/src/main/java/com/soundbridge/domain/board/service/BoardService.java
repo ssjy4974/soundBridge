@@ -80,10 +80,11 @@ public class BoardService {
      */
     @Transactional(readOnly = true)
     public void checkValidation(Long feedbackBoardId, Long memberId) {
+        // 삭제 대상이 되는 feedbackBoard 존재 여부
         final FeedbackBoard feedbackBoard = boardRepository.findById(feedbackBoardId)
             .orElseThrow(() ->
                 new NotFoundException(ErrorCode.FEEDBACK_BOARD_NOT_FOUND));
-
+        // 요청에서 넘어온 memberId와, 해당 feedbackBoard의 작성자 id가 같은지 검증
         if (feedbackBoard.getMember().getId() != memberId) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZATION);
         }
