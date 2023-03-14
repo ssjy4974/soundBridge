@@ -27,10 +27,12 @@ public class MeetingApiController {
         @ApiResponse(responseCode = "200", description = "피드백 상담 생성 성공"),
         @ApiResponse(responseCode = "400", description = "입력 파라미터 오류"),
         @ApiResponse(responseCode = "403", description = "권한 없는 유저"),
-        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "피드백 요청 게시글 삭제 실패")
     })
-    public ResponseEntity meetingSave(@Valid @RequestBody MeetingSaveReq req) {
-        meetingService.saveMeeting(req);
+    public ResponseEntity meetingSave(@Valid @RequestBody MeetingSaveReq req,
+        Authentication authentication) {
+        meetingService.saveMeeting(req, 1L);
         return ResponseEntity.ok().build();
     }
 }

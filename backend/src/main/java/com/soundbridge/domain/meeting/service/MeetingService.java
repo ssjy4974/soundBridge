@@ -28,8 +28,8 @@ public class MeetingService {
      * 피드백 상담 생성
      * @param req
      */
-    public void saveMeeting(MeetingSaveReq req) {
-        final Member applicant = memberRepository.findById(req.getApplicantId()).orElseThrow(() ->
+    public void saveMeeting(MeetingSaveReq req, Long applicantId) {
+        final Member applicant = memberRepository.findById(applicantId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         final Member helper = memberRepository.findById(req.getHelperId()).orElseThrow(() ->
