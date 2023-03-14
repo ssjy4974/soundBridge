@@ -12,7 +12,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +37,7 @@ public class BoardApiController {
     })
     public ResponseEntity feedbackBoardSave(@RequestBody BoardSaveReq req,
         Authentication authentication) {
-        for(int i =0; i <1000; i++) {
+        for (int i = 0; i < 1000; i++) {
             boardService.saveFeedbackBoard(req, 1L);
         }
         return ResponseEntity.ok().build();
@@ -54,6 +56,21 @@ public class BoardApiController {
 
         return ResponseEntity.ok(boardService.findAllWithPaging(pageable, cursorId, 1L));
 
+    }
+
+    @DeleteMapping("/{feedbackBoardId}")
+    @Operation(summary = "피드백 상담 게시글 삭제")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "피드백 상당 게시글 삭제 성공"),
+        @ApiResponse(responseCode = "403", description = "권한 없는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 게시글")
+    })
+    public ResponseEntity feedbackBoardDelete(
+        @PathVariable Long feedbackBoardId,
+        Authentication authentication) {
+        boardService.deleteBoard(feedbackBoardId, 1L);
+        return ResponseEntity.ok().build();
     }
 
 }

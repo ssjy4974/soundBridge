@@ -8,6 +8,7 @@ import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.global.error.ErrorCode;
+import com.soundbridge.global.error.exception.AccessDeniedException;
 import com.soundbridge.global.error.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +45,7 @@ public class BoardService {
      * @param memberId
      * @return
      */
+    @Transactional(readOnly = true)
     public Slice<BoardDetailRes> findAllWithPaging(Pageable pageable, Long cursorId,
         Long memberId) {
         final Member member = memberRepository.findById(memberId).orElseThrow(() ->
@@ -53,5 +55,38 @@ public class BoardService {
             memberId = null;
         }
         return boardRepository.findAllWithPaging(pageable, cursorId, memberId);
+    }
+
+    /**
+     * 게시글 삭제
+     *
+     * @param feedbackBoardId
+     * @param memberId
+     */
+    public void deleteBoard(Long feedbackBoardId, Long memberId) {
+        final FeedbackBoard feedbackBoard = boardRepository.findById(feedbackBoardId)
+            .orElseThrow(() ->
+                new NotFoundException(ErrorCode.FEEDBACK_BOARD_NOT_FOUND));
+
+        checkValidation(feedbackBoardId, memberId);
+
+        boardRepository.deleteById(feedbackBoardId);
+    }
+
+    /**
+     * 삭제, 수정 검증
+     * @param feedbackBoardId
+     * @param memberId
+     */
+    @Transactional(readOnly = true)
+    public void checkValidation(Long feedbackBoardId, Long memberId) {
+        final FeedbackBoard feedbackBoard = boardRepository.findById(feedbackBoardId)
+            .orElseThrow(() ->
+                new NotFoundException(ErrorCode.FEEDBACK_BOARD_NOT_FOUND));
+
+        if (feedbackBoard.getMember().getId() != memberId) {
+            throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZATION);
+        }
+
     }
 }
