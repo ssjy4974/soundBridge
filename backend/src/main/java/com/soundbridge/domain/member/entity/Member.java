@@ -74,4 +74,8 @@ public class Member {
     public void modifyProfile(String profile) {
         this.profile = profile;
     }
+
+    public void saveRole(Role role) {
+        this.role = role;
+    }
 }

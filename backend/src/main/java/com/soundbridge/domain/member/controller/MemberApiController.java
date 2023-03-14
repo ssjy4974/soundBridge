@@ -1,23 +1,19 @@
 package com.soundbridge.domain.member.controller;
 
+import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.request.ModifyNicknameReq;
 import com.soundbridge.domain.member.request.ModifyProfileReq;
-import com.soundbridge.domain.member.response.MemberAccessRes;
+import com.soundbridge.domain.member.request.SaveRoleReq;
 import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.domain.member.service.MemberService;
-import com.soundbridge.global.error.ErrorCode;
-import com.soundbridge.global.error.exception.AccessDeniedException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +35,6 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
-        @ApiResponse(responseCode = "401", description = "인증 안된 유저"),
         @ApiResponse(responseCode = "403", description = "권한 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
         @ApiResponse(responseCode = "500", description = "서버 오류")
@@ -61,18 +56,17 @@ public class MemberApiController {
     }
 
 
-    @Operation(summary = "프로필 이미지 수정", description = "프로필 이미지 수정 메소드 입니다.")
+    @Operation(summary = "회원 닉네임 수정", description = "닉네임 수정 메소드 입니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
         @ApiResponse(responseCode = "403", description = "권한 없음"),
-        @ApiResponse(responseCode = "413", description = "파일용량 초과"),
-        @ApiResponse(responseCode = "415", description = "지원하지않는 확장자"),
+        @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @PutMapping("/nickname/{memberId}")
     public ResponseEntity modifyMemberNickname(@PathVariable Long memberId, @RequestBody
-        ModifyNicknameReq modifyNicknameReq){
+    ModifyNicknameReq modifyNicknameReq) {
 
         String nickname = modifyNicknameReq.getNickname();
 
@@ -89,18 +83,36 @@ public class MemberApiController {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
         @ApiResponse(responseCode = "403", description = "권한 없음"),
+        @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
         @ApiResponse(responseCode = "413", description = "파일용량 초과"),
         @ApiResponse(responseCode = "415", description = "지원하지않는 확장자"),
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @PutMapping("/profile/{memberId}")
     public ResponseEntity modifyMemberProfile(@PathVariable Long memberId, @ModelAttribute @Valid
-        ModifyProfileReq profileReq){
+    ModifyProfileReq profileReq) {
 
-        String newProfileName = memberService.modifyMemberProfile(memberId, profileReq.getProfile());
+        String newProfileName = memberService.modifyMemberProfile(memberId,
+            profileReq.getProfile());
 
         return ResponseEntity.ok().body(newProfileName);
     }
 
 
+    @Operation(summary = "역할 저장", description = "내 역할을 저장하는 메소드 입니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
+        @ApiResponse(responseCode = "400", description = "필수값 누락"),
+        @ApiResponse(responseCode = "403", description = "권한 없음"),
+        @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
+        @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    @PutMapping("/role/{memberId}")
+    public ResponseEntity saveRoleMember(@PathVariable Long memberId,
+        @RequestBody SaveRoleReq saveRoleReq) {
+        log.info("request 역할 {} ", saveRoleReq);
+        Role role = memberService.saveRole(memberId, saveRoleReq);
+
+        return ResponseEntity.ok().body(role);
+    }
 }

@@ -1,8 +1,9 @@
 package com.soundbridge.domain.member.service;
 
 import com.soundbridge.domain.member.entity.Member;
+import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.repository.MemberRepository;
-import com.soundbridge.domain.member.request.ModifyProfileReq;
+import com.soundbridge.domain.member.request.SaveRoleReq;
 import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.ImageExtensionException;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +35,8 @@ public class MemberService {
 
     @Transactional
     public void modifyMemberNickname(Long id, String nickname) {
-        Member member = memberRepository.findById(id).get();
+        Member member = memberRepository.findById(id).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         if(!member.getNickname().equals(nickname)) {
             member.modifyNickname(nickname);
@@ -44,8 +45,9 @@ public class MemberService {
 
     @Transactional
     public String modifyMemberProfile(Long memberId, MultipartFile newProfile) {
-        Member member = memberRepository.findById(memberId).get();
-        System.out.println(newProfile.getContentType());
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
         List<String> contentType = new ArrayList<>();
         contentType.add("image/jpg");
         contentType.add("image/jpeg");
@@ -63,5 +65,17 @@ public class MemberService {
         } else {
             throw new ImageExtensionException(ErrorCode.EXTENSION_NOT_ALLOWED);
         }
+    }
+
+    @Transactional
+    public Role saveRole(Long id, SaveRoleReq saveRoleReq) {
+        Member member = memberRepository.findById(id).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        if(member.getRole() == null) {
+            member.saveRole(saveRoleReq.getRole());
+        }
+
+        return member.getRole();
     }
 }
