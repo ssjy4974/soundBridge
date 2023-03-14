@@ -1,4 +1,4 @@
-package com.soundbridge.domain.entity;
+package com.soundbridge.domain.board.entity;
 
 import com.soundbridge.domain.member.entity.Member;
 import java.time.LocalDateTime;
