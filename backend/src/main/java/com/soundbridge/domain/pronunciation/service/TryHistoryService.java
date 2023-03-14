@@ -96,6 +96,7 @@ public class TryHistoryService {
      * @param memberId
      */
     public void updateByBasicLetter(Long basicLetterId, Long memberId) {
+
         basicLetterRepository.findById(basicLetterId)
             .orElseThrow(() ->
                 new NotFoundException(ErrorCode.BASIC_LETTER_NOT_FOUND));
@@ -105,5 +106,26 @@ public class TryHistoryService {
             new NotFoundException(ErrorCode.TRY_HISTORY_NOT_FOUND));
 
         tryHistory.increaseSuccessCount();
+
+    }
+
+    /**
+     * 일상 단어 성공 업데이트
+     *
+     * @param dailyWordId
+     * @param memberId
+     */
+    public void updateByDailyWord(Long dailyWordId, Long memberId) {
+
+        dailyWordRepository.findById(dailyWordId)
+            .orElseThrow(() ->
+                new NotFoundException(ErrorCode.DAILY_WORD_NOT_FOUND));
+
+        TryHistory tryHistory = tryHistoryRepository.findByDailyWordIdAndMemberId(
+            dailyWordId, memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.TRY_HISTORY_NOT_FOUND));
+
+        tryHistory.increaseSuccessCount();
+
     }
 }

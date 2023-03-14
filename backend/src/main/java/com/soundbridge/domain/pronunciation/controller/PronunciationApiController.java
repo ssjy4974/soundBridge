@@ -73,7 +73,7 @@ public class PronunciationApiController {
     }
 
     @PutMapping("/try-histories/basic-letters/{basicLetterId}")
-    @Operation(summary = "기본 발음 연습, 시도횟수 업데이트")
+    @Operation(summary = "기본 발음 성공 업데이트")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "기본 발음 성공 업데이트"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
@@ -83,6 +83,20 @@ public class PronunciationApiController {
     public ResponseEntity tryHistoryUpdateByBasicLetter(@PathVariable Long basicLetterId,
         Authentication authentication) {
         tryHistoryService.updateByBasicLetter(basicLetterId, 1L);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/try-histories/daily-words/{dailyWordId}")
+    @Operation(summary = "일상 단어 발음 성공 업데이트")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "일상 단어 발음 성공 업데이트"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 단어"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 기록")
+    })
+    public ResponseEntity tryHistoryUpdateByDailyWord(@PathVariable Long dailyWordId,
+        Authentication authentication) {
+        tryHistoryService.updateByDailyWord(dailyWordId, 1L);
         return ResponseEntity.ok().build();
     }
 
