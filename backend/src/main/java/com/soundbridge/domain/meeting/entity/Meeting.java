@@ -65,4 +65,8 @@ public class Meeting {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    public void startMeeting() {
+        this.openChk = 1;
+    }
 }

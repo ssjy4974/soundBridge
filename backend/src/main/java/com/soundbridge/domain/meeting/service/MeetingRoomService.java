@@ -28,5 +28,6 @@ public class MeetingRoomService {
             new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
 
         meetingRoomRepository.create(meeting.getCode());
+        meeting.startMeeting();
     }
 }
