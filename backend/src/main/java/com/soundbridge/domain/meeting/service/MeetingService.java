@@ -4,14 +4,18 @@ import com.soundbridge.domain.board.repository.BoardRepository;
 import com.soundbridge.domain.meeting.entity.Meeting;
 import com.soundbridge.domain.meeting.repository.MeetingRepository;
 import com.soundbridge.domain.meeting.request.MeetingSaveReq;
+import com.soundbridge.domain.meeting.response.MeetingDetailRes;
 import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.AccessDeniedException;
 import com.soundbridge.global.error.exception.NotFoundException;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +54,17 @@ public class MeetingService {
 
         boardRepository.deleteById(req.getFeedbackBoardId());
 
+    }
+
+    /**
+     * 상담 조회
+     * @param memberId
+     * @return
+     */
+    public Slice<MeetingDetailRes> findAllWithPaging(Pageable pageable, Long cursorId, Long memberId) {
+        final Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        return meetingRepository.findAll(pageable, cursorId, memberId, member.getRole());
     }
 
 
