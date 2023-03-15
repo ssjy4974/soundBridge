@@ -11,7 +11,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     //Support Repository 는 select 만
     //Command는 그냥 Repository에서 Support를 다시 상속 받아서 사용한다.'
 
-    Optional<Member> findByEmail(String email);
+    Member findByEmail(String email);
 
 
 }

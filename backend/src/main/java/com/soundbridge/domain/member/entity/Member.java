@@ -46,10 +46,9 @@ public class Member {
     @ColumnDefault("'default.png'")
     private String profile;
 
-    @Column(nullable = false)
     private int age;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10)
     private String gender;
 
     @Enumerated(EnumType.STRING)
@@ -58,6 +57,10 @@ public class Member {
 
     @Column(length = 30, nullable = false)
     private String nickname;
+
+//    @Column()
+
+
 
     @Builder
     public Member(String email, String profile, int age, String gender, String nickname) {
