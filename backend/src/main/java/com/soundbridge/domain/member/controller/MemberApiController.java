@@ -22,8 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -123,6 +125,26 @@ public class MemberApiController {
         return ResponseEntity.ok().body(role);
     }
 
+    @Operation(summary = "로그아웃", description = "로그아웃 메소드입니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
+        @ApiResponse(responseCode = "400", description = "파라미터 타입 오류"),
+        @ApiResponse(responseCode = "404", description = "존재하지 않는 유저"),
+        @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    @PostMapping ("/logout/{memberId}")
+    public ResponseEntity logoutMember(@PathVariable Long memberId, HttpServletRequest request,
+        HttpServletResponse response) {
+
+        Cookie[] cookies = request.getCookies();
+
+        Cookie refreshTokenCookie = memberService.logoutMemberById(memberId, cookies); //cookie 정보 초기화 및 유저 DB 수정
+
+//        response.addCookie(refreshTokenCookie);
+
+        return ResponseEntity.ok().build();
+    }
+
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴 메소드입니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
@@ -138,7 +160,7 @@ public class MemberApiController {
 
         Cookie refreshTokenCookie = memberService.deleteMemberById(memberId, cookies); //cookie 정보 초기화 및 유저 DB 수정
 
-//        response.addCookie(refreshTokenCookie);
+        response.addCookie(refreshTokenCookie);
 
         return ResponseEntity.ok().build();
     }

@@ -10,9 +10,12 @@ import com.soundbridge.global.error.exception.ImageExtensionException;
 import com.soundbridge.global.error.exception.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final RedisTemplate redisTemplate;
 
     public MemberInfoRes getMemberById(Long memberId) {
         log.info("memberId {}", memberId);
@@ -80,6 +85,37 @@ public class MemberService {
         return member.getRole();
     }
 
+    @Transactional
+    public Cookie deleteMemberById(Long memberId, Cookie[] cookies) {
+        Cookie refreshTokenCookie = deleteCookie(cookies);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        member.deleteMember();
+
+        return refreshTokenCookie;
+    }
+
+    public Cookie logoutMemberById(Long memberId, Cookie[] cookies) {
+        Cookie refreshTokenCookie = deleteCookie(cookies);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        redisTemplate.delete(member.getEmail());
+
+        String refreshToken2 = (String) redisTemplate.opsForValue().get(member.getEmail());
+//        if(!refreshToken2.equals(token.getRefreshToken())) {
+//            throw new CustomException("Refresh Token doesn't match.", HttpStatus.BAD_REQUEST);
+//        }
+
+        log.info("redis rt {}", refreshToken2);
+
+
+        return refreshTokenCookie;
+    }
+
     public Cookie deleteCookie(Cookie[] cookies) {
         String refreshToken = null;
         if (cookies != null) {
@@ -95,18 +131,6 @@ public class MemberService {
         Cookie refreshTokenCookie = new Cookie("refresh-token", null);
         refreshTokenCookie.setMaxAge(0);
         refreshTokenCookie.setPath("/");
-
-        return refreshTokenCookie;
-    }
-
-    @Transactional
-    public Cookie deleteMemberById(Long memberId, Cookie[] cookies) {
-        Cookie refreshTokenCookie = deleteCookie(cookies);
-
-        Member member = memberRepository.findById(memberId).orElseThrow(() ->
-            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-
-        member.deleteMember();
 
         return refreshTokenCookie;
     }
