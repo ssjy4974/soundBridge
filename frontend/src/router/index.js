@@ -20,6 +20,10 @@ import PronounciationWords from "../views/PronounciationWords.vue";
 import PronounciationWordsDetail from "../views/PronounciationWordsDetail.vue";
 import PronounciationSelection from "../views/PronounciationSelection.vue";
 
+// 마이 페이지 상담 조회
+import MyMeetings from "../components/mypage/MyMeetings.vue";
+import FreqUsedPhrase from "../components/pronounce/FreqUsedPhrase.vue";
+
 const routes = [
   // 회원 경로
   {
@@ -32,6 +36,11 @@ const routes = [
     path: "/mypage/",
     name: "mypagedisabled",
     component: MypageDisabled,
+    // 자식 컴포넌트
+    children: [
+      { path: "freqUsedPhrase", component: FreqUsedPhrase },
+      { path: "meetings", component: MyMeetings },
+    ],
   },
   {
     path: "/mypage/:id",
@@ -80,6 +89,12 @@ const routes = [
     path: "/pronounciationselection",
     name: "pronounciationselection",
     component: PronounciationSelection,
+  },
+
+  {
+    path: "/feedbackMeeting/:code",
+    name: "feedbackMeeting",
+    component: FeedbackMeeting,
   },
 ];
 

@@ -16,6 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +46,9 @@ public class MeetingApiController {
     }
 
     @GetMapping
-    @Operation(summary = "상담 조회")
+    @Operation(summary = "상담 페이징 조회")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "상담 조회 성공"),
+        @ApiResponse(responseCode = "200", description = "상담 페이징 성공"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
     })
     public ResponseEntity<Slice<MeetingDetailRes>> meetingList(
