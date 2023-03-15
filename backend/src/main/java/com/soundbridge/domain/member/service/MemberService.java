@@ -10,6 +10,7 @@ import com.soundbridge.global.error.exception.ImageExtensionException;
 import com.soundbridge.global.error.exception.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,8 +35,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void modifyMemberNickname(Long id, String nickname) {
-        Member member = memberRepository.findById(id).orElseThrow(() ->
+    public void modifyMemberNickname(Long memberId, String nickname) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         if(!member.getNickname().equals(nickname)) {
@@ -77,5 +78,36 @@ public class MemberService {
         }
 
         return member.getRole();
+    }
+
+    public Cookie deleteCookie(Cookie[] cookies) {
+        String refreshToken = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                log.info(String.valueOf(cookie.getName()));
+                if (cookie.getName().equals("refresh-token")) {
+                    refreshToken = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        Cookie refreshTokenCookie = new Cookie("refresh-token", null);
+        refreshTokenCookie.setMaxAge(0);
+        refreshTokenCookie.setPath("/");
+
+        return refreshTokenCookie;
+    }
+
+    @Transactional
+    public Cookie deleteMemberById(Long memberId, Cookie[] cookies) {
+        Cookie refreshTokenCookie = deleteCookie(cookies);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        member.deleteMember();
+
+        return refreshTokenCookie;
     }
 }

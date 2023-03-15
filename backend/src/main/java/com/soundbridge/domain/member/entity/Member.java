@@ -58,24 +58,30 @@ public class Member {
     @Column(length = 30, nullable = false)
     private String nickname;
 
-//    @Column()
-
+    private int delFlag;
 
 
     @Builder
-    public Member(String email, String profile, int age, String gender, String nickname) {
+    public Member(String email, String profile, int age, String gender, String nickname,
+        int delFlag) {
         this.email = email;
         this.profile = profile;
         this.age = age;
         this.gender = gender;
         this.nickname = nickname;
+        this.delFlag = delFlag;
     }
 
     public void modifyNickname(String nickname) {
         this.nickname = nickname;
     }
+
     public void modifyProfile(String profile) {
         this.profile = profile;
+    }
+
+    public void deleteMember() {
+        this.delFlag = 1;
     }
 
     public void saveRole(Role role) {

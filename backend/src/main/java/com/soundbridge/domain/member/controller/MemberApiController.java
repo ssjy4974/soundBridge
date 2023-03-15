@@ -4,16 +4,23 @@ import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.request.ModifyNicknameReq;
 import com.soundbridge.domain.member.request.ModifyProfileReq;
 import com.soundbridge.domain.member.request.SaveRoleReq;
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.Optional;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -114,5 +121,25 @@ public class MemberApiController {
         Role role = memberService.saveRole(memberId, saveRoleReq);
 
         return ResponseEntity.ok().body(role);
+    }
+
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴 메소드입니다.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
+        @ApiResponse(responseCode = "400", description = "파라미터 타입 오류"),
+        @ApiResponse(responseCode = "404", description = "존재하지 않는 유저"),
+        @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity deleteMember(@PathVariable Long memberId, HttpServletRequest request,
+        HttpServletResponse response) {
+
+        Cookie[] cookies = request.getCookies();
+
+        Cookie refreshTokenCookie = memberService.deleteMemberById(memberId, cookies); //cookie 정보 초기화 및 유저 DB 수정
+
+//        response.addCookie(refreshTokenCookie);
+
+        return ResponseEntity.ok().build();
     }
 }

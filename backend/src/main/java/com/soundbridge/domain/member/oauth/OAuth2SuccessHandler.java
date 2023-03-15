@@ -50,6 +50,11 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             memberRepository.save(member);
         }
 
+        if(member.getDelFlag() == 1) { //재 가입 불가능 throw 던지기, Filter ExceptionHandler 작성
+
+            return;
+        }
+
         Token token = tokenService.generateToken(member.getId(), "USER");
         log.info("JwT : {}", token);
 
