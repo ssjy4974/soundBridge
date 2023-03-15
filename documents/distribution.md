@@ -69,7 +69,7 @@ server {
     return 204;
     }
 
-    # 1. hide the Access-Control-Allow-Origin from the serve response
+    # 1. hide the Access-Control-Allow-Origin from the server response
     proxy_hide_header 'Access-Control-Allow-Origin';
     # 2. add a new custom header that allows all * origin instead
     add_header 'Access-Control-Allow-Origin' '*' always;
@@ -88,6 +88,8 @@ server {
   listen 443 ssl; # managed by Certbot
   ssl_certificate /etc/letsencrypt/live/j8a703.p.ssafy.io/fullchain.pem; # managed by Certbot
   ssl_certificate_key /etc/letsencrypt/live/j8a703.p.ssafy.io/privkey.pem; # managed by Certbot
+  # include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+  # ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
 
 server {
@@ -98,6 +100,7 @@ server {
 
   listen 80;
   server_name j8a703.p.ssafy.io;
+  return 404; # managed by Certbot
 }
 ```
 
@@ -266,7 +269,6 @@ sudo service jenkins restart
 
 # 정상여부 확인
 sudo systemctl status jenkins
-
 ```
 
 Docker 이미지로 실행하기
@@ -288,4 +290,196 @@ docker exec -it [jenkins 컨테이너ID] bin/bash
 
 # jenkins 컨테이너 log 확인
 docker logs [jenkins 컨테이너ID]
+
+# jenkins 컨테이너 초기 비밀번호 확
+```
+
+### Install Plugin
+
+docker, git, gradle, nodejs 등 필요한 plugin들을 jenkins에 설치한다
+
+### Global Tool Configuration
+
+Gradle installations config
+
+![](./assets/gradleinstall.png)
+
+nodejs installations config
+
+![](./assets/nodeinstall.png)
+
+### 시스템 설정
+
+Jenkins container에서 Docker를 사용하기 위한 url 등록
+
+![](./assets/dockerbuilder.png)
+
+  -> Jenkins가 Docker URL을 등록하면 Jenkins는 Docker API를 사용하여 Docker 데몬과 통신할 수 있습니다. 이를 통해 Jenkins는 Docker 컨테이너를 생성, 시작, 중지, 삭제 등 다양한 Docker 관리 작업을 수행할 수 있습니다.
+
+
+
+### Jenkins 빌드구성
+
+```
+Jenkins는 지속적인 통합 및 지속적인 배포를 위한 자동화 도구입니다. 
+Jenkins에서 빌드 구성이란 소스 코드를 컴파일하고 빌드하여 배포 가능한 소프트웨어를 만들기 위해 필요한 모든 단계를 설정하는 것입니다.
+
+Jenkins의 빌드 구성은 일반적으로 다음과 같은 구성 요소로 구성됩니다.
+
+소스 코드 관리: Jenkins는 다양한 소스 코드 관리 시스템을 지원합니다. 사용자는 빌드하려는 소스 코드의 위치와 종류를 지정해야합니다. 대부분의 경우 Jenkins는 Git 또는 SVN과 같은 버전 관리 시스템을 사용하여 소스 코드를 관리합니다.
+
+빌드 환경: 빌드를 수행하는 데 필요한 환경을 구성해야합니다. 이러한 구성 요소는 빌드하는 데 사용되는 툴체인, 라이브러리 및 의존성과 같은 것들입니다.
+
+빌드 단계: 빌드를 실행하기 위해 필요한 단계를 정의합니다. 이러한 단계에는 소스 코드 컴파일, 테스트 실행, 린트 실행 등이 포함됩니다.
+
+빌드 후 조치: 빌드가 성공 또는 실패한 후에 실행되는 조치를 정의합니다. 이러한 조치에는 이메일 알림, Slack 채널에 알림, 빌드 결과를 다른 서버로 배포 등이 포함됩니다.
+
+Jenkins는 이러한 구성 요소를 조합하여 빌드 구성을 만듭니다. 사용자는 빌드 구성을 구성하고, 실행하며, 관리할 수 있습니다. 이를 통해 Jenkins는 지속적인 통합 및 배포를 자동화하고, 사용자의 작업을 간소화하며, 소프트웨어 개발 프로세스를 개선합니다.
+```
+
+### Frontend - 소스 코드 관리
+
+git url입력 / Id,password로 Credentials Add 후에 사용
+
+![](./assets/gitsetting.png)
+
+develop branch에 있는 프로젝트를 빌드
+
+![](./assets/branch.png)
+
+
+
+### Frontend - 빌드 유발
+
+push 이벤트가 발생하면 빌드
+
+![](./assets/buildprovoke.png)
+
+고급설정
+
+generation을 눌러서 secret token 발급 -> 이후 gitLab과 webhook 설정시 사용
+
+![](./assets/buildprovoke2.png)
+
+### Frontend - 빌드 환경
+
+원하는 환경변수를 Credential에 등록하고 사용
+
+![](./assets/buildenv.png)
+
+nodejs 관련 플러그인을 설치하면 보이는 option ->  nodejs installations config 사용
+
+![](./assets/nodeenv.png)
+
+
+
+### Frontend - 빌드 스텝
+
+node_module 설치 
+
+![](./assets/nodejs.png)
+
+Dockerfile을 통해 frontend img 생성하는 command
+
+여기서 ${WORKSPACE}란 root directory이다
+
+![](./assets/frontimg.png)
+
+이전 컨테이너를 지우는 command
+
+![](./assets/removefront.png)
+
+front img로 container 실행하는 command
+
+![](./assets/createfront.png)
+
+create의 고급옵션 
+
+![](./assets/exposedport.png)
+
+![](./assets/portbind.png)컨테이너 실행 command
+
+![](./assets/startfront.png)
+
+
+
+### Backend - 소스코드 관리
+
+frontend와 동일
+
+![](./assets/backgit.png)
+
+### Backend - 빌드 유발
+
+front와 동일
+
+![](./assets/backprovoke.png)
+
+![](./assets/backprovoke2.png)
+
+
+
+### Backend - 빌드환경
+
+frontend와 동일하게 필요한 환경변수를 설정하면 된다.
+
+![](./assets/backenv.png)
+
+### Backend - 빌드스텝
+
+gradle을 사용하여 build. 위의 Gradle installations config를 활용하여 gradle 사용
+
+![](./assets/backstep.png)
+
+고급설정
+
+build될 gradle파일의 경로를 등록한다
+
+![](./assets/buildfile.png)
+
+이전 container를 remove하는 command
+
+![](./assets/removeback.png)
+
+backend container를 생성하는 command
+
+![](./assets/createback.png)
+
+create 고급
+
+![](./assets/envval.png)
+
+![](./assets/backport.png)
+
+![](./assets/backport2.png)
+
+backend container를 실행하는 command
+
+![](./assets/startback.png)
+
+
+
+여기까지 진행했다면 지금 빌드 버튼을 통해 빌드 테스트를 한다. 테스트에 통과했다면 gitLab과 webHook 설정을 한다
+
+## 6. WebHooks
+
+GitLab -> Setting -> Webhooks 이동
+
+webhook이 필요한 jenkins의 아이템마다 설정해야한다.
+
+URL에 [/project/jenkins의 아이템명] 을 꼭 붙어야 한다.
+
+위에서 발급받은 Secret token들을 가져온다.
+
+맨아래 SSL 설정한다.
+
+![](./assets/webhook.png) 
+
+## 7. OpenVidu
+
+Openvidu 컨테이너 실행시키는 명령어
+
+```
+#YOUR_SECRET은 OpenVidu 컨트롤러에서 원하는 클라이언트가 OpenVidu 서버에 연결할 때 사용되는 비밀번호로 원하는 값으로 설정하면 된
+sudo docker run -p 4443:4443 -d -e OPENVIDU_SECRET=YOUR_SECRET openvidu/openvidu-server-kms
 ```
