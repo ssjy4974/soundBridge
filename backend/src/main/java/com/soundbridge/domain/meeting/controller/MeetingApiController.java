@@ -3,7 +3,10 @@ package com.soundbridge.domain.meeting.controller;
 import com.soundbridge.domain.board.response.BoardDetailRes;
 import com.soundbridge.domain.meeting.request.MeetingSaveReq;
 import com.soundbridge.domain.meeting.response.MeetingDetailRes;
+import com.soundbridge.domain.meeting.service.MeetingRoomService;
 import com.soundbridge.domain.meeting.service.MeetingService;
+import io.openvidu.java.client.OpenViduHttpException;
+import io.openvidu.java.client.OpenViduJavaClientException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MeetingApiController {
 
     private final MeetingService meetingService;
+    private final MeetingRoomService meetingRoomService;
 
     @PostMapping
     @Operation(summary = "피드백 상담 생성")
@@ -69,5 +73,19 @@ public class MeetingApiController {
         @PathVariable Long meetingId,
         Authentication authentication) {
         return ResponseEntity.ok(meetingService.findMeeting(meetingId));
+    }
+
+    @PostMapping("/rooms/{meetingId}")
+    @Operation(summary = "미팅 룸 생성")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "미팅 룸 생성 성공"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 방")
+    })
+    public ResponseEntity meetingRoomCreate(
+        @PathVariable Long meetingId,
+        Authentication authentication) throws OpenViduJavaClientException, OpenViduHttpException {
+        meetingRoomService.createRoom(meetingId);
+        return ResponseEntity.ok().build();
     }
 }

@@ -3,6 +3,7 @@ package com.soundbridge.domain.meeting.service;
 import com.soundbridge.domain.board.repository.BoardRepository;
 import com.soundbridge.domain.meeting.entity.Meeting;
 import com.soundbridge.domain.meeting.repository.MeetingRepository;
+import com.soundbridge.domain.meeting.repository.MeetingRoomRepository;
 import com.soundbridge.domain.meeting.request.MeetingSaveReq;
 import com.soundbridge.domain.meeting.response.MeetingDetailRes;
 import com.soundbridge.domain.member.entity.Member;
@@ -11,6 +12,8 @@ import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.AccessDeniedException;
 import com.soundbridge.global.error.exception.NotFoundException;
+import io.openvidu.java.client.OpenViduHttpException;
+import io.openvidu.java.client.OpenViduJavaClientException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -79,7 +82,6 @@ public class MeetingService {
         return meetingRepository.findOne(meetingId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
     }
-
 
     // 해당 방 입장 코드를 uuid로 생성
     private String createCode() {
