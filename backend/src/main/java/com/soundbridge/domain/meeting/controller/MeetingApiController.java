@@ -88,4 +88,18 @@ public class MeetingApiController {
         meetingRoomService.createRoom(meetingId);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/rooms/{meetingId}")
+    @Operation(summary = "미팅 룸 생성")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "미팅 룸 참여 성공"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 방")
+    })
+    public ResponseEntity meetingRoomJoin(
+        @PathVariable Long meetingId,
+        Authentication authentication) throws OpenViduJavaClientException, OpenViduHttpException {
+        meetingRoomService.createRoom(meetingId);
+        return ResponseEntity.ok().build();
+    }
 }

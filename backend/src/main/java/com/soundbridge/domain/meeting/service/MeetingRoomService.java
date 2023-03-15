@@ -32,4 +32,11 @@ public class MeetingRoomService {
         meetingRoomRepository.create(meeting.getCode());
         meeting.startMeeting();
     }
+
+    public String joinRoom(Long meetingId) throws OpenViduJavaClientException, OpenViduHttpException {
+        final Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
+        final String token = meetingRoomRepository.join(meeting.getCode());
+        return token;
+    }
 }
