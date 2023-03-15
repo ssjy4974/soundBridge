@@ -65,6 +65,7 @@ public class MeetingService {
      * @param memberId
      * @return
      */
+    @Transactional(readOnly = true)
     public Slice<MeetingDetailRes> findAllWithPaging(Pageable pageable, Long cursorId,
         Long memberId) {
         final Member member = memberRepository.findById(memberId).orElseThrow(() ->
@@ -78,6 +79,7 @@ public class MeetingService {
      * @param meetingId
      * @return
      */
+    @Transactional(readOnly = true)
     public MeetingDetailRes findMeeting(Long meetingId) {
         return meetingRepository.findOne(meetingId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEETING_NOT_FOUND));

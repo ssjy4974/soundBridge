@@ -9,9 +9,11 @@ import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MeetingRoomService {
     private final MeetingRepository meetingRepository;
     private final MeetingRoomRepository meetingRoomRepository;
