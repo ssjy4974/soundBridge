@@ -20,7 +20,7 @@
           myMeeting.helperName
         }}
         <br />
-        <button @click="join(myMeeting.meetingId)">방생성</button>
+        <button @click="createRoom(myMeeting.meetingId)">방생성</button>
       </ul>
     </div>
   </div>
@@ -45,8 +45,15 @@ onBeforeMount(() => {
     });
 });
 
-const join = (meetingId) => {
-  router.replace(`/feedbackMeeting/${meetingId}`);
+const createRoom = (meetingId) => {
+  api
+    .post(`/api/meetings/rooms/${meetingId}`)
+    .then(() => {
+      router.replace(`/feedbackMeeting/${meetingId}`);
+    })
+    .catch((err) => {
+      alert("방생성에 실패 하였습니다.");
+    });
 };
 </script>
 

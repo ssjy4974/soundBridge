@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,17 +90,31 @@ public class MeetingApiController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/rooms/{meetingId}")
-    @Operation(summary = "미팅 룸 생성")
+    @GetMapping("/rooms/{meetingId}")
+    @Operation(summary = "미팅 룸 참가")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "미팅 룸 참여 성공"),
+        @ApiResponse(responseCode = "200", description = "미팅 룸 참가 성공"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 방")
     })
-    public ResponseEntity meetingRoomJoin(
+    public ResponseEntity<String> meetingRoomJoin(
         @PathVariable Long meetingId,
         Authentication authentication) throws OpenViduJavaClientException, OpenViduHttpException {
-        meetingRoomService.createRoom(meetingId);
+        final String token = meetingRoomService.joinRoom(meetingId);
+        return ResponseEntity.ok(token);
+    }
+
+    @PutMapping("/rooms/{meetingId}")
+    @Operation(summary = "상담 종료")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "상담 종료"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 방")
+    })
+    public ResponseEntity meetingRoomDone(
+        @PathVariable Long meetingId,
+        Authentication authentication) {
+        meetingRoomService.doneMeeting(meetingId);
         return ResponseEntity.ok().build();
     }
 }

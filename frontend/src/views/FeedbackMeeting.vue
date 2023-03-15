@@ -2,24 +2,28 @@
   <div>
     <h1>Feedback Web RTC</h1>
 
-    <div id="session" v-if="session">
-      <div id="session-header">
-        <h1 id="session-title">{{ mySessionId }}</h1>
-        <input
-          class="btn btn-large btn-danger"
-          type="button"
-          id="buttonLeaveSession"
-          @click="leaveSession"
-          value="Leave session"
-        />
+    <input
+      type="button"
+      id="buttonLeaveSession"
+      @click="leaveSession"
+      value="나가기"
+    />
+
+    <input
+      type="button"
+      id="feedbackDone"
+      @click="feedbackDone"
+      value="상담 종료"
+    />
+
+    <div v-if="openviduInfo.session">
+      <div id="my-video">
+        <user-video :stream-manager="openviduInfo.publisher" />
       </div>
-      <div id="main-video" class="col-md-6">
-        <user-video :stream-manager="mainStreamManager" />
-      </div>
+
       <div id="video-container" class="col-md-6">
-        <user-video :stream-manager="publisher" />
         <user-video
-          v-for="sub in subscribers"
+          v-for="sub in openviduInfo.subscribers"
           :key="sub.stream.connection.connectionId"
           :stream-manager="sub"
         />
@@ -29,14 +33,15 @@
 </template>
 
 <script setup>
+import { useRoute } from "vue-router";
 import { apiInstance } from "@/api/index";
 import { onBeforeMount, ref } from "@vue/runtime-core";
-import { useRoute } from "vue-router";
 import { OpenVidu } from "openvidu-browser";
 import router from "@/router/index";
+import UserVideo from "@/components/meeting/UserVideo.vue";
 
-const api = apiInstance();
 const route = useRoute();
+const api = apiInstance();
 
 const openviduInfo = ref({
   // OpenVidu objects
@@ -49,7 +54,7 @@ const openviduInfo = ref({
 
 onBeforeMount(() => {
   api
-    .post(`/api/meetings/rooms/${route.params.meetingId}`)
+    .get(`/api/meetings/rooms/${route.params.meetingId}`)
     .then((res) => {
       openviduInfo.value.OV = new OpenVidu();
       // openviduInfo.value.OV.enableProdMode();
@@ -74,7 +79,7 @@ onBeforeMount(() => {
         console.warn(exception);
       });
       openviduInfo.value.session
-        .connect(res.data.token, {
+        .connect(res.data, {
           clientData: "test",
         })
         .then(() => {

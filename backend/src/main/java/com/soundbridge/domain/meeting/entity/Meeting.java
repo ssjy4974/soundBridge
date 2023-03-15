@@ -69,4 +69,8 @@ public class Meeting {
     public void startMeeting() {
         this.openChk = 1;
     }
+
+    public void doneMeeting() {
+        this.openChk = 2;
+    }
 }

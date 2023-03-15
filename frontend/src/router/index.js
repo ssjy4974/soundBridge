@@ -90,7 +90,6 @@ const routes = [
     name: "pronounciationselection",
     component: PronounciationSelection,
   },
-
   {
     path: "/feedbackMeeting/:meetingId",
     name: "feedbackMeeting",

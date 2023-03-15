@@ -4,6 +4,7 @@ import com.soundbridge.domain.meeting.entity.Meeting;
 import com.soundbridge.domain.meeting.repository.MeetingRepository;
 import com.soundbridge.domain.meeting.repository.MeetingRoomRepository;
 import com.soundbridge.global.error.ErrorCode;
+import com.soundbridge.global.error.exception.AlreadyExistResourceException;
 import com.soundbridge.global.error.exception.NotFoundException;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
@@ -15,11 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class MeetingRoomService {
+
     private final MeetingRepository meetingRepository;
     private final MeetingRoomRepository meetingRoomRepository;
 
     /**
      * 미팅 룸 생성
+     *
      * @param meetingId
      * @throws OpenViduJavaClientException
      * @throws OpenViduHttpException
@@ -29,14 +32,42 @@ public class MeetingRoomService {
         final Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
 
+        if (meeting.getOpenChk() == 1) {
+            throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_RESOURCE);
+        }
         meetingRoomRepository.create(meeting.getCode());
         meeting.startMeeting();
     }
 
-    public String joinRoom(Long meetingId) throws OpenViduJavaClientException, OpenViduHttpException {
+    /**
+     * 방 참가
+     *
+     * @param meetingId
+     * @return
+     * @throws OpenViduJavaClientException
+     * @throws OpenViduHttpException
+     */
+    public String joinRoom(Long meetingId)
+        throws OpenViduJavaClientException, OpenViduHttpException {
         final Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
+
+        if (meeting.getOpenChk() == 0) {
+            throw new NotFoundException(ErrorCode.MEETING_ROOM_NOT_FOUND);
+        }
+
         final String token = meetingRoomRepository.join(meeting.getCode());
         return token;
+    }
+
+    /**
+     * 상담 종료
+     *
+     * @param meetingId
+     */
+    public void doneMeeting(Long meetingId) {
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
+        meeting.doneMeeting();
     }
 }
