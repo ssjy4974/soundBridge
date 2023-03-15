@@ -9,6 +9,7 @@
 <script setup>
 import FeedbackList from "@/components/feedback/FeedbackList.vue";
 import FeedbackCreate from "@/components/feedback/FeedbackCreate.vue";
+import FeedbackDeleteModal from "@/components/feedback/FeedbackDeleteModal.vue";
 </script>
 
 <style lang="scss" scoped></style>

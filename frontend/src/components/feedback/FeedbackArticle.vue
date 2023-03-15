@@ -8,12 +8,43 @@
     <div>
       <button>봉사자의 경우 수락하기 버튼이 보임</button><br />
 
-      <font-awesome-icon icon="fa-solid fa-pen-to-square" /> <span> </span>
-      <font-awesome-icon icon="fa-solid fa-trash" />
+      <font-awesome-icon
+        @click="createModalHandler"
+        icon="fa-solid fa-pen-to-square"
+      />
+      <span> </span>
+
+      <font-awesome-icon
+        icon="fa-solid fa-trash"
+        @click="deleteModalHandler"
+        @closemodal="!deleteModal"
+      />
+      <FeedbackDeleteModal
+        v-if="deleteModal"
+        :data="deleteModal"
+        @closemodal="deleteModalHandler"
+      />
+      <FeedbackCreateModal v-if="createModal" />
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import FeedbackDeleteModal from "./FeedbackDeleteModal.vue";
+import FeedbackCreateModal from "./FeedbackCreateModal.vue";
+import { ref } from "vue";
+
+const createModal = ref(false);
+const createModalHandler = () => {
+  createModal.value = !createModal.value;
+  console.log(createModal.value);
+};
+
+const deleteModal = ref(false);
+const deleteModalHandler = () => {
+  deleteModal.value = !deleteModal.value;
+  console.log(deleteModal.value);
+};
+</script>
 
 <style lang="scss" scoped></style>
