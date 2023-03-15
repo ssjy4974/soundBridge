@@ -20,7 +20,7 @@
           myMeeting.helperName
         }}
         <br />
-        <button @click="join(myMeeting.code)">방생성</button>
+        <button @click="join(myMeeting.meetingId)">방생성</button>
       </ul>
     </div>
   </div>

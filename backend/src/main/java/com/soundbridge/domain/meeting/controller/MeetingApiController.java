@@ -57,4 +57,17 @@ public class MeetingApiController {
         Authentication authentication) {
         return ResponseEntity.ok(meetingService.findAllWithPaging(pageable, cursorId, 1L));
     }
+
+    @GetMapping("/{meetingId}")
+    @Operation(summary = "상담 상세 조회")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "상담 상세 성공"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 상담")
+    })
+    public ResponseEntity<MeetingDetailRes> meetingDetails(
+        @PathVariable Long meetingId,
+        Authentication authentication) {
+        return ResponseEntity.ok(meetingService.findMeeting(meetingId));
+    }
 }

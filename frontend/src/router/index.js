@@ -92,7 +92,7 @@ const routes = [
   },
 
   {
-    path: "/feedbackMeeting/:code",
+    path: "/feedbackMeeting/:meetingId",
     name: "feedbackMeeting",
     component: FeedbackMeeting,
   },
