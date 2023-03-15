@@ -15,10 +15,11 @@ public class MeetingDetailRes {
     private String helperProfile;
     private String applicantName;
     private String applicantProfile;
+    private int openCheck;
 
     @QueryProjection
     public MeetingDetailRes(Long meetingId, String title, String code, String helperName,
-        String helperProfile, String applicantName, String applicantProfile) {
+        String helperProfile, String applicantName, String applicantProfile, int openCheck) {
         this.meetingId = meetingId;
         this.title = title;
         this.code = code;
@@ -26,5 +27,6 @@ public class MeetingDetailRes {
         this.helperProfile = helperProfile;
         this.applicantName = applicantName;
         this.applicantProfile = applicantProfile;
+        this.openCheck = openCheck;
     }
 }

@@ -3,6 +3,7 @@ package com.soundbridge.domain.meeting.service;
 import com.soundbridge.domain.board.repository.BoardRepository;
 import com.soundbridge.domain.meeting.entity.Meeting;
 import com.soundbridge.domain.meeting.repository.MeetingRepository;
+import com.soundbridge.domain.meeting.repository.MeetingRoomRepository;
 import com.soundbridge.domain.meeting.request.MeetingSaveReq;
 import com.soundbridge.domain.meeting.response.MeetingDetailRes;
 import com.soundbridge.domain.member.entity.Member;
@@ -11,7 +12,8 @@ import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.AccessDeniedException;
 import com.soundbridge.global.error.exception.NotFoundException;
-import java.util.List;
+import io.openvidu.java.client.OpenViduHttpException;
+import io.openvidu.java.client.OpenViduJavaClientException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,7 @@ public class MeetingService {
 
     /**
      * 피드백 상담 생성
+     *
      * @param req
      */
     public void saveMeeting(MeetingSaveReq req, Long applicantId) {
@@ -57,16 +60,30 @@ public class MeetingService {
     }
 
     /**
-     * 상담 조회
+     * 상담 전체 조회 페이징
+     *
      * @param memberId
      * @return
      */
-    public Slice<MeetingDetailRes> findAllWithPaging(Pageable pageable, Long cursorId, Long memberId) {
+    @Transactional(readOnly = true)
+    public Slice<MeetingDetailRes> findAllWithPaging(Pageable pageable, Long cursorId,
+        Long memberId) {
         final Member member = memberRepository.findById(memberId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
         return meetingRepository.findAll(pageable, cursorId, memberId, member.getRole());
     }
 
+    /**
+     * 상담 상세 조회
+     *
+     * @param meetingId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public MeetingDetailRes findMeeting(Long meetingId) {
+        return meetingRepository.findOne(meetingId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
+    }
 
     // 해당 방 입장 코드를 uuid로 생성
     private String createCode() {
