@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,85 +40,27 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         log.info("요청 타입 {}", request.getMethod());
         log.info("요청 타입 uri {}", request.getRequestURI());
 
-        String accessToken = (request).getHeader("access-token");
-        String refreshToken = null;
-
-        Cookie[] cookies = request.getCookies();
-//        log.info("cokies {}", cookies); // access 재요청 주소일 경우만 cookie에서 가져오기
-//
-//        if(cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                if (cookie.getName().equals("refresh-token")) {
-//                    logger.info(cookie.getValue());
-//                    refreshToken = cookie.getValue();
-//                    break;
-//                }
-//            }
-//        }
-
-        log.info("accessToken {} ", accessToken);
-
-        //엑세스 토큰이 없을때
-        if(accessToken == null || "".equals(accessToken)){
-
-            if (refreshToken != null && tokenService.verifyToken(refreshToken)){
-
-                //refresh-token을 받음 access-token 재발급
-                Long id = tokenService.getUid(refreshToken);
-                Token token = tokenService.reGenerateAccessToken(id, "USER", refreshToken);
-                Member member = memberRepository.getReferenceById(id);
-
-                if (member == null) {
-                    throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
-                }
-
-                MemberAccessRes memberAccessRes = new MemberAccessRes(member.getId(), token.getToken());
-
-                Authentication auth = getAuthentication(memberAccessRes);
-                SecurityContextHolder.getContext().setAuthentication(auth);
-
-                // 정상 진행
-
-            } else if (request.getRequestURI().contains("api/game-room")){
-
-                // 정상 진행
-
-            } else if (request.getMethod().equals("GET")){
-
-                // 정상 진행
-
-            } else {
-
-                log.info(String.valueOf(ErrorCode.EXPIRED_ACCESSTOKEN));
-                throw new AccessDeniedException(ErrorCode.EXPIRED_ACCESSTOKEN);
-
-            }
-
-        } else {
-            Long id = tokenService.getUid(accessToken);
-            Member member = memberRepository.getReferenceById(id);
-
-            if(tokenService.verifyToken(accessToken)){
-
-                if (member == null) {
-                    throw new NotFoundException(ErrorCode.MEMBER_NOT_FOUND);
-                }
-
-                MemberAccessRes memberAccessRes = new MemberAccessRes(member.getId(), accessToken);
-
-                Authentication auth = getAuthentication(memberAccessRes);
-                SecurityContextHolder.getContext().setAuthentication(auth);
-
-                // 정상 진행
-
-            } else {
-
-                log.info(String.valueOf(ErrorCode.EXPIRED_ACCESSTOKEN));
-                throw new AccessDeniedException(ErrorCode.EXPIRED_ACCESSTOKEN);
-
-            }
-
+        String accessTokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (accessTokenHeader == null || !accessTokenHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        log.info("accessToken {} ", accessTokenHeader);
+
+        final String accessToken = accessTokenHeader.split(" ")[1].trim();
+        if (!tokenService.verifyToken(accessToken)) { //만료 되면 멤버 정보 없이 리턴
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        Long id = tokenService.getUid(accessToken);
+        Member member = memberRepository.getReferenceById(id);
+
+        MemberAccessRes memberAccessRes = new MemberAccessRes(member.getId(), accessToken);
+
+        Authentication auth = getAuthentication(memberAccessRes);
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(request, response);
 

@@ -2,6 +2,7 @@ package com.soundbridge.global.config;
 
 import com.soundbridge.domain.member.oauth.OAuth2SuccessHandler;
 import com.soundbridge.domain.member.repository.MemberRepository;
+import com.soundbridge.domain.member.service.CustomOAuth2UserService;
 import com.soundbridge.domain.member.service.TokenService;
 import com.soundbridge.global.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-//    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
     private final TokenService tokenService;
     private final MemberRepository memberRepository;
@@ -40,8 +44,8 @@ public class SecurityConfig {
             .anyRequest().authenticated() // 그외의 모든 요청은 인증 필요.
             .and()// 인증권한이 필요한 페이지.// 나머지 모든 요청 허용  ( 생략 가능 )
                 .oauth2Login()
-                .successHandler(successHandler);
-//                .userInfoEndpoint().userService(customOAuth2UserService);
+                .successHandler(successHandler)
+                .userInfoEndpoint().userService(customOAuth2UserService);
 //            .failureHandler(oAuth2AuthenticationFailureHandler);
 
 //        http.logout()
@@ -60,7 +64,21 @@ public class SecurityConfig {
 //     필터 무시
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/**","/static/**", "/js/**", "/webjars/**");
+        return (web) -> web.ignoring().antMatchers("/static/**", "/js/**", "/webjars/**");
+    }
+
+    // Used by Spring Security if CORS is enabled.
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source =
+            new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
 }
