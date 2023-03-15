@@ -39,7 +39,7 @@ public class MeetingRoomService {
         }
         
         // 이미 종료 된 상담인 경우
-        if (meeting.getOpenChk() == 3 ) {
+        if (meeting.getOpenChk() == 2 ) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZATION);
         }
 
