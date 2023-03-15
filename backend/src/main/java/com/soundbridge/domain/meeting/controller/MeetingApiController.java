@@ -1,6 +1,5 @@
 package com.soundbridge.domain.meeting.controller;
 
-import com.soundbridge.domain.board.response.BoardDetailRes;
 import com.soundbridge.domain.meeting.request.MeetingSaveReq;
 import com.soundbridge.domain.meeting.response.MeetingDetailRes;
 import com.soundbridge.domain.meeting.service.MeetingRoomService;
@@ -10,7 +9,6 @@ import io.openvidu.java.client.OpenViduJavaClientException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

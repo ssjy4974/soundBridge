@@ -78,6 +78,11 @@ onBeforeMount(() => {
       openviduInfo.value.session.on("exception", ({ exception }) => {
         console.warn(exception);
       });
+
+      openviduInfo.value.session.on("signal:done", () => {
+        alert("상담이 종료 되었습니다.");
+        leaveSession();
+      });
       openviduInfo.value.session
         .connect(res.data, {
           clientData: "test",
@@ -127,6 +132,21 @@ const leaveSession = () => {
   // Remove beforeunload listener
   window.removeEventListener("beforeunload", leaveSession);
   router.replace("/");
+};
+
+const feedbackDone = () => {
+  // 여기 방번호
+  api
+    .put(`/api/meetings/rooms/${route.params.meetingId}`)
+    .then(() => {
+      openviduInfo.value.session.signal({
+        type: "done",
+      });
+    })
+    .catch((err) => {
+      err;
+      alert("상담 종료 실패");
+    });
 };
 </script>
 
