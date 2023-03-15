@@ -31,7 +31,7 @@ public class BoardRepositoryImpl implements BoardRepositorySupport {
             .from(feedbackBoard)
             .where(memberIdEq(memberId), cursorId(cursorId))
             .limit(pageable.getPageSize() + 1)
-            .orderBy(feedbackBoard.id.asc())
+            .orderBy(feedbackBoard.id.desc())
             .fetch();
 
         boolean hasNext = false;
@@ -51,7 +51,7 @@ public class BoardRepositoryImpl implements BoardRepositorySupport {
     }
 
     private BooleanExpression cursorId(Long cursorId) {
-        return cursorId == null ? null : feedbackBoard.id.gt(cursorId);
+        return cursorId == null ? null : feedbackBoard.id.lt(cursorId);
     }
 
 }
