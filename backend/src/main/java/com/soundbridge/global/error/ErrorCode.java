@@ -20,6 +20,7 @@ public enum ErrorCode {
     CATEGORY_NOT_FOUND(404, "category not found."),
     FEATURE_NOT_FOUND(404, "feature not found."),
     EXCEED_FILE_SIZE(413, "file size can't exceed 2MB"),
+    EXTENSION_NOT_ALLOWED(415, "extension not allowed."),
     ;
 
     private int code;
