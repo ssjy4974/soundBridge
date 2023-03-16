@@ -4,14 +4,12 @@ import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.request.ModifyNicknameReq;
 import com.soundbridge.domain.member.request.ModifyProfileReq;
 import com.soundbridge.domain.member.request.SaveRoleReq;
-import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +17,8 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,20 +40,14 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
+        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
         @ApiResponse(responseCode = "403", description = "권한 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
-        @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping("/{memberId}")
     public ResponseEntity getMemberInfo(@PathVariable Long memberId) {
         //401 error : 는 인증이 안된유저임 즉 토큰이 없거나 만료된 유저, ExceptionHandlerFilter에서 처리해야함.
         log.info("request 내 정보 조회 ID {}", memberId);
-//        MemberAccessRes memberAccessRes = (MemberAccessRes) Optional.ofNullable(
-//            SecurityContextHolder.getContext().getAuthentication().getPrincipal()).get();
-
-//        if (memberId != memberAccessRes.getId()) { //권한 없음,
-//            throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZATION);
-//        }
 
         MemberInfoRes member = memberService.getMemberById(memberId);
 
@@ -69,9 +59,9 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
+        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
         @ApiResponse(responseCode = "403", description = "권한 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
-        @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @PutMapping("/nickname/{memberId}")
     public ResponseEntity modifyMemberNickname(@PathVariable Long memberId, @RequestBody
@@ -91,11 +81,11 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
+        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
         @ApiResponse(responseCode = "403", description = "권한 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
         @ApiResponse(responseCode = "413", description = "파일용량 초과"),
         @ApiResponse(responseCode = "415", description = "지원하지않는 확장자"),
-        @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @PutMapping("/profile/{memberId}")
     public ResponseEntity modifyMemberProfile(@PathVariable Long memberId, @ModelAttribute @Valid
@@ -112,9 +102,9 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
+        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
         @ApiResponse(responseCode = "403", description = "권한 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
-        @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @PutMapping("/role/{memberId}")
     public ResponseEntity saveRoleMember(@PathVariable Long memberId,
@@ -129,16 +119,17 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "파라미터 타입 오류"),
+        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
         @ApiResponse(responseCode = "404", description = "존재하지 않는 유저"),
-        @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    @PostMapping ("/logout/{memberId}")
+    @PostMapping("/logout/{memberId}")
     public ResponseEntity logoutMember(@PathVariable Long memberId, HttpServletRequest request,
         HttpServletResponse response) {
 
         Cookie[] cookies = request.getCookies();
 
-        Cookie refreshTokenCookie = memberService.logoutMemberById(memberId, cookies); //cookie 정보 초기화 및 유저 DB 수정
+        Cookie refreshTokenCookie = memberService.logoutMemberById(memberId,
+            cookies); //cookie 정보 초기화 및 유저 DB 수정
 
 //        response.addCookie(refreshTokenCookie);
 
@@ -149,8 +140,8 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "파라미터 타입 오류"),
+        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
         @ApiResponse(responseCode = "404", description = "존재하지 않는 유저"),
-        @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @DeleteMapping("/{memberId}")
     public ResponseEntity deleteMember(@PathVariable Long memberId, HttpServletRequest request,
@@ -158,7 +149,8 @@ public class MemberApiController {
 
         Cookie[] cookies = request.getCookies();
 
-        Cookie refreshTokenCookie = memberService.deleteMemberById(memberId, cookies); //cookie 정보 초기화 및 유저 DB 수정
+        Cookie refreshTokenCookie = memberService.deleteMemberById(memberId,
+            cookies); //cookie 정보 초기화 및 유저 DB 수정
 
         response.addCookie(refreshTokenCookie);
 
