@@ -33,10 +33,10 @@ public class MeetingRoomService {
         final Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
 
-        // 방이 이미 생성 된 경우
-        if (meeting.getOpenChk() == 1 ) {
-            throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_RESOURCE);
-        }
+//        // 방이 이미 생성 된 경우
+//        if (meeting.getOpenChk() == 1 ) {
+//            throw new AlreadyExistResourceException(ErrorCode.ALREADY_EXIST_RESOURCE);
+//        }
         
         // 이미 종료 된 상담인 경우
         if (meeting.getOpenChk() == 2 ) {
