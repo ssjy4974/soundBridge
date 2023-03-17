@@ -25,7 +25,7 @@ public class RecordService {
         String content = "";
 
         RecordState recordState = recordStateRepository.findByMemberId(memberId);
-        log.info("recordState {}", recordState);
+//        log.info("recordState {}", recordState);
         if (recordState != null) {
             sentenceId = recordState.getRecordSentence().getId();
             content = recordState.getRecordSentence().getContent();
