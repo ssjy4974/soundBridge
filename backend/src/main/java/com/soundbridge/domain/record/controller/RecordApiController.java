@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "mebmer", description = "record API 입니다.")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/record")
+@RequestMapping("/api/records")
 public class RecordApiController {
     private final RecordService recordService;
 
@@ -27,8 +27,8 @@ public class RecordApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
-        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
-        @ApiResponse(responseCode = "403", description = "권한 없음"),
+        @ApiResponse(responseCode = "401", description = "인증 안됨"),
+        @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
     @GetMapping("/{memberId}")
