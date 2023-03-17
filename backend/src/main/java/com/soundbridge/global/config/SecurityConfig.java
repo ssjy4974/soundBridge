@@ -40,13 +40,13 @@ public class SecurityConfig {
                 SessionCreationPolicy.STATELESS)// jwt token으로 인증하므로 세션 사용하지 않음. stateless 하도록 처리.
             .and()
             .authorizeRequests()
-            .antMatchers("/api/token/**", "/oauth2/**", "/swagger-ui/**").permitAll() //토큰 재발급 요청은 제외
+            .antMatchers("/api/token/**", "/oauth2/**").permitAll() //토큰 재발급 요청은 제외
 
             .anyRequest().authenticated() // 그외의 모든 요청은 인증 필요.
             .and()// 인증권한이 필요한 페이지.// 나머지 모든 요청 허용  ( 생략 가능 )
-                .oauth2Login()
-                .successHandler(successHandler)
-                .userInfoEndpoint().userService(customOAuth2UserService);
+            .oauth2Login()
+            .successHandler(successHandler)
+            .userInfoEndpoint().userService(customOAuth2UserService);
 //            .failureHandler(oAuth2AuthenticationFailureHandler);
 //
         http.addFilterAfter(new JwtAuthFilter(tokenService, memberRepository),
@@ -57,10 +57,10 @@ public class SecurityConfig {
         return http.build();
     }
 
-//     필터 무시
+    //     필터 무시
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/**", "/static/**", "/js/**", "/webjars/**");
+        return (web) -> web.ignoring().antMatchers("/**","/static/**", "/js/**", "/webjars/**");
     }
 
     // Used by Spring Security if CORS is enabled.
