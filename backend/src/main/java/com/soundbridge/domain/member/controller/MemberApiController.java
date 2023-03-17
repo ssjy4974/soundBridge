@@ -34,14 +34,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/members")
 public class MemberApiController {
 
+    // ------------ ##################### ----------------
+    // 나중에 Member 브랜치 삭제하기 전에 수정해야함!!!!!!!!!!!
+    // 리턴을 변경된 멤버에서 가져오도록 !!!!!!!!
+    // ---------------------------------------------------
     private final MemberService memberService;
 
     @Operation(summary = "내 정보 조회", description = "내 정보 조회 메소드 입니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
-        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
-        @ApiResponse(responseCode = "403", description = "권한 없음"),
+        @ApiResponse(responseCode = "401", description = "인증 안됨"),
+        @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
     @GetMapping("/{memberId}")
@@ -59,8 +63,8 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
-        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
-        @ApiResponse(responseCode = "403", description = "권한 없음"),
+        @ApiResponse(responseCode = "401", description = "인증 안됨"),
+        @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
     @PutMapping("/nickname/{memberId}")
@@ -81,8 +85,8 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
-        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
-        @ApiResponse(responseCode = "403", description = "권한 없음"),
+        @ApiResponse(responseCode = "401", description = "인증 안됨"),
+        @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
         @ApiResponse(responseCode = "413", description = "파일용량 초과"),
         @ApiResponse(responseCode = "415", description = "지원하지않는 확장자"),
@@ -102,8 +106,8 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
-        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
-        @ApiResponse(responseCode = "403", description = "권한 없음"),
+        @ApiResponse(responseCode = "401", description = "인증 안됨"),
+        @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
     @PutMapping("/role/{memberId}")
@@ -119,7 +123,8 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "파라미터 타입 오류"),
-        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
+        @ApiResponse(responseCode = "401", description = "인증 안됨"),
+        @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지 않는 유저"),
     })
     @PostMapping("/logout/{memberId}")
@@ -140,7 +145,8 @@ public class MemberApiController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "파라미터 타입 오류"),
-        @ApiResponse(responseCode = "401", description = "권함 없음, 부족"),
+        @ApiResponse(responseCode = "401", description = "인증 안됨"),
+        @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지 않는 유저"),
     })
     @DeleteMapping("/{memberId}")

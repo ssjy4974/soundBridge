@@ -8,7 +8,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "memberInfo Response")
 public class MemberInfoRes {
 
     private Long memberId;
