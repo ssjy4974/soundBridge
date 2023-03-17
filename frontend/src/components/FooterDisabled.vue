@@ -2,12 +2,12 @@
   <div class="footer pre__border">
     <div>
       <router-link to="/pronounce">
-        <font-awesome-icon icon="fa-solid fa-clipboard" />
+        <font-awesome-icon icon="fa-regular fa-comments" />
       </router-link>
     </div>
     <div>
       <router-link to="/feedback">
-        <font-awesome-icon icon="fa-regular fa-comments" />
+        <font-awesome-icon icon="fa-solid fa-clipboard" />
       </router-link>
     </div>
     <div>
