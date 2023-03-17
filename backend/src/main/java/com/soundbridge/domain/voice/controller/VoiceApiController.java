@@ -1,5 +1,6 @@
 package com.soundbridge.domain.voice.controller;
 
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.voice.request.VoiceListConditionReq;
 import com.soundbridge.domain.voice.service.VoiceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +38,8 @@ public class VoiceApiController {
     public ResponseEntity voiceList(@PageableDefault Pageable pageable,
         @RequestParam(required = false) Long cursorId, @ModelAttribute VoiceListConditionReq voiceListConditionReq, Authentication authentication) {
 
-        return ResponseEntity.ok(voiceService.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq));
+//        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
+
+        return ResponseEntity.ok(voiceService.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq, 1L));
     }
 }

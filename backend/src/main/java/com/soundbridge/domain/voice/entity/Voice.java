@@ -31,7 +31,7 @@ public class Voice {
     private Member member;
 
     @Column(nullable = false, columnDefinition = "INT UNSIGNED")
-    private int age;
+    private int voiceAge;
 
     @Column(length = 200, nullable = false)
     private String voiceName;
@@ -45,9 +45,9 @@ public class Voice {
 
 
     @Builder
-    public Voice(Member member, int age, String voiceName, String modelUrl, String voiceGender) {
+    public Voice(Member member, int voiceAge, String voiceName, String modelUrl, String voiceGender) {
         this.member = member;
-        this.age = age;
+        this.voiceAge = voiceAge;
         this.voiceName = voiceName;
         this.modelUrl = modelUrl;
         this.voiceGender = voiceGender;

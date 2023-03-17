@@ -1,5 +1,8 @@
 package com.soundbridge.domain.voice.repository;
 
-public interface VoiceRepository {
+import com.soundbridge.domain.voice.entity.Voice;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface VoiceRepository extends JpaRepository<Voice, Long>, VoiceRepositorySupport {
 
 }
