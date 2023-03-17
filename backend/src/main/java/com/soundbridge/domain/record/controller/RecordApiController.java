@@ -1,6 +1,7 @@
 package com.soundbridge.domain.record.controller;
 
 
+import com.soundbridge.domain.record.response.NextRecordSentenceRes;
 import com.soundbridge.domain.record.service.RecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,9 +33,11 @@ public class RecordApiController {
     })
     @GetMapping("/{memberId}")
     public ResponseEntity getNextRecord(@PathVariable Long memberId) {
-        recordService.getMyNextRecord(memberId);
+        NextRecordSentenceRes myNextRecord = recordService.getMyNextRecord(memberId);
 
-        return ResponseEntity.ok().body("");
+        log.info("get Next Record {}", myNextRecord);
+
+        return ResponseEntity.ok().body(myNextRecord);
     }
 
 }

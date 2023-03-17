@@ -1,20 +1,24 @@
 package com.soundbridge.domain.record.response;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-public class nextRecordSentenceRes {
+@Getter
+@Setter
+public class NextRecordSentenceRes {
 
     private Long sentenceId;
     private String content;
 
     @Builder
-    public nextRecordSentenceRes(Long sentenceId, String content) {
+    public NextRecordSentenceRes(Long sentenceId, String content) {
         this.sentenceId = sentenceId;
         this.content = content;
     }
 
-    public static nextRecordSentenceRes of(Long sentenceId, String content) {
-        return nextRecordSentenceRes.builder()
+    public static NextRecordSentenceRes of(Long sentenceId, String content) {
+        return NextRecordSentenceRes.builder()
             .sentenceId(sentenceId)
             .content(content)
             .build();

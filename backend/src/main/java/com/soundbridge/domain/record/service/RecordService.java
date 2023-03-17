@@ -4,8 +4,7 @@ import com.soundbridge.domain.record.entity.RecordSentence;
 import com.soundbridge.domain.record.entity.RecordState;
 import com.soundbridge.domain.record.repository.RecordSentenceRepository;
 import com.soundbridge.domain.record.repository.RecordStateRepository;
-import com.soundbridge.global.error.ErrorCode;
-import com.soundbridge.global.error.exception.NotFoundException;
+import com.soundbridge.domain.record.response.NextRecordSentenceRes;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,17 +20,21 @@ public class RecordService {
     private final RecordStateRepository recordStateRepository;
     private final RecordSentenceRepository recordSentenceRepository;
 
-    public void getMyNextRecord(Long memberId) {
+    public NextRecordSentenceRes getMyNextRecord(Long memberId) {
         Long sentenceId = 1L;
         String content = "";
 
-        Optional<RecordState> recordState = recordStateRepository.findById(memberId);
-        if (!recordState.isEmpty()) {
-            sentenceId = recordState.get().getId();
+        RecordState recordState = recordStateRepository.findByMemberId(memberId);
+        log.info("recordState {}", recordState);
+        if (recordState != null) {
+            sentenceId = recordState.getRecordSentence().getId();
+            content = recordState.getRecordSentence().getContent();
+        } else {
+            content = recordSentenceRepository.findById(sentenceId).get().getContent();
         }
+        log.info("record_state m_id:{}, s_id:{}, {}", memberId, sentenceId, content);
 
-        RecordSentence recordSentence = recordSentenceRepository.findById(sentenceId).get();
-
+        return NextRecordSentenceRes.of(sentenceId, content);
 
 //        content =
     }

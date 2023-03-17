@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RecordStateRepository extends JpaRepository<RecordState, Long> {
-
+    RecordState findByMemberId(Long memberId);
 
 }
