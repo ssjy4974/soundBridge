@@ -26,6 +26,7 @@ public class BoardRepositoryImpl implements BoardRepositorySupport {
                     feedbackBoard.id.as("feedbackBoardId"),
                     feedbackBoard.title.as("title"),
                     feedbackBoard.member.id.as("writerId"),
+                    feedbackBoard.member.nickname.as("nickname"),
                     feedbackBoard.startTime.as("startTime"),
                     feedbackBoard.endTime.as("endTime")))
             .from(feedbackBoard)
