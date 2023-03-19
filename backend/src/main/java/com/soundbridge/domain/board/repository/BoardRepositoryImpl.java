@@ -44,11 +44,11 @@ public class BoardRepositoryImpl implements BoardRepositorySupport {
         return new SliceImpl<>(fetch, pageable, hasNext);
     }
 
-    private BooleanBuilder memberIdEq(Long memberId) {
+    private BooleanExpression memberIdEq(Long memberId) {
         if(memberId == null) {
-            return new BooleanBuilder();
+            return null;
         }
-        return new BooleanBuilder(feedbackBoard.member.id.eq(memberId));
+        return feedbackBoard.member.id.eq(memberId);
     }
 
     private BooleanExpression cursorId(Long cursorId) {
