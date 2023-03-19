@@ -52,7 +52,6 @@ public class BoardApiController {
         @PageableDefault(size = 5) Pageable pageable,
         @RequestParam(required = false) Long cursorId,
         Authentication authentication) {
-        System.out.println(cursorId+"ㅁㄴㅇㅁㄴㅇㄴㅇ");
         return ResponseEntity.ok(boardService.findAllWithPaging(pageable, cursorId, 1L));
 
     }
