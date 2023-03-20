@@ -2,9 +2,13 @@ package com.soundbridge.domain.member.repository;
 
 import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.entity.QMember;
+import com.soundbridge.domain.voice.entity.Voice;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositorySupport {
@@ -13,4 +17,9 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     //Command는 그냥 Repository에서 Support를 다시 상속 받아서 사용한다.'
 
     Member findByEmail(String email);
+
+    @Transactional
+    @Modifying
+    @Query("update Member m set m.voice = null where m.voice = :voice")
+    void MemberVoiceDelete(Voice voice);
 }

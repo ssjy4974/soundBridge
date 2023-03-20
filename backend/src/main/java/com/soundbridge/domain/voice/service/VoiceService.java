@@ -2,13 +2,16 @@ package com.soundbridge.domain.voice.service;
 
 import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.repository.MemberRepository;
+import com.soundbridge.domain.voice.entity.Voice;
 import com.soundbridge.domain.voice.repository.VoiceRepository;
+import com.soundbridge.domain.voice.request.VoiceDeleteReq;
 import com.soundbridge.domain.voice.request.VoiceListConditionReq;
 import com.soundbridge.domain.voice.request.VoiceSelectionReq;
 import com.soundbridge.domain.voice.response.VoiceDetailRes;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.AccessDeniedException;
 import com.soundbridge.global.error.exception.NotFoundException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -48,5 +51,20 @@ public class VoiceService {
         }
 
         member.selectVoice(voiceRepository.findById(voiceSelectionReq.getVoiceId()).get());
+    }
+
+    public void deleteVoiceById(long memberId, VoiceDeleteReq voiceDeleteReq) {
+        if(memberId != voiceDeleteReq.getMemberId()) {
+            throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZATION);
+        }
+        log.info("Voice Delete {}", voiceDeleteReq.getVoiceId());
+
+        Optional<Voice> voice = voiceRepository.findById(voiceDeleteReq.getVoiceId());
+
+        if(!voice.isEmpty()) {
+            memberRepository.MemberVoiceDelete(voice.get());
+        }
+
+        voiceRepository.deleteById(voiceDeleteReq.getVoiceId());
     }
 }
