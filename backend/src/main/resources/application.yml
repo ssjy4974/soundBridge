@@ -20,15 +20,15 @@ spring:
 
   profiles:
     active:
-      - develop
+      - ${PROFILE:develop}
 
     group:
       green: "server"
       develop: "dev, env"
 
-  redis:
-    host: localhost # 서버 host
-    port: 6379 # redis 서버 포트
+redis:
+  host: localhost # 서버 host
+  port: 6379 # redis 서버 포트
 
 logging:
   level:
