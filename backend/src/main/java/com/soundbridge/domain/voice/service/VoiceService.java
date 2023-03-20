@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class VoiceService {
@@ -26,6 +26,7 @@ public class VoiceService {
     private final MemberRepository memberRepository;
     private final VoiceRepository voiceRepository;
 
+    @Transactional(readOnly = true)
     public Slice<VoiceDetailRes> findAllVoiceWithPaging(Pageable pageable, Long cursorId,
         VoiceListConditionReq voiceListConditionReq, Long memberId) {
 

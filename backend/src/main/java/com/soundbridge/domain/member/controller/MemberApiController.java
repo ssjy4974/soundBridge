@@ -110,12 +110,13 @@ public class MemberApiController {
         @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
-    @PutMapping("/role")
+    @PutMapping("/AddInfo")
     public ResponseEntity saveRoleMember(@RequestBody SaveAddInfoReq saveAddInfoReq) {
         log.info("request 역할 {} ", saveAddInfoReq);
-        Role role = memberService.saveRole(saveAddInfoReq.getMemberId(), saveAddInfoReq);
+        String gender = memberService.saveAddInfo(saveAddInfoReq.getMemberId(), saveAddInfoReq);
+//        Role role = memberService.saveAddInfo(saveAddInfoReq.getMemberId(), saveAddInfoReq);
 
-        return ResponseEntity.ok().body(role);
+        return ResponseEntity.ok().body(gender);
     }
 
     @Operation(summary = "로그아웃", description = "로그아웃 메소드입니다.")

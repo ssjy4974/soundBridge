@@ -57,9 +57,9 @@ public class VoiceApiController {
     })
     @PutMapping("/select")
     public ResponseEntity selectVoice(@RequestBody VoiceSelectionReq voiceSelectionReq, Authentication authentication){
-        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+//        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
 
-        voiceService.selectByVoiceId(memberId, voiceSelectionReq);
+        voiceService.selectByVoiceId(1L, voiceSelectionReq);
 
         return ResponseEntity.ok().build();
     }

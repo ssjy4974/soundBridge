@@ -21,13 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
     private final RedisTemplate redisTemplate;
 
+    @Transactional(readOnly = true)
     public MemberInfoRes getMemberById(Long memberId) {
         log.info("memberId {}", memberId);
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
@@ -72,15 +73,14 @@ public class MemberService {
     }
 
     @Transactional
-    public Role saveRole(Long id, SaveAddInfoReq saveAddInfoReq) {
+    public String saveAddInfo(Long id, SaveAddInfoReq saveAddInfoReq) {
         Member member = memberRepository.findById(id).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        if(member.getRole() == null) {
-            member.saveAddInfo(saveAddInfoReq.getAge(), saveAddInfoReq.getGender(), saveAddInfoReq.getRole());
-        }
+        member.saveAddInfo(saveAddInfoReq.getAge(), saveAddInfoReq.getGender(), saveAddInfoReq.getRole());
 
-        return member.getRole();
+
+        return member.getGender();
     }
 
     @Transactional
@@ -113,6 +113,7 @@ public class MemberService {
 
         return refreshTokenCookie;
     }
+
 
     public Cookie deleteCookie(Cookie[] cookies) {
         String refreshToken = null;
