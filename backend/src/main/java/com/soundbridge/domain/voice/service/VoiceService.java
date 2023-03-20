@@ -1,12 +1,10 @@
 package com.soundbridge.domain.voice.service;
 
-import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.domain.voice.repository.VoiceRepository;
 import com.soundbridge.domain.voice.request.VoiceListConditionReq;
+import com.soundbridge.domain.voice.request.VoiceSelectionReq;
 import com.soundbridge.domain.voice.response.VoiceDetailRes;
-import com.soundbridge.global.error.ErrorCode;
-import com.soundbridge.global.error.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -31,5 +29,12 @@ public class VoiceService {
 //            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         return voiceRepository.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq);
+    }
+
+    public Object selectByVoiceId(VoiceSelectionReq voiceSelectionReq) {
+        log.info("select voice m:{}, v:{}", voiceSelectionReq.getMemberId(),
+            voiceSelectionReq.getVoiceId());
+
+        return memberRepository.
     }
 }

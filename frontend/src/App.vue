@@ -9,15 +9,19 @@ import Header from "./components/Header.vue";
 </script>
 
 <template>
-  <Header />
-  <div class="dummy"></div>
-  <router-view class="router" />
-  <FooterDisabled />
+  <div>
+    <Header />
+    <router-view class="router" />
+    <FooterDisabled />
+  </div>
 </template>
 
 <style scoped>
 .router {
   padding-top: 70px;
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 64px;
 }
 
 /* .dummy {

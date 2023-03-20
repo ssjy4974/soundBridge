@@ -41,7 +41,7 @@ public class BoardRepositoryImpl implements BoardRepositorySupport {
             fetch.remove(pageable.getPageSize());
             hasNext = true;
         }
-        return new SliceImpl<>(fetch, pageable, hasNext);
+            return new SliceImpl<>(fetch, pageable, hasNext);
     }
 
     private BooleanExpression memberIdEq(Long memberId) {

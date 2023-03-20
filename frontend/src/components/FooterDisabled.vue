@@ -28,13 +28,16 @@
 <style scoped>
 .footer {
   width: 60vw;
+  height: 48px;
   display: flex;
   justify-content: space-between;
+  text-align: center;
+  align-content: center;
+  background-color: aqua;
+
   padding-inline: 10vw;
 
-  text-align: center;
-  height: 48px;
-  align-content: center;
-  position: fixed;
+  position: relative;
+  transform: translateY(-100%);
 }
 </style>

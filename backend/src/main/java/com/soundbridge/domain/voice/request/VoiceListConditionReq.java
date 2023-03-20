@@ -2,8 +2,10 @@ package com.soundbridge.domain.voice.request;
 
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class VoiceListConditionReq {
     private Integer voiceAge;
     private String voiceGender;

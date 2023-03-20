@@ -49,7 +49,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         Member member = memberRepository.findByEmail((String) attributes.get("email"));
 
-        if (member == null) { //redirect
+        if (member == null) { //회원 가입.
             member = Member.builder()
                 .email((String) attributes.get("email"))
                 .nickname((String) attributes.get("nickname"))

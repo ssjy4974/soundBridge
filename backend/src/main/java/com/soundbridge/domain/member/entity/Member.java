@@ -84,7 +84,9 @@ public class Member {
         this.delFlag = 1;
     }
 
-    public void saveRole(Role role) {
+    public void saveAddInfo(int age, String gender, Role role) {
+        this.age = age;
+        this.gender = gender;
         this.role = role;
     }
 }
