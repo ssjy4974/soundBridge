@@ -89,4 +89,8 @@ public class Member {
         this.gender = gender;
         this.role = role;
     }
+
+    public void selectVoice(Voice voice) {
+        this.voice = voice;
+    }
 }

@@ -56,8 +56,11 @@ public class VoiceApiController {
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
     @PutMapping("/select")
-    public ResponseEntity selectVoice(@RequestBody VoiceSelectionReq voiceSelectionReq){
+    public ResponseEntity selectVoice(@RequestBody VoiceSelectionReq voiceSelectionReq, Authentication authentication){
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
 
-        return ResponseEntity.ok(voiceService.selectByVoiceId(voiceSelectionReq));
+        voiceService.selectByVoiceId(memberId, voiceSelectionReq);
+
+        return ResponseEntity.ok().build();
     }
 }
