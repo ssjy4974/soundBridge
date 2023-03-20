@@ -20,7 +20,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableWebSecurity
+//@EnableWebSecurity
 public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
@@ -58,10 +58,10 @@ public class SecurityConfig {
     }
 
     //     필터 무시
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().antMatchers("/**", "/static/**", "/js/**", "/webjars/**");
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/**", "/static/**", "/js/**", "/webjars/**");
+    }
 
     // Used by Spring Security if CORS is enabled.
 //    @Bean
