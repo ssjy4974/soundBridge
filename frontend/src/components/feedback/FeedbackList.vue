@@ -1,22 +1,83 @@
 <template>
   <div>
     <h2>Feedback List</h2>
-    <h3>
-      FeedbackArticle를 감싸는 컴포넌트로 회원별로 다른 화면이 나타나도록 설정할
-      계획임
-    </h3>
-    <p>
-      데이터 store에서 가져와서 for문 돌면서 feedbackArticle에 props 하는걸
-      생각중
-    </p>
     <hr />
-
-    <FeedbackArticle />
+    <FeedbackArticle
+      v-for="(feedbackArticle, index) in feedbackList"
+      :key="index"
+      :feedbackArticle="feedbackArticle"
+      :index="index"
+      @updateProps="(value) => updateFeedbackList(value)"
+    />
   </div>
 </template>
 
 <script setup>
+import { apiInstance } from "@/api/index";
+import { onMounted, onBeforeUnmount, ref } from "@vue/runtime-core";
 import FeedbackArticle from "./FeedbackArticle.vue";
+
+const api = apiInstance();
+
+let feedbackList = ref([]);
+let cursorId = ref();
+let hasNext = ref();
+// const isAtTheBottom = ref();
+onMounted(() => {
+  document.addEventListener("scroll", scrollHandler);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("scroll", scrollHandler);
+});
+const scrollHandler = (e) => {
+  const scrollTop = document.documentElement.scrollTop;
+  const clientHeight = document.documentElement.clientHeight;
+  const scrollHeight = document.documentElement.scrollHeight;
+  // isAtTheBottom.value = scrollHeight === scrollTop + clientHeight;
+  const isAtTheBottom = scrollHeight === scrollTop + clientHeight;
+  if (isAtTheBottom && !hasNext.value) {
+    setTimeout(() => {
+      moreList();
+    }, 100);
+  }
+};
+
+const moreList = () => {
+  api
+    .get(`/api/feedback-boards?cursorId=${cursorId.value}`)
+    .then((res) => {
+      feedbackList.value.push(...res.data.content);
+      hasNext.value = res.data.last;
+      cursorId.value =
+        res.data.content[res.data.numberOfElements - 1].feedbackBoardId;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const updateFeedbackList = (value) => {
+  feedbackList.value.splice(value, 1);
+};
+
+const callApi = () => {
+  api
+    .get(`/api/feedback-boards`, {
+      params: cursorId.value,
+    })
+    .then((res) => {
+      feedbackList.value = res.data.content;
+      hasNext.value = res.data.last;
+      cursorId.value =
+        res.data.content[res.data.numberOfElements - 1].feedbackBoardId;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+callApi();
 </script>
 
 <style lang="scss" scoped></style>
