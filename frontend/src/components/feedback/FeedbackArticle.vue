@@ -1,28 +1,21 @@
 <template>
-  <div>
-    <h3>장애인 회원 화면에서는 자신이 쓴 게시글만 보이게</h3>
-    <p>제목 : db에서 가져올예정</p>
-    <p>작성자 : 장애인 회원</p>
-    <p>시작 시간 : data type - date</p>
-    <p>종료 시간 : data type - date</p>
+  <div v-if="props.feedbackArticle">
+    <p>제목 : {{ props.feedbackArticle.title }}</p>
+    <p>작성자 : {{ props.feedbackArticle.nickname }}</p>
+    <p>시작 시간 : {{ props.feedbackArticle.startTime }}</p>
+    <p>종료 시간 : {{ props.feedbackArticle.endTime }}</p>
     <div>
-      <button>봉사자의 경우 수락하기 버튼이 보임</button><br />
+      <button @click="acceptMeeting(props.feedbackArticle)">
+        봉사자의 경우 수락하기 버튼이 보임</button
+      ><br />
 
       <font-awesome-icon
         @click="createModalHandler"
         icon="fa-solid fa-pen-to-square"
       />
-      <span> </span>
-
       <font-awesome-icon
         icon="fa-solid fa-trash"
-        @click="deleteModalHandler"
-        @closemodal="!deleteModal"
-      />
-      <FeedbackDeleteModal
-        v-if="deleteModal"
-        :data="deleteModal"
-        @closemodal="deleteModalHandler"
+        @click="deleteFeedbackArticle"
       />
       <FeedbackCreateModal v-if="createModal" />
     </div>
@@ -30,20 +23,71 @@
 </template>
 
 <script setup>
-import FeedbackDeleteModal from "./FeedbackDeleteModal.vue";
+import { defineProps, defineEmits } from "vue";
+import { apiInstance } from "@/api/index";
+// import FeedbackDeleteModal from "./FeedbackDeleteModal.vue";
 import FeedbackCreateModal from "./FeedbackCreateModal.vue";
 import { ref } from "vue";
+import Swal from "sweetalert2";
 
+const api = apiInstance();
+const props = defineProps(["feedbackArticle", "index"]);
+const emit = defineEmits(["updateProps"]);
 const createModal = ref(false);
+
+const meetingSaveReq = ref({
+  feedbackBoardId: undefined,
+  title: undefined,
+  helperId: undefined,
+  startTime: undefined,
+  endTime: undefined,
+});
+
 const createModalHandler = () => {
   createModal.value = !createModal.value;
   console.log(createModal.value);
 };
 
-const deleteModal = ref(false);
-const deleteModalHandler = () => {
-  deleteModal.value = !deleteModal.value;
-  console.log(deleteModal.value);
+const deleteFeedbackArticle = () => {
+  Swal.fire({
+    title: "삭제 하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      api
+        .delete(`/api/feedback-boards/${props.feedbackArticle.feedbackBoardId}`)
+        .then(() => {
+          emit("updateProps", { index: props.index });
+          Swal.fire("삭제되었습니다", "success");
+        })
+        .catch((err) => {
+          err;
+          console.log(err);
+        });
+    }
+  });
+};
+
+const acceptMeeting = (feedbackArticle) => {
+  meetingSaveReq.value.feedbackBoardId = feedbackArticle.feedbackBoardId;
+  meetingSaveReq.value.title = feedbackArticle.title;
+  meetingSaveReq.value.helperId = feedbackArticle.writerId;
+  meetingSaveReq.value.startTime = feedbackArticle.startTime;
+  meetingSaveReq.value.endTime = feedbackArticle.endTime;
+
+  api
+    .post(`/api/meetings`, meetingSaveReq.value)
+    .then(() => {
+      alert("상담 수락 완료");
+      emit("updateProps", { index: props.index });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 </script>
 
