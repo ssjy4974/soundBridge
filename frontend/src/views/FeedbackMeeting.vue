@@ -56,9 +56,11 @@ onBeforeMount(() => {
   api
     .get(`/api/meetings/rooms/${route.params.meetingId}`)
     .then((res) => {
+      console.log("결과 확인 : ", res.data);
       openviduInfo.value.OV = new OpenVidu();
       // openviduInfo.value.OV.enableProdMode();
       openviduInfo.value.session = openviduInfo.value.OV.initSession();
+      console.log("openvidu session : ", openviduInfo.value.session);
       // On every new Stream received...
       openviduInfo.value.session.on("streamCreated", ({ stream }) => {
         const subscriber = openviduInfo.value.session.subscribe(stream);
