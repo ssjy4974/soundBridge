@@ -90,6 +90,41 @@ import '@fortawesome/fontawesome-free/css/all.css'
 
 
 
+## Pinia
+
+상태관리도구
+
+install
+
+```bash
+npm install pinia
+```
+
+enroll
+
+```javascript
+// main.js
+import { createPinia } from "pinia";
+const pinia = createPinia();
+createApp(App)
+  .use(router, pinia)
+  .component("font-awesome-icon", FontAwesomeIcon)
+  .mount("#app");
+
+```
+
+```markdown
+   --store
+	|-- Pronounce.vue
+	|-- Feedback.vue
+	|-- Member.vue
+	|-- Practice.vue
+```
+
+
+
+
+
 
 
 ## Frontend Project Convention
