@@ -2,6 +2,8 @@ package com.soundbridge.domain.voice.entity;
 
 
 import com.soundbridge.domain.member.entity.Member;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +34,7 @@ public class Voice {
     private Member member;
 
     @Column(nullable = false, columnDefinition = "INT UNSIGNED")
-    private int age;
+    private int voiceAge;
 
     @Column(length = 200, nullable = false)
     private String voiceName;
@@ -43,11 +46,14 @@ public class Voice {
     @Column(length = 10, nullable = false)
     private String voiceGender;
 
+    @OneToMany(mappedBy = "voice", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<VoiceFeature> voiceFeatures;
+
 
     @Builder
-    public Voice(Member member, int age, String voiceName, String modelUrl, String voiceGender) {
+    public Voice(Member member, int voiceAge, String voiceName, String modelUrl, String voiceGender) {
         this.member = member;
-        this.age = age;
+        this.voiceAge = voiceAge;
         this.voiceName = voiceName;
         this.modelUrl = modelUrl;
         this.voiceGender = voiceGender;

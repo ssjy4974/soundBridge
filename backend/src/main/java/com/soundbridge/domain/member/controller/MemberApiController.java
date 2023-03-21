@@ -3,7 +3,7 @@ package com.soundbridge.domain.member.controller;
 import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.request.ModifyNicknameReq;
 import com.soundbridge.domain.member.request.ModifyProfileReq;
-import com.soundbridge.domain.member.request.SaveRoleReq;
+import com.soundbridge.domain.member.request.SaveAddInfoReq;
 import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,15 +67,15 @@ public class MemberApiController {
         @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
-    @PutMapping("/nickname/{memberId}")
-    public ResponseEntity modifyMemberNickname(@PathVariable Long memberId, @RequestBody
+    @PutMapping("/nickname")
+    public ResponseEntity modifyMemberNickname(@RequestBody
     ModifyNicknameReq modifyNicknameReq) {
 
         String nickname = modifyNicknameReq.getNickname();
 
         log.info("request 닉네임 수정: {}", nickname);
 
-        memberService.modifyMemberNickname(memberId, nickname);
+        memberService.modifyMemberNickname(modifyNicknameReq.getMemberId(), nickname);
 
         return ResponseEntity.ok().body(nickname);
     }
@@ -91,11 +91,11 @@ public class MemberApiController {
         @ApiResponse(responseCode = "413", description = "파일용량 초과"),
         @ApiResponse(responseCode = "415", description = "지원하지않는 확장자"),
     })
-    @PutMapping("/profile/{memberId}")
-    public ResponseEntity modifyMemberProfile(@PathVariable Long memberId, @ModelAttribute @Valid
+    @PutMapping("/profile")
+    public ResponseEntity modifyMemberProfile(@ModelAttribute @Valid
     ModifyProfileReq profileReq) {
 
-        String newProfileName = memberService.modifyMemberProfile(memberId,
+        String newProfileName = memberService.modifyMemberProfile(profileReq.getMemberId(),
             profileReq.getProfile());
 
         return ResponseEntity.ok().body(newProfileName);
@@ -110,13 +110,13 @@ public class MemberApiController {
         @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
-    @PutMapping("/role/{memberId}")
-    public ResponseEntity saveRoleMember(@PathVariable Long memberId,
-        @RequestBody SaveRoleReq saveRoleReq) {
-        log.info("request 역할 {} ", saveRoleReq);
-        Role role = memberService.saveRole(memberId, saveRoleReq);
+    @PutMapping("/AddInfo")
+    public ResponseEntity saveRoleMember(@RequestBody SaveAddInfoReq saveAddInfoReq) {
+        log.info("request 역할 {} ", saveAddInfoReq);
+        String gender = memberService.saveAddInfo(saveAddInfoReq.getMemberId(), saveAddInfoReq);
+//        Role role = memberService.saveAddInfo(saveAddInfoReq.getMemberId(), saveAddInfoReq);
 
-        return ResponseEntity.ok().body(role);
+        return ResponseEntity.ok().body(gender);
     }
 
     @Operation(summary = "로그아웃", description = "로그아웃 메소드입니다.")

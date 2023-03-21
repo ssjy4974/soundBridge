@@ -10,6 +10,7 @@
       생각중
     </p>
     <hr />
+
     <FeedbackArticle />
   </div>
 </template>

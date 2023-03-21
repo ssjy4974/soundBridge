@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -28,6 +29,7 @@ import org.hibernate.annotations.DynamicInsert;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 @DynamicInsert
+@Slf4j
 public class Member {
 
     @Id
@@ -63,13 +65,14 @@ public class Member {
 
     @Builder
     public Member(String email, String profile, int age, String gender, String nickname,
-        int delFlag) {
+        int delFlag, Voice voice) {
         this.email = email;
         this.profile = profile;
         this.age = age;
         this.gender = gender;
         this.nickname = nickname;
         this.delFlag = delFlag;
+        this.voice = voice;
     }
 
     public void modifyNickname(String nickname) {
@@ -84,7 +87,15 @@ public class Member {
         this.delFlag = 1;
     }
 
-    public void saveRole(Role role) {
+    public void saveAddInfo(int age, String gender, Role role) {
+        this.age = age;
+        this.gender = gender;
         this.role = role;
+    }
+
+    public void selectVoice(Voice voice) {
+        log.info("voice !! {}", voice.toString());
+        this.voice = voice;
+        log.info(this.voice.toString());
     }
 }

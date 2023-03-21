@@ -3,18 +3,16 @@ package com.soundbridge.domain.member.service;
 import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.repository.MemberRepository;
-import com.soundbridge.domain.member.request.SaveRoleReq;
+import com.soundbridge.domain.member.request.SaveAddInfoReq;
 import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.ImageExtensionException;
 import com.soundbridge.global.error.exception.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import javax.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,13 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
     private final RedisTemplate redisTemplate;
 
+    @Transactional(readOnly = true)
     public MemberInfoRes getMemberById(Long memberId) {
         log.info("memberId {}", memberId);
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
@@ -74,15 +73,14 @@ public class MemberService {
     }
 
     @Transactional
-    public Role saveRole(Long id, SaveRoleReq saveRoleReq) {
+    public String saveAddInfo(Long id, SaveAddInfoReq saveAddInfoReq) {
         Member member = memberRepository.findById(id).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        if(member.getRole() == null) {
-            member.saveRole(saveRoleReq.getRole());
-        }
+        member.saveAddInfo(saveAddInfoReq.getAge(), saveAddInfoReq.getGender(), saveAddInfoReq.getRole());
 
-        return member.getRole();
+
+        return member.getGender();
     }
 
     @Transactional
@@ -115,6 +113,7 @@ public class MemberService {
 
         return refreshTokenCookie;
     }
+
 
     public Cookie deleteCookie(Cookie[] cookies) {
         String refreshToken = null;
