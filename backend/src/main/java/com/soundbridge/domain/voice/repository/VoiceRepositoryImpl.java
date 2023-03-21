@@ -1,21 +1,28 @@
 package com.soundbridge.domain.voice.repository;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.list;
+import static com.soundbridge.domain.voice.entity.QFeature.feature;
 import static com.soundbridge.domain.voice.entity.QVoice.voice;
 import static com.soundbridge.domain.voice.entity.QVoiceFeature.voiceFeature;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.soundbridge.domain.voice.request.VoiceListConditionReq;
+import com.soundbridge.domain.voice.response.QFeatureRes;
+import com.soundbridge.domain.voice.response.QVoiceDetailRes;
 import com.soundbridge.domain.voice.response.VoiceDetailRes;
+import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
-import org.springframework.security.core.parameters.P;
 
+@Slf4j
 @RequiredArgsConstructor
 public class VoiceRepositoryImpl implements VoiceRepositorySupport {
 
@@ -24,47 +31,89 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
     @Override
     public Slice<VoiceDetailRes> findAllVoiceWithPaging(Pageable pageable, Long cursorId,
         VoiceListConditionReq voiceCondReq) {
-
-        final List<VoiceDetailRes> fetch = jpaQueryFactory.select(
-                Projections.fields(VoiceDetailRes.class,
-                    voice.id.as("voiceId"),
-                    voice.voiceAge.as("age"),
-                    voice.modelUrl.as("modelUrl"),
-                    voice.voiceGender.as("voiceGender"),
-                    voice.voiceName.as("voiceName"),
-                    voice.member.id.as("memberId")
-                ))
-            .from(voice)
+//        final List<VoiceDetailRes> fetch = jpaQueryFactory.select(
+//                Projections.fields(VoiceDetailRes.class,
+//                    voiceFeature.voice.id.as("voiceId"),
+//                    voiceFeature.voice.voiceAge.as("age"),
+//                    voiceFeature.voice.modelUrl.as("modelUrl"),
+//                    voiceFeature.voice.voiceGender.as("voiceGender"),
+//                    voiceFeature.voice.voiceName.as("voiceName"),
+//                    voiceFeature.voice.member.id.as("memberId")
+//                ))
+//            .from(voiceFeature)
+//            .innerJoin(voiceFeature.voice, voice)
+//            .innerJoin(voiceFeature.feature,feature)
+//            .join(voiceFeature)
+//            .where(voiceAge(voiceCondReq.getVoiceAge()),
+//                voiceGender(voiceCondReq.getVoiceGender()),
+//                cursorId(cursorId)
+//                    ,(voiceFeatures(voiceCondReq.getFeatures())))
+//            .limit(pageable.getPageSize() + 1)
+//            .orderBy(voice.id.desc())
+//            .fetch();
+//
+//        boolean hasNext = false;
+//
+//        if(fetch.size() == pageable.getPageSize() + 1) {
+//            fetch.remove(pageable.getPageSize());
+//            hasNext = true;
+//        }
+        List<VoiceDetailRes> transform = jpaQueryFactory.from(voiceFeature)
+            .innerJoin(voiceFeature.voice, voice)
+            .innerJoin(voiceFeature.feature, feature)
             .where(voiceAge(voiceCondReq.getVoiceAge()),
                 voiceGender(voiceCondReq.getVoiceGender()),
-                voiceFeatures(voiceCondReq.getFeatures()), cursorId(cursorId))
-            .limit(pageable.getPageSize() + 1)
-            .orderBy(voice.id.desc())
-            .fetch();
+                voiceFeature.voice.id.in(
+                    JPAExpressions
+                        .select(voice.id)
+                        .from(voice, voiceFeature)
+                        .where(
+                            voice.id.eq(voiceFeature.voice.id),
+                            voiceFeatures(voiceCondReq.getFeatures()))
+                )
+            )
+            .transform(groupBy(voice.id)
+                .list(
+                    new QVoiceDetailRes(
+                        voice.id.as("voiceId"),
+                        voice.voiceAge.as("age"),
+                        voice.modelUrl.as("modelUrl"),
+                        voice.voiceGender.as("voiceGender"),
+                        voice.voiceName.as("voiceName"),
+                        voice.member.id.as("memberId"),
+                        list(new QFeatureRes(
+                            feature.id.as("featureId"),
+                            feature.featureName.as("featureName")
+                        )))));
+//        )
+//        new SliceImpl<>(fetch, pageable, hasNext)
 
         boolean hasNext = false;
 
-        if(fetch.size() == pageable.getPageSize() + 1) {
-            fetch.remove(pageable.getPageSize());
+        if(transform.size() == pageable.getPageSize() + 1) {
+            transform.remove(pageable.getPageSize());
             hasNext = true;
         }
 
-        return  new SliceImpl<>(fetch, pageable, hasNext);
+        log.info(transform.toString());
+        return new SliceImpl<>(transform, pageable, hasNext);
     }
 
-    private BooleanBuilder voiceFeatures(List<Integer> voiceFeatures) {
+//    voiceFeatures(voiceCondReq.getFeatures())
+//        )
+    private BooleanBuilder voiceFeatures(List<Long> voiceFeatures) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        if(voiceFeatures == null) {
+        if (voiceFeatures == null) {
             return null;
         }
 
-        for (Integer i : voiceFeatures) {
+        for (Long i : voiceFeatures) {
             if (i == null) {
                 continue;
             }
 
-            builder.and(voiceFeature.feature.id.eq(Long.valueOf(i)));
+            builder.or(voiceFeature.feature.id.eq(i));
         }
 
         return builder;

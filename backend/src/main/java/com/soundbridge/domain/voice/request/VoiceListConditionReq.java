@@ -9,7 +9,7 @@ import lombok.Setter;
 public class VoiceListConditionReq {
     private Integer voiceAge;
     private String voiceGender;
-    private List<Integer> features;
+    private List<Long> features;
 
     @Override
     public String toString() {
