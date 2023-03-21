@@ -14,9 +14,11 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class MeetingRoomRepository {
@@ -46,7 +48,8 @@ public class MeetingRoomRepository {
         //존재 하는 세션인지 확인
         Session session = findSessionByCode(code).orElseThrow(
             () -> new NotFoundException(ErrorCode.MEETING_ROOM_NOT_FOUND));
-
+        log.info("OPENVIDU_URL = {}",OPENVIDU_URL);
+        log.info("OPENVIDU_SECRET = {}",OPENVIDU_SECRET);
         //openvidu에 connection 요청
         ConnectionProperties properties = ConnectionProperties.fromJson(new HashMap<>()).build();
         Connection connection = session.createConnection(properties);
