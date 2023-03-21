@@ -2,6 +2,18 @@
 
 ### - AWS ec2, Docker, Jenkins
 
+## ✔링크
+
+[Nginx](#1-nginx)
+[SSL 인증서](#1-1-ssl-인증서-적용)
+[MySQL](#2-mysql)
+[Docker](#3-docker)
+[Image](#4-docker-image-만들기)
+[CI/CD](#5-cicd-설정하기)
+[WebHooks](#6-webhooks)
+[OpenVidu](#7-openvidu)
+[Redis](#8-redis)
+
 ## 1. Nginx
 
 Nginx를 설치한다
@@ -314,14 +326,12 @@ Jenkins container에서 Docker를 사용하기 위한 url 등록
 
 ![](./assets/dockerbuilder.png)
 
-  -> Jenkins가 Docker URL을 등록하면 Jenkins는 Docker API를 사용하여 Docker 데몬과 통신할 수 있습니다. 이를 통해 Jenkins는 Docker 컨테이너를 생성, 시작, 중지, 삭제 등 다양한 Docker 관리 작업을 수행할 수 있습니다.
-
-
+-> Jenkins가 Docker URL을 등록하면 Jenkins는 Docker API를 사용하여 Docker 데몬과 통신할 수 있습니다. 이를 통해 Jenkins는 Docker 컨테이너를 생성, 시작, 중지, 삭제 등 다양한 Docker 관리 작업을 수행할 수 있습니다.
 
 ### Jenkins 빌드구성
 
 ```
-Jenkins는 지속적인 통합 및 지속적인 배포를 위한 자동화 도구입니다. 
+Jenkins는 지속적인 통합 및 지속적인 배포를 위한 자동화 도구입니다.
 Jenkins에서 빌드 구성이란 소스 코드를 컴파일하고 빌드하여 배포 가능한 소프트웨어를 만들기 위해 필요한 모든 단계를 설정하는 것입니다.
 
 Jenkins의 빌드 구성은 일반적으로 다음과 같은 구성 요소로 구성됩니다.
@@ -347,8 +357,6 @@ develop branch에 있는 프로젝트를 빌드
 
 ![](./assets/branch.png)
 
-
-
 ### Frontend - 빌드 유발
 
 push 이벤트가 발생하면 빌드
@@ -367,15 +375,13 @@ generation을 눌러서 secret token 발급 -> 이후 gitLab과 webhook 설정�
 
 ![](./assets/buildenv.png)
 
-nodejs 관련 플러그인을 설치하면 보이는 option ->  nodejs installations config 사용
+nodejs 관련 플러그인을 설치하면 보이는 option -> nodejs installations config 사용
 
 ![](./assets/nodeenv.png)
 
-
-
 ### Frontend - 빌드 스텝
 
-node_module 설치 
+node_module 설치
 
 ![](./assets/nodejs.png)
 
@@ -393,15 +399,13 @@ front img로 container 실행하는 command
 
 ![](./assets/createfront.png)
 
-create의 고급옵션 
+create의 고급옵션
 
 ![](./assets/exposedport.png)
 
 ![](./assets/portbind.png)컨테이너 실행 command
 
 ![](./assets/startfront.png)
-
-
 
 ### Backend - 소스코드 관리
 
@@ -416,8 +420,6 @@ front와 동일
 ![](./assets/backprovoke.png)
 
 ![](./assets/backprovoke2.png)
-
-
 
 ### Backend - 빌드환경
 
@@ -457,8 +459,6 @@ backend container를 실행하는 command
 
 ![](./assets/startback.png)
 
-
-
 여기까지 진행했다면 지금 빌드 버튼을 통해 빌드 테스트를 한다. 테스트에 통과했다면 gitLab과 webHook 설정을 한다
 
 ## 6. WebHooks
@@ -473,13 +473,60 @@ URL에 [/project/jenkins의 아이템명] 을 꼭 붙어야 한다.
 
 맨아래 SSL 설정한다.
 
-![](./assets/webhook.png) 
+![](./assets/webhook.png)
 
 ## 7. OpenVidu
 
 Openvidu 컨테이너 실행시키는 명령어
 
 ```
-#YOUR_SECRET은 OpenVidu 컨트롤러에서 원하는 클라이언트가 OpenVidu 서버에 연결할 때 사용되는 비밀번호로 원하는 값으로 설정하면 된
+#YOUR_SECRET은 OpenVidu 컨트롤러에서 원하는 클라이언트가 OpenVidu 서버에 연결할 때 사용되는 비밀번호로 원하는 값으로 설정하면 된다
 sudo docker run -p 4443:4443 -d -e OPENVIDU_SECRET=YOUR_SECRET openvidu/openvidu-server-kms
 ```
+
+## 8. Redis
+
+Docker에는 Redis 이미지가 별도로 존재
+
+```
+# redis 이미지를 받아옵니다.
+sudo docker pull redis:alpine
+```
+
+Redis 네트워크 생성
+
+```
+sudo docker network create redis-network
+```
+
+Redis 네트워크 상세정보 확인
+
+```
+sudo docker inspect redis-network
+```
+
+Redis 컨테이너 실행
+
+```
+# local-redis라는 이름으로 로컬-docker 간 6379 포트 개방
+# redis-network 이름의 네트워크를 사용,
+# 로컬의 redis_temp와 도커의 /data를 서로 연결
+# redis:alpine 이미지를 사용하여 백그라운드에서 실행
+docker run --name local-redis -p 6379:6379 --network redis-network -v redis_temp:/data -d redis:alpine redis-server --appendonly yes
+```
+
+Backend Container를 Redis 네트워크에 넣기
+
+```
+sudo docker network connect redis-network a0e24dd0ab56
+# host명을 local-redis로 설정
+
+# 여기서 맨뒤에 backend 컨테이너 번호를 sudo docker ps를 활용하여 확인한다.
+# Jenkins를 활용한 자동화는 아래 참고
+```
+
+Jenkins 자동빌드를 위한 Param 설정
+![](./assets/param.png)
+
+Backend 컨테이너가 연결되면 컨테이너 번호를 받아서 네트워크 연결
+![](./assets/paramsetting.png)
