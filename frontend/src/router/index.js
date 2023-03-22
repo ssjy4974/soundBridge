@@ -20,6 +20,9 @@ import PracticeWords from "../views/PracticeWords.vue";
 import PracticeWordsDetail from "../views/PracticeWordsDetail.vue";
 import PracticeSelect from "../views/PracticeSelect.vue";
 
+// 목소리 녹음
+import VoiceRecord from "../views/VoiceRecord.vue";
+
 // 마이 페이지 상담 조회
 import MyMeetings from "../components/mypage/MyMeetings.vue";
 import FreqUsedPhrase from "../components/pronounce/FreqUsedPhrase.vue";
@@ -97,6 +100,12 @@ const routes = [
     path: "/feedbackMeeting/:meetingId",
     name: "feedbackMeeting",
     component: FeedbackMeeting,
+  },
+  //목소리 녹음 경로
+  {
+    path: "/record",
+    name: "record",
+    component: VoiceRecord,
   },
 ];
 
