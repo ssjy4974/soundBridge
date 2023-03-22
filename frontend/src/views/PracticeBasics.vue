@@ -12,13 +12,13 @@
       <li>{{ basicLetter.basicLetterId }}</li>
       <span> 자음 명 : {{ basicLetter.letter }}</span>
       <br />
-      <span> 발음 : {{ basicLetter.guidLetter }}</span>
-      <br />
       <span> 시도횟수 : {{ basicLetter.tryCount }}</span>
       <br />
       <span> 성공횟수 : {{ basicLetter.successCount }}</span>
       <br />
-      <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
+      <router-link :to="`/practicebasicsdetail/${basicLetter.basicLetterId}`">
+        <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
+      </router-link>
     </ul>
 >>>>>>> 58a4efd (S08P22A703-281 feat : 기본 발음 전체 조회 API 연결)
   </div>
@@ -31,8 +31,11 @@ import BasicsList from "@/components/practice/BasicsList.vue";
 =======
 import { apiInstance } from "@/api/index";
 import { ref } from "vue";
+<<<<<<< HEAD
 import PracticeBasicsDetail from "./PracticeBasicsDetail.vue";
 >>>>>>> 58a4efd (S08P22A703-281 feat : 기본 발음 전체 조회 API 연결)
+=======
+>>>>>>> b0c4b4e (feat : page routing 구현)
 
 const api = apiInstance();
 const basicLetterList = ref();
