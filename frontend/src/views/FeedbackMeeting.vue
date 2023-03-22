@@ -77,7 +77,6 @@ onBeforeMount(() => {
       });
       // On every asynchronous exception...
       openviduInfo.value.session.on("exception", ({ exception }) => {
-        console.log("여긴가?");
         console.warn(exception);
       });
 

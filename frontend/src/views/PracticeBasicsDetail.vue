@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import BasicsDetail from "@/components/practice/BasicsDetail.vue";
+import { apiInstance } from "@/api/index";
 </script>
 
 <style scoped></style>
