@@ -6,12 +6,12 @@
       </router-link>
     </div>
     <div>
-      <router-link to="/">
+      <router-link to="/record">
         <font-awesome-icon icon="fa-solid fa-microphone" />
       </router-link>
     </div>
     <div>
-      <router-link to="/mypagev">
+      <router-link to="/mypage">
         <font-awesome-icon icon="fa-solid fa-user" />
       </router-link>
     </div>
