@@ -3,10 +3,10 @@
     <hr />
     <p>TO Do : 자주쓰느말, 발음 피드백 눌렀을때 보이는 화면이 달라져야함.</p>
 
-    <router-link to="/mypage/freqUsedPhrase">
+    <router-link to="/mypaged/frequsedphrase">
       <span>자주 쓰는말 |</span>
     </router-link>
-    <router-link to="/mypage/meetings">
+    <router-link to="/mypaged/meetings">
       <span>발음 피드백 |</span>
     </router-link>
     <router-link to="/voiceselect">
