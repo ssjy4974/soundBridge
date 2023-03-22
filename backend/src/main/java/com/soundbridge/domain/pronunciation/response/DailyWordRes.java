@@ -10,17 +10,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DailyWordRes {
 
-    private Long dailyWordId;
+    private Long wordMemberId;
     private String word;
-    private String guidWord;
+    private String guideWord;
     private int tryCount;
     private int successCount;
 
     @QueryProjection
-    public DailyWordRes(Long dailyWordId, String word, String guidWord, int tryCount, int successCount){
-        this.dailyWordId = dailyWordId;
+    public DailyWordRes(Long wordMemberId, String word, String guideWord, int tryCount, int successCount){
+        this.wordMemberId = wordMemberId;
         this.word = word;
-        this.guidWord = guidWord;
+        this.guideWord = guideWord;
         this.tryCount = tryCount;
         this.successCount = successCount;
     }

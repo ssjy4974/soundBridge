@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,9 +39,9 @@ public class TryHistory {
     @JoinColumn(name = "member_id", nullable = false, foreignKey = @ForeignKey(name = "fk_try_history_member_idx"))
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "daily_word_id", foreignKey = @ForeignKey(name = "fk_try_history_daily_word_idx"))
-    private DailyWord dailyWord;
+    @OneToOne
+    @JoinColumn(name = "word_member_id", foreignKey = @ForeignKey(name = "fk_try_history_word_member_idx"))
+    private WordMember wordMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "basic_letter_id", foreignKey = @ForeignKey(name = "fk_try_history_basic_letter_idx"))
@@ -57,11 +60,11 @@ public class TryHistory {
     private PronunciationType type; // BASIC_LETTER 기본발음, DAILY_WORD 일상단어
 
     @Builder
-    public TryHistory(Member member, BasicLetter basicLetter, DailyWord dailyWord,
+    public TryHistory(Member member, BasicLetter basicLetter, WordMember wordMember,
         PronunciationType type) {
         this.member = member;
         this.basicLetter = basicLetter;
-        this.dailyWord = dailyWord;
+        this.wordMember = wordMember;
         this.type = type;
     }
 

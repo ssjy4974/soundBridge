@@ -1,6 +1,6 @@
 package com.soundbridge.domain.pronunciation.service;
 
-import com.soundbridge.domain.pronunciation.repository.DailyWordRepository;
+import com.soundbridge.domain.pronunciation.repository.WordMemberRepository;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class DailyWordService {
+public class WordMemberService {
 
-    private final DailyWordRepository dailyWordRepository;
+    private final WordMemberRepository wordMemberRepository;
 
     /**
      * 일상 단어 전체 조회
@@ -20,7 +20,7 @@ public class DailyWordService {
      * @param memberId
      * @return
      */
-//    public List<DailyWordRes> findAllDailyWords(Long memberId) {
-//        return dailyWordRepository.findAllByMemberId(memberId);
-//    }
+    public List<DailyWordRes> findAllDailyWords(Long memberId) {
+        return wordMemberRepository.findAllByMemberId(memberId);
+    }
 }
