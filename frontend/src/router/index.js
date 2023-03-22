@@ -14,11 +14,11 @@ import FeedbackFilter from "../views/FeedbackFilter.vue";
 import FeedbackMeeting from "../views/FeedbackMeeting.vue";
 
 // 발음 교정 페이지들
-import PronounciationBasics from "../views/PronounciationBasics.vue";
-import PronounciationBasicsDetail from "../views/PronounciationBasicsDetail.vue";
-import PronounciationWords from "../views/PronounciationWords.vue";
-import PronounciationWordsDetail from "../views/PronounciationWordsDetail.vue";
-import PronounciationSelection from "../views/PronounciationSelection.vue";
+import PracticeBasics from "../views/PracticeBasics.vue";
+import PracticeBasicsDetail from "../views/PracticeBasicsDetail.vue";
+import PracticeWords from "../views/PracticeWords.vue";
+import PracticeWordsDetail from "../views/PracticeWordsDetail.vue";
+import PracticeSelect from "../views/PracticeSelect.vue";
 
 // 마이 페이지 상담 조회
 import MyMeetings from "../components/mypage/MyMeetings.vue";
@@ -33,7 +33,7 @@ const routes = [
   },
   // 회원 유형별로 경로 다르게 어케함?
   {
-    path: "/mypage/",
+    path: "/mypaged/",
     name: "mypagedisabled",
     component: MypageDisabled,
     // 자식 컴포넌트
@@ -43,7 +43,7 @@ const routes = [
     ],
   },
   {
-    path: "/mypage/:id",
+    path: "/mypagev",
     name: "mypagevolunteer",
     component: MypageVolunteer,
   },
@@ -68,27 +68,24 @@ const routes = [
   },
   // 발음 교정 경로들
   {
-    path: "/pronounciationbasics",
-    name: "pronounciationbasics",
-    component: PronounciationBasics,
+    path: "/practicebasics",
+    name: "practicebasics",
+    component: PracticeBasics,
+    //detail child로 만들기
+    children: [
+      { path: "practicebasicsdetail", component: PracticeBasicsDetail },
+    ],
+  },
+  {
+    path: "/practicewords",
+    name: "practicewords",
+    component: PracticeWords,
     //detail child로 만들기
   },
   {
-    path: "/pronounciationbasics",
-    name: "pronounciationbasics",
-    component: PronounciationBasics,
-    //detail child로 만들기
-  },
-  {
-    path: "/pronounciationwords",
-    name: "pronounciationwords",
-    component: PronounciationWords,
-    //detail child로 만들기
-  },
-  {
-    path: "/pronounciationselection",
-    name: "pronounciationselection",
-    component: PronounciationSelection,
+    path: "/practiceselect",
+    name: "practiceselect",
+    component: PracticeSelect,
   },
   {
     path: "/feedbackMeeting/:meetingId",
