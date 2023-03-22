@@ -8,11 +8,6 @@
       <button @click="acceptMeeting(props.feedbackArticle)">
         봉사자의 경우 수락하기 버튼이 보임</button
       ><br />
-
-      <font-awesome-icon
-        @click="createModalHandler"
-        icon="fa-solid fa-pen-to-square"
-      />
       <font-awesome-icon
         icon="fa-solid fa-trash"
         @click="deleteFeedbackArticle"
@@ -25,7 +20,6 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
 import { apiInstance } from "@/api/index";
-// import FeedbackDeleteModal from "./FeedbackDeleteModal.vue";
 import FeedbackCreateModal from "./FeedbackCreateModal.vue";
 import { ref } from "vue";
 import Swal from "sweetalert2";
@@ -33,7 +27,6 @@ import Swal from "sweetalert2";
 const api = apiInstance();
 const props = defineProps(["feedbackArticle", "index"]);
 const emit = defineEmits(["updateProps"]);
-const createModal = ref(false);
 
 const meetingSaveReq = ref({
   feedbackBoardId: undefined,
@@ -42,11 +35,6 @@ const meetingSaveReq = ref({
   startTime: undefined,
   endTime: undefined,
 });
-
-const createModalHandler = () => {
-  createModal.value = !createModal.value;
-  console.log(createModal.value);
-};
 
 const deleteFeedbackArticle = () => {
   Swal.fire({

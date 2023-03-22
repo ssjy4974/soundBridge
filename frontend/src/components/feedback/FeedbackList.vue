@@ -9,6 +9,10 @@
       :index="index"
       @updateProps="(value) => updateFeedbackList(value)"
     />
+    <div>
+      <button @click="createModalHandler">피드백 요청글 작성하기</button>
+      <FeedbackCreateModal v-if="createModal" />
+    </div>
   </div>
 </template>
 
@@ -16,13 +20,14 @@
 import { apiInstance } from "@/api/index";
 import { onMounted, onBeforeUnmount, ref } from "@vue/runtime-core";
 import FeedbackArticle from "./FeedbackArticle.vue";
+import FeedbackCreateModal from "./FeedbackCreateModal.vue";
 
 const api = apiInstance();
 
 let feedbackList = ref([]);
 let cursorId = ref();
 let hasNext = ref();
-// const isAtTheBottom = ref();
+const createModal = ref(false);
 onMounted(() => {
   document.addEventListener("scroll", scrollHandler);
 });
@@ -55,6 +60,11 @@ const moreList = () => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+const createModalHandler = () => {
+  createModal.value = !createModal.value;
+  console.log(createModal.value);
 };
 
 const updateFeedbackList = (value) => {
