@@ -24,12 +24,11 @@ public class TryHistoryRepositoryImpl implements TryHistoryRepositorySupport {
     }
 
     @Override
-    public Optional<TryHistory> findByDailyWordIdAndMemberId(Long dailyWordId, Long memberId) {
+    public Optional<TryHistory> findBywordMemberId(Long wordMemberId) {
         return Optional.ofNullable(
             jpaQueryFactory.select(tryHistory)
                 .from(tryHistory)
-                .where(tryHistory.dailyWord.id.eq(dailyWordId),
-                    tryHistory.member.id.eq(memberId))
+                .where(tryHistory.wordMember.id.eq(wordMemberId))
                 .fetchOne());
     }
 

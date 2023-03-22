@@ -15,22 +15,22 @@ public class DailyWordRepositoryImpl implements DailyWordRepositorySupport {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    @Override
-    public List<DailyWordRes> findAllByMemberId(Long memberId) {
-        return jpaQueryFactory.select(
-                new QDailyWordRes(
-                    dailyWord.id.as("dailyWordId"),
-                    dailyWord.word.as("word"),
-                    dailyWord.guideWord.as("guidWord"),
-                    tryHistory.tryCount.as("tryCount"),
-                    tryHistory.successCount.as("successCount")
-                )
-            )
-            .from(dailyWord)
-            .leftJoin(tryHistory)
-            .on(tryHistory.type.eq(PronunciationType.DAILY_WORD),
-                tryHistory.dailyWord.id.eq(dailyWord.id),
-                tryHistory.member.id.eq(memberId))
-            .fetch();
-    }
+//    @Override
+//    public List<DailyWordRes> findAllByMemberId(Long memberId) {
+//        return jpaQueryFactory.select(
+//                new QDailyWordRes(
+//                    dailyWord.id.as("dailyWordId"),
+//                    dailyWord.word.as("word"),
+//                    dailyWord.guideWord.as("guidWord"),
+//                    tryHistory.tryCount.as("tryCount"),
+//                    tryHistory.successCount.as("successCount")
+//                )
+//            )
+//            .from(dailyWord)
+//            .leftJoin(tryHistory)
+//            .on(tryHistory.type.eq(PronunciationType.DAILY_WORD),
+//                tryHistory.dailyWord.id.eq(dailyWord.id),
+//                tryHistory.member.id.eq(memberId))
+//            .fetch();
+//    }
 }

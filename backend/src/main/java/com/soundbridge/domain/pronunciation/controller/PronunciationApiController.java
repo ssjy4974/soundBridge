@@ -1,10 +1,12 @@
 package com.soundbridge.domain.pronunciation.controller;
 
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import com.soundbridge.domain.pronunciation.service.BasicLetterService;
 import com.soundbridge.domain.pronunciation.service.DailyWordService;
 import com.soundbridge.domain.pronunciation.service.TryHistoryService;
+import com.soundbridge.domain.pronunciation.service.WordMemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PronunciationApiController {
 
     private final BasicLetterService basicLetterService;
+    private final WordMemberService wordMemberService;
     private final DailyWordService dailyWordService;
     private final TryHistoryService tryHistoryService;
 
@@ -43,7 +46,8 @@ public class PronunciationApiController {
         @ApiResponse(responseCode = "200", description = "일상 단어 전체 조회 성공"),
     })
     public ResponseEntity<List<DailyWordRes>> dailyWordList(Authentication authentication) {
-        return ResponseEntity.ok(dailyWordService.findAllDailyWords(1L));
+
+        return ResponseEntity.ok(wordMemberService.findAllDailyWords(1L));
     }
 
     @PostMapping("/try-histories/basic-letters/{basicLetterId}")
@@ -59,16 +63,16 @@ public class PronunciationApiController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/try-histories/daily-words/{dailyWordId}")
-    @Operation(summary = "일살 단어 발음 연습, 시도횟수 업데이트")
+    @PostMapping("/try-histories/daily-words/{wordMemberId}")
+    @Operation(summary = "일상 단어 발음 연습, 시도횟수 업데이트")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "일상 단어 발음 연습, 시도횟수 업데이트 성공"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 일상 단어")
     })
-    public ResponseEntity tryHistorySaveOrUpdateByDailyWord(@PathVariable Long dailyWordId,
+    public ResponseEntity tryHistorySaveOrUpdateByDailyWord(@PathVariable Long wordMemberId,
         Authentication authentication) {
-        tryHistoryService.saveOrUpdateByDailyWord(dailyWordId, 1L);
+        tryHistoryService.saveOrUpdateBywordMemberId(wordMemberId, 1L);
         return ResponseEntity.ok().build();
     }
 
@@ -94,9 +98,9 @@ public class PronunciationApiController {
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 단어"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 기록")
     })
-    public ResponseEntity tryHistoryUpdateByDailyWord(@PathVariable Long dailyWordId,
+    public ResponseEntity tryHistoryUpdateByDailyWord(@PathVariable Long wordMemberId,
         Authentication authentication) {
-        tryHistoryService.updateByDailyWord(dailyWordId, 1L);
+        tryHistoryService.updateBywordMemberId(wordMemberId);
         return ResponseEntity.ok().build();
     }
 

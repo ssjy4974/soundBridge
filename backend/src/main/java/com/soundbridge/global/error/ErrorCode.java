@@ -19,6 +19,7 @@ public enum ErrorCode {
     MEETING_ROOM_NOT_FOUND(404, "meetingRoom not found."),
     CATEGORY_NOT_FOUND(404, "category not found."),
     FEATURE_NOT_FOUND(404, "feature not found."),
+    WORDMEMBER_NOT_FOUND(404, "wordMember not found."),
     EXCEED_FILE_SIZE(413, "file size can't exceed 2MB"),
     EXTENSION_NOT_ALLOWED(415, "extension not allowed."),
     ;

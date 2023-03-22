@@ -6,9 +6,11 @@ import com.soundbridge.domain.pronunciation.entity.BasicLetter;
 import com.soundbridge.domain.pronunciation.entity.DailyWord;
 import com.soundbridge.domain.pronunciation.entity.PronunciationType;
 import com.soundbridge.domain.pronunciation.entity.TryHistory;
+import com.soundbridge.domain.pronunciation.entity.WordMember;
 import com.soundbridge.domain.pronunciation.repository.BasicLetterRepository;
 import com.soundbridge.domain.pronunciation.repository.DailyWordRepository;
 import com.soundbridge.domain.pronunciation.repository.TryHistoryRepository;
+import com.soundbridge.domain.pronunciation.repository.WordMemberRepository;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.NotFoundException;
 import java.util.Optional;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TryHistoryService {
 
     private final BasicLetterRepository basicLetterRepository;
+    private final WordMemberRepository wordMemberRepository;
     private final DailyWordRepository dailyWordRepository;
     private final TryHistoryRepository tryHistoryRepository;
     private final MemberRepository memberRepository;
@@ -61,19 +64,19 @@ public class TryHistoryService {
     /**
      * 일상 단어 발음 연습 , 시도횟수 업데이트
      *
-     * @param dailyWordId
+     * @param wordMemberId
      * @param memberId
      */
-    public void saveOrUpdateByDailyWord(Long dailyWordId, Long memberId) {
+    public void saveOrUpdateBywordMemberId(Long wordMemberId, Long memberId) {
         final Member member = memberRepository.findById(memberId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        final DailyWord dailyWord = dailyWordRepository.findById(dailyWordId)
+        final WordMember wordMember = wordMemberRepository.findById(wordMemberId)
             .orElseThrow(() ->
-                new NotFoundException(ErrorCode.DAILY_WORD_NOT_FOUND));
+                new NotFoundException(ErrorCode.WORDMEMBER_NOT_FOUND));
 
-        final Optional<TryHistory> getTryHistory = tryHistoryRepository.findByDailyWordIdAndMemberId(
-            dailyWordId, memberId);
+        final Optional<TryHistory> getTryHistory = tryHistoryRepository.findBywordMemberId(
+            wordMemberId);
 
         // 이미 존재 하는 경우 업데이트 로직 수행
         if (getTryHistory.isPresent()) {
@@ -81,7 +84,7 @@ public class TryHistoryService {
         } else { // 없으면 save 로직 수행
             final TryHistory tryHistory = TryHistory.builder()
                 .member(member)
-                .dailyWord(dailyWord)
+                .wordMember(wordMember)
                 .type(PronunciationType.DAILY_WORD)
                 .build();
 
@@ -112,17 +115,16 @@ public class TryHistoryService {
     /**
      * 일상 단어 성공 업데이트
      *
-     * @param dailyWordId
-     * @param memberId
+     * @param wordMemberId
      */
-    public void updateByDailyWord(Long dailyWordId, Long memberId) {
+    public void updateBywordMemberId(Long wordMemberId) {
 
-        dailyWordRepository.findById(dailyWordId)
+        final WordMember wordMember = wordMemberRepository.findById(wordMemberId)
             .orElseThrow(() ->
-                new NotFoundException(ErrorCode.DAILY_WORD_NOT_FOUND));
+                new NotFoundException(ErrorCode.WORDMEMBER_NOT_FOUND));
 
-        TryHistory tryHistory = tryHistoryRepository.findByDailyWordIdAndMemberId(
-            dailyWordId, memberId).orElseThrow(() ->
+        TryHistory tryHistory = tryHistoryRepository.findBywordMemberId(
+            wordMemberId).orElseThrow(() ->
             new NotFoundException(ErrorCode.TRY_HISTORY_NOT_FOUND));
 
         tryHistory.increaseSuccessCount();
