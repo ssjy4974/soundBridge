@@ -68,25 +68,31 @@ const routes = [
   },
   // 발음 교정 경로들
   {
+    path: "/practiceselect",
+    name: "practiceselect",
+    component: PracticeSelect,
+  },
+  {
     path: "/practicebasics",
     name: "practicebasics",
     component: PracticeBasics,
-    //detail child로 만들기
-    children: [
-      { path: "practicebasicsdetail", component: PracticeBasicsDetail },
-    ],
+  },
+  {
+    path: "/basicsdetail",
+    name: "basicsdetail",
+    component: PracticeBasicsDetail,
   },
   {
     path: "/practicewords",
     name: "practicewords",
     component: PracticeWords,
-    //detail child로 만들기
   },
   {
-    path: "/practiceselect",
-    name: "practiceselect",
-    component: PracticeSelect,
+    path: "/wordsdetail",
+    name: "wordsdetail",
+    component: PracticeWordsDetail,
   },
+  // Feedback Openvidu
   {
     path: "/feedbackMeeting/:meetingId",
     name: "feedbackMeeting",

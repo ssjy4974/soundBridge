@@ -16,7 +16,7 @@
       </router-link>
     </div>
     <div>
-      <router-link to="/mypage">
+      <router-link to="/mypaged">
         <font-awesome-icon icon="fa-solid fa-user" />
       </router-link>
     </div>
@@ -37,7 +37,7 @@
 
   padding-inline: 10vw;
 
-  position: relative;
-  transform: translateY(-100%);
+  position: fixed;
+  bottom: 0vh;
 }
 </style>

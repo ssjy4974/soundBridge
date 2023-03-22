@@ -1,6 +1,8 @@
 <template>
   <div class="header pre__border">
-    <p>Header</p>
+    <router-link to="/">
+      <p>Header</p>
+    </router-link>
   </div>
 </template>
 
