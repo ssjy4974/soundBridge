@@ -85,6 +85,7 @@ onBeforeMount(() => {
         alert("상담이 종료 되었습니다.");
         leaveSession();
       });
+      console.log(res.data);
       openviduInfo.value.session
         .connect(res.data, {
           clientData: "test",
