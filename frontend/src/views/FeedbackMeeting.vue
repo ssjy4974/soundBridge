@@ -58,19 +58,18 @@ onBeforeMount(() => {
     .then((res) => {
       openviduInfo.value.OV = new OpenVidu();
       // openviduInfo.value.OV.enableProdMode();
-      console.log("여기까지 옴");
       openviduInfo.value.session = openviduInfo.value.OV.initSession();
-      console.log(openviduInfo.value.session);
       // On every new Stream received...
+      console.log("streamCreate 전 ");
       openviduInfo.value.session.on("streamCreated", ({ stream }) => {
         const subscriber = openviduInfo.value.session.subscribe(stream);
         openviduInfo.value.subscribers.push(subscriber);
       });
+      console.log("streamCreate 후");
       // On every Stream destroyed...
       openviduInfo.value.session.on("streamDestroyed", ({ stream }) => {
         const index = openviduInfo.value.subscribers.indexOf(
-          stream.streamManager,
-          0
+          stream.streamManager
         );
         if (index >= 0) {
           openviduInfo.value.subscribers.splice(index, 1);
@@ -78,6 +77,7 @@ onBeforeMount(() => {
       });
       // On every asynchronous exception...
       openviduInfo.value.session.on("exception", ({ exception }) => {
+        console.log("여긴가?");
         console.warn(exception);
       });
 
@@ -90,6 +90,7 @@ onBeforeMount(() => {
           clientData: "test",
         })
         .then(() => {
+          console.log("session connect 안에 들어옴");
           let publisher = openviduInfo.value.OV.initPublisher(undefined, {
             audioSource: undefined,
             videoSource: undefined,
