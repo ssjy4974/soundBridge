@@ -58,7 +58,9 @@ onBeforeMount(() => {
     .then((res) => {
       openviduInfo.value.OV = new OpenVidu();
       // openviduInfo.value.OV.enableProdMode();
+      console.log("여기까지 옴");
       openviduInfo.value.session = openviduInfo.value.OV.initSession();
+      console.log(openviduInfo.value.session);
       // On every new Stream received...
       openviduInfo.value.session.on("streamCreated", ({ stream }) => {
         const subscriber = openviduInfo.value.session.subscribe(stream);
