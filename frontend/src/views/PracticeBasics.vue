@@ -1,12 +1,5 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <h1>
-      발음 교정 기본 자음모음 메뉴 페이지 api 가져온거 연결하면서 디자인 바꿀
-      생각이라 일단 공백
-    </h1>
-    <BasicsList />
-=======
     <h3>발음 교정 기본 자음모음 메뉴 페이지</h3>
     <ul v-for="(basicLetter, index) in basicLetterList" :key="index">
       <li>{{ basicLetter.basicLetterId }}</li>
@@ -20,22 +13,12 @@
         <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
       </router-link>
     </ul>
->>>>>>> 58a4efd (S08P22A703-281 feat : 기본 발음 전체 조회 API 연결)
   </div>
 </template>
 
 <script setup>
-<<<<<<< HEAD
-import BasicsList from "@/components/practice/BasicsList.vue";
-</script>
-=======
 import { apiInstance } from "@/api/index";
 import { ref } from "vue";
-<<<<<<< HEAD
-import PracticeBasicsDetail from "./PracticeBasicsDetail.vue";
->>>>>>> 58a4efd (S08P22A703-281 feat : 기본 발음 전체 조회 API 연결)
-=======
->>>>>>> b0c4b4e (feat : page routing 구현)
 
 const api = apiInstance();
 const basicLetterList = ref();

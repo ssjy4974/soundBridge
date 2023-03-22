@@ -71,8 +71,6 @@ const routes = [
   },
   // 발음 교정 경로들
   {
-<<<<<<< HEAD
-=======
     path: "/practicebasics",
     name: "practicebasics",
     component: PracticeBasics,
@@ -89,7 +87,6 @@ const routes = [
     //detail child로 만들기
   },
   {
->>>>>>> b0c4b4e (feat : page routing 구현)
     path: "/practiceselect",
     name: "practiceselect",
     component: PracticeSelect,

@@ -7,11 +7,7 @@
 </template>
 
 <script setup>
-<<<<<<< HEAD
-import BasicsDetail from "@/components/practice/BasicsDetail.vue";
-=======
 import { apiInstance } from "@/api/index";
->>>>>>> b0c4b4e (feat : page routing 구현)
 </script>
 
 <style scoped></style>
