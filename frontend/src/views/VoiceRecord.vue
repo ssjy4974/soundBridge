@@ -1,13 +1,26 @@
 <template>
   <div>
-    <h3>{{ sentence }}</h3>
+    <div id="sentenceSection">
+      <h3>{{ sentence }}</h3>
+    </div>
 
-    <br /><br />
-    <audio controls>녹음된 소리를 재생할 audio 엘리먼트</audio>
+    <div id="audioSection">
+      <audio controls>녹음된 소리를 재생할 audio 엘리먼트</audio>
+    </div>
+
     <br />
-    <button @click="record" v-if="!isRecording">시작</button>
-    <button @click="stop" v-else>종료</button>
-    <button v-if="curFile" @click="save">저장하기</button>
+    <div id="recordBtnSection">
+      <button class="recordBtn" @click="record" v-if="!isRecording">
+        <img src="../assets/img/mike.png" />
+      </button>
+      <button class="recordBtn" @click="stop" v-else>
+        <img src="../assets/img/stop.png" />
+      </button>
+    </div>
+
+    <div id="saveBtnSection">
+      <button id="saveBtn" v-if="curFile" @click="save">저장 하기</button>
+    </div>
 
     <h3>{{ sentenceNum }}/3922</h3>
   </div>
@@ -88,8 +101,32 @@ const save = () => {
       sentenceNum.value = res.data.sentence_id;
       const audioEl = document.querySelector("audio");
       audioEl.setAttribute("src", null);
+      curFile.value = null;
     });
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.recordBtn {
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: transparent;
+  border: none;
+
+  color: #ffffff;
+}
+
+.recordBtn img {
+  width: 30px;
+  height: 30px;
+}
+
+#saveBtn {
+  width: 280px;
+  height: 32px;
+  background-color: #2bacff;
+  border-radius: 32px;
+  color: #ffffff;
+  line-height: 0px;
+}
+</style>
