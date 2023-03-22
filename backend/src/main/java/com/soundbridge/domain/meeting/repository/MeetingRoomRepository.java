@@ -9,6 +9,7 @@ import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -37,10 +38,8 @@ public class MeetingRoomRepository {
     public void create(String code) throws OpenViduJavaClientException, OpenViduHttpException {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("customSessionId", code);
-
         SessionProperties properties = SessionProperties.fromJson(paramMap).build();
         openvidu.createSession(properties);
-
     }
 
     public String join(String code)
