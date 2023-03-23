@@ -21,6 +21,7 @@ import PracticeWordsDetail from "../views/PracticeWordsDetail.vue";
 import PracticeSelect from "../views/PracticeSelect.vue";
 
 // 목소리 녹음
+import RecordState from "../components/mypage/RecordState.vue";
 import VoiceRecord from "../views/VoiceRecord.vue";
 
 // 마이 페이지 상담 조회
@@ -49,6 +50,10 @@ const routes = [
     path: "/mypagev",
     name: "mypagevolunteer",
     component: MypageVolunteer,
+    children: [
+      { path: "recordState", component: RecordState },
+      { path: "meetings", component: MyMeetings },
+    ],
   },
 
   // 발화 경로
