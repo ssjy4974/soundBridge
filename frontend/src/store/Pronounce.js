@@ -3,6 +3,10 @@ import { ref } from "vue";
 
 export const usePronounce = defineStore("pronounce", () => {
   // state  == ref(), useState() 변수
+
+  // 내가 쓰는 문장 저장
+
+  // 내가 쓰는 문장
   const freqUsedPhrase = ref();
   const freqUsedCat = ref(["일상", "마트", "교통수단"]);
   // action == function()  함수 -
