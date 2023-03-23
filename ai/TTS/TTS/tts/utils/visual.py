@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
-from TTS.tts.utils.text import phoneme_to_sequence, sequence_to_phoneme
+from TTS.TTS.tts.utils.text import phoneme_to_sequence, sequence_to_phoneme
 
 matplotlib.use("Agg")
 

@@ -3,8 +3,8 @@ import math
 import numpy as np
 import torch
 
-from TTS.vocoder.layers.parallel_wavegan import ResidualBlock
-from TTS.vocoder.layers.upsample import ConvUpsample
+from TTS.TTS.vocoder.layers.parallel_wavegan import ResidualBlock
+from TTS.TTS.vocoder.layers.upsample import ConvUpsample
 
 
 class ParallelWaveganGenerator(torch.nn.Module):

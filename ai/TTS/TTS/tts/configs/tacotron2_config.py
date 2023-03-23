@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from TTS.tts.configs.tacotron_config import TacotronConfig
+from TTS.TTS.tts.configs.tacotron_config import TacotronConfig
 
 
 @dataclass

@@ -8,8 +8,8 @@ from shutil import copyfile
 import gdown
 import requests
 
-from TTS.config import load_config
-from TTS.utils.generic_utils import get_user_data_dir
+from TTS.TTS.config import load_config
+from TTS.TTS.utils.generic_utils import get_user_data_dir
 
 
 class ModelManager(object):

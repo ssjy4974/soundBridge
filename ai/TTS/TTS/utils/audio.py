@@ -4,7 +4,7 @@ import scipy.io.wavfile
 import scipy.signal
 import soundfile as sf
 
-from TTS.tts.utils.data import StandardScaler
+from TTS.TTS.tts.utils.data import StandardScaler
 
 # import pyworld as pw
 

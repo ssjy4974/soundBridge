@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from TTS.tts.configs.shared_configs import BaseTTSConfig
+from TTS.TTS.tts.configs.shared_configs import BaseTTSConfig
 
 
 @dataclass

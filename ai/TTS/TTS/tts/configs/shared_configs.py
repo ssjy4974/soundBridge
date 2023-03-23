@@ -3,7 +3,7 @@ from typing import List
 
 from coqpit import MISSING, Coqpit, check_argument
 
-from TTS.config import BaseAudioConfig, BaseDatasetConfig, BaseTrainingConfig
+from TTS.TTS.config import BaseAudioConfig, BaseDatasetConfig, BaseTrainingConfig
 
 
 @dataclass

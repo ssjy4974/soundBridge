@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 
 from coqpit import MISSING
 
-from TTS.config import BaseAudioConfig, BaseTrainingConfig
+from TTS.TTS.config import BaseAudioConfig, BaseTrainingConfig
 
 
 @dataclass

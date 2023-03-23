@@ -1,8 +1,8 @@
 import tensorflow as tf
 from tensorflow import keras
 
-from TTS.tts.tf.layers.tacotron.tacotron2 import Decoder, Encoder, Postnet
-from TTS.tts.tf.utils.tf_utils import shape_list
+from TTS.TTS.tts.tf.layers.tacotron.tacotron2 import Decoder, Encoder, Postnet
+from TTS.TTS.tts.tf.utils.tf_utils import shape_list
 
 
 # pylint: disable=too-many-ancestors, abstract-method

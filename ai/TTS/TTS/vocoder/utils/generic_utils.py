@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from matplotlib import pyplot as plt
 
-from TTS.tts.utils.visual import plot_spectrogram
+from TTS.TTS.tts.utils.visual import plot_spectrogram
 
 
 def interpolate_vocoder_input(scale_factor, spec):

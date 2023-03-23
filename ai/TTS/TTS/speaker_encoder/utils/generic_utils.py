@@ -1,6 +1,6 @@
 import re
 
-from TTS.speaker_encoder.model import SpeakerEncoder
+from TTS.TTS.speaker_encoder.model import SpeakerEncoder
 
 
 def to_camel(text):

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from TTS.vocoder.configs.shared_configs import BaseVocoderConfig
+from TTS.TTS.vocoder.configs.shared_configs import BaseVocoderConfig
 
 
 @dataclass

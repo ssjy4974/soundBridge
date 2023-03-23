@@ -1,6 +1,6 @@
 import torch
 
-from TTS.vocoder.models.melgan_generator import MelganGenerator
+from TTS.TTS.vocoder.models.melgan_generator import MelganGenerator
 
 
 class FullbandMelganGenerator(MelganGenerator):

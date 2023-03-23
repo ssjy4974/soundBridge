@@ -1,13 +1,13 @@
 import torch
 import torch.nn as nn
 
-from TTS.tts.layers.align_tts.mdn import MDNBlock
-from TTS.tts.layers.feed_forward.decoder import Decoder
-from TTS.tts.layers.feed_forward.duration_predictor import DurationPredictor
-from TTS.tts.layers.feed_forward.encoder import Encoder
-from TTS.tts.layers.generic.pos_encoding import PositionalEncoding
-from TTS.tts.layers.glow_tts.monotonic_align import generate_path, maximum_path
-from TTS.tts.utils.generic_utils import sequence_mask
+from TTS.TTS.tts.layers.align_tts.mdn import MDNBlock
+from TTS.TTS.tts.layers.feed_forward.decoder import Decoder
+from TTS.TTS.tts.layers.feed_forward.duration_predictor import DurationPredictor
+from TTS.TTS.tts.layers.feed_forward.encoder import Encoder
+from TTS.TTS.tts.layers.generic.pos_encoding import PositionalEncoding
+from TTS.TTS.tts.layers.glow_tts.monotonic_align import generate_path, maximum_path
+from TTS.TTS.tts.utils.generic_utils import sequence_mask
 
 
 class AlignTTS(nn.Module):

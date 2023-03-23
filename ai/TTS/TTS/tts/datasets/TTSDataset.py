@@ -8,8 +8,8 @@ import torch
 import tqdm
 from torch.utils.data import Dataset
 
-from TTS.tts.utils.data import prepare_data, prepare_stop_target, prepare_tensor
-from TTS.tts.utils.text import pad_with_eos_bos, phoneme_to_sequence, text_to_sequence
+from TTS.TTS.tts.utils.data import prepare_data, prepare_stop_target, prepare_tensor
+from TTS.TTS.tts.utils.text import pad_with_eos_bos, phoneme_to_sequence, text_to_sequence
 
 
 class MyDataset(Dataset):

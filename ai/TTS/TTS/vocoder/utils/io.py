@@ -5,7 +5,7 @@ import pickle as pickle_tts
 
 import torch
 
-from TTS.utils.io import RenamingUnpickler
+from TTS.TTS.utils.io import RenamingUnpickler
 
 
 def load_checkpoint(model, checkpoint_path, use_cuda=False, eval=False):  # pylint: disable=redefined-builtin

@@ -5,8 +5,8 @@ import torch
 from torch import nn
 from torch.nn import functional
 
-from TTS.tts.utils.generic_utils import sequence_mask
-from TTS.tts.utils.ssim import ssim
+from TTS.TTS.tts.utils.generic_utils import sequence_mask
+from TTS.TTS.tts.utils.ssim import ssim
 
 
 # pylint: disable=abstract-method

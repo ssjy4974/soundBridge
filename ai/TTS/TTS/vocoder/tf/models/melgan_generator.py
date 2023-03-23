@@ -3,12 +3,12 @@ import os
 
 import tensorflow as tf
 
-from TTS.vocoder.tf.layers.melgan import ReflectionPad1d, ResidualStack
+from TTS.TTS.vocoder.tf.layers.melgan import ReflectionPad1d, ResidualStack
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"  # FATAL
 logging.getLogger("tensorflow").setLevel(logging.FATAL)
 
-from TTS.vocoder.tf.layers.melgan import ReflectionPad1d, ResidualStack
+from TTS.TTS.vocoder.tf.layers.melgan import ReflectionPad1d, ResidualStack
 
 
 # pylint: disable=too-many-ancestors

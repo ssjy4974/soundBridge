@@ -7,8 +7,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # fix this
-from TTS.utils.audio import AudioProcessor as ap
-from TTS.vocoder.utils.distribution import sample_from_discretized_mix_logistic, sample_from_gaussian
+from TTS.TTS.utils.audio import AudioProcessor as ap
+from TTS.TTS.vocoder.utils.distribution import sample_from_discretized_mix_logistic, sample_from_gaussian
 
 
 def stream(string, variables):

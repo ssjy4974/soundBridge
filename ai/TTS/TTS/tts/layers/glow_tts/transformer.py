@@ -4,7 +4,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from TTS.tts.layers.glow_tts.glow import LayerNorm
+from TTS.TTS.tts.layers.glow_tts.glow import LayerNorm
 
 
 class RelativePositionMultiHeadAttention(nn.Module):

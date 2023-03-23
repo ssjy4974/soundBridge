@@ -5,16 +5,16 @@ import numpy as np
 import pysbd
 import torch
 
-from TTS.config import load_config
-from TTS.tts.utils.generic_utils import setup_model
-from TTS.tts.utils.speakers import SpeakerManager
+from TTS.TTS.config import load_config
+from TTS.TTS.tts.utils.generic_utils import setup_model
+from TTS.TTS.tts.utils.speakers import SpeakerManager
 
 # pylint: disable=unused-wildcard-import
 # pylint: disable=wildcard-import
-from TTS.tts.utils.synthesis import synthesis, trim_silence
-from TTS.tts.utils.text import make_symbols, phonemes, symbols
-from TTS.utils.audio import AudioProcessor
-from TTS.vocoder.utils.generic_utils import interpolate_vocoder_input, setup_generator
+from TTS.TTS.tts.utils.synthesis import synthesis, trim_silence
+from TTS.TTS.tts.utils.text import make_symbols, phonemes, symbols
+from TTS.TTS.utils.audio import AudioProcessor
+from TTS.TTS.vocoder.utils.generic_utils import interpolate_vocoder_input, setup_generator
 
 
 class Synthesizer(object):

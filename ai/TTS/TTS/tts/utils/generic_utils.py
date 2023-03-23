@@ -1,6 +1,6 @@
 import torch
 
-from TTS.utils.generic_utils import find_module
+from TTS.TTS.utils.generic_utils import find_module
 
 
 # from https://gist.github.com/jihunchoi/f1434a77df9db1bb337417854b398df1

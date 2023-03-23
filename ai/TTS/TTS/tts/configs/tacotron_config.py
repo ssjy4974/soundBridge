@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from TTS.tts.configs.shared_configs import BaseTTSConfig, GSTConfig
+from TTS.TTS.tts.configs.shared_configs import BaseTTSConfig, GSTConfig
 
 
 @dataclass
