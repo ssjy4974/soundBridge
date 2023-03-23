@@ -6,7 +6,7 @@ import {
   signUp,
 } from "@/api/member";
 
-export const useMypage = defineStore("mypage", {
+export const useMember = defineStore("member", {
   // state  == ref(), useState() 변수
   state: () => ({
     member: {

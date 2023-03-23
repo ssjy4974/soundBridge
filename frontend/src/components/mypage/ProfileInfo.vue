@@ -31,9 +31,9 @@
 
 <script setup>
 import { computed, ref } from "vue";
-import { useMypage } from "@/store/Member";
+import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
-const memberStore = useMypage();
+const memberStore = useMember();
 
 const { accessToken, member } = memberStore;
 const maxSize = 2 * 1024 * 1024;

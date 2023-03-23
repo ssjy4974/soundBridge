@@ -21,4 +21,14 @@ export default defineConfig({
       },
     },
   },
+  // server: {
+  //   proxy: {
+  //     "/api": {
+  //       target: "https://j8a703.p.ssafy.io",
+  //       changeOrigin: true,
+  //       secure: false,
+  //       ws: true,
+  //     },
+  //   },
+  // },
 });

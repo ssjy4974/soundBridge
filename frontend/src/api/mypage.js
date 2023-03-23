@@ -3,7 +3,7 @@ import { apiInstance } from "./index.js";
 const api = apiInstance();
 const userid = "";
 
-async function getMyVoice(memberId, nickname, accessToken, success, fail) {
+async function myVoice(memberId, nickname, accessToken, success, fail) {
   console.log("modifyNickname", memberId, nickname);
   await api.put(
     `/api/members/nickname`,
@@ -19,17 +19,27 @@ async function getMyVoice(memberId, nickname, accessToken, success, fail) {
   );
 }
 
-async function getVoiceList(formData, accessToken, success, fail) {
-  console.log("FD", typeof formData);
+async function voiceList(age, gender, features, accessToken, success, fail) {
+  console.log("VL", age, gender, features, accessToken);
   await api
-    .put(`/api/members/profile`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "access-token": accessToken,
+    .get(
+      `/api/voices`,
+      {
+        params: {
+          voiceGender: gender,
+          voiceAge: age,
+          features: features,
+        },
       },
-    })
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "access-token": accessToken,
+        },
+      }
+    )
     .then(success)
     .catch(fail);
 }
 
-export { modifyMyProfile, modifyNickName };
+export { myVoice, voiceList };
