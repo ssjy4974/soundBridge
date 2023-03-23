@@ -31,33 +31,6 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
     @Override
     public Slice<VoiceDetailRes> findAllVoiceWithPaging(Pageable pageable, Long cursorId,
         VoiceListConditionReq voiceCondReq) {
-//        final List<VoiceDetailRes> fetch = jpaQueryFactory.select(
-//                Projections.fields(VoiceDetailRes.class,
-//                    voiceFeature.voice.id.as("voiceId"),
-//                    voiceFeature.voice.voiceAge.as("age"),
-//                    voiceFeature.voice.modelUrl.as("modelUrl"),
-//                    voiceFeature.voice.voiceGender.as("voiceGender"),
-//                    voiceFeature.voice.voiceName.as("voiceName"),
-//                    voiceFeature.voice.member.id.as("memberId")
-//                ))
-//            .from(voiceFeature)
-//            .innerJoin(voiceFeature.voice, voice)
-//            .innerJoin(voiceFeature.feature,feature)
-//            .join(voiceFeature)
-//            .where(voiceAge(voiceCondReq.getVoiceAge()),
-//                voiceGender(voiceCondReq.getVoiceGender()),
-//                cursorId(cursorId)
-//                    ,(voiceFeatures(voiceCondReq.getFeatures())))
-//            .limit(pageable.getPageSize() + 1)
-//            .orderBy(voice.id.desc())
-//            .fetch();
-//
-//        boolean hasNext = false;
-//
-//        if(fetch.size() == pageable.getPageSize() + 1) {
-//            fetch.remove(pageable.getPageSize());
-//            hasNext = true;
-//        }
         List<VoiceDetailRes> transform = jpaQueryFactory.from(voiceFeature)
             .innerJoin(voiceFeature.voice, voice)
             .innerJoin(voiceFeature.feature, feature)

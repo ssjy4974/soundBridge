@@ -4,8 +4,12 @@ import com.soundbridge.domain.member.entity.Role;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class SaveAddInfoReq {
 
     @NotNull(message = "선택된 사용자가 없습니다.")
