@@ -1,10 +1,12 @@
 import re
+import os
 from unicodedata import normalize
 import g2pk as g2pk
 from TTS.TTS.utils.synthesizer import Synthesizer
 
-g2p = g2pk.G2p()
+MODEL_DIR = os.getenv('MODEL_URL')
 
+g2p = g2pk.G2p()
 
 def normalize_text(text):
     text = text.strip()
@@ -167,11 +169,11 @@ def synthesize(text):
     return wavs
 
 synthesizer = Synthesizer(
-    "./glowtts/glowtts-v2-March-15-2023_04+42AM-3aa165ae/best_model.pth.tar",
-    "./glowtts/glowtts-v2-March-15-2023_04+42AM-3aa165ae/config.json",
+    f"{MODEL_DIR}/glowtts/glowtts-v2-March-15-2023_04+42AM-3aa165ae/best_model.pth.tar",
+    f"{MODEL_DIR}/glowtts/glowtts-v2-March-15-2023_04+42AM-3aa165ae/config.json",
     None,
-    "./hifigan/hifigan-v2-March-15-2023_05+23AM-3aa165a/checkpoint_310000.pth.tar",
-    "./hifigan/hifigan-v2-March-15-2023_05+23AM-3aa165a/config.json",
+    f"{MODEL_DIR}/hifigan/hifigan-v2-March-15-2023_05+23AM-3aa165a/checkpoint_310000.pth.tar",
+    f"{MODEL_DIR}/hifigan/hifigan-v2-March-15-2023_05+23AM-3aa165a/config.json",
     None,
     None,
     False,
