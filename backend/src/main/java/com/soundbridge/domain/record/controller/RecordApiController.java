@@ -10,8 +10,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,6 +40,21 @@ public class RecordApiController {
         log.info("get Next Record {}", myNextRecord);
 
         return ResponseEntity.ok().body(myNextRecord);
+    }
+
+    @Operation(summary = "목소리 기부 시작", description = "기부 시작 시 테이블에 추가하는 메소드입니다..")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "필수값 누락"),
+            @ApiResponse(responseCode = "401", description = "인증 안됨"),
+            @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
+            @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
+    })
+    @PostMapping("/start")
+    public ResponseEntity startRecord(Authentication authentication){
+        Long memberId = 1L;
+        recordService.startRecord(memberId);
+        return ResponseEntity.ok().build();
     }
 
 }
