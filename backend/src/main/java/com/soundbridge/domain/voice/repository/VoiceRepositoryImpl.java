@@ -54,6 +54,7 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
                         voice.voiceGender.as("voiceGender"),
                         voice.voiceName.as("voiceName"),
                         voice.member.id.as("memberId"),
+                        voice.member.profile.as("profile"),
                         list(new QFeatureRes(
                             feature.id.as("featureId"),
                             feature.featureName.as("featureName")
