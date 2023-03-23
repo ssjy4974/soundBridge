@@ -7,7 +7,6 @@
         @click="changeProfile"
         alt="profile"
         id="profile"
-        :key="updateImage"
       />
       <div id="div_modifyImg">
         <input
@@ -23,10 +22,22 @@
         </label>
       </div>
     </div>
-    <p>img onclick 시 파일 선택할수 있게</p>
     <div>
-      <h3>Nick Name</h3>
-      <font-awesome-icon icon="fa-solid fa-pen" />
+      <div id="nickname" v-if="!save">
+        <span id="nickNameSpan">{{ member.nickname }} </span>
+        <span @click="modifyNameInput">
+          <font-awesome-icon icon="fa-solid fa-pen" />
+        </span>
+      </div>
+      <div v-else>
+        <form id="modifyInput" @submit="modifyName" onsubmit="return false">
+          <input type="text" v-model="name" /><br />
+          <button type="button" @click="modifyName">수정</button>
+        </form>
+        <span v-if="checkNickname" id="checkNickname">
+          2~15글자내외, 특수문자 사용 불가능
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -35,13 +46,35 @@
 import { computed, ref } from "vue";
 import { useMypage } from "@/store/Member";
 import { storeToRefs } from "pinia";
-const maxSize = 2 * 1024 * 1024;
-
 const memberStore = useMypage();
 
-const updateImage = ref(0);
+const { accessToken, member } = memberStore;
+const maxSize = 2 * 1024 * 1024;
 
-const { accessToken, member } = storeToRefs(memberStore);
+let name = ref(member.nickname);
+let checkNickname = ref(false);
+
+let save = ref(false);
+
+const modifyNameInput = () => {
+  save.value = !save.value;
+};
+
+let reg_nickname = /^[A-z가-힣0-9_-]{2,15}$/;
+const modifyName = (e) => {
+  console.log("닉네임 수정 버튼?", name.value);
+  if (reg_nickname.test(name.value)) {
+    memberStore.modifyNickName(name.value);
+  } else {
+    console.log("닉네임 규칙에 맞게");
+    if (!checkNickname.value) {
+      checkNickname.value = !checkNickname.value;
+    }
+  }
+  name = ref(member.nickname);
+  save.value = !save.value;
+  console.log("save ", save.value);
+};
 
 const imgUploadEvent = (e) => {
   console.log(accessToken, "  id ", member.profile);
@@ -86,6 +119,10 @@ const changeProfile = (f) => {
   background-color: white;
   width: 30px;
   height: 30px;
+}
+
+#nickNameSpan {
+  margin-right: 10px;
 }
 </style>
 <!-- style="display: none" -->

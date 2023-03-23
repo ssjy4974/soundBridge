@@ -3,7 +3,7 @@ import { apiInstance } from "./index.js";
 const api = apiInstance();
 const userid = "";
 
-async function modifyNickName(memberId, nickname, accessToken, success, fail) {
+async function getMyVoice(memberId, nickname, accessToken, success, fail) {
   console.log("modifyNickname", memberId, nickname);
   await api.put(
     `/api/members/nickname`,
@@ -19,7 +19,7 @@ async function modifyNickName(memberId, nickname, accessToken, success, fail) {
   );
 }
 
-async function modifyMyProfile(formData, accessToken, success, fail) {
+async function getVoiceList(formData, accessToken, success, fail) {
   console.log("FD", typeof formData);
   await api
     .put(`/api/members/profile`, formData, {

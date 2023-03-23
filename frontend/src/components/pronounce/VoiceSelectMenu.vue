@@ -1,14 +1,7 @@
 <template>
-  <div class="flex flex-col justify-start items-start relative gap-[17px]">
-    <p
-      class="flex-grow-0 flex-shrink-0 w-[88px] h-[18px] text-base font-bold text-center text-black"
-    >
-      내 목소리
-    </p>
-    <div
-      class="flex flex-col justify-start items-end flex-grow-0 flex-shrink-0 gap-2 p-2 rounded-2xl border border-[#c9c9c9]"
-      style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))"
-    >
+  <div class="">
+    <p class="">내 목소리</p>
+    <div style="filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))">
       <div
         class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-2 px-2"
       >
@@ -30,36 +23,18 @@
             stroke-linejoin="round"
           ></path>
         </svg>
-        <div
-          class="flex flex-col justify-start items-start flex-grow-0 flex-shrink-0 w-[220px] relative gap-4"
-        >
+        <div>
           <p
             class="flex-grow-0 flex-shrink-0 w-[151px] h-4 text-base font-bold text-left text-black"
           >
             목소리 이름
           </p>
-          <p
-            class="self-stretch flex-grow-0 flex-shrink-0 w-[220px] text-xs font-bold text-left text-[#b4b4b4]"
-          >
-            <span
-              class="self-stretch flex-grow-0 flex-shrink-0 w-[220px] text-xs font-bold text-left text-[#b4b4b4]"
-              >#성별 #나이대 #목소리 톤 #분위기</span
-            ><br />
-          </p>
+          <p class=""><span>#성별 #나이대 #목소리 톤 #분위기</span><br /></p>
         </div>
       </div>
-      <div
-        class="flex justify-end items-center flex-grow-0 flex-shrink-0 rounded-lg"
-      >
-        <div
-          class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2 px-[18px] py-2.5 rounded-3xl bg-[#8ad1ff] border border-[#8ad1ff]"
-          style="box-shadow: 0px 1px 2px 0 rgba(16, 24, 40, 0.05)"
-        >
-          <p
-            class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left text-white"
-          >
-            선택하기
-          </p>
+      <div>
+        <div style="box-shadow: 0px 1px 2px 0 rgba(16, 24, 40, 0.05)">
+          <p>선택하기</p>
         </div>
       </div>
     </div>
