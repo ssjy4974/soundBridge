@@ -11,7 +11,7 @@
       </router-link>
     </div>
     <div>
-      <router-link to="/mypage">
+      <router-link to="/mypagev">
         <font-awesome-icon icon="fa-solid fa-user" />
       </router-link>
     </div>

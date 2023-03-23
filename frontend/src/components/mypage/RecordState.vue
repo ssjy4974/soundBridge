@@ -1,15 +1,15 @@
 <template>
-  <div>현재 녹음 중인 문장</div>
+  <div class="text">현재 녹음 중인 문장</div>
 
   <div>{{ sentence }}</div>
 
-  <div>목소리 생성 진행도</div>
+  <div class="text">목소리 생성 진행도</div>
   <div id="myProgress">
     <div id="myBar">{{ per }}%</div>
   </div>
 
   <div id="buttonSection">
-    <button id="recordBtn" v-if="per == 0" @click="toRecord">
+    <button id="recordBtn" v-if="per == 0" @click="startRecord">
       기부 시작하기
     </button>
     <button id="recordBtn" v-else @click="toRecord">기부 이어하기</button>
@@ -48,6 +48,12 @@ onBeforeMount(() => {
 const toRecord = () => {
   router.replace(`/record`);
 };
+
+const startRecord = () => {
+  api.post("/api/records/start").then(() => {
+    router.replace(`/record`);
+  });
+};
 </script>
 
 <style scoped>
@@ -73,5 +79,13 @@ const toRecord = () => {
   background-color: #8ad1ff;
   text-align: center;
   color: #0b76bb;
+}
+
+#buttonSection {
+  margin-top: 20px;
+}
+
+.text {
+  font-weight: bold;
 }
 </style>
