@@ -4,9 +4,11 @@ import com.querydsl.core.annotations.QueryProjection;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class VoiceDetailRes {
 
     private Long voiceId;
@@ -15,30 +17,19 @@ public class VoiceDetailRes {
     private String voiceGender;
     private String voiceName;
     private Long memberId;
+    private String profile;
     private List<FeatureRes> featureResList;
 
     @QueryProjection
     public VoiceDetailRes(Long voiceId, int age, String modelUrl, String voiceGender,
-        String voiceName, Long memberId, List<FeatureRes> featureResList) {
+        String voiceName, Long memberId, String profile, List<FeatureRes> featureResList) {
         this.voiceId = voiceId;
         this.age = age;
         this.modelUrl = modelUrl;
         this.voiceGender = voiceGender;
         this.voiceName = voiceName;
         this.memberId = memberId;
+        this.profile = profile;
         this.featureResList = featureResList;
-    }
-
-    @Override
-    public String toString() {
-        return "VoiceDetailRes{" +
-            "voiceId=" + voiceId +
-            ", age=" + age +
-            ", modelUrl='" + modelUrl + '\'' +
-            ", voiceGender='" + voiceGender + '\'' +
-            ", voiceName='" + voiceName + '\'' +
-            ", memberId=" + memberId +
-            ", featureResList=" + featureResList +
-            '}';
     }
 }
