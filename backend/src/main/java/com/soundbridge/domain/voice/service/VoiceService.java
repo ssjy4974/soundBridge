@@ -40,6 +40,12 @@ public class VoiceService {
         return voiceRepository.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq);
     }
 
+
+    public Object findMyVocieByMemberId(Long memberId) {
+        log.info("voiceListConditionReq {}", memberId.toString());
+        return voiceRepository.findMyVocieByMemberId(memberId);
+    }
+
     public void selectByVoiceId(Long memberId, VoiceSelectionReq voiceSelectionReq) {
         log.info("select voice m:{}, v:{}", voiceSelectionReq.getMemberId(),
             voiceSelectionReq.getVoiceId());
@@ -67,4 +73,5 @@ public class VoiceService {
 
         voiceRepository.deleteById(voiceDeleteReq.getVoiceId());
     }
+
 }
