@@ -1,7 +1,10 @@
 <template>
   <div class="header pre__border">
-    <router-link to="/">
-      <p>Header</p>
+    <router-link to="/pronounce">
+      <p>Header disabled</p>
+    </router-link>
+    <router-link to="/mypagev">
+      <p>Header volunteer</p>
     </router-link>
   </div>
 </template>
