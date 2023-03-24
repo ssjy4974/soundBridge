@@ -38,7 +38,7 @@ public class BasicLetterRepositoryImpl implements BasicLetterRepositorySupport {
     }
 
     @Override
-    public Optional<BasicLetterRes> findOne(Long basicLetterId) {
+    public Optional<BasicLetterRes> findOne(Long basicLetterId, Long memberId) {
         return Optional.ofNullable(jpaQueryFactory.select(
                 new QBasicLetterRes(
                     basicLetter.id.as("basicLetterId"),
@@ -54,7 +54,8 @@ public class BasicLetterRepositoryImpl implements BasicLetterRepositorySupport {
             .leftJoin(tryHistory)
             .on(tryHistory.type.eq(PronunciationType.BASIC_LETTER),
                 tryHistory.basicLetter.id.eq(basicLetter.id),
-                tryHistory.basicLetter.id.eq(basicLetterId))
+                tryHistory.member.id.eq(memberId))
+            .where(basicLetter.id.eq(basicLetterId))
             .fetchOne());
     }
 }

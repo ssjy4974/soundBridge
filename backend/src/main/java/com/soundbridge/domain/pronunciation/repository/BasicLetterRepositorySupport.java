@@ -8,5 +8,5 @@ public interface BasicLetterRepositorySupport {
 
     List<BasicLetterRes> findAllByMemberId(Long memberId);
 
-    Optional<BasicLetterRes> findOne(Long basicLetterId);
+    Optional<BasicLetterRes> findOne(Long basicLetterId, Long memberId);
 }
