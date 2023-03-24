@@ -44,6 +44,16 @@ export const useMypage = defineStore("mypage", {
         }
       );
     },
+
+    async setAccessToken(accessToken) {
+      this.accessToken = accessToken;
+    },
+  },
+
+  getters: {
+    getMemberInfo(state) {
+      return state.member;
+    },
   },
 
   // return {states, action} 반환 하면됨

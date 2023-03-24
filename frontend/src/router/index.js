@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 // 회원 페이지
 import Login from "../views/Login.vue";
+import LoginSuccess from "../components/LoginSuccess.vue";
 import MypageDisabled from "../views/MypageDisabled.vue";
 import MypageVolunteer from "../views/MypageVolunteer.vue";
 
@@ -34,6 +35,11 @@ const routes = [
     path: "/",
     name: "login",
     component: Login,
+  },
+  {
+    path: "/login-success",
+    name: "loginSuccess",
+    component: LoginSuccess,
   },
   // 회원 유형별로 경로 다르게 어케함?
   {
