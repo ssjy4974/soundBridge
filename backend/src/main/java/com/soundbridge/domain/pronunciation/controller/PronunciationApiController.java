@@ -112,7 +112,7 @@ public class PronunciationApiController {
     })
     public ResponseEntity<BasicLetterRes> basicLetterDetails(@PathVariable Long basicLetterId,
         Authentication authentication) {
-        return ResponseEntity.ok(basicLetterService.findBasicLetter(basicLetterId));
+        return ResponseEntity.ok(basicLetterService.findBasicLetter(basicLetterId, 1L));
     }
 
 }

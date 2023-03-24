@@ -32,8 +32,8 @@ public class BasicLetterService {
      * @param basicLetterId
      * @return
      */
-    public BasicLetterRes findBasicLetter(Long basicLetterId) {
-        return basicLetterRepository.findOne(basicLetterId).orElseThrow(() ->
+    public BasicLetterRes findBasicLetter(Long basicLetterId, Long memberId) {
+        return basicLetterRepository.findOne(basicLetterId, memberId).orElseThrow(() ->
             new NotFoundException(ErrorCode.BASIC_LETTER_NOT_FOUND));
     }
 }
