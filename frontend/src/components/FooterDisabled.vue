@@ -1,5 +1,5 @@
 <template>
-  <div class="footer pre__border">
+  <div class="footer">
     <div>
       <router-link to="/pronounce">
         <font-awesome-icon icon="fa-regular fa-comments" />
@@ -27,16 +27,15 @@
 
 <style scoped>
 .footer {
-  width: 60vw;
-  height: 48px;
+  width: 100vw;
+  height: 56px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   text-align: center;
   align-content: center;
-  background-color: aqua;
-
-  padding-inline: 10vw;
-
+  background-color: var(--maincolor2);
+  align-items: center;
+  border-radius: 20px 24px 0px 0px;
   position: fixed;
   bottom: 0vh;
 }

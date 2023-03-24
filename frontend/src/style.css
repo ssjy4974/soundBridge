@@ -1,6 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 a {
   font-weight: 500;
   color: #646cff;
@@ -21,11 +18,12 @@ a:hover {
 
 body {
   display: flex;
-  /* place-items: center; */
   min-width: 320px;
   max-width: 450px;
   min-height: 100vh;
   overflow-y: scroll;
+  /* overflow-x: scroll; */
+  margin: 0;
 }
 
 button {
@@ -46,13 +44,48 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* 임시로 컨테이너 차지하는 영역 보기 위한 보더 표시줄  */
+.pre__border {
+  border: solid 1px;
+}
+
+/* 여기서 상황에 맞게 수정해서쓰면됨 */
+.modal {
+  background-color: aqua;
+  margin: auto;
+  align-self: center;
+  position: fixed;
+  top: 30vh;
+  left: 10vw;
+  width: 80%;
+  z-index: 2;
+}
+
+/* Figma에 있는 색깔들 변수화 */
 #app {
   /* text-align: center; */
   width: 100vw;
   height: auto;
 }
 
-/* 임시로 컨테이너 차지하는 영역 보기 위한 보더 표시줄  */
-.pre__border {
-  border: solid 1px;
+.blue__color {
+  --maincolor2: #bae4ff;
+  --maincolor3: #8ad1ff;
+  --maincolor4: #5bbeff;
+  --maincolor5: #2bacff;
+  --maincolor6: #1990dd;
+  --maincolor7: #0b76bb;
+  --maincolor8: #005d99;
+}
+.black__color {
+  --black1: #ffffff;
+  --black2: #f1f1f1;
+  --black3: #dddddd;
+  --black4: #c9c9c9;
+  --black5: #b4b4b4;
+  --black6: #a0a0a0;
+  --black7: #8b8b8b;
+  --black8: #777777;
+  --black9: #636363;
+  --black10: #4e4e4e;
 }

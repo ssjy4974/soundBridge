@@ -11,7 +11,10 @@
     />
     <div>
       <button @click="createModalHandler">피드백 요청글 작성하기</button>
-      <FeedbackCreateModal v-if="createModal" />
+      <FeedbackCreateModal
+        v-if="createModal"
+        @closemodal="createModalHandler"
+      />
     </div>
   </div>
 </template>

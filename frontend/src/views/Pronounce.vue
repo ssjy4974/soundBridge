@@ -3,7 +3,7 @@
     <div>
       <FreqUsedPhrase />
     </div>
-    <div class="pre__border">
+    <div class="">
       <DirectTTS />
     </div>
     <div>
