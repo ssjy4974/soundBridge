@@ -28,7 +28,7 @@
   justify-content: space-between;
   text-align: center;
   align-content: center;
-  background-color: aqua;
+  background-color: var(--maincolor2);
 
   padding-inline: 10vw;
 

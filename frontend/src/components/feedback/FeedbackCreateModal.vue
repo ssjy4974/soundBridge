@@ -1,22 +1,29 @@
 <template>
   <div class="base__modal">
-    <p>제목</p>
-    <input
-      v-model="feedbackArticleSaveReq.title"
-      type="text"
-      placeholder="제목을 입력하세요"
-    />
-    <div>
+    <div @click="$emit('closemodal')" class="close__modal">
+      <font-awesome-icon icon="fa-solid fa-xmark" />
+    </div>
+    <div class="feedback__title">
+      <span>제목 </span>
+      <input
+        v-model="feedbackArticleSaveReq.title"
+        type="text"
+        placeholder="제목을 입력하세요"
+      />
+    </div>
+    <div class="date__picker">
       <VueDatePicker
         v-model="startTime"
         show-now-button
         :min-date="new Date()"
       ></VueDatePicker>
+      <br />
       <VueDatePicker
         v-model="endTime"
         show-now-button
         :min-date="new Date()"
       ></VueDatePicker>
+      <br />
       <button @click="feedbackBoardSave">전송</button>
     </div>
   </div>
@@ -66,12 +73,29 @@ const feedbackBoardSave = () => {
       alert("등록 실패");
     });
 };
+
+// Close Modal
+defineEmits(["closemodal"]);
 </script>
 
 <style scoped>
 .base__modal {
-  border: solid;
-  width: 360px;
-  height: 480px;
+  height: 360px;
+  background-color: var(--maincolor4);
+  border-radius: 24px 24px 24px 24px;
+
+  margin: auto;
+  align-self: center;
+  position: fixed;
+  top: 30vh;
+  left: 10vw;
+  width: 80%;
+  z-index: 2;
+}
+.date__picker {
+  margin: 10%;
+}
+.feedback__title {
+  margin-inline: 10%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="pre__border">
+  <div class="">
     <input
       style="width: 300px"
       type="text"

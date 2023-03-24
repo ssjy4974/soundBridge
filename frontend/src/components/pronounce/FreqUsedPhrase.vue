@@ -1,5 +1,5 @@
 <template>
-  <div class="pre__border FUP__container">
+  <div class="">
     <div class="cat__container">
       <span v-for="(catagory, index) in freqUsedCat" :key="index">
         {{ catagory }} |
@@ -7,10 +7,18 @@
       <span @click="addCatModal"> | 추가하기 +</span>
       <AddCatModal v-if="isCatModal" @closemodal="addCatModal" />
     </div>
-    <div>
+    <div class="FUP__container">
       <p v-for="(phrase, index) in freqUsedPhrase" :key="index">
         {{ phrase }}
       </p>
+      <p>???</p>
+      <p>???</p>
+      <p>???</p>
+      <p>???</p>
+      <p>???</p>
+      <p>???</p>
+      <p>???</p>
+      <p>???</p>
       <p href="" @click="addPhraseModal">자주쓰는말 추가하기 +</p>
       <br />
     </div>
@@ -59,9 +67,9 @@ console.log("isPhraseModal value", isPhraseModal.value);
 <style lang="scss" scoped>
 .FUP__container {
   height: 35vh;
+  overflow: scroll;
 }
 .cat__container {
   height: 15%;
-  border: solid;
 }
 </style>
