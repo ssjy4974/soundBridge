@@ -42,8 +42,14 @@ public class Category {
     private int categoryCount;
 
     @Builder
-    public Category(Member member, String categoryName) {
+    public Category(Long categoryId, Member member, String categoryName, int categoryCount) {
+        this.id = categoryId;
         this.member = member;
+        this.categoryName = categoryName;
+        this.categoryCount = categoryCount;
+    }
+
+    public void updateCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 }
