@@ -14,7 +14,6 @@ import com.soundbridge.domain.voice.request.VoiceListConditionReq;
 import com.soundbridge.domain.voice.response.QFeatureRes;
 import com.soundbridge.domain.voice.response.QVoiceDetailRes;
 import com.soundbridge.domain.voice.response.VoiceDetailRes;
-import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +72,32 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
         return new SliceImpl<>(transform, pageable, hasNext);
     }
 
-//    voiceFeatures(voiceCondReq.getFeatures())
+    @Override
+    public List<VoiceDetailRes> findMyVocieByMemberId(Long memberId) {
+        List<VoiceDetailRes> transform = jpaQueryFactory.from(voiceFeature)
+            .innerJoin(voiceFeature.voice, voice)
+            .innerJoin(voiceFeature.feature, feature)
+            .where(memberId(memberId))
+            .transform(groupBy(voice.id)
+                .list(
+                    new QVoiceDetailRes(
+                        voice.id.as("voiceId"),
+                        voice.voiceAge.as("age"),
+                        voice.modelUrl.as("modelUrl"),
+                        voice.voiceGender.as("voiceGender"),
+                        voice.voiceName.as("voiceName"),
+                        voice.member.id.as("memberId"),
+                        voice.member.profile.as("profile"),
+                        list(new QFeatureRes(
+                            feature.id.as("featureId"),
+                            feature.featureName.as("featureName")
+                        )))));
+//        )
+
+        return transform;
+    }
+
+    //    voiceFeatures(voiceCondReq.getFeatures())
 //        )
     private BooleanBuilder voiceFeatures(List<Long> voiceFeatures) {
         BooleanBuilder builder = new BooleanBuilder();
@@ -99,6 +123,10 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
 
     private BooleanExpression voiceGender(String voiceGender) {
         return voiceGender == null ? null : voice.voiceGender.eq(voiceGender);
+    }
+
+    private BooleanExpression memberId(Long memberId) {
+        return memberId == null ? null : voice.member.id.eq(memberId);
     }
 
     private BooleanExpression cursorId(Long cursorId) {
