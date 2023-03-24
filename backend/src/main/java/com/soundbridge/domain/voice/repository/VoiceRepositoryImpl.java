@@ -94,6 +94,8 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
                         )))));
 //        )
 
+        log.info("Selected Voice", transform);
+
         return transform;
     }
 

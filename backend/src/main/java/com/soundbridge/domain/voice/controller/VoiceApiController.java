@@ -65,7 +65,7 @@ public class VoiceApiController {
         Authentication authentication) {
 
 //        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
-
+        log.info("Selected Voice ! {}", voiceService.findMyVocieByMemberId(memberId));
         return ResponseEntity.ok(
             voiceService.findMyVocieByMemberId(memberId));
     }
