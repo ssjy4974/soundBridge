@@ -18,9 +18,11 @@
 
 [WebHooks](#6-webhooks)
 
-[OpenVidu](#7-openvidu)
+[OpenVidu _먼저올리는거 추천_](#7-openvidu)
 
 [Redis](#8-redis)
+
+[fastAPI](#9-fast-api)
 
 ## 1. Nginx
 
@@ -485,11 +487,66 @@ URL에 [/project/jenkins의 아이템명] 을 꼭 붙어야 한다.
 
 ## 7. OpenVidu
 
-Openvidu 컨테이너 실행시키는 명령어
+참고 : [On premises - OpenVidu Docs](https://docs.openvidu.io/en/stable/deployment/ce/on-premises/)
+
+OpenVidu는 Port를 많이 먹어서 충돌이 생기는 것이 문제이다.
+
+다음은 OpenVidu가 사용하는 포트 목록이다
+
+![](./assets/openviduport.png)
+
+그리고 무조건 열려있어야 하는 포트 목록이다. sudo netstat -tlnp 로 잘 확인하길 바란다.
+
+![](./assets/openport.png)
+
+OpenVidu 배포 과정이다.
 
 ```
-#YOUR_SECRET은 OpenVidu 컨트롤러에서 원하는 클라이언트가 OpenVidu 서버에 연결할 때 사용되는 비밀번호로 원하는 값으로 설정하면 된다
-sudo docker run -p 4443:4443 -d -e OPENVIDU_SECRET=YOUR_SECRET openvidu/openvidu-server-kms
+# 관리자 모드
+sudo su
+
+# 설치 권장 폴더
+cd /opt
+
+# openvidu 관련 파일 install
+curl https://s3-eu-west-1.amazonaws.com/aws.openvidu.io/install_openvidu_latest.sh | bash
+
+# openvidu 설정파일
+cd /opt/openvidu
+vi .env
+
+# openvidu 설정
+DOMAIN_OR_PUBLIC_IP=<도메인>
+OPENVIDU_SECRET=<원하는 password>
+CERTIFICATE_TYPE=letsencrypt
+LETSENCRYPT_EMAIL=<유효한 이메일>
+HTTP_PORT=여기서 문제발생,,
+HTTPS_PORT=<openvidu에 접근할 port>
+```
+
+HTTP_PORT에서 큰 문제가 발생한다. 다른 모든 블로그 글에서는 원하는 값을 넣어서 인증서를 발급받았다.
+하지만 공식문서 권장사항은 CERTIFICATE_TYPE를 letsencrypt로 설정하면
+인증서 발급을 받는 HTTP_PORT를 80으로 고정하라고 되어있다.
+이떄 ec2의 nginx port번호와 충돌이 발생하였고, HTTP_PORT를 다른값으로 지정하면 key가 발급되지 않았다.
+오류를 제대로 알려주지 않아 여기까지 이해하는데도 참 힘들었고, 어떻게 해결할지도 참 많이 고민했다..
+
+### 해결방법
+
+openvidu on-promise는 관련 컨테이너들을
+/opt/openvidu/docker-compose.yml 파일에서 관리한다.
+openvidu만의 nginx 컨테이너가 있었고, /opt/openvidu/cerificate에 있는 KEY들로 SSL을 관리했다.
+하지만 HTTP_PORT를 80이 아닌 다른값으로 지정하니 KEY가 발급되지 않았다.
+이를 해결하고자 ec2의 nginx에 발급된 SSL KEY값이 있는 경로를 마운트시켜 openvidu만의 nginx 컨테이너에 전달하였다.
+
+```
+#  /opt/openvidu/docker-compose.yml
+
+ nginx:
+        image: openvidu/openvidu-proxy:2.26.0
+        restart: always
+        network_mode: host
+        volumes:
+            - /etc/letsencrypt:/etc/letsencrypt
 ```
 
 ## 8. Redis
@@ -538,3 +595,71 @@ Jenkins 자동빌드를 위한 Param 설정
 
 Backend 컨테이너가 연결되면 컨테이너 번호를 받아서 네트워크 연결
 ![](./assets/paramsetting.png)
+
+## 9. FAST API
+
+먼저 scp를 활용해 로컬에 만들어진 모델을 ec2 ubuntu에 옮겨주었다.
+
+```
+scp -i <발급된 키.pem> -r C:\Users\SSAFY\workspace\hifigan ubuntu@<public_ip>:/home/ubuntu/workspace/model
+scp -i <발급된 키.pem> -r C:\Users\SSAFY\workspace\glowtts ubuntu@<public_ip>:/home/ubuntu/workspace/model
+```
+
+install해야할 라이브러리들을 requirement.txt에 정리하였다.
+이후 Dockerfile을 활용하여 fastAPI 서버 이미지를 빌드하였다.
+
+```
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
+
+RUN apt-get update && apt-get install -y ffmpeg
+
+WORKDIR /app/
+
+COPY . .
+COPY ./model /model/
+
+RUN pip install -r requirements.txt
+
+WORKDIR /app/g2pK
+RUN pip install -q --no-cache-dir "konlpy" "jamo" "nltk" "python-mecab-ko"
+RUN pip install -q --no-cache-dir -e .
+
+WORKDIR /app/TTS
+RUN pip install -q --no-cache-dir -e .; exit 0
+
+WORKDIR /app
+
+CMD uvicorn --host=0.0.0.0 --port 7777 main:app
+
+
+#빌드 명령어
+sudo docker build --tag fastapi:0.1 .
+```
+
+nginx config 파일에 내용을 추가하였다.
+
+```
+ location /ai {
+    if ($request_method = 'OPTIONS') {
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, PATCH, OPTIONS';
+    add_header 'Access-Control-Allow-Headers' 'Content-Type, Access-Token';
+    add_header 'Access-Control-Max-Age' 86400;
+    return 204;
+    }
+
+    # 1. hide the Access-Control-Allow-Origin from the server response
+    proxy_hide_header 'Access-Control-Allow-Origin';
+    # 2. add a new custom header that allows all * origin instead
+    add_header 'Access-Control-Allow-Origin' '*' always;
+
+    proxy_pass http://localhost:7777/ai;
+  }
+```
+
+ec2에 올려놓은 모델들의 경로를 fastAPI 컨테이너의 model 경로에 마운트하고 실행시켰다.
+
+```
+sudo docker run -d -p ~~~~:~~~~ -v /home/ubuntu/workspace/model:/model --name soundbridge-ai fastapi:0.1
+
+```
