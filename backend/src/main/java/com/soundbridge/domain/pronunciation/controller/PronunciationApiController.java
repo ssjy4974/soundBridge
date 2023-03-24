@@ -104,4 +104,15 @@ public class PronunciationApiController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/basic-letters/{basicLetterId}")
+    @Operation(summary = "기본 발음 상세조회")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "기본 발음 상세 조회 성공"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 기본 발음")
+    })
+    public ResponseEntity<BasicLetterRes> basicLetterDetails(@PathVariable Long basicLetterId,
+        Authentication authentication) {
+        return ResponseEntity.ok(basicLetterService.findBasicLetter(basicLetterId));
+    }
+
 }

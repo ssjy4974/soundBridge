@@ -8,6 +8,7 @@ import com.soundbridge.domain.pronunciation.entity.PronunciationType;
 import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
 import com.soundbridge.domain.pronunciation.response.QBasicLetterRes;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -34,5 +35,26 @@ public class BasicLetterRepositoryImpl implements BasicLetterRepositorySupport {
                 tryHistory.basicLetter.id.eq(basicLetter.id),
                 tryHistory.member.id.eq(memberId))
             .fetch();
+    }
+
+    @Override
+    public Optional<BasicLetterRes> findOne(Long basicLetterId) {
+        return Optional.ofNullable(jpaQueryFactory.select(
+                new QBasicLetterRes(
+                    basicLetter.id.as("basicLetterId"),
+                    basicLetter.letter.as("letter"),
+                    basicLetter.guideLetter.as("guidLetter"),
+                    basicLetter.letterImage.as("letterImage"),
+                    basicLetter.guideImage.as("guidImage"),
+                    tryHistory.tryCount.as("tryCount"),
+                    tryHistory.successCount.as("successCount")
+                )
+            )
+            .from(basicLetter)
+            .leftJoin(tryHistory)
+            .on(tryHistory.type.eq(PronunciationType.BASIC_LETTER),
+                tryHistory.basicLetter.id.eq(basicLetter.id),
+                tryHistory.basicLetter.id.eq(basicLetterId))
+            .fetchOne());
     }
 }
