@@ -65,6 +65,7 @@ onMounted(() => {
   sr.interimResults = true;
   // 언어 설정, 설정하지 않으면 디폴트로 HTML 의 lang 속성값을 받음
   sr.lang = "ko-KR";
+  sr.maxAlternatives = 0;
   sr.onstart = () => {
     console.log("연습 시작");
     isRecording.value = true;
