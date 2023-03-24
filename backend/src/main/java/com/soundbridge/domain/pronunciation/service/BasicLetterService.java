@@ -2,6 +2,8 @@ package com.soundbridge.domain.pronunciation.service;
 
 import com.soundbridge.domain.pronunciation.repository.BasicLetterRepository;
 import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
+import com.soundbridge.global.error.ErrorCode;
+import com.soundbridge.global.error.exception.NotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,5 +24,16 @@ public class BasicLetterService {
      */
     public List<BasicLetterRes> findAllBasicLetters(Long memberId) {
         return basicLetterRepository.findAllByMemberId(memberId);
+    }
+
+    /**
+     * 기본 발음 상세 조회
+     *
+     * @param basicLetterId
+     * @return
+     */
+    public BasicLetterRes findBasicLetter(Long basicLetterId) {
+        return basicLetterRepository.findOne(basicLetterId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.BASIC_LETTER_NOT_FOUND));
     }
 }
