@@ -1,6 +1,5 @@
 package com.soundbridge.domain.pronunciation.controller;
 
-import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import com.soundbridge.domain.pronunciation.service.BasicLetterService;
