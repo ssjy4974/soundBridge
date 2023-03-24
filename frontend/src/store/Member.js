@@ -13,7 +13,8 @@ export const useMember = defineStore("member", {
       memberId: 1,
       email: null,
       nickname: "Nick",
-      profile: "loofy.png",
+      profile:
+        "https://yt3.googleusercontent.com/ytc/AL5GRJVAMq-8ooMfNc0HDE6hWKlNr4vQXpba8gPxpya5B14=s900-c-k-c0x00ffffff-no-rj",
       role: null,
     },
     accessToken: "access-token 123",
@@ -45,7 +46,7 @@ export const useMember = defineStore("member", {
           console.log(this.member.profile);
         },
         (error) => {
-          console.log(error.response.data);
+          console.log(error.response);
         }
       );
     },

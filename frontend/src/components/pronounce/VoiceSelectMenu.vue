@@ -14,9 +14,7 @@
         ><voice-features></voice-features><voice-features></voice-features>
         <br />
         <div>
-          <div style="box-shadow: 0px 1px 2px 0 rgba(16, 24, 40, 0.05)">
-            <p>선택하기</p>
-          </div>
+          <button type="button" @click="selectVoice">선택하기</button>
         </div>
       </div>
     </div>
@@ -26,8 +24,18 @@
 <script setup>
 import VoiceFeatures from "./item/VoiceFeatures.vue";
 import { defineProps, onBeforeMount } from "vue";
+import { useMypage } from "@/store/MyPage";
+const myPageStore = useMypage();
+
 const props = defineProps({ voice: Object });
 let voice = JSON.parse(JSON.stringify(props)).voice;
+
+const selectVoice = (e) => {
+  e.preventDefault();
+  console.log("목소리 선택!", voice.voiceId);
+  myPageStore.selectVoice(voice.voiceId);
+};
+
 onBeforeMount(() => {
   console.log(voice);
 });

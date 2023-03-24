@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { voiceList, voice } from "@/api/mypage";
+import { voiceList, voice, select } from "@/api/mypage";
 import { useMember } from "./Member";
 import { ref } from "vue";
 
@@ -43,7 +43,18 @@ export const useMypage = defineStore("mypage", () => {
     );
   }
 
+  async function selectVoice(voiceId) {
+    await select(
+      memberStore.member.memberId,
+      voiceId,
+      memberStore.accessToken,
+      ({ data }) => {
+        console.log(data, " Select Voice! ");
+      }
+    );
+  }
+
   // action == function()  함수
 
-  return { selectedVoice, voices, getVoiceList, getSelectedVoice }; //반환 하면됨
+  return { selectedVoice, voices, getVoiceList, getSelectedVoice, selectVoice }; //반환 하면됨
 });

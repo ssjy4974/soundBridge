@@ -14,7 +14,7 @@ async function voice(memberId, accessToken, success, fail) {
         },
       }
     )
-    .then(success, console.log(success.data))
+    .then(success)
     .catch(fail);
 }
 
@@ -41,4 +41,23 @@ async function voiceList(age, gender, features, accessToken, success, fail) {
     .catch(fail);
 }
 
-export { voice, voiceList };
+async function select(memberId, voiceId, accessToken, success, fail) {
+  console.log("select Voice", memberId, voiceId);
+  await api
+    .put(
+      `/api/voices/select`,
+      {
+        memberId: memberId,
+        voiceId: voiceId,
+      },
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
+    .then(success)
+    .catch(fail);
+}
+
+export { voice, voiceList, select };

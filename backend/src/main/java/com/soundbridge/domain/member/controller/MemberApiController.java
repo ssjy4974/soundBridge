@@ -98,6 +98,7 @@ public class MemberApiController {
     public ResponseEntity modifyMemberProfile(@ModelAttribute @Valid
     ModifyProfileReq profileReq) {
 
+        log.info("Modify Profile {}", profileReq.toString());
         String newProfileName = memberService.modifyMemberProfile(profileReq.getMemberId(),
             profileReq.getProfile());
 

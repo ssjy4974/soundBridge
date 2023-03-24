@@ -2,6 +2,7 @@ package com.soundbridge.domain.voice.repository;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
+import static com.soundbridge.domain.member.entity.QMember.member;
 import static com.soundbridge.domain.voice.entity.QFeature.feature;
 import static com.soundbridge.domain.voice.entity.QVoice.voice;
 import static com.soundbridge.domain.voice.entity.QVoiceFeature.voiceFeature;
@@ -10,6 +11,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.soundbridge.domain.member.entity.QMember;
 import com.soundbridge.domain.voice.request.VoiceListConditionReq;
 import com.soundbridge.domain.voice.response.QFeatureRes;
 import com.soundbridge.domain.voice.response.QVoiceDetailRes;
@@ -74,11 +76,12 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
 
     @Override
     public List<VoiceDetailRes> findMyVocieByMemberId(Long memberId) {
-        List<VoiceDetailRes> transform = jpaQueryFactory.from(voiceFeature)
+        List<VoiceDetailRes> transform = jpaQueryFactory.from(voiceFeature, member)
             .innerJoin(voiceFeature.voice, voice)
             .innerJoin(voiceFeature.feature, feature)
-            .where(memberId(memberId))
-            .transform(groupBy(voice.id)
+            .where(member.voice.id.eq(voiceFeature.voice.id),
+                member.id.eq(memberId))
+            .transform(groupBy(voiceFeature.voice.id)
                 .list(
                     new QVoiceDetailRes(
                         voice.id.as("voiceId"),
