@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 // 회원 페이지
 import Login from "../views/Login.vue";
 import LoginSuccess from "../components/LoginSuccess.vue";
+import SelectRole from "../components/SelectRole.vue";
 import MypageDisabled from "../views/MypageDisabled.vue";
 import MypageVolunteer from "../views/MypageVolunteer.vue";
 
@@ -40,6 +41,12 @@ const routes = [
     path: "/login-success",
     name: "loginSuccess",
     component: LoginSuccess,
+  },
+  //봉사자, 청각장애인 선택 페이지
+  {
+    path: "/select-role",
+    name: "role",
+    component: SelectRole,
   },
   // 회원 유형별로 경로 다르게 어케함?
   {

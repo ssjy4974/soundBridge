@@ -28,10 +28,18 @@ onBeforeMount(async () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        const role = res.data.role;
+        //store에 정보 저장 로직 추가
+
+        if (!role) {
+          router.push("/select-role");
+        } else if (role === "HELPER") {
+          router.push("/mypagev");
+        } else {
+          router.push("/pronounce");
+        }
       });
   }
-  // router.push("/");
 });
 </script>
 
