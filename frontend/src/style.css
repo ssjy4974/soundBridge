@@ -1,3 +1,25 @@
+/* Font Application */
+@font-face {
+  font-family: "NanumSquare1";
+  src: url("./assets/font/NanumSquareNeo-aLt.ttf");
+}
+@font-face {
+  font-family: "NanumSquare2";
+  src: url("./assets/font/NanumSquareNeo-bRg.ttf");
+}
+@font-face {
+  font-family: "NanumSquare3";
+  src: url("./assets/font/NanumSquareNeo-cBd.ttf");
+}
+@font-face {
+  font-family: "NanumSquare4";
+  src: url("./assets/font/NanumSquareNeo-dEb.ttf");
+}
+@font-face {
+  font-family: "NanumSquare5";
+  src: url("./assets/font/NanumSquareNeo-eHv.ttf");
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -17,6 +39,7 @@ a:hover {
 }
 
 body {
+  font-family: NanumSquare3;
   display: flex;
   min-width: 320px;
   max-width: 450px;
