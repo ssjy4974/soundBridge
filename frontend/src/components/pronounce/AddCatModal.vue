@@ -2,13 +2,37 @@
   <div class="cat__modal">
     <div @click="$emit('closemodal')">X</div>
     <p>카테고리 추가하기</p>
-    <input type="text" placeholder="카테고리 이름 입력하세요" />
+    <input
+      type="text"
+      placeholder="카테고리 이름 입력하세요"
+      v-model="newCategory"
+    />
 
-    <button>추가하기 +</button>
+    <button @click="categoryHandler">추가하기 +</button>
   </div>
 </template>
 
 <script setup>
+//ref
+import { ref } from "vue";
+//store import
+import { usePronounce } from "@/store/Pronounce";
+const store = usePronounce();
+const freqUsedCat = store.freqUsedCat;
+const newCategory = ref("");
+
+const categoryHandler = () => {
+  // freqUsedCat.forEach((element) => {
+  //   console.log(element.categoryName, element.categoryId, newCategory.value);
+  //   if (element.categoryName == newCategory.value) {
+  //     console.log("Found");
+  //     // store.editCategory(element.categoryId, newCategory);
+  //     return false;
+  //   }
+  // });
+  store.addCategory(newCategory);
+};
+
 defineEmits(["closemodal"]);
 </script>
 
