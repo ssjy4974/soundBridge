@@ -25,6 +25,11 @@ function goback() {
 </script>
 
 <style scoped>
+@media screen and (min-width: 412px) {
+  .header {
+    width: 412px;
+  }
+}
 .header {
   background-color: var(--maincolor2);
   border-radius: 0px 0px 24px 24px;
