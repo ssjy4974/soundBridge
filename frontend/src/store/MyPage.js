@@ -50,6 +50,7 @@ export const useMypage = defineStore("mypage", () => {
       memberStore.accessToken,
       ({ data }) => {
         console.log(data, " Select Voice! ");
+        this.selectedVoice = data;
       }
     );
   }

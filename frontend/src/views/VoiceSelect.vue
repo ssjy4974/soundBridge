@@ -7,7 +7,16 @@
       </div>
     </div>
     <div>
-      <h3 class="">전체 보기</h3>
+      <div><b class="font">전체 보기</b></div>
+
+      <div id="controls">
+        <img
+          src="@/assets/img/controls-alt.png"
+          id="controls"
+          style="float: right"
+        />
+      </div>
+
       <div class="box">
         <voice-select-menu
           v-for="(voice, index) in voices"
@@ -25,14 +34,10 @@
 import { storeToRefs } from "pinia";
 import { useMypage } from "@/store/MyPage";
 import VoiceSelectMenu from "@/components/pronounce/VoiceSelectMenu.vue";
-import { computed, onBeforeMount, ref } from "vue";
+
 const myPageStore = useMypage();
 
-let { voices, selectedVoice } = storeToRefs(myPageStore);
-
-const updateSelectedVoice = (value) => {
-  selectedVoice.value.splice(value, 1);
-};
+const { voices, selectedVoice } = storeToRefs(myPageStore);
 
 // const updateVoices = (value) => {
 //   voices.value.splice(value, 1);
@@ -49,5 +54,13 @@ callApi();
 <style lang="scss" scoped>
 #selectedVoice {
   margin-bottom: 10px;
+}
+#controls {
+  display: block;
+  height: 24px;
+  margin-right: 5px;
+}
+.font {
+  font-size: 24px;
 }
 </style>

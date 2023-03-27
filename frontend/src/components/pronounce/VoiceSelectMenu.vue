@@ -28,12 +28,13 @@ import { useMypage } from "@/store/MyPage";
 const myPageStore = useMypage();
 
 const props = defineProps({ voice: Object });
-let voice = JSON.parse(JSON.stringify(props)).voice;
+const voice = JSON.parse(JSON.stringify(props)).voice;
 
 const selectVoice = (e) => {
   e.preventDefault();
   console.log("목소리 선택!", voice.voiceId);
   myPageStore.selectVoice(voice.voiceId);
+  window.location.reload(true);
 };
 
 onBeforeMount(() => {
