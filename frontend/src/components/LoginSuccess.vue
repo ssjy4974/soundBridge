@@ -1,0 +1,36 @@
+<template>
+  <div></div>
+</template>
+
+<script setup>
+import { apiInstance } from "@/api";
+import router from "@/router";
+import { onBeforeMount } from "vue";
+import { useRoute } from "vue-router";
+import { useMypage } from "../store/Member";
+
+const api = apiInstance();
+const route = useRoute();
+const memberStore = useMypage();
+const { member } = memberStore;
+
+onBeforeMount(async () => {
+  await router.isReady();
+
+  const accessToken = route.query.accessToken;
+
+  if (accessToken) {
+    await memberStore.setAccessToken(accessToken);
+    await memberStore.setMemberInfo();
+    if (!member.role) {
+      router.push("/select-role");
+    } else if (member.role === "HELPER") {
+      router.push("/mypagev");
+    } else {
+      router.push("/pronounce");
+    }
+  }
+});
+</script>
+
+<style></style>

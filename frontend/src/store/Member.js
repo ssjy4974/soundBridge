@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
-import { modifyMyProfile, modifyNickName } from "@/api/member";
+import {
+  modifyMyProfile,
+  modifyNickName,
+  getMemberInfo,
+  signUp,
+} from "@/api/member";
 
 export const useMypage = defineStore("mypage", {
   // state  == ref(), useState() 변수
@@ -43,6 +48,45 @@ export const useMypage = defineStore("mypage", {
           console.log(error.response.data);
         }
       );
+    },
+
+    async setMemberInfo() {
+      await getMemberInfo(
+        this.accessToken,
+        ({ data }) => {
+          this.member.memberId = data.memberId;
+          this.member.email = data.email;
+          this.member.nickname = data.nickname;
+          this.member.profile = data.profile;
+          this.member.role = data.role;
+        },
+        (error) => {
+          console.log(error.response.data);
+        }
+      );
+    },
+
+    async setAccessToken(accessToken) {
+      this.accessToken = accessToken;
+    },
+
+    async signUp(role, age, gender) {
+      await signUp(
+        this.member.memberId,
+        role,
+        age,
+        gender,
+        this.accessToken,
+        () => {
+          this.member.role = role;
+        }
+      );
+    },
+  },
+
+  getters: {
+    getMemberInfo(state) {
+      return state.member;
     },
   },
 

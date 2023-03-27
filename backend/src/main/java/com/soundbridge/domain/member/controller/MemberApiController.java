@@ -4,6 +4,7 @@ import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.request.ModifyNicknameReq;
 import com.soundbridge.domain.member.request.ModifyProfileReq;
 import com.soundbridge.domain.member.request.SaveAddInfoReq;
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,9 +50,10 @@ public class MemberApiController {
         @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
-    @GetMapping("/{memberId}")
-    public ResponseEntity getMemberInfo(@PathVariable Long memberId) {
+    @GetMapping
+    public ResponseEntity getMemberInfo(Authentication authentication) {
         //401 error : 는 인증이 안된유저임 즉 토큰이 없거나 만료된 유저, ExceptionHandlerFilter에서 처리해야함.
+        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
         log.info("request 내 정보 조회 ID {}", memberId);
 
         MemberInfoRes member = memberService.getMemberById(memberId);
@@ -110,7 +113,7 @@ public class MemberApiController {
         @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
         @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
     })
-    @PutMapping("/AddInfo")
+    @PutMapping("/add-info")
     public ResponseEntity saveRoleMember(@RequestBody SaveAddInfoReq saveAddInfoReq) {
         log.info("request 역할 {} ", saveAddInfoReq);
         String gender = memberService.saveAddInfo(saveAddInfoReq.getMemberId(), saveAddInfoReq);
