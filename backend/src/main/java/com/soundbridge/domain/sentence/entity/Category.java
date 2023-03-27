@@ -52,4 +52,9 @@ public class Category {
     public void updateCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
+    public void increaseCount() {
+        this.categoryCount++;
+    }
+
 }

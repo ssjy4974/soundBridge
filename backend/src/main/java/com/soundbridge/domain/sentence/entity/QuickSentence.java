@@ -45,4 +45,12 @@ public class QuickSentence {
         this.category = category;
         this.sentence = sentence;
     }
+
+    public void updateQuickSentence(String sentence) {
+        this.sentence = sentence;
+    }
+
+    public void increaseCount() {
+        this.sentenceCount++;
+    }
 }
