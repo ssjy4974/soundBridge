@@ -32,6 +32,7 @@
         ></i>
       </div>
     </div>
+    <br />
     <div class="record" @click="ToggleMic">
       <span
         ><h3>
