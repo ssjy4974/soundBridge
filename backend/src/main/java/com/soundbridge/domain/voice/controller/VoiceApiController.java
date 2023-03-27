@@ -86,7 +86,7 @@ public class VoiceApiController {
         log.info("select Voice {}", voiceSelectionReq.toString());
         voiceService.selectByVoiceId(1L, voiceSelectionReq);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(voiceSelectionReq.getVoiceId());
     }
 
     @Operation(summary = "녹음된 목소리 삭제", description = "녹음 목소리 삭제 메소드 입니다.")
