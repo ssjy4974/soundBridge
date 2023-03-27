@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h2>Feedback List</h2>
-    <hr />
     <FeedbackArticle
       v-for="(feedbackArticle, index) in feedbackList"
       :key="index"
@@ -10,7 +8,9 @@
       @updateProps="(value) => updateFeedbackList(value)"
     />
     <div>
-      <button @click="createModalHandler">피드백 요청글 작성하기</button>
+      <button @click="createModalHandler" id="feedback-button">
+        피드백 요청글 작성하기
+      </button>
       <FeedbackCreateModal
         v-if="createModal"
         @closemodal="createModalHandler"
@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup scoped>
 import { apiInstance } from "@/api/index";
 import { onMounted, onBeforeUnmount, ref } from "@vue/runtime-core";
 import FeedbackArticle from "./FeedbackArticle.vue";
@@ -93,4 +93,8 @@ const callApi = () => {
 callApi();
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#feedback-button {
+  margin-left: 21%;
+}
+</style>

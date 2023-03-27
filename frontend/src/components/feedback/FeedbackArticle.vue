@@ -32,7 +32,7 @@ import Swal from "sweetalert2";
 const api = apiInstance();
 const props = defineProps(["feedbackArticle", "index"]);
 const emit = defineEmits(["updateProps"]);
-const userRole = "HELPER";
+const userRole = "APPLICANT";
 const userName = "Nicksss";
 const meetingSaveReq = ref({
   feedbackBoardId: undefined,
@@ -109,10 +109,10 @@ const acceptMeeting = (feedbackArticle) => {
   margin-right: 2%;
   margin-bottom: 5%;
   /* Black/200 */
-
   border-right: 2px solid #f1f1f1;
   border-bottom: 2px solid #f1f1f1;
   border-left: 1px solid #f1f1f1;
+  border-top: 1px solid #f1f1f1;
 
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: 16px;
