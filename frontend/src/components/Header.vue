@@ -39,6 +39,7 @@ function goback() {
   height: 56px;
   position: fixed;
   width: 100%;
+  z-index: 10;
   justify-content: space-between;
   align-items: center;
 }

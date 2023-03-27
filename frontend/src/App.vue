@@ -16,10 +16,15 @@ import FooterVolunteer from "./components/FooterVolunteer.vue";
       <router-view class="router" />
     </div>
     <!-- 로그인이 되어있지 않을때 display : none, 장애인 유저 로그인 상태면 장애인용 푸터, 봉사자일 때 봉사자 푸터 -->
-    <FooterDisabled />
-    <FooterVolunteer />
+
+    <FooterDisabled v-if="userRole === 'APPLICANT'" />
+    <FooterVolunteer v-if="userRole === 'HELPER'" />
   </div>
 </template>
+
+<script>
+const userRole = "APPLICANT";
+</script>
 
 <style scoped>
 #wrapper {
