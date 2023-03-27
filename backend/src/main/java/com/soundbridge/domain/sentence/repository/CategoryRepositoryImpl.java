@@ -19,7 +19,7 @@ public class CategoryRepositoryImpl implements CategoryRepositorySupport {
     public List<CategoryRes> findByCategoriesByMemberId(Long memberId) {
         return jpaQueryFactory.select(
                 new QCategoryRes(
-                    category.id.as("mySentenceLogId"),
+                    category.id.as("categoryId"),
                     category.categoryName.as("category")
                 )
             )

@@ -20,12 +20,4 @@ public class CategoryUpdateReq {
     @Size(max = 10, message = "The maximum length of the category name is 10.")
     private String categoryName;
 
-    public Category toEntity(Long categoryId, String categoryName) {
-        return Category
-            .builder()
-            .categoryId(categoryId)
-            .categoryName(categoryName)
-            .build();
-    }
-
 }

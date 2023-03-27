@@ -35,13 +35,11 @@ public class CategoryApiController {
         @ApiResponse(responseCode = "400", description = "이미 존재하는 카테고리"),
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
     })
-    public ResponseEntity saveCategoryName(@Valid @RequestBody CategoryReq req,
+    public ResponseEntity<List<CategoryRes>> saveCategoryName(@Valid @RequestBody CategoryReq req,
         Authentication
             authentication) {
 
-        categoryService.saveCategoryName(req, 1L);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(categoryService.saveCategoryName(req, 1L));
     }
 
     @GetMapping

@@ -33,7 +33,8 @@ public class CategoryService {
      * @param req
      * @param memberId
      */
-    public void saveCategoryName(CategoryReq req, Long memberId) {
+    @Transactional
+    public List<CategoryRes> saveCategoryName(CategoryReq req, Long memberId) {
         final Member getMember = memberRepository.findById(memberId)
             .orElseThrow(() -> new NotFoundException(
                 ErrorCode.MEMBER_NOT_FOUND));
@@ -41,6 +42,7 @@ public class CategoryService {
         final Category category = req.toEntity(req.getCategoryName(), getMember);
         categoryRepository.save(category);
 
+        return categoryRepository.findByCategoriesByMemberId(memberId);
     }
 
     /**
