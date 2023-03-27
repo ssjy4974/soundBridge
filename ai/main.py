@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile, Form
 from starlette.middleware.cors import CORSMiddleware
 from database import engineconn
-from models import Record_Sentence, Record_State
+from models import Record_Sentence, Record_State, Daily_Word, Word_Member, Member
 from fastapi.responses import StreamingResponse
 import os
 from s3 import s3util
@@ -12,7 +12,7 @@ import numpy as np
 import tts
 from io import BytesIO
 import scipy.io.wavfile as wavf
-
+from g2pk import G2p
 
 app = FastAPI()
 app.add_middleware(
@@ -79,3 +79,35 @@ async def read_item(text: str):
     return StreamingResponse(wav, media_type="audio/wav")
 
 
+@app.post("/ai/daily-words")
+async def addDailyWord(memberId: int, dailyWord : str):
+    findWord = session.query(Daily_Word).filter(Daily_Word.word==dailyWord).first()
+    findMember = session.query(Member).filter(Member.member_id == memberId).first()
+
+    print("단어 찾아보기", findWord)
+    print("회원 찾아보기", findMember)
+    if findWord is None:
+
+        print("새로운 단어 등록")
+        print(dailyWord)
+        g2p = G2p()
+        guideWord = g2p(dailyWord)
+
+        print("g2p돌리기", guideWord)
+        newWord = Daily_Word(word=dailyWord, guide_word= guideWord)
+        session.add(newWord)
+        session.commit()
+
+    word = session.query(Daily_Word).filter(Daily_Word.word == dailyWord).first()
+    hasWord = session.query(Word_Member).filter(Word_Member.daily_word_id == word.daily_word_id
+                                      , Word_Member.member_id == findMember.member_id).first()
+    print(hasWord,"단어 있니?")
+
+    if hasWord is None:
+
+        print("유저가 이미 등록한 단어가 아님")
+        newWordMember = Word_Member(daily_word_id=word.daily_word_id, member_id=findMember.member_id)
+        session.add(newWordMember)
+        session.commit()
+
+    return 0
