@@ -12,7 +12,7 @@ import { useMypage } from "../store/Member";
 const api = apiInstance();
 const route = useRoute();
 const memberStore = useMypage();
-const { setAccessToken, accessToken } = memberStore;
+const { member } = memberStore;
 
 onBeforeMount(async () => {
   await router.isReady();
@@ -20,25 +20,15 @@ onBeforeMount(async () => {
   const accessToken = route.query.accessToken;
 
   if (accessToken) {
-    memberStore.setAccessToken(accessToken);
-    api
-      .get(`/api/members`, {
-        headers: {
-          "access-token": memberStore.accessToken,
-        },
-      })
-      .then((res) => {
-        const role = res.data.role;
-        //store에 정보 저장 로직 추가
-
-        if (!role) {
-          router.push("/select-role");
-        } else if (role === "HELPER") {
-          router.push("/mypagev");
-        } else {
-          router.push("/pronounce");
-        }
-      });
+    await memberStore.setAccessToken(accessToken);
+    await memberStore.setMemberInfo();
+    if (!member.role) {
+      router.push("/select-role");
+    } else if (member.role === "HELPER") {
+      router.push("/mypagev");
+    } else {
+      router.push("/pronounce");
+    }
   }
 });
 </script>

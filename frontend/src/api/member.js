@@ -32,4 +32,35 @@ async function modifyMyProfile(formData, accessToken, success, fail) {
     .catch(fail);
 }
 
-export { modifyMyProfile, modifyNickName };
+async function getMemberInfo(accessToken, success, fail) {
+  await api
+    .get(`/api/members`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+async function signUp(memberId, role, age, gender, accessToken, success, fail) {
+  await api
+    .put(
+      `/api/members/add-info`,
+      {
+        memberId: memberId,
+        role: role,
+        age: age,
+        gender: gender,
+      },
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
+    .then(success)
+    .catch(fail);
+}
+
+export { modifyMyProfile, modifyNickName, getMemberInfo, signUp };
