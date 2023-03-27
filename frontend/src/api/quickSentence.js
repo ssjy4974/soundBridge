@@ -1,7 +1,7 @@
 import { apiInstance } from "./index.js";
 
 const api = apiInstance();
-
+//PUT
 async function updateQuickSentence(
   quickSentenceId,
   quickSentence,
@@ -25,7 +25,7 @@ async function updateQuickSentence(
     .catch(success)
     .then(fail);
 }
-
+//POST
 async function saveQuickSentence(
   sentence,
   categoryId,
@@ -49,7 +49,7 @@ async function saveQuickSentence(
     .catch(success)
     .then(fail);
 }
-
+//GET
 async function saveQuickSentence(categoryId, accessToken, success, fail) {
   await api
     .get(`/api/quick-sentences/${categoryId}`, {
@@ -60,7 +60,7 @@ async function saveQuickSentence(categoryId, accessToken, success, fail) {
     .catch(success)
     .then(fail);
 }
-
+//PUT count
 async function countQuickSentenceAndCategory(
   quickSentenceId,
   accessToken,
@@ -76,8 +76,8 @@ async function countQuickSentenceAndCategory(
     .catch(success)
     .then(fail);
 }
-
-async function saveQuickSentence(quickSentenceId, accessToken, success, fail) {
+// DELETE
+async function delQuickSentence(quickSentenceId, accessToken, success, fail) {
   await api
     .delete(`/api/quick-sentences/${quickSentenceId}`, {
       headers: {
@@ -88,4 +88,10 @@ async function saveQuickSentence(quickSentenceId, accessToken, success, fail) {
     .then(fail);
 }
 
-export { freqUsedPhrase, FeatureMenuDisabled };
+export {
+  updateQuickSentence,
+  saveQuickSentence,
+  saveQuickSentence,
+  countQuickSentenceAndCategory,
+  delQuickSentence,
+};

@@ -1,8 +1,8 @@
 <template>
   <div class="">
     <div class="cat__container">
-      <span v-for="(catagory, index) in freqUsedCat" :key="index">
-        {{ catagory }} |
+      <span v-for="(category, c) in freqUsedCat" :key="c">
+        {{ category.categoryName }} |
       </span>
       <span @click="addCatModal"> | 추가하기 +</span>
       <AddCatModal v-if="isCatModal" @closemodal="addCatModal" />
@@ -11,14 +11,7 @@
       <p v-for="(phrase, index) in freqUsedPhrase" :key="index">
         {{ phrase }}
       </p>
-      <p>???</p>
-      <p>???</p>
-      <p>???</p>
-      <p>???</p>
-      <p>???</p>
-      <p>???</p>
-      <p>???</p>
-      <p>???</p>
+
       <p href="" @click="addPhraseModal">자주쓰는말 추가하기 +</p>
       <br />
     </div>
@@ -27,18 +20,25 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import AddCatModal from "./AddCatModal.vue";
 import AddPhraseModal from "./AddPhraseModal.vue";
 import { usePronounce } from "@/store/Pronounce.js";
+import { storeToRefs } from "pinia";
 
 // data from store
 const store = usePronounce();
+const { freqUsedCat } = storeToRefs(store);
+
+const callAPI = () => {
+  store.readCategories;
+};
+watch(freqUsedCat);
 const freqUsedPhrase = store.freqUsedPhrase;
-const freqUsedCat = store.freqUsedCat;
 
 const isCatModal = ref(false);
 const isPhraseModal = ref(false);
+
 // catagory add modal
 const addCatModal = () => {
   console.log(
@@ -58,10 +58,14 @@ const addPhraseModal = () => {
     isCatModal.value,
     isPhraseModal.value
   );
+
   isPhraseModal.value = !isPhraseModal.value;
-  console.log("isPhraseModal value", isPhraseModal.value);
+  console.log("response data", freqUsedPhrase);
+  // console.log("isPhraseModal value", isPhraseModal.value);
 };
-console.log("isPhraseModal value", isPhraseModal.value);
+// GET catagoires
+callAPI();
+console.log("freq used cat", freqUsedCat.value);
 </script>
 
 <style lang="scss" scoped>
