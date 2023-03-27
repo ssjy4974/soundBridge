@@ -14,7 +14,9 @@
           src="@/assets/img/controls-alt.png"
           id="controls"
           style="float: right"
+          @click="searchModal"
         />
+        <SearchModal v-if="isSearchModal" @closemodal="searchModal" />
       </div>
 
       <div class="box">
@@ -33,19 +35,39 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useMypage } from "@/store/MyPage";
+import SearchModal from "@/components/pronounce/item/searchModal.vue";
+import { ref } from "vue";
 import VoiceSelectMenu from "@/components/pronounce/VoiceSelectMenu.vue";
 
 const myPageStore = useMypage();
 
-const { voices, selectedVoice } = storeToRefs(myPageStore);
+let { voices, selectedVoice } = storeToRefs(myPageStore);
 
+let gender = ref();
+let age = ref();
+let features = ref([]);
+
+const isSearchModal = ref(false);
 // const updateVoices = (value) => {
 //   voices.value.splice(value, 1);
 // };
 
 const callApi = () => {
   myPageStore.getSelectedVoice();
-  myPageStore.getVoiceList();
+  myPageStore.getVoiceList(age.value, gender.value, features.value);
+};
+
+const searchModal = (rgender, rage, rfeatures) => {
+  if (isSearchModal.value) {
+    gender.value = rgender;
+    age.value = rage;
+    features.value = rfeatures;
+    console.log("cat phrase form 3@#@#", age.value, gender.value);
+    myPageStore.getVoiceList(age.value, gender.value, features.value);
+  }
+
+  isSearchModal.value = !isSearchModal.value;
+  console.log("isSearchModal value", isSearchModal.value);
 };
 
 callApi();
