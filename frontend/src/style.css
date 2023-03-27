@@ -41,7 +41,6 @@ a:hover {
 @media only screen and (min-width: 413px) {
   #app {
     font-family: NanumSquare3;
-    display: flex;
     min-width: 320px;
     max-width: 450px;
     min-height: 100vh;

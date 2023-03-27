@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Feedback MainPage 게시판</h1>
+    <!-- <h1>Feedback MainPage 게시판</h1> -->
     <FeedbackList />
   </div>
 </template>
