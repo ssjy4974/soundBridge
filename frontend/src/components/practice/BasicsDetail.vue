@@ -47,6 +47,7 @@ import { useRoute } from "vue-router";
 import { apiInstance } from "@/api/index";
 import { ref, onMounted } from "vue";
 import router from "@/router/index";
+import Swal from "sweetalert2";
 
 const api = apiInstance();
 const route = useRoute();
@@ -121,14 +122,31 @@ const CheckSuccess = (result) => {
       )
       .then(() => {
         basicLetter.value.successCount++;
-        alert("정답입니다.");
+        Swal.fire(
+          "성공!",
+          "성공횟수 : " +
+            basicLetter.value.successCount +
+            "<br/>" +
+            "시도 횟수 : " +
+            basicLetter.value.tryCount,
+          "success"
+        );
       })
       .catch((err) => {
+        err;
         alert("다시 한번 시도 해주세요");
       });
   } else {
     sr.stop();
-    alert("실패");
+    Swal.fire(
+      "다시 한번 해볼까요?",
+      "성공횟수 : " +
+        basicLetter.value.successCount +
+        "<br/>" +
+        "시도 횟수 : " +
+        basicLetter.value.tryCount,
+      "question"
+    );
   }
 };
 
