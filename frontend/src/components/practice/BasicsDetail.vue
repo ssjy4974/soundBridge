@@ -173,7 +173,7 @@ const callApi = () => {
     })
     .catch((err) => {
       err;
-      alert("상세 조회 실패");
+      Swal.fire("상세 조회 실패", "해당 id 값은 존재 하지 않습니다.", "error");
       router.replace("/");
     });
 };
