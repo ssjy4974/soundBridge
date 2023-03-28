@@ -18,7 +18,7 @@ import { apiInstance } from "@/api/index";
 import { ref } from "vue";
 
 const api = apiInstance();
-const basicLetterList = ref(undefined);
+const basicLetterList = ref();
 const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 
 const callApi = () => {
