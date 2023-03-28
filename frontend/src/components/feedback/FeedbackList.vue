@@ -95,6 +95,6 @@ callApi();
 
 <style lang="scss" scoped>
 #feedback-button {
-  margin-left: 21%;
+  margin-left: 26%;
 }
 </style>
