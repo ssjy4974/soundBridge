@@ -1,7 +1,7 @@
 <template>
   <div class="cat__modal">
     <div class="close__button" @click="$emit('closemodal')">X</div>
-    <p>카테고리 추가하기</p>
+    <p>일상단어 추가하기</p>
     <div>
       <input
         class="input__box"

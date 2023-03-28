@@ -17,13 +17,20 @@
         @click="googleLogin"
       />
     </div>
+    <div>
+      <div class="login__container kakao__button">
+        <button></button>
+      </div>
+      <div class="login__container naver__button"></div>
+      <div class="login__container google__button"></div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { apiInstance } from "@/api";
 import { onBeforeMount } from "vue";
-import { useMypage } from "../store/Member";
+import { useMember } from "../store/Member";
 import router from "@/router";
 
 const api = apiInstance();
@@ -32,7 +39,7 @@ const kakaoLoginUrl = import.meta.env.VITE_KAKAO_LOGIN_PATH;
 const naverLoginUrl = import.meta.env.VITE_NAVER_LOGIN_PATH;
 const googleLoginUrl = import.meta.env.VITE_GOOGLE_LOGIN_PATH;
 
-const memberStore = useMypage();
+const memberStore = useMember();
 const { member } = memberStore;
 
 onBeforeMount(() => {

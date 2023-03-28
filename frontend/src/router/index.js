@@ -48,7 +48,6 @@ const routes = [
     name: "role",
     component: SelectRole,
   },
-  // 회원 유형별로 경로 다르게 어케함?
   {
     path: "/mypaged/",
     name: "mypagedisabled",

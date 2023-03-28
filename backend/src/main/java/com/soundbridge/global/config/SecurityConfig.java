@@ -44,6 +44,9 @@ public class SecurityConfig {
 
             .anyRequest().authenticated() // 그외의 모든 요청은 인증 필요.
             .and()// 인증권한이 필요한 페이지.// 나머지 모든 요청 허용  ( 생략 가능 )
+            .formLogin()
+            .loginPage("https://j8a703.p.ssafy.io/")
+            .and()// 인증권한이 필요한 페이지.// 나머지 모든 요청 허용  ( 생략 가능 )
             .oauth2Login()
             .successHandler(successHandler)
             .userInfoEndpoint().userService(customOAuth2UserService);
@@ -60,7 +63,7 @@ public class SecurityConfig {
     //     필터 무시
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/static/**", "/js/**", "/webjars/**");
+        return (web) -> web.ignoring().antMatchers("/**","/static/**", "/js/**", "/webjars/**");
     }
 
     // Used by Spring Security if CORS is enabled.

@@ -1,32 +1,19 @@
 <template>
   <div>
-    <!-- <input type="image" src="" alt="" /> -->
+    <i class="fa-solid fa-gear" id="set"></i>
     <div id="profileImg">
       <img
-        :src="`../src/assets/img/${member.profile}`"
+        :src="`${member.profile}`"
         @click="changeProfile"
         alt="profile"
         id="profile"
       />
-      <div id="div_modifyImg">
-        <input
-          type="file"
-          @change="imgUploadEvent"
-          accept=".jpg,.jpeg,.png"
-          id="imgInput"
-          style="display: none"
-        />
-        <label for="imgInput">
-          <!--여기 이미지가 수정버튼 이미지-->
-          <img src="@/assets/img/new.png" id="modifyProfile" />
-        </label>
-      </div>
     </div>
     <div>
       <div id="nickname" v-if="!save">
         <span id="nickNameSpan">{{ member.nickname }} </span>
         <span @click="modifyNameInput">
-          <font-awesome-icon icon="fa-solid fa-pen" />
+          <font-awesome-icon icon="fa-solid fa-pen" id="pen" />
         </span>
       </div>
       <div v-else>
@@ -44,9 +31,9 @@
 
 <script setup>
 import { computed, ref } from "vue";
-import { useMypage } from "@/store/Member";
+import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
-const memberStore = useMypage();
+const memberStore = useMember();
 
 const { accessToken, member } = memberStore;
 const maxSize = 2 * 1024 * 1024;
@@ -102,8 +89,12 @@ const changeProfile = (f) => {
 
 <style lang="scss" scoped>
 #profile {
-  width: 200px;
-  height: 200px;
+  width: 170px;
+  height: 170px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  position: relative;
+  left: 28.6%;
 }
 
 #div_modifyImg {
@@ -123,6 +114,24 @@ const changeProfile = (f) => {
 
 #nickNameSpan {
   margin-right: 10px;
+  position: relative;
+  left: 41.7%;
+  font-size: 1.5rem;
+  color: var(--maincolor9);
+}
+
+#pen {
+  position: relative;
+  left: 44%;
+  font-size: 1.3rem;
+  color: var(--maincolor7);
+}
+
+#set {
+  position: relative;
+  left: 90%;
+  font-size: 1.3rem;
+  color: var(--maincolor7);
 }
 </style>
 <!-- style="display: none" -->

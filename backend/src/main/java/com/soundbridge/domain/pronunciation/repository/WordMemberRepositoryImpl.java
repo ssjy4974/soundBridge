@@ -28,7 +28,7 @@ public class WordMemberRepositoryImpl implements WordMemberRepositorySupport{
                 )
             )
             .from(wordMember)
-            .innerJoin(tryHistory)
+            .leftJoin(tryHistory)
             .on(wordMember.member.id.eq(memberId),
                 tryHistory.type.eq(PronunciationType.DAILY_WORD),
                 tryHistory.wordMember.id.eq(wordMember.id))

@@ -87,7 +87,7 @@ button:focus-visible {
 
 /* 여기서 상황에 맞게 수정해서쓰면됨 */
 .modal {
-  background-color: aqua;
+  background-color: var(--maincolor3);
   margin: auto;
   align-self: center;
   position: fixed;

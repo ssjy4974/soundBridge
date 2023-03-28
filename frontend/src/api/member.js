@@ -5,18 +5,21 @@ const userid = "";
 
 async function modifyNickName(memberId, nickname, accessToken, success, fail) {
   console.log("modifyNickname", memberId, nickname);
-  await api.put(
-    `/api/members/nickname`,
-    {
-      memberId: memberId,
-      nickname: nickname,
-    },
-    {
-      headers: {
-        "access-token": accessToken,
+  await api
+    .put(
+      `/api/members/nickname`,
+      {
+        memberId: memberId,
+        nickname: nickname,
       },
-    }
-  );
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
+    .then(success)
+    .catch(fail);
 }
 
 async function modifyMyProfile(formData, accessToken, success, fail) {

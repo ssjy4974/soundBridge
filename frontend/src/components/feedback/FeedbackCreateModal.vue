@@ -1,14 +1,14 @@
 <template>
   <div class="base__modal">
-    <div @click="$emit('closemodal')" class="close__modal">
+    <div @click="$emit('closemodal')" class="close__modal" id="close-modal">
       <font-awesome-icon icon="fa-solid fa-xmark" />
     </div>
     <div class="feedback__title">
-      <span>제목 </span>
       <input
         v-model="feedbackArticleSaveReq.title"
         type="text"
-        placeholder="제목을 입력하세요"
+        placeholder="요청글을 입력하세요"
+        id="input-box"
       />
     </div>
     <div class="date__picker">
@@ -24,7 +24,7 @@
         :min-date="new Date()"
       ></VueDatePicker>
       <br />
-      <button @click="feedbackBoardSave">전송</button>
+      <button @click="feedbackBoardSave" id="send-button">전송</button>
     </div>
   </div>
 </template>
@@ -80,8 +80,8 @@ defineEmits(["closemodal"]);
 
 <style scoped>
 .base__modal {
-  height: 360px;
-  background-color: var(--maincolor4);
+  height: 250px;
+  background-color: var(--maincolor2);
   border-radius: 24px 24px 24px 24px;
 
   margin: auto;
@@ -97,5 +97,45 @@ defineEmits(["closemodal"]);
 }
 .feedback__title {
   margin-inline: 10%;
+  margin-top: 10%;
+}
+
+#input-box {
+  /* Auto layout */
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 5px;
+
+  margin-left: 2%;
+  margin-right: 2%;
+  /* Black/200 */
+
+  border-top: 2px solid #f1f1f1;
+  border-right: 2px solid #f1f1f1;
+  border-bottom: 2px solid #f1f1f1;
+  border-left: 1px solid #f1f1f1;
+
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 8px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+#send-button {
+  display: flex;
+  margin-left: 32%;
+}
+
+#close-modal {
+  float: right;
+  margin-right: 7%;
+  position: relative;
+  bottom: -3%;
 }
 </style>

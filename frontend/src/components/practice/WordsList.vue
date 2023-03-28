@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="container">
     <p>자주쓰는 단어 추가하는 버튼 기능 추가됨.</p>
-    <div>
-      <p>단어 목록들 나열하는 부분</p>
-      <p>디자인 고민중</p>
+    <div class="parent">
+      <div class="child" v-for="item in MyDailyWord.mydailyword">
+        {{ item.word }}
+      </div>
     </div>
     <div>
-      <button>연습할 단어 추가하는 버튼</button>
+      <button @click="addWordModal">연습할 단어 추가하는 버튼</button>
+      <AddWordModal v-if="isWordModal" @closemodal="addWordModal" />
       <div>
         <p>
           버튼 클릭시 단어 추가할 수 있는 모달이나 영역이 나타나게 할 거임 뜸
@@ -16,6 +18,41 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useMyDailyWord } from "@/store/DailyWord";
+import { ref } from "vue";
 
-<style lang="scss" scoped></style>
+const MyDailyWord = useMyDailyWord();
+
+const isWordModal = ref(false);
+
+const callAPI = () => {
+  MyDailyWord.getmydailyword();
+};
+callAPI();
+
+const addWordModal = () => {
+  console.log("addWord form Wordmodal", isWordModal.value);
+
+  isWordModal.value = !isWordModal.value;
+  console.log("isWordModal value", isWordModal.value);
+};
+</script>
+
+<style lang="scss" scoped>
+.parent {
+  width: 90%;
+  border: 1px solid red;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.child {
+  background-color: aqua;
+  width: 40%;
+  height: 70px;
+  margin: 20px 0;
+}
+</style>
