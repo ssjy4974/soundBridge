@@ -11,6 +11,7 @@ import com.soundbridge.domain.voice.response.VoiceDetailRes;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.AccessDeniedException;
 import com.soundbridge.global.error.exception.NotFoundException;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class VoiceService {
     }
 
 
-    public Object findMyVocieByMemberId(Long memberId) {
+    public List<VoiceDetailRes> findMyVocieByMemberId(Long memberId) {
         log.info("voiceListConditionReq {}", memberId.toString());
         return voiceRepository.findMyVocieByMemberId(memberId);
     }

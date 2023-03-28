@@ -65,13 +65,13 @@ public class VoiceApiController {
         Authentication authentication) {
 
 //        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
-
+//        log.info("Selected Voice ! {}", voiceService.findMyVocieByMemberId(memberId));
         return ResponseEntity.ok(
             voiceService.findMyVocieByMemberId(memberId));
     }
 
 
-    @Operation(summary = "다음에 진행할 녹음 조회", description = "다음에 진행할 녹음 조회 메소드 입니다.")
+    @Operation(summary = "목소리 선택", description = "목소리 선택 메소드 입니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "이력 조회 성공"),
         @ApiResponse(responseCode = "400", description = "필수값 누락"),
@@ -83,10 +83,10 @@ public class VoiceApiController {
     public ResponseEntity selectVoice(@RequestBody VoiceSelectionReq voiceSelectionReq,
         Authentication authentication) {
 //        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-
+        log.info("select Voice {}", voiceSelectionReq.toString());
         voiceService.selectByVoiceId(1L, voiceSelectionReq);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(voiceSelectionReq.getVoiceId());
     }
 
     @Operation(summary = "녹음된 목소리 삭제", description = "녹음 목소리 삭제 메소드 입니다.")

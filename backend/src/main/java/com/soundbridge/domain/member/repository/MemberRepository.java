@@ -1,7 +1,6 @@
 package com.soundbridge.domain.member.repository;
 
 import com.soundbridge.domain.member.entity.Member;
-import com.soundbridge.domain.member.entity.QMember;
 import com.soundbridge.domain.voice.entity.Voice;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

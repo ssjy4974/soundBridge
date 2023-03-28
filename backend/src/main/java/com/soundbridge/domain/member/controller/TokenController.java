@@ -31,7 +31,7 @@ public class TokenController {
         @ApiResponse(responseCode = "404", description = "사용자 없음"),
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    @GetMapping("/re-issue")
+    @GetMapping("/tokenReissue")
     public String refreshAccessToken(HttpServletRequest request, HttpServletResponse response) {
         log.info("refresh 진입");
 
