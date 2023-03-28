@@ -4,7 +4,10 @@
     <div class="container">
       <div v-for="(basicLetter, index) in basicLetterList" :key="index">
         <router-link :to="`/practicebasicsdetail/${basicLetter.basicLetterId}`">
-          <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
+          <div class="wrap">
+            <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
+            <span class="wrap_text">{{ basicLetter.successCount }}</span>
+          </div>
         </router-link>
       </div>
     </div>
@@ -58,5 +61,11 @@ img {
   height: 75px;
   padding: 3px;
   padding-left: 6.5px;
+  vertical-align: middle;
+}
+.wrap_text {
+  position: absolute;
+  transform: translate(-170%, 260%);
+  color: black;
 }
 </style>
