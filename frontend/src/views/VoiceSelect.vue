@@ -48,9 +48,6 @@ let age = ref();
 let features = ref([]);
 
 const isSearchModal = ref(false);
-// const updateVoices = (value) => {
-//   voices.value.splice(value, 1);
-// };
 
 const callApi = () => {
   myPageStore.getSelectedVoice();
@@ -62,12 +59,11 @@ const searchModal = (rgender, rage, rfeatures) => {
     gender.value = rgender;
     age.value = rage;
     features.value = rfeatures;
-    console.log("cat phrase form 3@#@#", age.value, gender.value);
+    console.log("cat phrase form 3@#@#", age.value, gender.value, features);
     myPageStore.getVoiceList(age.value, gender.value, features.value);
   }
 
   isSearchModal.value = !isSearchModal.value;
-  console.log("isSearchModal value", isSearchModal.value);
 };
 
 callApi();

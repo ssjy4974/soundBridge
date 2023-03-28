@@ -54,7 +54,6 @@
           ><input
             type="checkbox"
             v-model="checkedFeatures"
-            name="feature"
             value="1"
           />차분함</label
         >
@@ -62,7 +61,6 @@
           ><input
             type="checkbox"
             v-model="checkedFeatures"
-            name="feature"
             value="2"
           />산뜻함</label
         >
@@ -70,7 +68,6 @@
           ><input
             type="checkbox"
             v-model="checkedFeatures"
-            name="feature"
             value="3"
           />발랄함</label
         >
@@ -78,7 +75,6 @@
           ><input
             type="checkbox"
             v-model="checkedFeatures"
-            name="feature"
             value="4"
           />고음</label
         >
@@ -86,7 +82,6 @@
           ><input
             type="checkbox"
             v-model="checkedFeatures"
-            name="feature"
             value="5"
           />저음</label
         >
@@ -94,7 +89,6 @@
           ><input
             type="checkbox"
             v-model="checkedFeatures"
-            name="feature"
             value="6"
           />진지함</label
         >
@@ -102,7 +96,7 @@
       <br />
       {{ checkedGender }}
       {{ checkedAge }}
-      <!-- {{ checkedFeatures }} -->
+      {{ checkedFeatures }}
     </div>
   </div>
 </template>
@@ -113,7 +107,7 @@ defineEmits(["closemodal"]);
 
 let checkedGender = ref(null);
 let checkedAge = ref(null);
-let checkedFeatures = ref(null);
+let checkedFeatures = ref([]);
 
 // let checkResult = ref({
 //   gender: checkedGender,

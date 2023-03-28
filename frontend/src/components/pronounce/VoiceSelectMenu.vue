@@ -36,10 +36,6 @@ const selectVoice = (e) => {
   myPageStore.selectVoice(voice.voiceId);
   window.location.reload(true);
 };
-
-onBeforeMount(() => {
-  console.log("@##@#", props.voice);
-});
 </script>
 
 <style lang="scss" scoped>

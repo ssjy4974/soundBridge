@@ -19,7 +19,10 @@ async function voice(memberId, accessToken, success, fail) {
 }
 
 async function voiceList(age, gender, features, accessToken, success, fail) {
-  console.log("VL", age, gender, features, accessToken);
+  let fList = null;
+  if (features && features.length > 0) {
+    fList = features.join();
+  }
   await api
     .get(
       `/api/voices`,
@@ -27,7 +30,7 @@ async function voiceList(age, gender, features, accessToken, success, fail) {
         params: {
           voiceGender: gender,
           voiceAge: age,
-          features: features,
+          features: fList,
         },
       },
       {
