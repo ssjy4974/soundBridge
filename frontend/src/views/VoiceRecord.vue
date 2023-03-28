@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div id="sentenceSection">
+  <div class="container">
+    <div class="sentenceSection">
       <h3>{{ sentence }}</h3>
     </div>
 
@@ -19,17 +19,20 @@
     </div>
 
     <div id="saveBtnSection">
-      <button id="saveBtn" v-if="curFile" @click="save">저장 하기</button>
+      <button class="saveBtn" v-if="curFile" @click="save">저장 하기</button>
+      <button class="saveBtn disabled" v-else>저장 하기</button>
     </div>
 
-    <h3>{{ sentenceNum }}/3922</h3>
+    <h3 class="state">{{ sentenceNum }}/3922</h3>
   </div>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from "@vue/runtime-core";
 import { apiInstance } from "@/api/index";
+import { useMypage } from "@/store/Member";
 
+const memberStore = useMypage();
 const api = apiInstance();
 const isRecording = ref(false);
 const sentence = ref(null);
@@ -38,16 +41,23 @@ const curFile = ref(null);
 const blob = ref(null);
 const text = ref();
 
+const { accessToken, member } = memberStore;
 let mediaRecorder = null;
 
 // 녹음 데이터 저장 배열
 const audioArray = [];
 
 onBeforeMount(() => {
-  api.get(`/api/records/1/`).then((res) => {
-    sentence.value = res.data.content;
-    sentenceNum.value = res.data.sentenceId;
-  });
+  api
+    .get(`/api/records/${member.memberId}/`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then((res) => {
+      sentence.value = res.data.content;
+      sentenceNum.value = res.data.sentenceId;
+    });
 });
 
 const record = () => {
@@ -107,6 +117,25 @@ const save = () => {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sentenceSection {
+  display: flex;
+  align-items: flex-end;
+  text-align: center;
+  line-height: 27px;
+  width: 90%;
+  height: 280px;
+}
+
+audio {
+  margin-top: 50px;
+  width: 400px;
+}
+
 .recordBtn {
   background-color: transparent !important;
   background-image: none !important;
@@ -117,16 +146,25 @@ const save = () => {
 }
 
 .recordBtn img {
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
 }
 
-#saveBtn {
-  width: 280px;
-  height: 32px;
+.saveBtn {
+  width: 350px;
+  height: 40px;
+  margin-top: 30px;
   background-color: #2bacff;
   border-radius: 32px;
   color: #ffffff;
   line-height: 0px;
+}
+
+.disabled {
+  background-color: #afacac;
+}
+
+.state {
+  margin-top: 150px;
 }
 </style>

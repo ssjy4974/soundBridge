@@ -23,26 +23,28 @@ public class MeetingRepositoryImpl implements MeetingRepositorySupport {
 
     @Override
     public Slice<MeetingDetailRes> findAll(Pageable pageable, Long cursorId, Long memberId,
-        Role role) {
+            Role role) {
         final List<MeetingDetailRes> fetch = jpaQueryFactory.select(
-                new QMeetingDetailRes(
-                    meeting.id.as("meetingId"),
-                    meeting.title.as("title"),
-                    meeting.code.as("code"),
-                    meeting.helper.nickname.as("helperName"),
-                    meeting.helper.profile.as("helperProfile"),
-                    meeting.applicant.nickname.as("applicantName"),
-                    meeting.applicant.profile.as("applicantProfile"),
-                    meeting.openChk.intValue().as("openCheck")
+                        new QMeetingDetailRes(
+                                meeting.id.as("meetingId"),
+                                meeting.title.as("title"),
+                                meeting.code.as("code"),
+                                meeting.helper.nickname.as("helperName"),
+                                meeting.helper.profile.as("helperProfile"),
+                                meeting.applicant.nickname.as("applicantName"),
+                                meeting.applicant.profile.as("applicantProfile"),
+                                meeting.openChk.intValue().as("openCheck"),
+                                meeting.startTime.as("startTime"),
+                                meeting.endTime.as("endTime")
+                        )
                 )
-            )
-            .from(meeting)
-            .innerJoin(meeting.helper, member)
-            .innerJoin(meeting.applicant, member)
-            .where(roleEq(memberId, role), cursorId(cursorId))
-            .limit(pageable.getPageSize() + 1)
-            .orderBy(meeting.id.desc())
-            .fetch();
+                .from(meeting)
+                .innerJoin(meeting.helper, member)
+                .innerJoin(meeting.applicant, member)
+                .where(roleEq(memberId, role), cursorId(cursorId))
+                .limit(pageable.getPageSize() + 1)
+                .orderBy(meeting.id.desc())
+                .fetch();
 
         boolean hasNext = false;
 
@@ -57,22 +59,24 @@ public class MeetingRepositoryImpl implements MeetingRepositorySupport {
     @Override
     public Optional<MeetingDetailRes> findOne(Long meetingId) {
         return Optional.ofNullable(jpaQueryFactory.select(
-                new QMeetingDetailRes(
-                    meeting.id.as("meetingId"),
-                    meeting.title.as("title"),
-                    meeting.code.as("code"),
-                    meeting.helper.nickname.as("helperName"),
-                    meeting.helper.profile.as("helperProfile"),
-                    meeting.applicant.nickname.as("applicantName"),
-                    meeting.applicant.profile.as("applicantProfile"),
-                    meeting.openChk.intValue().as("openCheck")
+                        new QMeetingDetailRes(
+                                meeting.id.as("meetingId"),
+                                meeting.title.as("title"),
+                                meeting.code.as("code"),
+                                meeting.helper.nickname.as("helperName"),
+                                meeting.helper.profile.as("helperProfile"),
+                                meeting.applicant.nickname.as("applicantName"),
+                                meeting.applicant.profile.as("applicantProfile"),
+                                meeting.openChk.intValue().as("openCheck"),
+                                meeting.startTime.as("startTime"),
+                                meeting.endTime.as("endTime")
+                        )
                 )
-            )
-            .from(meeting)
-            .innerJoin(meeting.helper, member)
-            .innerJoin(meeting.applicant, member)
-            .where(meeting.id.eq(meetingId))
-            .fetchOne());
+                .from(meeting)
+                .innerJoin(meeting.helper, member)
+                .innerJoin(meeting.applicant, member)
+                .where(meeting.id.eq(meetingId))
+                .fetchOne());
     }
 
     private BooleanExpression roleEq(Long memberId, Role role) {

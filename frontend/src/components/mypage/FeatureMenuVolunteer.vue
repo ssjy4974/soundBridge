@@ -1,15 +1,16 @@
 <template>
   <div>
     <div>
-      <p>TO Do : 봉사자용 마이페이지 메뉴 만드는중</p>
-
       <div id="menu-section">
-        <router-link to="/mypagev/recordState"> 목소리 기부 </router-link>
+        <div>
+          <router-link to="/mypagev/recordState"> 목소리 기부 </router-link>
+        </div>
 
-        <router-link to="/mypagev/meetings"> 발음 피드백 </router-link>
-
-        <hr />
+        <div>
+          <router-link to="/mypagev/meetings"> 발음 피드백 </router-link>
+        </div>
       </div>
+      <hr />
 
       <router-view></router-view>
     </div>
@@ -22,15 +23,22 @@ import recordState from "./RecordState.vue";
 </script>
 
 <style scoped>
+#menu-section {
+  display: flex;
+  justify-content: space-around;
+}
 a {
   text-decoration: none;
   color: black;
 }
-
+.router-link-active {
+  color: #0b76bb;
+}
 hr {
   width: 95%;
   background: #5bbeff;
-  height: 1px;
+  height: 0.2vh;
   border: 0;
+  margin-top: 10px;
 }
 </style>
