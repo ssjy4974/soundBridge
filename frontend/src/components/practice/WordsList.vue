@@ -7,7 +7,8 @@
       </div>
     </div>
     <div>
-      <button>연습할 단어 추가하는 버튼</button>
+      <button @click="addWordModal">연습할 단어 추가하는 버튼</button>
+      <AddWordModal v-if="isWordModal" @closemodal="addWordModal" />
       <div>
         <p>
           버튼 클릭시 단어 추가할 수 있는 모달이나 영역이 나타나게 할 거임 뜸
@@ -23,10 +24,19 @@ import { ref } from "vue";
 
 const MyDailyWord = useMyDailyWord();
 
+const isWordModal = ref(false);
+
 const callAPI = () => {
   MyDailyWord.getmydailyword();
 };
 callAPI();
+
+const addWordModal = () => {
+  console.log("addWord form Wordmodal", isWordModal.value);
+
+  isWordModal.value = !isWordModal.value;
+  console.log("isWordModal value", isWordModal.value);
+};
 </script>
 
 <style lang="scss" scoped>
