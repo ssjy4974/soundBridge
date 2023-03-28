@@ -2,14 +2,9 @@
   <div class="container">
     <p>자주쓰는 단어 추가하는 버튼 기능 추가됨.</p>
     <div class="parent">
-      <div class="child">비빔밥</div>
-      <div class="child">비빔밥</div>
-      <div class="child">비빔밥</div>
-      <div class="child">비빔밥</div>
-      <div class="child">비빔밥</div>
-      <div class="child">비빔밥</div>
-      <div class="child">비빔밥</div>
-      <div class="child">비빔밥</div>
+      <div class="child" v-for="item in MyDailyWord.mydailyword">
+        {{ item.word }}
+      </div>
     </div>
     <div>
       <button>연습할 단어 추가하는 버튼</button>
@@ -23,17 +18,18 @@
 </template>
 
 <script setup>
-import { apiInstance } from "@/api/index";
-import { onBeforeMount, ref } from "@vue/runtime-core";
-import router from "@/router/index";
+import { useMyDailyWord } from "@/store/DailyWord";
+import { ref } from "vue";
 
-const api = apiInstance();
+const MyDailyWord = useMyDailyWord();
+
+const callAPI = () => {
+  MyDailyWord.getmydailyword();
+};
+callAPI();
 </script>
 
 <style lang="scss" scoped>
-.container {
-}
-
 .parent {
   width: 90%;
   border: 1px solid red;
