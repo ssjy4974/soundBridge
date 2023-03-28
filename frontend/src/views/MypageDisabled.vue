@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>장애인용 마이 페이지</h1>
+    <!-- <h1>장애인용 마이 페이지</h1> -->
     <ProfileInfo />
     <FeatureMenuDisabled />
   </div>
