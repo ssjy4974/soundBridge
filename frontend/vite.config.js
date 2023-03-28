@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:9999",
+        target: "https://j8a703.p.ssafy.io",
         changeOrigin: true,
         secure: false,
         ws: true,
