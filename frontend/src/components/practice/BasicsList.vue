@@ -64,7 +64,7 @@ img {
 }
 .wrap_text {
   position: absolute;
-  transform: translate(-170%, 260%);
+  transform: translate(-160%, 340%);
   color: black;
 }
 </style>
