@@ -1,7 +1,6 @@
 <template>
   <div class="main">
-    <h3>발음 교정 기본 자음모음 메뉴 페이지</h3>
-    <div class="container">
+    <div class="container" v-if="basicLetterList">
       <div v-for="(basicLetter, index) in basicLetterList" :key="index">
         <router-link :to="`/practicebasicsdetail/${basicLetter.basicLetterId}`">
           <div class="wrap">
