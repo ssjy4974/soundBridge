@@ -47,6 +47,59 @@
         >
       </div>
       <br />
+
+      <b>특징</b>
+      <div>
+        <label
+          ><input
+            type="checkbox"
+            v-model="checkedFeatures"
+            name="feature"
+            value="1"
+          />차분함</label
+        >
+        <label
+          ><input
+            type="checkbox"
+            v-model="checkedFeatures"
+            name="feature"
+            value="2"
+          />산뜻함</label
+        >
+        <label
+          ><input
+            type="checkbox"
+            v-model="checkedFeatures"
+            name="feature"
+            value="3"
+          />발랄함</label
+        >
+        <label
+          ><input
+            type="checkbox"
+            v-model="checkedFeatures"
+            name="feature"
+            value="4"
+          />고음</label
+        >
+        <label
+          ><input
+            type="checkbox"
+            v-model="checkedFeatures"
+            name="feature"
+            value="5"
+          />저음</label
+        >
+        <label
+          ><input
+            type="checkbox"
+            v-model="checkedFeatures"
+            name="feature"
+            value="6"
+          />진지함</label
+        >
+      </div>
+      <br />
       {{ checkedGender }}
       {{ checkedAge }}
       <!-- {{ checkedFeatures }} -->

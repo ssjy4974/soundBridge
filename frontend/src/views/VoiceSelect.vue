@@ -41,7 +41,7 @@ import VoiceSelectMenu from "@/components/pronounce/VoiceSelectMenu.vue";
 
 const myPageStore = useMypage();
 
-let { voices, selectedVoice } = storeToRefs(myPageStore);
+const { voices, selectedVoice } = storeToRefs(myPageStore);
 
 let gender = ref();
 let age = ref();

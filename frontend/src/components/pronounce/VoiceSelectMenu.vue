@@ -23,12 +23,12 @@
 
 <script setup>
 import VoiceFeatures from "./item/VoiceFeatures.vue";
-import { defineProps, onBeforeMount } from "vue";
+import { defineProps, onBeforeMount, ref } from "vue";
 import { useMypage } from "@/store/MyPage";
 const myPageStore = useMypage();
 
-const props = defineProps({ voice: Object });
-const voice = JSON.parse(JSON.stringify(props)).voice;
+const props = defineProps(["voice", "index"]);
+// let voice = ref(props);
 
 const selectVoice = (e) => {
   e.preventDefault();
@@ -38,7 +38,7 @@ const selectVoice = (e) => {
 };
 
 onBeforeMount(() => {
-  console.log(voice);
+  console.log("@##@#", props.voice);
 });
 </script>
 
