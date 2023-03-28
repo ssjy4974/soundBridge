@@ -30,9 +30,9 @@
 <script setup>
 import { onBeforeMount, ref } from "@vue/runtime-core";
 import { apiInstance } from "@/api/index";
-import { useMypage } from "@/store/Member";
+import { useMember } from "@/store/Member";
 
-const memberStore = useMypage();
+const memberStore = useMember();
 const api = apiInstance();
 const isRecording = ref(false);
 const sentence = ref(null);

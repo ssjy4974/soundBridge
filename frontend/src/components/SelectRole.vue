@@ -62,10 +62,10 @@
 import { apiInstance } from "@/api";
 import router from "@/router";
 import { ref } from "@vue/runtime-core";
-import { useMypage } from "../store/Member";
+import { useMember } from "../store/Member";
 
 const api = apiInstance();
-const memberStore = useMypage();
+const memberStore = useMember();
 
 const ageList = ref(["10대", "20대", "30대", "40대", "50대", "60대"]);
 const age = ref("연령대 선택");

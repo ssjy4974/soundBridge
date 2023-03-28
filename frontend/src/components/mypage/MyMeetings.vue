@@ -41,10 +41,10 @@
 <script setup>
 import { apiInstance } from "@/api/index";
 import { onBeforeMount, ref } from "@vue/runtime-core";
-import { useMypage } from "@/store/Member";
+import { useMember } from "@/store/Member";
 import router from "@/router/index";
 
-const memberStore = useMypage();
+const memberStore = useMember();
 const api = apiInstance();
 const { accessToken, member } = memberStore;
 

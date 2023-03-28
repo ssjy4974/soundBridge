@@ -22,11 +22,11 @@
 <script setup>
 import { onBeforeMount, ref } from "@vue/runtime-core";
 import { apiInstance } from "@/api/index";
-import { useMypage } from "@/store/Member";
+import { useMember } from "@/store/Member";
 import router from "@/router/index";
 
 const api = apiInstance();
-const memberStore = useMypage();
+const memberStore = useMember();
 
 const sentence = ref(null);
 const per = ref(0);

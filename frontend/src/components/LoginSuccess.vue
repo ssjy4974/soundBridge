@@ -7,11 +7,11 @@ import { apiInstance } from "@/api";
 import router from "@/router";
 import { onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
-import { useMypage } from "../store/Member";
+import { useMember } from "../store/Member";
 
 const api = apiInstance();
 const route = useRoute();
-const memberStore = useMypage();
+const memberStore = useMember();
 const { member } = memberStore;
 
 onBeforeMount(async () => {
