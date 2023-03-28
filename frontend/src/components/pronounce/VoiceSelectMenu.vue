@@ -4,15 +4,20 @@
       class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-2 px-2"
     >
       <div class="box">
-        <img :src="`${voice.profile}`" alt="" id="profile" />
+        <img :src="`${props.voice.profile}`" alt="" id="profile" />
         <div class="">
-          {{ voice.voiceName }}
+          {{ props.voice.voiceName }}
         </div>
-        <voice-features></voice-features><voice-features></voice-features
-        ><voice-features></voice-features><voice-features></voice-features
-        ><voice-features></voice-features><voice-features></voice-features
-        ><voice-features></voice-features><voice-features></voice-features>
-        <br />
+
+        <div class="">
+          <voice-features
+            v-for="(feature, index) in props.voice.featureResList"
+            :key="index"
+            :feature="feature"
+            :index="index"
+          >
+          </voice-features>
+        </div>
         <div>
           <button type="button" @click="selectVoice">선택하기</button>
         </div>
@@ -25,6 +30,7 @@
 import VoiceFeatures from "./item/VoiceFeatures.vue";
 import { defineProps, onBeforeMount, ref } from "vue";
 import { useMypage } from "@/store/MyPage";
+import { voice } from "@/api/mypage";
 const myPageStore = useMypage();
 
 const props = defineProps(["voice", "index"]);
@@ -32,10 +38,14 @@ const props = defineProps(["voice", "index"]);
 
 const selectVoice = (e) => {
   e.preventDefault();
-  console.log("목소리 선택!", voice.voiceId);
-  myPageStore.selectVoice(voice.voiceId);
+  console.log("목소리 선택!", props.voice.voiceId);
+  myPageStore.selectVoice(props.voice.voiceId);
   window.location.reload(true);
 };
+
+onBeforeMount(() => {
+  console.log("@#@#", props.voice.featureResList);
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,8 +1,15 @@
 <template>
-  <span class="tag tag-lg">#tagtag</span>
+  <span class="tag tag-lg">#{{ props.feature.featureName }}</span>
 </template>
 
-<script setup></script>
+<script setup>
+import { defineProps, onBeforeMount, ref } from "vue";
+const props = defineProps(["feature", "index"]);
+
+onBeforeMount(() => {
+  console.log("@#@#", props.feature);
+});
+</script>
 
 <style lang="scss" scoped>
 .tag {
