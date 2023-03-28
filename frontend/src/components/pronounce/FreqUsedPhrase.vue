@@ -78,6 +78,7 @@ console.log("freq used cat", freqUsedCat.value);
   align-items: center;
   height: 5vh;
   border-bottom: solid var(--maincolor2);
+  overflow-x: scroll;
 }
 .TTS__container {
   margin-inline: 2vw;

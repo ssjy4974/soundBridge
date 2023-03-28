@@ -7,7 +7,7 @@
       v-model="inputSentence"
       @input="getmysentences(inputSentence)"
     />
-    <div v-for="mysen in mySentences.mysentence">
+    <div v-for="(mysen, index) in mySentences.mysentence" :key="index">
       <p>
         {{ mysen.sentence }}
       </p>
@@ -16,7 +16,7 @@
       <font-awesome-icon
         icon="fa-solid fa-microphone"
         @click="addmysentence(inputSentence)"
-        style="font-size: 1.5rem"
+        style="font-size: 1.3rem"
       />
     </div>
   </div>
@@ -43,8 +43,9 @@ const inputSentence = ref("");
   display: flex;
   align-content: end;
   justify-content: space-between;
-  height: 4vh;
+  height: 5vh;
   margin-inline: 3vw;
+  padding-block: auto;
   padding-inline: 5%;
   border-radius: 8px;
   background-color: var(--maincolor3);
@@ -56,5 +57,7 @@ const inputSentence = ref("");
   width: 90%;
   border: none;
   background-color: var(--maincolor3);
+  align-self: center;
+  height: 70%;
 }
 </style>
