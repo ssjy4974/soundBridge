@@ -3,7 +3,7 @@
     <i class="fa-solid fa-gear" id="set"></i>
     <div id="profileImg">
       <img
-        :src="`../src/assets/img/${member.profile}`"
+        :src="`/src/assets/img/${member.profile}`"
         @click="changeProfile"
         alt="profile"
         id="profile"
