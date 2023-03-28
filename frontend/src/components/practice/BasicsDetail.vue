@@ -1,37 +1,44 @@
 <template>
-  <div>
-    <div v-if="basicLetter">
-      <h3>기본 발음 연습 디테일 컴포넌트</h3>
-      <p>발음 명 : {{ basicLetter.letter }}</p>
-      <div>
+  <div class="main" v-if="basicLetter">
+    <div class="letter">
+      <h1>{{ basicLetter.letter }}</h1>
+      <div class="letterImage">
         <img
-          :src="`${IMAGE_PATH}/${basicLetter.letterImage}`"
+          :src="`${IMAGE_PATH}/${basicLetter.guidImage}`"
           alt="조음법 이미지"
         />
       </div>
-      <div>
-        <p>시도 횟수 : {{ basicLetter.tryCount }}</p>
-        <p>성공 횟수 : {{ basicLetter.successCount }}</p>
+    </div>
+
+    <div class="guidLetter">
+      <h1>{{ basicLetter.guidLetter }}</h1>
+    </div>
+    <div class="realLetter">
+      <h1 v-text="transcript"></h1>
+    </div>
+    <div>
+      <div v-if="route.params.basicLetterId > 1">
+        <i
+          @click="prev"
+          id="leftI"
+          class="fas fa-solid fa-caret-left fa-3x"
+        ></i>
       </div>
-      <div>
-        <div>
-          <button @click="router.replace(`/practicebasics`)">
-            뒤로가기 버튼 (아이콘)
-          </button>
-        </div>
-        <div>
-          <p>실제 발음 명 : {{ basicLetter.guidLetter }}</p>
-          <p>나의 발음</p>
-          <div class="transcript" v-text="transcript"></div>
-        </div>
-        <!-- 자음 모음 다 추가하면 index는 수정할 예정  -->
-        <div v-if="route.params.basicLetterId < 14">
-          <button @click="next">다음 버튼 (아이콘)</button>
-        </div>
+      <div v-if="route.params.basicLetterId < 14">
+        <i
+          @click="next"
+          id="rightI"
+          class="fas fa-solid fa-caret-right fa-3x"
+        ></i>
       </div>
-      <div>
-        <button @click="ToggleMic">연습</button>
-      </div>
+    </div>
+    <br />
+    <div class="record" @click="ToggleMic">
+      <span
+        ><h3>
+          {{ recordStatus }} <i id="mic" class="fa-solid fa-microphone"></i>
+        </h3>
+      </span>
     </div>
   </div>
 </template>
@@ -41,15 +48,15 @@ import { useRoute } from "vue-router";
 import { apiInstance } from "@/api/index";
 import { ref, onMounted } from "vue";
 import router from "@/router/index";
+import Swal from "sweetalert2";
 
 const api = apiInstance();
 const route = useRoute();
-
 const basicLetter = ref();
 const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
-
 const transcript = ref("");
 const isRecording = ref(false);
+const recordStatus = ref("연습하기");
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const sr = new Recognition();
@@ -73,6 +80,8 @@ onMounted(() => {
   sr.onend = () => {
     console.log("연습 종료");
     isRecording.value = false;
+    recordStatus.value = "연습하기";
+    transcript.value = "";
   };
   sr.onresult = (evt) => {
     for (let i = 0; i < evt.results.length; i++) {
@@ -89,6 +98,21 @@ onMounted(() => {
   };
 });
 
+const prev = () => {
+  const index = Number(route.params.basicLetterId);
+  router.replace(`/practicebasicsdetail/${index - 1}`);
+  api
+    .get(`/api/basic-letters/${index - 1}`)
+    .then((res) => {
+      basicLetter.value = res.data;
+    })
+    .catch((err) => {
+      err;
+      alert("상세 조회 실패");
+      router.replace("/");
+    });
+};
+
 const CheckSuccess = (result) => {
   const t = result[0].transcript;
   if (t == basicLetter.value.guidLetter) {
@@ -99,14 +123,31 @@ const CheckSuccess = (result) => {
       )
       .then(() => {
         basicLetter.value.successCount++;
-        alert("정답입니다.");
+        Swal.fire(
+          "성공!",
+          "성공횟수 : " +
+            basicLetter.value.successCount +
+            "<br/>" +
+            "시도 횟수 : " +
+            basicLetter.value.tryCount,
+          "success"
+        );
       })
       .catch((err) => {
+        err;
         alert("다시 한번 시도 해주세요");
       });
   } else {
     sr.stop();
-    alert("실패");
+    Swal.fire(
+      "다시 한번 해볼까요?",
+      "성공횟수 : " +
+        basicLetter.value.successCount +
+        "<br/>" +
+        "시도 횟수 : " +
+        basicLetter.value.tryCount,
+      "question"
+    );
   }
 };
 
@@ -116,6 +157,7 @@ const ToggleMic = () => {
     .then(() => {
       basicLetter.value.tryCount++;
       sr.start();
+      recordStatus.value = "녹음중";
     })
     .catch((err) => {
       err;
@@ -131,7 +173,7 @@ const callApi = () => {
     })
     .catch((err) => {
       err;
-      alert("상세 조회 실패");
+      Swal.fire("상세 조회 실패", "해당 id 값은 존재 하지 않습니다.", "error");
       router.replace("/");
     });
 };
@@ -155,8 +197,86 @@ const next = () => {
 </script>
 
 <style scoped>
+i {
+  color: #2bacff;
+  cursor: pointer;
+}
+#leftI {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  left: calc(50% - 32px / 2 - 147px);
+  top: calc(50% - 32px / 2 + 159px);
+}
+#rightI {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  left: calc(50% - 32px / 2 + 147px);
+  top: calc(50% - 32px / 2 + 159px);
+}
+#mic {
+  color: black;
+}
+.main {
+  height: 100%;
+  width: 100%;
+}
+.letter {
+  text-align: center;
+}
+.guidLetter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+h1,
+h2 {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+.realLetter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.realLetter h1 {
+  border: 1px solid white;
+  border-radius: 16px;
+  margin-left: 35px;
+  margin-right: 35px;
+  background: #eaf6ff;
+  text-align: center;
+  color: #1990dd;
+}
+.letterImage {
+  border: 1px solid white;
+  border-radius: 32px;
+  margin-left: 50px;
+  margin-right: 50px;
+  background: #eaf6ff;
+  margin-bottom: 10px;
+}
 img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 300px;
+  margin: 10%;
+}
+.record {
+  display: flex;
+  justify-content: center;
+  border: 1px solid white;
+  border-radius: 32px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background: #bae4ff;
+  margin-bottom: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+span h3 {
+  padding: 10px;
+  margin: auto;
 }
 </style>
