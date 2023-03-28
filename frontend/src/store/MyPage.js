@@ -17,7 +17,7 @@ export const useMypage = defineStore("mypage", () => {
   // const voices = ref();
 
   async function getVoiceList(age, gender, features) {
-    console.log("voice Feature", age, gender, features);
+    // console.log("voice Feature", age, gender, features);
     await voiceList(
       age,
       gender,
@@ -26,7 +26,6 @@ export const useMypage = defineStore("mypage", () => {
       ({ data }) => {
         console.log(data, " Voice List Result");
         this.voices = data.content;
-        console.log(this.voices);
       }
     );
   }
@@ -38,7 +37,6 @@ export const useMypage = defineStore("mypage", () => {
       ({ data }) => {
         console.log(data, " Selected Voice Result");
         this.selectedVoice = data;
-        console.log(this.selectedVoice);
       }
     );
   }

@@ -7,7 +7,7 @@ import { defineProps, onBeforeMount, ref } from "vue";
 const props = defineProps(["feature", "index"]);
 
 onBeforeMount(() => {
-  console.log("@#@#", props.feature);
+  // console.log("@#@#", props.feature);
 });
 </script>
 
