@@ -17,6 +17,13 @@
         @click="googleLogin"
       />
     </div>
+    <div>
+      <div class="login__container kakao__button">
+        <button></button>
+      </div>
+      <div class="login__container naver__button"></div>
+      <div class="login__container google__button"></div>
+    </div>
   </div>
 </template>
 

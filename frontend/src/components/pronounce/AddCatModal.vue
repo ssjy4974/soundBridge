@@ -1,14 +1,18 @@
 <template>
   <div class="cat__modal">
-    <div @click="$emit('closemodal')">X</div>
+    <div class="close__button" @click="$emit('closemodal')">X</div>
     <p>카테고리 추가하기</p>
-    <input
-      type="text"
-      placeholder="카테고리 이름 입력하세요"
-      v-model="newCategory"
-    />
-
-    <button @click="categoryHandler">추가하기 +</button>
+    <div>
+      <input
+        class="input__box"
+        type="text"
+        placeholder="카테고리 이름 입력하세요"
+        v-model="newCategory"
+      />
+    </div>
+    <div class="addbutton__container">
+      <button @click="categoryHandler">추가하기 +</button>
+    </div>
   </div>
 </template>
 
@@ -54,5 +58,37 @@ defineEmits(["closemodal"]);
   left: 5vw;
   width: 80%;
   z-index: 2;
+}
+.close__button {
+  display: flex;
+  justify-content: end;
+}
+.addbutton__container {
+  margin-top: 10%;
+  align-self: center;
+}
+.input__box {
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 5px;
+
+  margin-left: 2%;
+  margin-right: 2%;
+  /* Black/200 / */
+  width: 90%;
+  border-top: 2px solid #f1f1f1;
+  border-right: 2px solid #f1f1f1;
+  border-bottom: 2px solid #f1f1f1;
+  border-left: 1px solid #f1f1f1;
+
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 8px;
+
+  /* / Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 }
 </style>
