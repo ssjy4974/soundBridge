@@ -22,29 +22,38 @@
 <script setup>
 import { onBeforeMount, ref } from "@vue/runtime-core";
 import { apiInstance } from "@/api/index";
+import { useMypage } from "@/store/Member";
 import router from "@/router/index";
 
 const api = apiInstance();
+const memberStore = useMypage();
 
 const sentence = ref(null);
 const per = ref(0);
+const { accessToken, member } = memberStore;
 
 onBeforeMount(() => {
-  api.get(`/api/records/1/`).then((res) => {
-    sentence.value = res.data.content;
-    per.value = ((res.data.sentenceId / 3922) * 100).toFixed(1);
-    let elem = document.querySelector(".myBar");
-    var width = 1;
-    var id = setInterval(frame, 10);
-    function frame() {
-      if (width >= per.value) {
-        clearInterval(id);
-      } else {
-        width++;
-        elem.style.width = width + "%";
+  api
+    .get(`/api/records/${member.memberId}/`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then((res) => {
+      sentence.value = res.data.content;
+      per.value = ((res.data.sentenceId / 3922) * 100).toFixed(1);
+      let elem = document.querySelector(".myBar");
+      var width = 1;
+      var id = setInterval(frame, 10);
+      function frame() {
+        if (width >= per.value) {
+          clearInterval(id);
+        } else {
+          width++;
+          elem.style.width = width + "%";
+        }
       }
-    }
-  });
+    });
 });
 
 const toRecord = () => {
@@ -115,6 +124,6 @@ const startRecord = () => {
 .sentence {
   color: #46464680;
   margin-top: 10px;
-  width: 400px;
+  width: 370px;
 }
 </style>
