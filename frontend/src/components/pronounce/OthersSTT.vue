@@ -10,6 +10,11 @@
 
 <style scoped>
 .STT__container {
-  height: 36vh;
+  height: 32vh;
+  margin-inline: 2vw;
+  margin-top: 2vh;
+  padding: 1vh;
+  border-radius: 16px;
+  border: solid var(--maincolor2) 3px;
 }
 </style>

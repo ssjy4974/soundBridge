@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="TTS__container">
     <div class="cat__container">
       <span v-for="(category, c) in freqUsedCat" :key="c">
         {{ category.categoryName }} |
@@ -74,6 +74,16 @@ console.log("freq used cat", freqUsedCat.value);
   overflow: scroll;
 }
 .cat__container {
-  height: 15%;
+  display: flex;
+  align-items: center;
+  height: 5vh;
+  border-bottom: solid var(--maincolor2);
+}
+.TTS__container {
+  margin-inline: 2vw;
+  margin-bottom: 2vh;
+  padding: 1vh;
+  border-radius: 16px;
+  border: solid var(--maincolor2) 3px;
 }
 </style>

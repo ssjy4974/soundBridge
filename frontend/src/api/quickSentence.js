@@ -50,7 +50,7 @@ async function saveQuickSentence(
     .then(fail);
 }
 //GET
-async function saveQuickSentence(categoryId, accessToken, success, fail) {
+async function getQuickSentence(categoryId, accessToken, success, fail) {
   await api
     .get(`/api/quick-sentences/${categoryId}`, {
       headers: {
@@ -91,7 +91,7 @@ async function delQuickSentence(quickSentenceId, accessToken, success, fail) {
 export {
   updateQuickSentence,
   saveQuickSentence,
-  saveQuickSentence,
+  getQuickSentence,
   countQuickSentenceAndCategory,
   delQuickSentence,
 };
