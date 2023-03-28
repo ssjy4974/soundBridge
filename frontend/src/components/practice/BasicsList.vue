@@ -23,7 +23,7 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 
 const callApi = () => {
   api
-    .get(`/api//basic-letters`)
+    .get(`/api/basic-letters`)
     .then((res) => {
       basicLetterList.value = res.data;
     })
