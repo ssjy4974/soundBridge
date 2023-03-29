@@ -53,6 +53,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         MemberAccessRes memberAccessRes = new MemberAccessRes(member.getId(), accessToken);
 
+        log.info("member Res {}", member.getId());
+
         Authentication auth = getAuthentication(memberAccessRes);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
