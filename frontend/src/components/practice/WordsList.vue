@@ -1,25 +1,26 @@
 <template>
   <div class="container">
-    <p>자주쓰는 단어 추가하는 버튼 기능 추가됨.</p>
     <div class="parent">
-      <div class="child" v-for="item in MyDailyWord.mydailyword">
-        {{ item.word }}
+      <div
+        class="child"
+        @click=""
+        v-for="(item, index) in MyDailyWord.mydailyword"
+      >
+        <router-link :to="`/wordsdetail/${index}`">
+          {{ item.word }}
+        </router-link>
       </div>
     </div>
     <div>
       <button @click="addWordModal">연습할 단어 추가하는 버튼</button>
       <AddWordModal v-if="isWordModal" @closemodal="addWordModal" />
-      <div>
-        <p>
-          버튼 클릭시 단어 추가할 수 있는 모달이나 영역이 나타나게 할 거임 뜸
-        </p>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { useMyDailyWord } from "@/store/DailyWord";
+import AddWordModal from "./AddWordModal.vue";
 import { ref } from "vue";
 
 const MyDailyWord = useMyDailyWord();

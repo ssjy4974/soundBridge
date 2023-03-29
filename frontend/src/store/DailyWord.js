@@ -17,7 +17,12 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
   // POST
   async function addmydailyword(newWord) {
     await addMyDailyWord(newWord, accessToken, ({ data }) => {
-      console.log(data, " get my sentence");
+      console.log(data, " add new word");
+
+      getMyDailyWord(accessToken, ({ data }) => {
+        mydailyword.value = data;
+        console.log("Get method responses", mydailyword.value);
+      });
     });
   }
 

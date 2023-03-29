@@ -30,6 +30,11 @@ synthesizer = tts.synthesizer
 class AudioOut(BaseModel):
     audio: List[float] = []
 
+from pydantic import BaseModel
+
+class AddWordBody(BaseModel):
+    memberId: int
+    dailyWord : str
 
 @app.get("/ai/records/{sentence_id}")
 async def get_sentence(sentence_id):
@@ -80,7 +85,9 @@ async def read_item(text: str):
 
 
 @app.post("/ai/daily-words")
-async def addDailyWord(memberId: int, dailyWord : str):
+def addDailyWord(addWordBody: AddWordBody):
+    dailyWord = addWordBody.dailyWord
+    memberId = addWordBody.memberId
     findWord = session.query(Daily_Word).filter(Daily_Word.word==dailyWord).first()
     findMember = session.query(Member).filter(Member.member_id == memberId).first()
 
@@ -98,8 +105,8 @@ async def addDailyWord(memberId: int, dailyWord : str):
         session.add(newWord)
         session.commit()
 
-    word = session.query(Daily_Word).filter(Daily_Word.word == dailyWord).first()
-    hasWord = session.query(Word_Member).filter(Word_Member.daily_word_id == word.daily_word_id
+    word =  session.query(Daily_Word).filter(Daily_Word.word == dailyWord).first()
+    hasWord =  session.query(Word_Member).filter(Word_Member.daily_word_id == word.daily_word_id
                                       , Word_Member.member_id == findMember.member_id).first()
     print(hasWord,"단어 있니?")
 
@@ -110,4 +117,5 @@ async def addDailyWord(memberId: int, dailyWord : str):
         session.add(newWordMember)
         session.commit()
 
-    return 0
+
+    return dailyWord
