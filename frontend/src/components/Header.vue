@@ -4,16 +4,12 @@
       <font-awesome-icon @click="goback" icon="fa-solid fa-arrow-left" />
     </div>
     <div class="logo__div">
-      <router-link to="/pronounce">
-        <p>Header disabled</p>
-      </router-link>
-      <router-link to="/mypagev">
-        <p>Header volunteer</p>
+      <router-link to="/">
+        <img src="@/assets/img/logo.png" id="logo" />
+        <span id="text">연 &nbsp;청</span>
       </router-link>
     </div>
-    <div>
-      <!-- <p>????</p> -->
-    </div>
+    <div></div>
   </div>
 </template>
 
@@ -44,9 +40,24 @@ function goback() {
   align-items: center;
 }
 .logo__div {
-  display: flex;
+  position: relative;
+  right: 3vh;
+  font-size: x-large;
+  bottom: 1vh;
 }
 .back_icon {
   padding-inline: 3%;
+}
+
+#logo {
+  width: 10%;
+  height: auto;
+  position: relative;
+  right: 0.6vh;
+  top: 1vh;
+}
+
+#text {
+  color: black;
 }
 </style>
