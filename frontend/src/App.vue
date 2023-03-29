@@ -11,7 +11,7 @@ import FooterVolunteer from "./components/FooterVolunteer.vue";
 
 <template>
   <div>
-    <Header />
+    <Header v-if="userRole != null" />
     <div id="wrapper">
       <router-view class="router" />
     </div>
