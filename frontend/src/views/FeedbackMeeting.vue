@@ -1,34 +1,34 @@
 <template>
   <div>
-    <h1>Feedback Web RTC</h1>
-
-    <input
-      type="button"
-      id="buttonLeaveSession"
-      @click="leaveSession"
-      value="나가기"
-    />
-
-    <input
-      type="button"
-      id="feedbackDone"
-      @click="feedbackDone"
-      value="상담 종료"
-    />
-
     <div v-if="openviduInfo.session">
-      <div id="my-video">
-        <user-video :stream-manager="openviduInfo.publisher" />
-      </div>
-
-      <div id="video-container" class="col-md-6">
+      <div id="video-container" class="sub-video">
         <user-video
           v-for="sub in openviduInfo.subscribers"
           :key="sub.stream.connection.connectionId"
           :stream-manager="sub"
         />
       </div>
+      <div id="user-video" v-show="openviduInfo.subscribers.length === 0">
+        <user-video :stream-manager="openviduInfo.publisher" />
+      </div>
+      <div id="my-video" v-show="openviduInfo.subscribers.length != 0">
+        <my-video :stream-manager="openviduInfo.publisher" />
+      </div>
     </div>
+    <div class="button-section">
+      <button id="doneBtn" @click="feedbackDone">상담 종료</button>
+
+      <button id="exitBtn" @click="leaveSession">
+        <i class="fa-solid fa-circle-xmark fa-3x"></i>
+      </button>
+
+      <button id="chatBtn" @click="openChatModal">
+        <i class="fa-solid fa-message fa-3x"></i>
+      </button>
+    </div>
+    <transition name="slide-fade">
+      <chat-modal v-if="chatModal" @closeChatModal="openChatModal" />
+    </transition>
   </div>
 </template>
 
@@ -39,9 +39,15 @@ import { onBeforeMount, ref } from "@vue/runtime-core";
 import { OpenVidu } from "openvidu-browser";
 import router from "@/router/index";
 import UserVideo from "@/components/meeting/UserVideo.vue";
+import MyVideo from "@/components/meeting/MyVideo.vue";
+import ChatModal from "@/components/meeting/ChatModal.vue";
+
+import { useMember } from "@/store/Member";
 
 const route = useRoute();
 const api = apiInstance();
+const memberStore = useMember();
+const { accessToken } = memberStore;
 
 const openviduInfo = ref({
   // OpenVidu objects
@@ -51,6 +57,8 @@ const openviduInfo = ref({
   publisher: undefined,
   subscribers: [],
 });
+
+const chatModal = ref(false);
 
 onBeforeMount(() => {
   api
@@ -96,7 +104,7 @@ onBeforeMount(() => {
             videoSource: undefined,
             publishAudio: true,
             publishVideo: true,
-            resolution: "640x480",
+            resolution: "640x1080",
             frameRate: 30,
             insertMode: "APPEND",
             mirror: true,
@@ -151,6 +159,45 @@ const feedbackDone = () => {
       alert("상담 종료 실패");
     });
 };
+
+const openChatModal = () => {
+  chatModal.value = !chatModal.value;
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.button-section {
+  position: absolute;
+  bottom: 56px;
+  z-index: 10;
+}
+
+#exitBtn {
+  margin-left: 5vh;
+  background-color: transparent;
+}
+
+#chatBtn {
+  margin-left: 5vh;
+  background-color: transparent;
+}
+
+.slide-fade-enter-from {
+  transform: translateY(500px);
+}
+
+.slide-fade-enter-active {
+  transition: all 0.8s;
+}
+.slide-fade-enter-to {
+  transform: translateY(0px);
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s;
+}
+.slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(500px);
+}
+</style>
