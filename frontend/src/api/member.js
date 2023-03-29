@@ -36,6 +36,7 @@ async function modifyMyProfile(formData, accessToken, success, fail) {
 }
 
 async function getMemberInfo(accessToken, success, fail) {
+  console.log(accessToken);
   await api
     .get(`/api/members`, {
       headers: {

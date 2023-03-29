@@ -21,6 +21,7 @@ onBeforeMount(async () => {
 
   if (accessToken) {
     await memberStore.setAccessToken(accessToken);
+    console.log(" ls ", accessToken);
     await memberStore.setMemberInfo();
     if (!member.role) {
       router.push("/select-role");
