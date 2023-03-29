@@ -28,11 +28,11 @@ onMounted(() => {
   sr.onstart = () => {
     console.log("발화 시작");
     isRecording.value = true;
+    transcript.value = "";
   };
   sr.onend = () => {
     console.log("발화 종료");
     isRecording.value = false;
-    transcript.value = "";
   };
   sr.onresult = (evt) => {
     const t = Array.from(evt.results)
@@ -44,7 +44,7 @@ onMounted(() => {
 });
 
 const ToggleMic = () => {
-  if (transcript.value) {
+  if (isRecording.value) {
     sr.stop();
   } else {
     sr.start();
