@@ -60,22 +60,22 @@ const googleLogin = () => {
 <style scoped>
 #big-logo {
   position: relative;
-  top: 15vh;
-  left: 14vh;
+  top: 26vh;
+  left: 15vh;
 }
 #small-logo {
   position: relative;
-  top: 21vh;
-  right: 8vh;
+  top: 32vh;
+  right: 3vh;
 }
 #start {
   position: relative;
-  top: 47vh;
-  left: 14vh;
+  top: 59vh;
+  left: 15vh;
 }
 #loginBtn {
   position: relative;
-  top: 48vh;
+  top: 58vh;
   right: 1vh;
 }
 
