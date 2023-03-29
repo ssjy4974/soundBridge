@@ -26,7 +26,9 @@ import FooterVolunteer from "./components/FooterVolunteer.vue";
   </div>
 </template>
 
-<script></script>
+<script>
+const userRole = "APPLICANT";
+</script>
 
 <style scoped>
 #wrapper {
