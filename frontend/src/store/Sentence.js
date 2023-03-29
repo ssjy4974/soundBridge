@@ -8,16 +8,23 @@ import { ref } from "vue";
 
 export const useMySentence = defineStore("mysentence", () => {
   const accessToken = "access-token 123";
-  const sentence = ref("");
+  const sentence = ref("감");
   const mysentence = ref();
 
   // GET
   async function getmysentences(newSentence) {
     sentence.value = newSentence;
-    await getMySentences(sentence.value, accessToken, ({ data }) => {
-      mysentence.value = data;
-      console.log("Get method responses", mysentence.value);
-    });
+    await getMySentences(
+      sentence.value,
+      accessToken,
+      ({ data }) => {
+        mysentence.value = data;
+        console.log("Get method responses", mysentence.value);
+      },
+      ({ fail }) => {
+        mysentence.value = {};
+      }
+    );
   }
 
   // POST

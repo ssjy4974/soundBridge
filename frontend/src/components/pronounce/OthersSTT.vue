@@ -4,9 +4,17 @@
       <p v-text="transcript"></p>
       <!-- <p>play 아이콘 클릭하면STT 실행</p> -->
     </div>
+<<<<<<< Updated upstream
     <div class="microphone__icon" @click="ToggleMic">
       <font-awesome-icon v-if="!isRecording" icon="fa-solid fa-headphones" />
       <font-awesome-icon v-else icon="fa-solid fa-pause" />
+=======
+    <div class="microphone__container">
+      <font-awesome-icon
+        class="microphone__icon"
+        icon="fa-solid fa-headphones"
+      />
+>>>>>>> Stashed changes
     </div>
   </div>
 </template>
@@ -61,9 +69,16 @@ const ToggleMic = () => {
   padding: 1vh;
   border-radius: 16px;
   border: solid var(--maincolor2) 3px;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.microphone__container {
+  padding-inline: 5%;
+  align-self: end;
 }
 .microphone__icon {
+  font-size: 1.5rem;
 }
 .fa-headphones {
   position: absolute;
