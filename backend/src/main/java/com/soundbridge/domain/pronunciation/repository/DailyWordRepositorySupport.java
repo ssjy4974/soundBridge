@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface DailyWordRepositorySupport {
 
-//    List<DailyWordRes> findAllByMemberId(Long memberId);
+    DailyWordRes findDailyWordBydailyWord(String word);
 }

@@ -1,27 +1,44 @@
 <template>
   <div class>
     <div>
-      {{ MyDailyWord.mydailyword[index].word }}
+      {{ MyDailyWord[index] }}
     </div>
     <div>올바른 발음</div>
-    <div>{{ MyDailyWord.mydailyword[index].guideWord }}</div>
+    <div>{{ MyDailyWord[index] }}</div>
     <div>나의 발음</div>
     <div>???</div>
     <div>연습하기</div>
   </div>
   <div class="parent">
-    <div class="child">이전</div>
-    <div class="child">다음</div>
+    <div class="child" v-if="index > 0" @click="prev">이전</div>
+    <div class="child" v-if="index < endIdx - 1" @click="next">다음</div>
   </div>
 </template>
 
 <script setup>
 import { useMyDailyWord } from "@/store/DailyWord";
 import { useRoute } from "vue-router";
+import router from "@/router/index";
+
 const route = useRoute();
 const index = route.params.index;
+const MyDailyWord = localStorage.getItem("dailyWordList");
+const endIdx = MyDailyWord.length;
 
-const MyDailyWord = useMyDailyWord();
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const sr = new Recognition();
+
+const prev = () => {
+  console.log("이전 클릭");
+  console.log(index);
+  router.replace(`/wordsdetail/${index - 1}`);
+};
+
+const next = () => {
+  console.log("다음 클릭");
+  console.log(MyDailyWord);
+  router.replace(`/wordsdetail/${index + 1}`);
+};
 </script>
 
 <style scoped>

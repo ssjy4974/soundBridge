@@ -10,6 +10,7 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
   async function getmydailyword() {
     await getMyDailyWord(accessToken, ({ data }) => {
       mydailyword.value = data;
+      localStorage.setItem("dailyWordList", JSON.stringify(mydailyword.value));
       console.log("Get method responses", mydailyword.value);
     });
   }

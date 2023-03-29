@@ -30,8 +30,6 @@ synthesizer = tts.synthesizer
 class AudioOut(BaseModel):
     audio: List[float] = []
 
-from pydantic import BaseModel
-
 class AddWordBody(BaseModel):
     memberId: int
     dailyWord : str

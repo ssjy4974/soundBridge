@@ -1,5 +1,6 @@
 package com.soundbridge.domain.pronunciation.controller;
 
+import com.soundbridge.domain.pronunciation.entity.DailyWord;
 import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import com.soundbridge.domain.pronunciation.service.BasicLetterService;
@@ -114,16 +115,16 @@ public class PronunciationApiController {
         return ResponseEntity.ok(basicLetterService.findBasicLetter(basicLetterId, 1L));
     }
 
-//    @GetMapping("/daily-words/{dailyWord}")
-//    @Operation(summary = "일상 단어 상세조회")
-//    @ApiResponses({
-//        @ApiResponse(responseCode = "200", description = "일상 단어 상세 조회 성공"),
-//        @ApiResponse(responseCode = "404", description = "존재 하지 않는 일상 단어")
-//    })
-//    public ResponseEntity<BasicLetterRes> basicLetterDetails(@PathVariable String dailyWord,
-//        Authentication authentication) {
-//        return ResponseEntity.ok(dailyWordService.findDailyWord(dailyWord, 1L));
-//    }
+    @GetMapping("/daily-words/{word}")
+    @Operation(summary = "일상 단어 상세조회")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "일상 단어 상세 조회 성공"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 일상 단어")
+    })
+    public ResponseEntity<DailyWordRes> dailyWordDetails(@PathVariable String word,
+                                                          Authentication authentication) {
+        return ResponseEntity.ok(dailyWordService.findDailyWord(word, 1L));
+    }
 
 
 }
