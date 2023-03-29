@@ -5,7 +5,8 @@
       <!-- <p>play 아이콘 클릭하면STT 실행</p> -->
     </div>
     <div class="microphone__icon" @click="ToggleMic">
-      <font-awesome-icon icon="fa-solid fa-play" />
+      <font-awesome-icon v-if="!isRecording" icon="fa-solid fa-headphones" />
+      <font-awesome-icon v-else icon="fa-solid fa-pause" />
     </div>
   </div>
 </template>
@@ -63,5 +64,28 @@ const ToggleMic = () => {
   display: block;
 }
 .microphone__icon {
+}
+.fa-headphones {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: calc(55% - 24px / 2 + 119px);
+  top: calc(55% - 24px / 2 + 262px);
+}
+
+.fa-headphones {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: calc(55% - 24px / 2 + 119px);
+  top: calc(55% - 24px / 2 + 262px);
+}
+
+.fa-pause {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: calc(55% - 24px / 2 + 119px);
+  top: calc(55% - 24px / 2 + 262px);
 }
 </style>
