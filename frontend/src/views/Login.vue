@@ -1,6 +1,6 @@
 <template>
   <div id="loginpage">
-    <img id="big-logo" src="../assets/img/big.png" />
+    <img id="big-logo" src="../assets/img/biglogo.png" />
     <img id="small-logo" src="../assets/img/small.png" />
     <img id="start" src="../assets/img/start.png" />
     <div id="loginBtn">
@@ -60,18 +60,20 @@ const googleLogin = () => {
 <style scoped>
 #big-logo {
   position: relative;
+  width: 90%;
+  height: auto;
   top: 26vh;
-  left: 15vh;
+  left: 2.5vh;
 }
 #small-logo {
   position: relative;
-  top: 32vh;
-  right: 3vh;
+  top: 27vh;
+  left: 12vh;
 }
 #start {
   position: relative;
   top: 59vh;
-  left: 15vh;
+  right: 7vh;
 }
 #loginBtn {
   position: relative;

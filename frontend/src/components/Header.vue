@@ -5,8 +5,9 @@
     </div>
     <div class="logo__div">
       <router-link to="/">
-        <img src="@/assets/img/logo.png" id="logo" />
-        <span id="text">연 &nbsp;청</span>
+        <span>
+          <img src="@/assets/img/logotext.png" id="logotext" />
+        </span>
       </router-link>
     </div>
     <div></div>
@@ -50,11 +51,19 @@ function goback() {
 }
 
 #logo {
-  width: 10%;
+  width: 12%;
   height: auto;
   position: relative;
   right: 0.6vh;
   top: 1vh;
+}
+
+#logotext {
+  width: 50%;
+  height: auto;
+  position: relative;
+  left: 0.8vh;
+  top: 1.5vh;
 }
 
 #text {
