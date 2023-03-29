@@ -39,7 +39,7 @@ public class TokenController {
 
         log.info("cookie size {}", cookies);
 
-        String accessToken = tokenService.reGenerateAccessToken(cookies);
+        String accessToken = "Bearer " + tokenService.reGenerateAccessToken(cookies);
 
         response.addHeader("access-token", accessToken);
         log.info(accessToken);

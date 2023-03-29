@@ -3,7 +3,7 @@ import { apiInstance } from "./index.js";
 const api = apiInstance();
 
 async function voice(memberId, accessToken, success, fail) {
-  console.log("modifyNickname", memberId);
+  console.log("voice", memberId);
   await api
     .get(
       `/api/voices/${memberId}`,

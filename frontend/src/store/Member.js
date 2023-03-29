@@ -4,20 +4,20 @@ import {
   modifyNickName,
   getMemberInfo,
   signUp,
+  getNewAccessToken,
 } from "@/api/member";
 
 export const useMember = defineStore("member", {
   // state  == ref(), useState() 변수
   state: () => ({
     member: {
-      memberId: 1,
+      memberId: 0,
       email: null,
-      nickname: "Nick",
-      profile:
-        "https://yt3.googleusercontent.com/ytc/AL5GRJVAMq-8ooMfNc0HDE6hWKlNr4vQXpba8gPxpya5B14=s900-c-k-c0x00ffffff-no-rj",
+      nickname: null,
+      profile: null,
       role: null,
     },
-    accessToken: "access-token 123",
+    accessToken: null,
   }),
   //   getters == computed()  // 랜더링 될때 실행되는 함수
   //   action == function()  // 함수
@@ -63,6 +63,18 @@ export const useMember = defineStore("member", {
         },
         (error) => {
           console.log(error.response.data);
+        }
+      );
+    },
+
+    async refreshAccessToken() {
+      await getNewAccessToken(
+        ({ data }) => {
+          console.log(data);
+          this.accessToken = data;
+        },
+        (error) => {
+          console.log(error);
         }
       );
     },
