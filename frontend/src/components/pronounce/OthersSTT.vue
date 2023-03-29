@@ -2,19 +2,10 @@
   <div class="STT__container">
     <div>
       <p v-text="transcript"></p>
-      <!-- <p>play 아이콘 클릭하면STT 실행</p> -->
     </div>
-<<<<<<< Updated upstream
     <div class="microphone__icon" @click="ToggleMic">
       <font-awesome-icon v-if="!isRecording" icon="fa-solid fa-headphones" />
       <font-awesome-icon v-else icon="fa-solid fa-pause" />
-=======
-    <div class="microphone__container">
-      <font-awesome-icon
-        class="microphone__icon"
-        icon="fa-solid fa-headphones"
-      />
->>>>>>> Stashed changes
     </div>
   </div>
 </template>

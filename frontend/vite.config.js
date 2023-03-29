@@ -13,13 +13,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-<<<<<<< Updated upstream
         target: "https://j8a703.p.ssafy.io",
         // target: "http://localhost:9999",
-=======
-        // "https://j8a703.p.ssafy.io"
-        target: "http://localhost:9999",
->>>>>>> Stashed changes
         changeOrigin: true,
         secure: false,
         ws: true,
