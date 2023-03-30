@@ -27,7 +27,12 @@
       </button>
     </div>
     <transition name="slide-fade">
-      <chat-modal v-if="chatModal" @closeChatModal="openChatModal" />
+      <chat-modal
+        :msgList="msgList"
+        v-if="chatModal"
+        @closeChatModal="openChatModal"
+        @sendMsg="appendMsg"
+      />
     </transition>
   </div>
 </template>
@@ -41,7 +46,6 @@ import router from "@/router/index";
 import UserVideo from "@/components/meeting/UserVideo.vue";
 import MyVideo from "@/components/meeting/MyVideo.vue";
 import ChatModal from "@/components/meeting/ChatModal.vue";
-
 import { useMember } from "@/store/Member";
 
 const route = useRoute();
@@ -57,7 +61,7 @@ const openviduInfo = ref({
   publisher: undefined,
   subscribers: [],
 });
-
+const msgList = ref([]);
 const chatModal = ref(false);
 
 onBeforeMount(() => {
@@ -92,7 +96,16 @@ onBeforeMount(() => {
         alert("상담이 종료 되었습니다.");
         leaveSession();
       });
-      console.log(res.data);
+      openviduInfo.value.session.on("signal:chat", (event) => {
+        if (
+          event.from.connectionId ==
+          openviduInfo.value.session.connection.connectionId
+        ) {
+          msgList.value.push({ text: event.data, side: "right" });
+        } else {
+          msgList.value.push({ text: event.data, side: "left" });
+        }
+      });
       openviduInfo.value.session
         .connect(res.data, {
           clientData: "test",
@@ -162,6 +175,13 @@ const feedbackDone = () => {
 
 const openChatModal = () => {
   chatModal.value = !chatModal.value;
+};
+
+const appendMsg = (text) => {
+  openviduInfo.value.session.signal({
+    type: "chat",
+    data: text,
+  });
 };
 </script>
 

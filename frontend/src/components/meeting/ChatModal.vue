@@ -13,113 +13,65 @@
       </header>
 
       <main class="msger-chat">
-        <div class="msg left-msg">
+        <div v-for="(msg, idx) in props.msgList" :key="idx">
           <div
-            class="msg-img"
-            style="
-              background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg);
-            "
-          ></div>
-
-          <div class="msg-bubble">
-            <div class="msg-info">
-              <div class="msg-info-name">BOT</div>
-              <div class="msg-info-time">12:45</div>
+            class="msg"
+            :class="msg.side === `left` ? `left-msg` : `right-msg`"
+          >
+            <div class="msg-bubble">
+              <div class="msg-text">{{ msg.text }}</div>
             </div>
-
-            <div class="msg-text">
-              Hi, welcome to SimpleChat! Go ahead and send me a message. 😄
-            </div>
-          </div>
-        </div>
-
-        <div class="msg right-msg">
-          <div
-            class="msg-img"
-            style="
-              background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg);
-            "
-          ></div>
-
-          <div class="msg-bubble">
-            <div class="msg-info">
-              <div class="msg-info-name">Sajad</div>
-              <div class="msg-info-time">12:46</div>
-            </div>
-
-            <div class="msg-text">You can change your name in JS section!</div>
           </div>
         </div>
       </main>
 
-      <form class="msger-inputarea">
+      <div class="msger-inputarea">
         <input
           type="text"
           class="msger-input"
-          placeholder="Enter your message..."
+          placeholder="메세지를 입력하세요..."
+          @keyup.enter="sendMsg(msg)"
+          v-model="msg"
         />
-        <button type="submit" class="msger-send-btn">Send</button>
-      </form>
+        <button class="msger-send-btn" @click="sendMsg(msg)">Send</button>
+      </div>
     </section>
   </div>
 </template>
 
 <script setup>
-const appendMessage = (name, img, side, text) => {
-  //   Simple solution for small apps
-  const msgHTML = `
-    <div class="msg ${side}-msg">
-      <div class="msg-img" style="background-image: url(${img})"></div>
+import { text } from "@fortawesome/fontawesome-svg-core";
+import { defineProps, defineEmits, ref, onMounted, onUpdated } from "vue";
 
-      <div class="msg-bubble">
-        <div class="msg-info">
-          <div class="msg-info-name">${name}</div>
-          <div class="msg-info-time">${formatDate(new Date())}</div>
-        </div>
+const props = defineProps({ msgList: Object });
+const emit = defineEmits(["sendMsg"]);
+const msg = ref("");
 
-        <div class="msg-text">${text}</div>
-      </div>
-    </div>
-  `;
+onMounted(() => {
+  scroll();
+});
 
-  msgerChat.insertAdjacentHTML("beforeend", msgHTML);
-  msgerChat.scrollTop += 500;
+onUpdated(() => {
+  scroll();
+});
+const sendMsg = async (text) => {
+  emit("sendMsg", text);
+  msg.value = "";
+  await scroll();
 };
 
-const botResponse = () => {
-  const r = random(0, BOT_MSGS.length - 1);
-  const msgText = BOT_MSGS[r];
-  const delay = msgText.split(" ").length * 100;
-
-  setTimeout(() => {
-    appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
-  }, delay);
-};
-
-const formatDate = (date) => {
-  const h = "0" + date.getHours();
-  const m = "0" + date.getMinutes();
-
-  return `${h.slice(-2)}:${m.slice(-2)}`;
+const scroll = async () => {
+  document.querySelector(".msger-chat").scrollTop =
+    document.querySelector(".msger-chat").scrollHeight;
 };
 </script>
 <style scoped>
 .container {
   position: fixed;
-  bottom: 0px;
+  bottom: -47px;
+  width: 100%;
   z-index: 11;
-}
-
-:root {
-  --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  --msger-bg: #fff;
-  --border: 2px solid #ddd;
-  --left-msg-bg: #ececec;
-  --right-msg-bg: #579ffb;
-}
-
-html {
-  box-sizing: border-box;
+  height: 50%;
 }
 
 *,
@@ -135,7 +87,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: var(--body-bg);
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   font-family: Helvetica, sans-serif;
 }
 
@@ -146,9 +98,9 @@ body {
   width: 100%;
   max-width: 867px;
   height: calc(100% - 50px);
-  border: var(--border);
+  border: 2px solid #ddd;
   border-radius: 5px;
-  background: var(--msger-bg);
+  background: #fff;
   box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
 }
 
@@ -156,7 +108,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  border-bottom: var(--border);
+  border-bottom: 2px solid #ddd;
   background: #eee;
   color: #666;
 }
@@ -164,6 +116,8 @@ body {
 .msger-chat {
   flex: 1;
   overflow-y: auto;
+  /* display: flex;
+  flex-direction: column; */
   padding: 10px;
 }
 .msger-chat::-webkit-scrollbar {
@@ -197,7 +151,8 @@ body {
   max-width: 450px;
   padding: 15px;
   border-radius: 15px;
-  background: var(--left-msg-bg);
+  background: #ddd;
+  margin-bottom: 3px;
 }
 .msg-info {
   display: flex;
@@ -221,7 +176,7 @@ body {
   flex-direction: row-reverse;
 }
 .right-msg .msg-bubble {
-  background: var(--right-msg-bg);
+  background: #579ffb;
   color: #fff;
   border-bottom-right-radius: 0;
 }
@@ -232,7 +187,7 @@ body {
 .msger-inputarea {
   display: flex;
   padding: 10px;
-  border-top: var(--border);
+  border-top: 2px solid #ddd;
   background: #eee;
 }
 .msger-inputarea * {
