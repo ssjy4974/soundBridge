@@ -1,26 +1,27 @@
 import { defineStore } from "pinia";
 import { getMyDailyWord, addMyDailyWord } from "@/api/dailyword";
 import { ref } from "vue";
+import { useMember } from "./Member";
 
 export const useMyDailyWord = defineStore("mydailyword", () => {
-  const accessToken = "access-token 123";
   const mydailyword = ref();
+  const memberStore = useMember();
 
   // GET
   async function getmydailyword() {
-    await getMyDailyWord(accessToken, ({ data }) => {
+    await getMyDailyWord(memberStore.accessToken, ({ data }) => {
       mydailyword.value = data;
-      localStorage.setItem("dailyWordList", JSON.stringify(mydailyword.value));
+      localStorage.setItem("dailyWordList", JSON.stringify(mydailyword));
       console.log("Get method responses", mydailyword.value);
     });
   }
 
   // POST
   async function addmydailyword(newWord) {
-    await addMyDailyWord(newWord, accessToken, ({ data }) => {
+    await addMyDailyWord(newWord, memberStore.accessToken, ({ data }) => {
       console.log(data, " add new word");
 
-      getMyDailyWord(accessToken, ({ data }) => {
+      getMyDailyWord(memberStore.accessToken, ({ data }) => {
         mydailyword.value = data;
         console.log("Get method responses", mydailyword.value);
       });

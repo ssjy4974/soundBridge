@@ -13,20 +13,19 @@
     <div class="child" v-if="Number(route.params.index) > 0" @click="prev">
       이전
     </div>
-    <div class="child" v-if="Number(route.params.index) < localStorage.getItem("dailyWordList").length" @click="next">
+    <div class="child" v-if="Number(route.params.index) < endIdx" @click="next">
       다음
     </div>
   </div>
 </template>
 
 <script setup>
-import { useMyDailyWord } from "@/store/DailyWord";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router/index";
 
 const route = useRoute();
-const MyDailyWord = ;
+const MyDailyWord = localStorage.getItem("dailyWordList");
 const index = Number(route.params.index);
 const endIdx = MyDailyWord.length;
 
@@ -43,6 +42,7 @@ const prev = () => {
 
 const next = () => {
   console.log("다음 클릭");
+
   const index = Number(route.params.index);
 
   console.log(index);
