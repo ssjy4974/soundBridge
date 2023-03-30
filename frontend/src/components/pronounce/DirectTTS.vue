@@ -58,9 +58,10 @@ watch(inputSentence, () => {
   // callgetAPI();
 });
 
-const addSentenceHandler = () => {
-  addSentenceHandler();
+const addSentenceHandler = (a) => {
+  addmysentence(a);
 };
+addSentenceHandler(inputSentence);
 </script>
 <style lang="scss" scoped>
 .direct__container {

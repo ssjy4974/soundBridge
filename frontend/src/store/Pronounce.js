@@ -8,9 +8,12 @@ import {
   countQuickSentenceAndCategory,
   delQuickSentence,
 } from "@/api/quickSentence";
+import { useMember } from "@/store/Member";
+// console.log(accessToken);
 
 export const usePronounce = defineStore("pronounce", () => {
-  const accessToken = "access-token 123";
+  const mymember = useMember();
+  const accessToken = mymember.accessToken;
 
   // state
   // 내가 쓰는 문장
