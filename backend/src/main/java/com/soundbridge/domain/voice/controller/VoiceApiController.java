@@ -43,13 +43,13 @@ public class VoiceApiController {
     @GetMapping()
     public ResponseEntity voiceList(@PageableDefault Pageable pageable,
         @RequestParam(required = false) Long cursorId,
-        @ModelAttribute VoiceListConditionReq voiceListConditionReq,
-        Authentication authentication) {
+        @ModelAttribute VoiceListConditionReq voiceListConditionReq) {
 
+//        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
 //        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
 
         return ResponseEntity.ok(
-            voiceService.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq, 1L));
+            voiceService.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq, null));
     }
 
     @Operation(summary = "목소리 조회", description = "목소리 조회 메소드 입니다.")

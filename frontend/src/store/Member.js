@@ -22,6 +22,18 @@ export const useMember = defineStore("member", {
     accessToken: null,
   }),
   //   getters == computed()  // 랜더링 될때 실행되는 함수
+  getters: {
+    getMemberInfo(state) {
+      return state.member;
+    },
+    checkLogin(state) {
+      localStorage.setItem("isLogin", state.member.role);
+    },
+    clearLogin() {
+      localStorage.removeItem("isLogin");
+    },
+  },
+
   //   action == function()  // 함수
   actions: {
     async modifyNickName(nickName) {
@@ -60,6 +72,7 @@ export const useMember = defineStore("member", {
           // this.member.profile = data.profile;
           // this.member.role = data.role;
           this.member = data;
+          this.checkLogin;
         },
         (error) => {
           console.log(error.response.data);
@@ -82,6 +95,8 @@ export const useMember = defineStore("member", {
     },
 
     async setAccessToken(accessToken) {
+      // getters.checkLogin;
+      this.checkLogin;
       this.accessToken = accessToken;
     },
 
@@ -99,17 +114,20 @@ export const useMember = defineStore("member", {
     },
 
     async logout() {
+      console.log("logout");
       await logout(
         this.member.memberId,
         this.accessToken,
         () => {
           this.accessToken = null;
-          router.push({ name: "login" });
+          this.clearLogin;
+          window.location.assign(`/`);
         },
         () => {
           this.accessToken = null;
+          this.clearLogin;
           // console.log(error);
-          router.push({ name: "login" });
+          window.location.assign(`/`);
         }
       );
     },

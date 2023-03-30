@@ -150,50 +150,43 @@ const router = createRouter({
 });
 
 import { storeToRefs } from "pinia";
-
+import { ref } from "vue";
 router.beforeEach(async (to, from, next) => {
-  const memberStore = storeToRefs(useMember());
-  let accessToken = memberStore.accessToken.value;
-  const memberInfo = memberStore.member;
+  // console.log("@#@ ", from.fullPath);
+  // if (from.fullPath === "/" && !localStorage.getItem("isLogin")) {
+  //   console.log("!@!@!");
+  //   localStorage.removeItem("isLogin");
+  //   next();
 
-  console.log("Access ", accessToken, from, to);
+  //   return;
+  // }
 
-  if (to.fullPath === "/" && to.fullPath != from.fullPath) {
-    next();
-    // const result = confirm("로그아웃 하시겠습니까?");
-    // if (result) {
-    //   //logout
-    //   next({
-    //     path: "/",
-    //     // query: { redirect: to.fullPath },
-    //   });
-    // } else {
-    //   next();
-    // }
-  }
+  // const memberStore = useMember();
 
-  if (to.fullPath !== "/") {
-    if (accessToken === null || accessToken === "") {
-      await useMember().refreshAccessToken();
-      accessToken = memberStore.accessToken.value;
-    }
+  // // alert("뭐냐");
+  // const { member, accessToken } = storeToRefs(memberStore);
 
-    if (
-      accessToken !== "" &&
-      (memberInfo.email === "" || memberInfo.email === undefined)
-    ) {
-      await useMember().setMemberInfo();
-    }
+  // if (accessToken.value === null || accessToken.value === "") {
+  //   console.log("is Login !");
+  //   await useMember().refreshAccessToken();
 
-    if (accessToken === null && accessToken === "") {
-      alert("다시 로그인 해주세요!");
-      next({
-        path: "/login",
-        query: { redirect: to.fullPath },
-      });
-    }
-  }
+  //   await useMember().setMemberInfo();
+  // }
 
+  // if (accessToken != "" && member.memberId === 0) {
+  //   memberStore.setMemberInfo();
+  // }
+
+  // if (accessToken === null && accessToken === "") {
+  //   alert("다시 로그인 해주세요!");
+  //   useMember().clearLogin();
+  //   next({
+  //     path: "/login",
+  //     query: { redirect: to.fullPath },
+  //   });
+  // }
+
+  // useMember().checkLogin();
   next();
 });
 

@@ -44,7 +44,7 @@ const selectVoice = (e) => {
 };
 
 onBeforeMount(() => {
-  // console.log("@#@#", props.voice.featureResList);
+  console.log("@#@#", props.voice.featureResList);
 });
 </script>
 

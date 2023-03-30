@@ -37,12 +37,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         log.info("요청 타입 uri {}", request.getRequestURI());
 
         String accessTokenHeader = request.getHeader("access-token");
+        log.info("accessToken {} ", accessTokenHeader);
+
         if (accessTokenHeader == null || !accessTokenHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        log.info("accessToken {} ", accessTokenHeader);
 
         final String accessToken = accessTokenHeader.split(" ")[1].trim();
         Long id = tokenService.getUid(accessToken);
