@@ -2,15 +2,21 @@ package com.soundbridge.domain.voice.service;
 
 import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.repository.MemberRepository;
+import com.soundbridge.domain.voice.entity.Feature;
 import com.soundbridge.domain.voice.entity.Voice;
+import com.soundbridge.domain.voice.entity.VoiceFeature;
+import com.soundbridge.domain.voice.repository.FeatureRepository;
+import com.soundbridge.domain.voice.repository.VoiceFeatureRepository;
 import com.soundbridge.domain.voice.repository.VoiceRepository;
 import com.soundbridge.domain.voice.request.VoiceDeleteReq;
 import com.soundbridge.domain.voice.request.VoiceListConditionReq;
+import com.soundbridge.domain.voice.request.VoiceRegistReq;
 import com.soundbridge.domain.voice.request.VoiceSelectionReq;
 import com.soundbridge.domain.voice.response.VoiceDetailRes;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.AccessDeniedException;
 import com.soundbridge.global.error.exception.NotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +35,8 @@ public class VoiceService {
 
     private final MemberRepository memberRepository;
     private final VoiceRepository voiceRepository;
+    private final FeatureRepository featureRepository;
+    private final VoiceFeatureRepository voiceFeatureRepository;
 
     @Transactional(readOnly = true)
     public Slice<VoiceDetailRes> findAllVoiceWithPaging(Pageable pageable, Long cursorId,
@@ -45,6 +53,18 @@ public class VoiceService {
     public List<VoiceDetailRes> findMyVocieByMemberId(Long memberId) {
         log.info("voiceListConditionReq {}", memberId.toString());
         return voiceRepository.findMyVocieByMemberId(memberId);
+    }
+
+    public void registVoice(Long memberId, VoiceRegistReq voiceRegistReq){
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        Voice savedVoice = voiceRepository.save(voiceRegistReq.toEntity(member));
+        List<Feature> features = featureRepository.findAllById(voiceRegistReq.getFeatures());
+        List<VoiceFeature> voiceFeatures = new ArrayList<>();
+
+        features.stream().forEach(f -> voiceFeatures.add(VoiceFeature.builder().voice(savedVoice).feature(f).build()));
+
+        voiceFeatureRepository.saveAll(voiceFeatures);
     }
 
     public void selectByVoiceId(Long memberId, VoiceSelectionReq voiceSelectionReq) {

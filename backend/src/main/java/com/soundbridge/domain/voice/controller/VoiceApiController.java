@@ -3,6 +3,7 @@ package com.soundbridge.domain.voice.controller;
 import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.voice.request.VoiceDeleteReq;
 import com.soundbridge.domain.voice.request.VoiceListConditionReq;
+import com.soundbridge.domain.voice.request.VoiceRegistReq;
 import com.soundbridge.domain.voice.request.VoiceSelectionReq;
 import com.soundbridge.domain.voice.service.VoiceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +67,23 @@ public class VoiceApiController {
         return ResponseEntity.ok(
             voiceService.findMyVocieByMemberId(memberId));
     }
+
+    @Operation(summary = "목소리 등록", description = "목소리 등록 메소드 입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "등록 성공"),
+            @ApiResponse(responseCode = "400", description = "필수값 누락"),
+            @ApiResponse(responseCode = "401", description = "인증 안됨"),
+            @ApiResponse(responseCode = "403", description = "권한 부족, 없음"),
+            @ApiResponse(responseCode = "404", description = "존재하지않는 유저 정보"),
+    })
+    @PostMapping("/regist")
+    public ResponseEntity registVoice(@RequestBody VoiceRegistReq voiceRegistReq, Authentication authentication){
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+
+        voiceService.registVoice(memberId, voiceRegistReq);
+        return ResponseEntity.ok().build();
+    }
+
 
 
     @Operation(summary = "목소리 선택", description = "목소리 선택 메소드 입니다.")
