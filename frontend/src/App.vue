@@ -29,15 +29,15 @@ watch(memberStore, () => {
   console.log("watch console");
   console.log("watch role : ", role);
   console.log("memberStore.member: ", memberStore.member);
-  console.log("memberStore.member.value: ", memberStore.member.value);
-  console.log("memberStore.member.value.role: ", memberStore.member.value.role);
+  // console.log("memberStore.member.value: ", memberStore.member.value);
+  // console.log("memberStore.member.value.role: ", memberStore.member.value.role);
   console.log("memberStore.member.role: ", memberStore.member.role);
 });
 callMember();
 </script>
 
 <template>
-  <div>
+  <div v-if="member">
     <Header v-if="role === 'APPLICANT' || role === 'HELPER'" />
     <div id="wrapper">
       <router-view
