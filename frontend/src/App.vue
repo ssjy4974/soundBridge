@@ -10,13 +10,28 @@ import FooterVolunteer from "./components/FooterVolunteer.vue";
 
 import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
-const memberStore = storeToRefs(useMember());
+import { ref } from "vue";
+// const memberStore = storeToRefs(useMember());
+const memberStore = useMember();
 
-const role = memberStore.member.value.role;
+const role = ref(memberStore.member.role);
 console.log("memberStore.member: ", memberStore.member);
 console.log("memberStore.member.value: ", memberStore.member.value);
 console.log("memberStore.member.value.role: ", memberStore.member.value.role);
 console.log("memberStore.member.role: ", memberStore.member.role);
+
+const callMember = async () => {
+  await memberStore.getMemberInfo();
+};
+
+watch(memberStore, () => {
+  console.log("watch role : ", role);
+  console.log("memberStore.member: ", memberStore.member);
+  console.log("memberStore.member.value: ", memberStore.member.value);
+  console.log("memberStore.member.value.role: ", memberStore.member.value.role);
+  console.log("memberStore.member.role: ", memberStore.member.role);
+});
+callMember();
 </script>
 
 <template>
