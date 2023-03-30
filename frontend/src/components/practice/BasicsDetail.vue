@@ -102,7 +102,6 @@ onMounted(() => {
 });
 
 store.getBasicLetter(accessToken, route.params.basicLetterId);
-console.log("acc", accessToken);
 const prev = () => {
   const index = Number(route.params.basicLetterId) - 1;
   router.replace(`/practicebasicsdetail/${index}`);
