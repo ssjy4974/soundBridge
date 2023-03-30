@@ -15,13 +15,17 @@
 
 <script setup>
 import { useBasicLetterStore } from "@/store/BasicLetter";
+import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 
 const store = useBasicLetterStore();
+const memberStore = useMember();
 const { basicLetters } = storeToRefs(store);
 const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 
-store.getBasicLetters();
+const { accessToken } = memberStore;
+
+store.getBasicLetters(accessToken);
 </script>
 
 <style scoped>

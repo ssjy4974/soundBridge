@@ -116,7 +116,8 @@ public class PronunciationApiController {
     })
     public ResponseEntity<BasicLetterRes> basicLetterDetails(@PathVariable Long basicLetterId,
         Authentication authentication) {
-        return ResponseEntity.ok(basicLetterService.findBasicLetter(basicLetterId, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(basicLetterService.findBasicLetter(basicLetterId, memberId));
     }
 
 //    @GetMapping("/daily-words/{dailyWord}")
