@@ -31,13 +31,12 @@ onMounted(() => {
   /* width: 150px;
   height: 150px; */
   position: absolute;
-  top: 0;
+  top: 55px;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 100vh;
-  width: 100%;
+  height: 200px;
+  width: 150px;
   object-fit: cover;
-  z-index: -1;
 }
 </style>
