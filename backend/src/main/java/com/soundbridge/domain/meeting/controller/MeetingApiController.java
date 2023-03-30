@@ -57,7 +57,7 @@ public class MeetingApiController {
         @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저"),
     })
     public ResponseEntity<Slice<MeetingDetailRes>> meetingList(
-        @PageableDefault(size = 5) Pageable pageable,
+        @PageableDefault(size = 10) Pageable pageable,
         @RequestParam(required = false) Long cursorId,
         Authentication authentication) {
         Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
