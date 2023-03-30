@@ -28,9 +28,22 @@
               strToDate(myMeeting.endTime)[1]
             }}</span
           >
-          <button class="room-btn" @click="createRoom(myMeeting.meetingId)">
+          <button
+            v-if="myMeeting.openCheck === 0"
+            class="room-btn"
+            @click="createRoom(myMeeting.meetingId)"
+          >
             방 생성
           </button>
+          <button
+            v-else-if="myMeeting.openCheck === 1"
+            class="room-btn"
+            @click="createRoom(myMeeting.meetingId)"
+          >
+            방 참가
+          </button>
+
+          <div disabled v-else class="disabled-btn">종 료</div>
         </div>
         <hr />
       </div>
@@ -112,5 +125,15 @@ hr {
   height: 0.2vh;
   border: 0;
   margin-top: 10px;
+}
+.disabled-btn {
+  border-radius: 16px;
+  color: black;
+  background-color: gray;
+  height: 28px;
+  width: 90px;
+  cursor: default;
+  text-align: center;
+  padding-top: 12px;
 }
 </style>

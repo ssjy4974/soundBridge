@@ -36,7 +36,6 @@ const { member } = storeToRefs(memberStore);
 // console.log("memberStore.member.value.role: ", memberStore.member.value.role);
 
 const callMember = async () => {
-  console.log("실행되면 뜰거야");
   memberStore.setMemberInfo();
 };
 callMember();

@@ -52,7 +52,6 @@ export const useMember = defineStore("member", {
     },
 
     async setMemberInfo() {
-      console.log("체크하번해보자", this.accessToken);
       await getMemberInfo(
         this.accessToken,
         ({ data }) => {
