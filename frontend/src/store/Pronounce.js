@@ -1,6 +1,11 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { getCategories, postCategories, putCategories } from "@/api/category";
+import {
+  getCategories,
+  postCategories,
+  putCategories,
+  deleteCategories,
+} from "@/api/category";
 import {
   updateQuickSentence,
   saveQuickSentence,
@@ -32,6 +37,13 @@ export const usePronounce = defineStore("pronounce", () => {
   async function editCategory(categoryId, category) {
     await putCategories(categoryId, category, accessToken, ({ data }) => {
       console.log("API file PUT category : ", data);
+    });
+  }
+  // delete api
+  async function delCategory(categoryId) {
+    await deleteCategories(categoryId, accessToken, ({ data }) => {
+      console.log("API file Delete category : ", data);
+      freqUsedCat.value = data;
     });
   }
 
@@ -95,6 +107,7 @@ export const usePronounce = defineStore("pronounce", () => {
     readCategories,
     addCategory,
     editCategory,
+    delCategory,
     addQuickSentence,
     readQuickSentence,
     editQuickSentence,

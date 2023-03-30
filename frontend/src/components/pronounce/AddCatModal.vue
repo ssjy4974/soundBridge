@@ -1,6 +1,18 @@
 <template>
   <div class="cat__modal">
-    <div class="close__button" @click="$emit('closemodal')">X</div>
+    <div class="close__button" @click="$emit('closemodal')">
+      <font-awesome-icon icon="fa-solid fa-xmark" />
+    </div>
+    <div class="del__container">
+      <div class="del__list" v-for="(cat, index) in freqUsedCat" :key="index">
+        <p>{{ cat.categoryName }}</p>
+        <font-awesome-icon
+          icon="fa-solid fa-xmark"
+          @click="delCatHandler(cat)"
+        />
+      </div>
+    </div>
+
     <p>카테고리 추가하기</p>
     <div>
       <input
@@ -11,30 +23,48 @@
       />
     </div>
     <div class="addbutton__container">
-      <button @click="categoryHandler">추가하기 +</button>
+      <button
+        @click="
+          () => {
+            categoryHandler();
+            $emit('closemodal');
+          }
+        "
+      >
+        추가하기 +
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
 //ref
-import { ref } from "vue";
+import { ref, watch } from "vue";
 //store import
 import { usePronounce } from "@/store/Pronounce";
+import { storeToRefs } from "pinia";
+
 const store = usePronounce();
-const freqUsedCat = store.freqUsedCat;
+const { freqUsedCat } = storeToRefs(store);
+
+const callCategoryAPI = async () => {
+  await store.readCategories;
+  console.log(freqUsedCat, "callcatAPI");
+};
+
+watch(freqUsedCat, () => {
+  console.log("watch category from modal", freqUsedCat);
+});
+
 const newCategory = ref("");
 
+const delCatHandler = (data) => {
+  store.delCategory(data.categoryId);
+  callCategoryAPI();
+  console.log("????????????");
+};
+
 const categoryHandler = () => {
-  // freqUsedCat.forEach((element) => {
-  //   console.log(element.categoryName, element.categoryId, newCategory.value);
-  //   if (element.categoryName == newCategory.value) {
-  //     console.log("Found");
-  //     // store.editCategory(element.categoryId, newCategory);
-  //     return false;
-  //   }
-  // });
-  console.log("?????????????????????/");
   store.addCategory(newCategory.value);
 };
 
@@ -91,5 +121,22 @@ defineEmits(["closemodal"]);
   flex: none;
   order: 0;
   flex-grow: 0;
+}
+
+.del__container {
+  padding-block: 10%;
+  padding-inline: 10%;
+  border-radius: 32px;
+  background-color: var(--black1);
+}
+.del__list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: var(--black2) solid;
+  padding: 7px;
+}
+.del__list p {
+  margin: 0;
 }
 </style>

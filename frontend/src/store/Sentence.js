@@ -22,7 +22,7 @@ export const useMySentence = defineStore("mysentence", () => {
       accessToken,
       ({ data }) => {
         mysentence.value = data;
-        console.log("Get method responses", mysentence.value);
+        // console.log("Get method responses", mysentence.value);
       },
       ({ fail }) => {
         mysentence.value = {};

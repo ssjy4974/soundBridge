@@ -26,36 +26,42 @@
       :key="index"
       class="auto__dropdown"
     >
-      <div class="item">
-        <p class="text">{{ mysen.sentence }}</p>
-      </div>
+      <p>{{ mySentences.mysentence }}</p>
+
+      <p>
+        {{ mysen.sentence }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { useMySentence } from "@/store/Sentence";
+// import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
 
 const mySentences = useMySentence();
 const {
   sentence,
-  mysentence,
+  // mysentence,
   getmysentences,
   addmysentence,
   updatemysentence,
 } = mySentences;
+
+// const mysentence = ref(mySentences.mysentence);
 
 const inputSentence = ref("");
 
 const callgetAPI = async () => {
   await getmysentences(inputSentence);
 
-  // console.log("mysentence???", mysentence);
+  console.log("mysentence???", mySentences.mysentence);
 };
 
 watch(inputSentence, () => {
-  // callgetAPI();
+  callgetAPI();
+  // mySentences.mysentence = mysentence.value;
 });
 
 const addSentenceHandler = (a) => {

@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="catadd__button">
-        <p @click="addCatModal">추가하기 +</p>
+        <font-awesome-icon @click="addCatModal" icon="fa-solid fa-gear" />
       </div>
     </div>
     <AddCatModal v-if="isCatModal" @closemodal="addCatModal" />
@@ -55,6 +55,9 @@ import { storeToRefs } from "pinia";
 const store = usePronounce();
 const { freqUsedCat, freqUsedPhrase } = storeToRefs(store);
 
+// 페이지 타입 구분할 변수
+const pageIndex = 1;
+
 // api 호출 함수 실행 시키는 함수
 const callCategoryAPI = async () => {
   await store.readCategories;
@@ -71,7 +74,7 @@ watch(freqUsedPhrase, () => {
 });
 watch(freqUsedCat, () => {
   // callAPI();
-  console.log("watch category", freqUsedCat);
+  // console.log("watch category", freqUsedCat);
 });
 
 const isCatModal = ref(false);
@@ -125,6 +128,7 @@ callSentenceAPI();
 }
 .cat__wrapper {
   display: flex;
+  justify-content: space-between;
   border-bottom: solid var(--maincolor2);
 }
 .cat__container {
@@ -135,14 +139,15 @@ callSentenceAPI();
   overflow-x: scroll;
 }
 .cat__item {
-  padding-inline: 1%;
   display: flex;
   width: 50px;
-  padding-inline: 2%;
+  padding-left: 6%;
   height: 100%;
 }
 .catadd__button {
-  padding-left: 4%;
+  padding-right: 4%;
+  align-self: center;
+  justify-self: center;
 }
 .TTS__container {
   margin-inline: 2vw;
