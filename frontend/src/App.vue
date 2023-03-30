@@ -13,7 +13,10 @@ import { storeToRefs } from "pinia";
 const memberStore = storeToRefs(useMember());
 
 const role = memberStore.member.value.role;
-console.log("role: ", memberStore.member.value.role);
+console.log("memberStore.member: ", memberStore.member);
+console.log("memberStore.member.value: ", memberStore.member.value);
+console.log("memberStore.member.value.role: ", memberStore.member.value.role);
+console.log("memberStore.member.role: ", memberStore.member.role);
 </script>
 
 <template>
