@@ -126,7 +126,7 @@ const routes = [
     component: PracticeWords,
   },
   {
-    path: "/wordsdetail",
+    path: "/wordsdetail/:index",
     name: "wordsdetail",
     component: PracticeWordsDetail,
   },

@@ -5,7 +5,7 @@ const api = apiInstance();
 async function getMyDailyWord(accessToken, success, fail) {
   console.log("get my dailyword", accessToken);
   await api
-    .get(`/ai/daily-words`, {
+    .get(`/api/daily-words`, {
       headers: {
         "access-token": accessToken,
       },
@@ -17,7 +17,7 @@ async function getMyDailyWord(accessToken, success, fail) {
 async function addMyDailyWord(word, accessToken, success, fail) {
   await api
     .post(
-      `/api/my-sentence-logs`,
+      `/ai/daily-words`,
       {
         dailyWord: word,
         memberId: 1,

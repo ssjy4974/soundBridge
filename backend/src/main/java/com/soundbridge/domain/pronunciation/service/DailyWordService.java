@@ -23,13 +23,13 @@ public class DailyWordService {
     /**
      * 일상 단어 상세 조회
      *
-     * @param dailyWord
+     * @param
      * @return
      */
-//    public List<DailyWordRes> findDailyWord(String dailyWord, Long memberId) {
-//        final Member member = memberRepository.findById(memberId).orElseThrow(() ->
-//            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
-//
-//        return dailyWordRepository.findDailyWordBydailyWord(dailyWord);
-//    }
+    public DailyWordRes findDailyWord(String word, Long memberId) {
+        final Member member = memberRepository.findById(memberId).orElseThrow(() ->
+            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        return dailyWordRepository.findDailyWordBydailyWord(word);
+    }
 }
