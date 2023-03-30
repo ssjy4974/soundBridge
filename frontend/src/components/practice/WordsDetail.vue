@@ -10,19 +10,24 @@
     <div>연습하기</div>
   </div>
   <div class="parent">
-    <div class="child" v-if="index > 0" @click="prev">이전</div>
-    <div class="child" v-if="index < endIdx - 1" @click="next">다음</div>
+    <div class="child" v-if="Number(route.params.index) > 0" @click="prev">
+      이전
+    </div>
+    <div class="child" v-if="Number(route.params.index) < localStorage.getItem("dailyWordList").length" @click="next">
+      다음
+    </div>
   </div>
 </template>
 
 <script setup>
 import { useMyDailyWord } from "@/store/DailyWord";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router/index";
 
 const route = useRoute();
-const index = route.params.index;
-const MyDailyWord = localStorage.getItem("dailyWordList");
+const MyDailyWord = ;
+const index = Number(route.params.index);
 const endIdx = MyDailyWord.length;
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -30,12 +35,17 @@ const sr = new Recognition();
 
 const prev = () => {
   console.log("이전 클릭");
+  const index = Number(route.params.index);
+
   console.log(index);
   router.replace(`/wordsdetail/${index - 1}`);
 };
 
 const next = () => {
   console.log("다음 클릭");
+  const index = Number(route.params.index);
+
+  console.log(index);
   console.log(MyDailyWord);
   router.replace(`/wordsdetail/${index + 1}`);
 };
