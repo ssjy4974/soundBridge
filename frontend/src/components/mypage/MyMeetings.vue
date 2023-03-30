@@ -92,7 +92,6 @@ const scrollHandler = (e) => {
 };
 
 const moreList = () => {
-  console.log("asdasd");
   api
     .get(`/api/meetings?cursorId=${cursorId.value}`, {
       headers: {
