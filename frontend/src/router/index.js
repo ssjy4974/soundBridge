@@ -157,20 +157,15 @@ router.beforeEach(async (to, from, next) => {
   let accessToken = memberStore.accessToken.value;
   const memberInfo = memberStore.member;
 
-  console.log("Access ", accessToken, memberStore);
-
   if (accessToken === null || accessToken === "") {
     await useMember().refreshAccessToken();
     accessToken = memberStore.accessToken.value;
-    console.log("refresh ", accessToken);
   }
 
-  console.log("a, P", accessToken, memberInfo.email);
   if (
     accessToken !== "" &&
     (memberInfo.email === "" || memberInfo.email === undefined)
   ) {
-    console.log("re profile ");
     await useMember().setMemberInfo();
   }
 
