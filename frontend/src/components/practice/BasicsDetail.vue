@@ -32,7 +32,6 @@
         ></i>
       </div>
     </div>
-    <br />
     <div class="record" @click="ToggleMic">
       <span
         ><h3>
@@ -47,12 +46,10 @@
 import { useBasicLetterStore } from "@/store/BasicLetter";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
-import { apiInstance } from "@/api/index";
 import { ref, onMounted } from "vue";
 import router from "@/router/index";
 import Swal from "sweetalert2";
 
-const api = apiInstance();
 const route = useRoute();
 const store = useBasicLetterStore();
 const { basicLetter } = storeToRefs(store);
@@ -151,15 +148,15 @@ i {
   position: absolute;
   width: 32px;
   height: 32px;
-  left: calc(50% - 32px / 2 - 147px);
-  top: calc(50% - 32px / 2 + 159px);
+  left: calc(45% - 32px / 2 - 147px);
+  top: calc(43% - 32px / 2 + 159px);
 }
 #rightI {
   position: absolute;
   width: 32px;
   height: 32px;
-  left: calc(50% - 32px / 2 + 147px);
-  top: calc(50% - 32px / 2 + 159px);
+  left: calc(55% - 32px / 2 + 147px);
+  top: calc(43% - 32px / 2 + 159px);
 }
 #mic {
   color: black;
@@ -179,8 +176,7 @@ i {
 }
 h1,
 h2 {
-  margin-top: 0px;
-  margin-bottom: 10px;
+  margin-top: 20px;
 }
 .realLetter {
   width: 100%;
@@ -223,6 +219,6 @@ img {
 }
 span h3 {
   padding: 10px;
-  margin: auto;
+  margin: 10px;
 }
 </style>
