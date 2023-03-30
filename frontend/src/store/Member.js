@@ -6,6 +6,7 @@ import {
   signUp,
   getNewAccessToken,
 } from "@/api/member";
+import router from "@/router";
 
 export const useMember = defineStore("member", {
   // state  == ref(), useState() 변수
@@ -23,7 +24,6 @@ export const useMember = defineStore("member", {
   //   action == function()  // 함수
   actions: {
     async modifyNickName(nickName) {
-      console.log("nickName", nickName, this.member.memberId);
       await modifyNickName(
         this.member.memberId,
         nickName,
@@ -36,14 +36,12 @@ export const useMember = defineStore("member", {
     },
 
     async modifyMyProfile(formData) {
-      console.log("ID ", formData.get("memberId"));
       await modifyMyProfile(
         formData,
         this.accessToken,
         ({ data }) => {
           console.log(data, "modify Profile");
           this.member.profile = data;
-          console.log(this.member.profile);
         },
         (error) => {
           console.log(error.response);
@@ -55,11 +53,12 @@ export const useMember = defineStore("member", {
       await getMemberInfo(
         this.accessToken,
         ({ data }) => {
-          this.member.memberId = data.memberId;
-          this.member.email = data.email;
-          this.member.nickname = data.nickname;
-          this.member.profile = data.profile;
-          this.member.role = data.role;
+          // this.member.memberId = data.memberId;
+          // this.member.email = data.email;
+          // this.member.nickname = data.nickname;
+          // this.member.profile = data.profile;
+          // this.member.role = data.role;
+          this.member = data;
         },
         (error) => {
           console.log(error.response.data);
@@ -70,11 +69,13 @@ export const useMember = defineStore("member", {
     async refreshAccessToken() {
       await getNewAccessToken(
         ({ data }) => {
-          console.log(data);
+          // console.log(data);
           this.accessToken = data;
+          this.member = this.setMemberInfo(this.accessToken);
         },
         (error) => {
           console.log(error);
+          router.push({ name: "login" });
         }
       );
     },

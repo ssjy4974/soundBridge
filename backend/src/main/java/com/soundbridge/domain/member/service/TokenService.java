@@ -7,14 +7,21 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.SignatureException;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,8 +30,10 @@ import org.springframework.stereotype.Service;
 public class TokenService {
 
     private final Environment env;
-    //    private final RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
+    private final MemberService memberService;
     private String secretKey;
+
 
     @PostConstruct
     protected void init() {
@@ -75,7 +84,8 @@ public class TokenService {
             refreshToken);
     }
 
-    public boolean verifyToken(String token) {
+    public boolean verifyToken(String token, String email, HttpServletResponse response)
+        throws IOException {
         try {
             Jws<Claims> claims = Jwts.parser()
                 .setSigningKey(secretKey)
@@ -83,20 +93,25 @@ public class TokenService {
             log.info("claims {}", Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token));
-//            log.info("token verify {}", redisTemplate.opsForValue().get(token));
-//            ValueOperations<String, String> logoutValueOperations = redisTemplate.opsForValue();
+            log.info("token verify {}", redisTemplate.opsForValue().get(email));
+            ValueOperations<String, String> logoutValueOperations = redisTemplate.opsForValue();
 
-//            if (logoutValueOperations.get(token) != null) {
-//                log.info("로그아웃 된 토큰입니다.");
-//                return false;
-//            }
+            if (logoutValueOperations.get(email) == null) {
+                log.info("refresh token 없음. -> 재 로그인");
+                return false;
+            }
             return claims.getBody()
                 .getExpiration()
                 .after(new Date());
+        } catch (ExpiredJwtException e) {
+            ((HttpServletResponse) response).sendError(ErrorCode.NOT_AUTHENTICATION.getCode(), ErrorCode.NOT_AUTHENTICATION.getMessage());
+        } catch (SignatureException | MalformedJwtException e) {
+            ((HttpServletResponse) response).sendError(401, "SignatureException error");
         } catch (Exception e) {
-            log.info("Err {}", "access 만료");
-            return false;
+            SecurityContextHolder.clearContext();
         }
+
+        return true;
     }
 
     public Long getExpiration(String token) {
@@ -123,11 +138,11 @@ public class TokenService {
             .get("role");
     }
 
-    public String reGenerateAccessToken(Cookie[] cookies) {
+    public String reGenerateAccessToken(Cookie[] cookies, HttpServletResponse response)
+        throws IOException {
         String refreshToken = null;
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                log.info(String.valueOf(cookie.getName()));
                 if (cookie.getName().equals("refresh-token")) {
                     refreshToken = cookie.getValue();
                     break;
@@ -135,13 +150,19 @@ public class TokenService {
             }
         }
 
-        if (refreshToken == null || refreshToken.equals("") || !verifyToken(refreshToken)) {
+        if(refreshToken == null){
+            throw new AccessDeniedException(ErrorCode.NOT_AUTHENTICATION);
+        }
+
+        Long id = getUid(refreshToken);
+        String email = memberService.getMemberById(id).getEmail();
+
+        if (refreshToken.equals("") || !verifyToken(refreshToken, email, response)) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHENTICATION);
         }
 
         log.info("refreshToken {}, role {}", refreshToken, getRole(refreshToken));
 
-        Long id = getUid(refreshToken);
         String role = getRole(refreshToken);
 
         return generateToken(id, role, refreshToken).getToken();

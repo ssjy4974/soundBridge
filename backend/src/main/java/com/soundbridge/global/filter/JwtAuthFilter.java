@@ -4,6 +4,8 @@ import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.member.service.TokenService;
+import com.soundbridge.global.error.ErrorCode;
+import com.soundbridge.global.error.exception.NotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.servlet.FilterChain;
@@ -27,8 +29,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-            FilterChain filterChain)
-            throws IOException, ServletException {
+        FilterChain filterChain)
+        throws IOException, ServletException {
 
         log.info("Filter 진입");
         log.info("요청 타입 {}", request.getMethod());
@@ -43,13 +45,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         log.info("accessToken {} ", accessTokenHeader);
 
         final String accessToken = accessTokenHeader.split(" ")[1].trim();
-        if (!tokenService.verifyToken(accessToken)) { //만료 되면 멤버 정보 없이 리턴
+        Long id = tokenService.getUid(accessToken);
+        Member member = memberRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        if (!tokenService.verifyToken(accessToken, member.getEmail(), response)) { //만료 되면 멤버 정보 없이 리턴
             filterChain.doFilter(request, response);
             return;
         }
-
-        Long id = tokenService.getUid(accessToken);
-        Member member = memberRepository.getReferenceById(id);
 
         MemberAccessRes memberAccessRes = new MemberAccessRes(member.getId(), accessToken);
 
@@ -64,6 +67,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     public Authentication getAuthentication(MemberAccessRes member) {
         return new UsernamePasswordAuthenticationToken(member, "",
-                Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+            Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
     }
 }

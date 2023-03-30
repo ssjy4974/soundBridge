@@ -152,25 +152,29 @@ const router = createRouter({
 import { storeToRefs } from "pinia";
 
 router.beforeEach(async (to, from, next) => {
-  // alert("뭐냐");
   const memberStore = storeToRefs(useMember());
   let accessToken = memberStore.accessToken.value;
   const memberInfo = memberStore.member;
+  const isLogined = !(accessToken === null || accessToken === "");
 
-  console.log("Access ", accessToken, memberStore);
+  // console.log("Access ", accessToken, memberStore, to);
 
-  if (accessToken === null || accessToken === "") {
+  if (to.fullPath !== "/" && !isLogined) {
+    console.log("token 없고 /경로 아님", to.fullPath);
     await useMember().refreshAccessToken();
     accessToken = memberStore.accessToken.value;
-    console.log("refresh ", accessToken);
   }
-
-  console.log("a, P", accessToken, memberInfo.email);
+  if (to.fullPath === "/" && isLogined) {
+    next({
+      path: "/loginSuccess",
+    });
+  }
+  // console.log("re ac ", accessToken);
   if (
-    accessToken !== "" &&
+    accessToken !== null &&
     (memberInfo.email === "" || memberInfo.email === undefined)
   ) {
-    console.log("re profile ");
+    // console.log("re profile ", accessToken);
     await useMember().setMemberInfo();
   }
 
