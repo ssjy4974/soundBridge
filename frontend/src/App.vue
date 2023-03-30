@@ -12,8 +12,8 @@ import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 const memberStore = storeToRefs(useMember());
 
-const role = memberStore.member.role;
-console.log("role: ", memberStore.member);
+const role = memberStore.member.value.role;
+console.log("role: ", memberStore.member.value.role);
 </script>
 
 <template>
