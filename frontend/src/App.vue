@@ -10,7 +10,7 @@ import FooterVolunteer from "./components/FooterVolunteer.vue";
 
 import { useMember } from "@/store/Member";
 const memberStore = useMember();
-const role = memberStore.role;
+const role = memberStore.member.role;
 </script>
 
 <template>
