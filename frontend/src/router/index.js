@@ -30,6 +30,8 @@ import VoiceRecord from "../views/VoiceRecord.vue";
 import MyMeetings from "../components/mypage/MyMeetings.vue";
 import FreqUsedPhrase from "../components/pronounce/FreqUsedPhrase.vue";
 
+import { useMember } from "@/store/Member";
+
 const routes = [
   // 회원 경로
   {
@@ -145,6 +147,42 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+import { storeToRefs } from "pinia";
+
+router.beforeEach(async (to, from, next) => {
+  // alert("뭐냐");
+  const memberStore = storeToRefs(useMember());
+  let accessToken = memberStore.accessToken.value;
+  const memberInfo = memberStore.member;
+
+  console.log("Access ", accessToken, memberStore);
+
+  if (accessToken === null || accessToken === "") {
+    await useMember().refreshAccessToken();
+    accessToken = memberStore.accessToken.value;
+    console.log("refresh ", accessToken);
+  }
+
+  console.log("a, P", accessToken, memberInfo.email);
+  if (
+    accessToken !== "" &&
+    (memberInfo.email === "" || memberInfo.email === undefined)
+  ) {
+    console.log("re profile ");
+    await useMember().setMemberInfo();
+  }
+
+  if (accessToken === null && accessToken === "") {
+    alert("다시 로그인 해주세요!");
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath },
+    });
+  }
+
+  next();
 });
 
 export default router;

@@ -1,5 +1,6 @@
 package com.soundbridge.domain.sentence.controller;
 
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.sentence.request.CategoryReq;
 import com.soundbridge.domain.sentence.request.CategoryUpdateReq;
 import com.soundbridge.domain.sentence.response.CategoryRes;
@@ -38,8 +39,8 @@ public class CategoryApiController {
     public ResponseEntity<List<CategoryRes>> saveCategoryName(@Valid @RequestBody CategoryReq req,
         Authentication
             authentication) {
-
-        return ResponseEntity.ok(categoryService.saveCategoryName(req, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(categoryService.saveCategoryName(req, memberId));
     }
 
     @GetMapping
@@ -50,8 +51,8 @@ public class CategoryApiController {
     public ResponseEntity<List<CategoryRes>> getCategoryList(
         Authentication
             authentication) {
-
-        return ResponseEntity.ok(categoryService.getCategoryList(1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(categoryService.getCategoryList(memberId));
     }
 
     @DeleteMapping("/{categoryId}")
@@ -62,8 +63,8 @@ public class CategoryApiController {
     public ResponseEntity<List<CategoryRes>> deleteCategory(@PathVariable Long categoryId,
         Authentication
             authentication) {
-
-        return ResponseEntity.ok(categoryService.deleteCategory(categoryId, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(categoryService.deleteCategory(categoryId, memberId));
     }
 
     @PutMapping
@@ -74,8 +75,8 @@ public class CategoryApiController {
     public ResponseEntity<List<CategoryRes>> deleteCategory(@Valid @RequestBody CategoryUpdateReq req,
         Authentication
             authentication) {
-
-        return ResponseEntity.ok(categoryService.updateCategoryName(req, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(categoryService.updateCategoryName(req, memberId));
     }
 
 }

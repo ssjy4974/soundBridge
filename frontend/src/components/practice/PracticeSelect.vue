@@ -2,7 +2,7 @@
   <div>
     <router-link to="../practicebasics">
       <div class="basic">
-        <h2>기본 발음 연습</h2>
+        <h1>기본 발음 연습</h1>
         <div class="image">
           <img class="basic_image" src="@/assets/img/기역.png" />
           <img class="basic_image" src="@/assets/img/니은.png" />
@@ -13,7 +13,7 @@
 
     <router-link to="../practicewords">
       <div class="daily">
-        <h2>일상 단어 연습</h2>
+        <h1>일상 단어 연습</h1>
         <div class="image">
           <img class="word_image" src="@/assets/img/image10.png" />
           <img class="word_image" src="@/assets/img/image12.png" />
@@ -33,8 +33,8 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   gap: 24px;
   text-align: center;
   position: absolute;
-  width: 320px;
-  height: 160px;
+  width: 370px;
+  height: 200px;
   left: 20px;
   top: 120px;
 
@@ -55,18 +55,18 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   gap: 24px;
 
   position: absolute;
-  width: 320px;
-  height: 140px;
+  width: 370px;
+  height: 200px;
   left: 20px;
-  top: 370px;
+  top: 400px;
 
   background: #bae4ff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
 }
-h2 {
+h1 {
   margin-top: 0px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   color: black;
 }
 .basic_image {

@@ -1,28 +1,24 @@
 <template>
-  <div>
+  <div id="loginpage">
+    <img id="big-logo" src="../assets/img/biglogo.png" />
+    <img id="small-logo" src="../assets/img/small.png" />
+    <img id="start" src="../assets/img/start.png" />
     <div id="loginBtn">
       <img
         class="kakao-btn"
-        src="../assets/img/kakao_button.png"
+        src="../assets/img/kakao.png"
         @click="kakaoLogin"
       />
       <img
-        class="kakao-btn"
-        src="../assets/img/naver_button.png"
+        class="naver-btn"
+        src="../assets/img/naver.png"
         @click="naverLogin"
       />
       <img
         class="google-btn"
-        src="../assets/img/google_button.png"
+        src="../assets/img/google.png"
         @click="googleLogin"
       />
-    </div>
-    <div>
-      <div class="login__container kakao__button">
-        <button></button>
-      </div>
-      <div class="login__container naver__button"></div>
-      <div class="login__container google__button"></div>
     </div>
   </div>
 </template>
@@ -62,18 +58,56 @@ const googleLogin = () => {
 </script>
 
 <style scoped>
-#loginBtn img {
+#big-logo {
+  position: relative;
   width: 90%;
-  height: 50px;
+  height: auto;
+  top: 26vh;
+  left: 2.5vh;
+}
+#small-logo {
+  position: relative;
+  top: 27vh;
+  left: 12vh;
+}
+#start {
+  position: relative;
+  top: 59vh;
+  right: 7vh;
+}
+#loginBtn {
+  position: relative;
+  top: 58vh;
+  right: 1vh;
 }
 
 .kakao-btn {
-  margin-top: 10px;
+  width: 26%;
+  height: auto;
+  position: relative;
+  left: 11%;
+  top: 15px;
 }
 .google-btn {
-  margin-top: 10px;
+  width: 16%;
+  height: auto;
+  position: relative;
+  left: 31%;
 }
+.naver-btn {
+  width: 16%;
+  height: auto;
+  position: relative;
+  left: 19%;
+}
+
 img:hover {
   cursor: pointer;
+}
+
+#loginpage {
+  height: 100vh;
+  width: 100vw;
+  background-color: #eaf6ff;
 }
 </style>

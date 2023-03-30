@@ -1,11 +1,11 @@
 <template>
   <div class="main">
-    <div class="container" v-if="basicLetterList">
-      <div v-for="(basicLetter, index) in basicLetterList" :key="index">
+    <div class="container" v-if="basicLetters">
+      <div v-for="(basicLetter, index) in basicLetters" :key="index">
         <router-link :to="`/practicebasicsdetail/${basicLetter.basicLetterId}`">
           <div class="wrap">
             <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
-            <span class="wrap_text">{{ basicLetter.successCount }}</span>
+            <!-- <h2 class="wrap_text">{{ basicLetter.successCount }}</h2> -->
           </div>
         </router-link>
       </div>
@@ -14,41 +14,29 @@
 </template>
 
 <script setup>
-import { apiInstance } from "@/api/index";
-import { ref } from "vue";
+import { useBasicLetterStore } from "@/store/BasicLetter";
+import { useMember } from "@/store/Member";
+import { storeToRefs } from "pinia";
 
-const api = apiInstance();
-const basicLetterList = ref();
+const store = useBasicLetterStore();
+const memberStore = useMember();
+const { basicLetters } = storeToRefs(store);
 const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 
-const callApi = () => {
-  api
-    .get(`/api/basic-letters`)
-    .then((res) => {
-      basicLetterList.value = res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+const { accessToken } = memberStore;
 
-callApi();
+store.getBasicLetters(accessToken);
 </script>
 
 <style scoped>
-h3 {
-  margin-left: 20px;
-}
 .main {
   height: 100%;
-  width: 95%;
+  width: 100%;
 }
 .container {
   display: flex;
-  border: 1px solid lightgray;
-  border-radius: 10px;
-  margin: 8px;
   padding-top: 5px;
+  padding-left: 1px;
   background: #ffffff;
   height: 100%;
   width: 100%;
@@ -56,15 +44,15 @@ h3 {
   justify-content: stretch;
 }
 img {
-  width: 75px;
-  height: 75px;
-  padding: 3px;
-  padding-left: 6.5px;
-  vertical-align: middle;
+  width: 125px;
+  height: 110px;
+  padding: 5px;
+  margin-left: 1px;
+  vertical-align: auto;
 }
 .wrap_text {
   position: absolute;
-  transform: translate(-160%, 340%);
+  transform: translate(330%, -200%);
   color: black;
 }
 </style>

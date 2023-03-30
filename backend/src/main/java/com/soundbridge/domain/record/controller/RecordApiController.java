@@ -1,6 +1,7 @@
 package com.soundbridge.domain.record.controller;
 
 
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.record.response.NextRecordSentenceRes;
 import com.soundbridge.domain.record.service.RecordService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,7 +53,7 @@ public class RecordApiController {
     })
     @PostMapping("/start")
     public ResponseEntity startRecord(Authentication authentication){
-        Long memberId = 1L;
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
         recordService.startRecord(memberId);
         return ResponseEntity.ok().build();
     }

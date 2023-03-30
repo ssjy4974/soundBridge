@@ -3,6 +3,7 @@ package com.soundbridge.domain.board.controller;
 import com.soundbridge.domain.board.request.BoardSaveReq;
 import com.soundbridge.domain.board.response.BoardDetailRes;
 import com.soundbridge.domain.board.service.BoardService;
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -38,7 +39,8 @@ public class BoardApiController {
     })
     public ResponseEntity feedbackBoardSave(@Valid @RequestBody BoardSaveReq req,
         Authentication authentication) {
-        boardService.saveFeedbackBoard(req, 1L);
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        boardService.saveFeedbackBoard(req, memberId);
         return ResponseEntity.ok().build();
     }
 
@@ -52,7 +54,8 @@ public class BoardApiController {
         @PageableDefault(size = 5) Pageable pageable,
         @RequestParam(required = false) Long cursorId,
         Authentication authentication) {
-        return ResponseEntity.ok(boardService.findAllWithPaging(pageable, cursorId, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(boardService.findAllWithPaging(pageable, cursorId, memberId));
 
     }
 
@@ -67,7 +70,8 @@ public class BoardApiController {
     public ResponseEntity feedbackBoardDelete(
         @PathVariable Long feedbackBoardId,
         Authentication authentication) {
-        boardService.deleteBoard(feedbackBoardId, 1L);
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        boardService.deleteBoard(feedbackBoardId, memberId);
         return ResponseEntity.ok().build();
     }
 

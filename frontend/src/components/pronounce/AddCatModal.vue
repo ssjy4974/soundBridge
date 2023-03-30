@@ -34,7 +34,8 @@ const categoryHandler = () => {
   //     return false;
   //   }
   // });
-  store.addCategory(newCategory);
+  console.log("?????????????????????/");
+  store.addCategory(newCategory.value);
 };
 
 defineEmits(["closemodal"]);
