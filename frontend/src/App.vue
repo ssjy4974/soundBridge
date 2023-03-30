@@ -17,14 +17,16 @@ const memberStore = useMember();
 const role = ref(memberStore.member.role);
 console.log("memberStore.member: ", memberStore.member);
 console.log("memberStore.member.value: ", memberStore.member.value);
-console.log("memberStore.member.value.role: ", memberStore.member.value.role);
+// console.log("memberStore.member.value.role: ", memberStore.member.value.role);
 console.log("memberStore.member.role: ", memberStore.member.role);
 
 const callMember = async () => {
+  console.log("실행되면 뜰거야");
   await memberStore.getMemberInfo();
 };
 
 watch(memberStore, () => {
+  console.log("watch console");
   console.log("watch role : ", role);
   console.log("memberStore.member: ", memberStore.member);
   console.log("memberStore.member.value: ", memberStore.member.value);
