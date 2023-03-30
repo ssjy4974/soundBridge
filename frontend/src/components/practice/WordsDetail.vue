@@ -1,13 +1,15 @@
 <template>
   <div class>
-    <div>
-      {{ MyDailyWord[index] }}
+    <div class="info">
+      <div>연습 단어: {{ DailyWordList[Number(route.params.index)].word }}</div>
+      <div>올바른 발음</div>
+      <div>{{ DailyWordList[Number(route.params.index)].guideWord }}</div>
     </div>
-    <div>올바른 발음</div>
-    <div>{{ MyDailyWord[index] }}</div>
-    <div>나의 발음</div>
-    <div>???</div>
-    <div>연습하기</div>
+    <div class="myResult">
+      <div>나의 발음</div>
+      <div>???</div>
+    </div>
+    <div class="practice" @click="tryHistoryHandler">연습하기</div>
   </div>
   <div class="parent">
     <div class="child" v-if="Number(route.params.index) > 0" @click="prev">
@@ -20,33 +22,34 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router/index";
+import { useMyDailyWord } from "@/store/DailyWord";
+
+const MyDailyWord = useMyDailyWord();
 
 const route = useRoute();
-const MyDailyWord = localStorage.getItem("dailyWordList");
-const index = Number(route.params.index);
-const endIdx = MyDailyWord.length;
+const DailyWordList = JSON.parse(localStorage.getItem("dailyWordList"))._value;
+const endIdx = DailyWordList.length - 1;
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const sr = new Recognition();
 
+const tryHistoryHandler = () => {
+  const index = Number(route.params.index);
+  const wordMemberId = DailyWordList[index].wordMemberId;
+  MyDailyWord.saveorupdatetryhistory(wordMemberId);
+};
+
 const prev = () => {
   console.log("이전 클릭");
   const index = Number(route.params.index);
-
-  console.log(index);
   router.replace(`/wordsdetail/${index - 1}`);
 };
 
 const next = () => {
   console.log("다음 클릭");
-
   const index = Number(route.params.index);
-
-  console.log(index);
-  console.log(MyDailyWord);
   router.replace(`/wordsdetail/${index + 1}`);
 };
 </script>
@@ -71,5 +74,23 @@ const next = () => {
   width: 40%;
   height: 70px;
   margin: 20px 0;
+}
+
+.info {
+  width: 100%;
+  margin-top: 80px;
+  background-color: aqua;
+}
+
+.myResult {
+  width: 100%;
+  margin-top: 30px;
+  background-color: aqua;
+}
+
+.practice {
+  width: 100%;
+  margin-top: 30px;
+  background-color: red;
 }
 </style>

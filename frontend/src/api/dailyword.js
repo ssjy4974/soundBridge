@@ -32,4 +32,20 @@ async function addMyDailyWord(word, accessToken, success, fail) {
     .catch(fail);
 }
 
-export { getMyDailyWord, addMyDailyWord };
+async function saveOrUpdateTryHistory(
+  wordMemberId,
+  accessToken,
+  success,
+  fail
+) {
+  await api
+    .post(`/try-histories/daily-words/${wordMemberId}`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+export { getMyDailyWord, addMyDailyWord, saveOrUpdateTryHistory };
