@@ -67,6 +67,22 @@ async function signUp(memberId, role, age, gender, accessToken, success, fail) {
     .catch(fail);
 }
 
+async function logout(memberId, accessToken, success, fail) {
+  console.log("logout", memberId, accessToken);
+  await api
+    .post(
+      `/api/members/logout/${memberId}`,
+      {},
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
+    .then(success)
+    .catch(fail);
+}
+
 async function getNewAccessToken(success, fail) {
   console.log("no access token");
   await api.get(`/api/token/tokenReissue`, {}).then(success).catch(fail);
@@ -78,4 +94,5 @@ export {
   getMemberInfo,
   signUp,
   getNewAccessToken,
+  logout,
 };

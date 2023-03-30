@@ -140,7 +140,7 @@ public class MemberApiController {
         Cookie refreshTokenCookie = memberService.logoutMemberById(memberId,
             cookies); //cookie 정보 초기화 및 유저 DB 수정
 
-//        response.addCookie(refreshTokenCookie);
+        response.addCookie(refreshTokenCookie);
 
         return ResponseEntity.ok().build();
     }

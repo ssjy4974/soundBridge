@@ -155,35 +155,43 @@ router.beforeEach(async (to, from, next) => {
   const memberStore = storeToRefs(useMember());
   let accessToken = memberStore.accessToken.value;
   const memberInfo = memberStore.member;
-  const isLogined = !(accessToken === null || accessToken === "");
 
-  // console.log("Access ", accessToken, memberStore, to);
+  console.log("Access ", accessToken, from, to);
 
-  if (to.fullPath !== "/" && !isLogined) {
-    console.log("token 없고 /경로 아님", to.fullPath);
-    await useMember().refreshAccessToken();
-    accessToken = memberStore.accessToken.value;
-  }
-  if (to.fullPath === "/" && isLogined) {
-    next({
-      path: "/loginSuccess",
-    });
-  }
-  // console.log("re ac ", accessToken);
-  if (
-    accessToken !== null &&
-    (memberInfo.email === "" || memberInfo.email === undefined)
-  ) {
-    // console.log("re profile ", accessToken);
-    await useMember().setMemberInfo();
+  if (to.fullPath === "/" && to.fullPath != from.fullPath) {
+    next();
+    // const result = confirm("로그아웃 하시겠습니까?");
+    // if (result) {
+    //   //logout
+    //   next({
+    //     path: "/",
+    //     // query: { redirect: to.fullPath },
+    //   });
+    // } else {
+    //   next();
+    // }
   }
 
-  if (accessToken === null && accessToken === "") {
-    alert("다시 로그인 해주세요!");
-    next({
-      path: "/login",
-      query: { redirect: to.fullPath },
-    });
+  if (to.fullPath !== "/") {
+    if (accessToken === null || accessToken === "") {
+      await useMember().refreshAccessToken();
+      accessToken = memberStore.accessToken.value;
+    }
+
+    if (
+      accessToken !== "" &&
+      (memberInfo.email === "" || memberInfo.email === undefined)
+    ) {
+      await useMember().setMemberInfo();
+    }
+
+    if (accessToken === null && accessToken === "") {
+      alert("다시 로그인 해주세요!");
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    }
   }
 
   next();

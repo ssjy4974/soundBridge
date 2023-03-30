@@ -5,6 +5,7 @@ import {
   getMemberInfo,
   signUp,
   getNewAccessToken,
+  logout,
 } from "@/api/member";
 import router from "@/router";
 
@@ -93,6 +94,22 @@ export const useMember = defineStore("member", {
         this.accessToken,
         () => {
           this.member.role = role;
+        }
+      );
+    },
+
+    async logout() {
+      await logout(
+        this.member.memberId,
+        this.accessToken,
+        () => {
+          this.accessToken = null;
+          router.push({ name: "login" });
+        },
+        () => {
+          this.accessToken = null;
+          // console.log(error);
+          router.push({ name: "login" });
         }
       );
     },

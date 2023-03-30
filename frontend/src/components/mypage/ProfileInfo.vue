@@ -1,6 +1,9 @@
 <template>
   <div>
-    <i class="fa-solid fa-gear" id="set"></i>
+    <div>
+      <i class="fa-solid fa-gear" id="set" @click="profileOption"></i>
+      <ProfileOption v-if="isProfileOption" @closemodal="profileOption" />
+    </div>
     <div id="profileImg">
       <img
         :src="`${member.profile}`"
@@ -33,7 +36,10 @@
 import { computed, ref } from "vue";
 import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
+import ProfileOption from "@/components/mypage/item/ProfileOption.vue";
 const memberStore = useMember();
+
+const isProfileOption = ref(false);
 
 const { accessToken, member } = memberStore;
 const maxSize = 2 * 1024 * 1024;
@@ -42,6 +48,10 @@ let name = ref(member.nickname);
 let checkNickname = ref(false);
 
 let save = ref(false);
+
+const profileOption = () => {
+  isProfileOption.value = !isProfileOption.value;
+};
 
 const modifyNameInput = () => {
   save.value = !save.value;
