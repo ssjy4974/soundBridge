@@ -44,9 +44,9 @@ async function addMySentence(sentence, accessToken, success, fail) {
 
 // 내가 쓴 문장 자동완성 조회  GET
 async function getMySentences(sentence, accessToken, success, fail) {
-  console.log("get my sentence", sentence, accessToken);
+  console.log("get my sentence", sentence.value, accessToken);
   await api
-    .get(`/api/my-sentence-logs/${sentence}`, {
+    .get(`/api/my-sentence-logs/${sentence.value}`, {
       headers: {
         "access-token": accessToken,
       },

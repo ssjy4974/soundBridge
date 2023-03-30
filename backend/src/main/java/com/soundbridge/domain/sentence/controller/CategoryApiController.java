@@ -38,7 +38,7 @@ public class CategoryApiController {
     public ResponseEntity<List<CategoryRes>> saveCategoryName(@Valid @RequestBody CategoryReq req,
         Authentication
             authentication) {
-
+        System.out.println(req.getCategoryName());
         return ResponseEntity.ok(categoryService.saveCategoryName(req, 1L));
     }
 
