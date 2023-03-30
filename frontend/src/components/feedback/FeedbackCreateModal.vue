@@ -34,9 +34,11 @@ import { ref } from "vue";
 import { apiInstance } from "@/api/index";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { memberStore } from "@/store/Member";
+import { useMember } from "@/store/Member";
 
-const { accessToken, member } = memberStore;
+const memberStore = useMember();
+const { accessToken } = memberStore;
+console.log(accessToken);
 const api = apiInstance();
 const startTime = ref();
 const endTime = ref();
