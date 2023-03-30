@@ -10,7 +10,7 @@ import FooterVolunteer from "./components/FooterVolunteer.vue";
 
 import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 // const memberStore = storeToRefs(useMember());
 const memberStore = useMember();
 
