@@ -53,7 +53,12 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { onBeforeMount, ref } from "@vue/runtime-core";
+import {
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+} from "@vue/runtime-core";
 import { useMember } from "@/store/Member";
 import router from "@/router/index";
 
@@ -61,8 +66,49 @@ const memberStore = useMember();
 const api = apiInstance();
 const { accessToken, member } = memberStore;
 
-let myMeetings = ref();
+let myMeetings = ref([]);
+let cursorId = ref();
+let hasNext = ref();
 
+onMounted(() => {
+  document.addEventListener("scroll", scrollHandler);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("scroll", scrollHandler);
+});
+
+const scrollHandler = (e) => {
+  const scrollTop = document.documentElement.scrollTop;
+  const clientHeight = document.documentElement.clientHeight;
+  const scrollHeight = document.documentElement.scrollHeight;
+  // isAtTheBottom.value = scrollHeight === scrollTop + clientHeight;
+  const isAtTheBottom = scrollHeight === scrollTop + clientHeight;
+  if (isAtTheBottom && !hasNext.value) {
+    setTimeout(() => {
+      moreList();
+    }, 100);
+  }
+};
+
+const moreList = () => {
+  console.log("asdasd");
+  api
+    .get(`/api/meetings?cursorId=${cursorId.value}`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then((res) => {
+      myMeetings.value.push(...res.data.content);
+      hasNext.value = res.data.last;
+      cursorId.value =
+        res.data.content[res.data.numberOfElements - 1].meetingId;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 onBeforeMount(() => {
   api
     .get("/api/meetings", {
@@ -72,6 +118,9 @@ onBeforeMount(() => {
     })
     .then((res) => {
       myMeetings.value = res.data.content;
+      hasNext.value = res.data.last;
+      cursorId.value =
+        res.data.content[res.data.numberOfElements - 1].meetingId;
     })
     .catch((err) => {
       console.log(err);
