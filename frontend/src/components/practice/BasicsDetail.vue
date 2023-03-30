@@ -44,6 +44,7 @@
 
 <script setup>
 import { useBasicLetterStore } from "@/store/BasicLetter";
+import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
@@ -52,7 +53,9 @@ import Swal from "sweetalert2";
 
 const route = useRoute();
 const store = useBasicLetterStore();
+const memberStore = useMember();
 const { basicLetter } = storeToRefs(store);
+const { accessToken } = memberStore;
 const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 const transcript = ref("");
 const isRecording = ref(false);
@@ -98,25 +101,25 @@ onMounted(() => {
   };
 });
 
-store.getBasicLetter("accessToken", route.params.basicLetterId);
-
+store.getBasicLetter(accessToken, route.params.basicLetterId);
+console.log("acc", accessToken);
 const prev = () => {
   const index = Number(route.params.basicLetterId) - 1;
   router.replace(`/practicebasicsdetail/${index}`);
-  store.getBasicLetter("accessToken", index);
+  store.getBasicLetter(accessToken, index);
 };
 
 const next = () => {
   const index = Number(route.params.basicLetterId) + 1;
   router.replace(`/practicebasicsdetail/${index}`);
-  store.getBasicLetter("accessToken", index);
+  store.getBasicLetter(accessToken, index);
 };
 
 const CheckSuccess = (result) => {
   const t = result[0].transcript;
   if (t == basicLetter.value.guidLetter) {
     sr.stop();
-    store.successPratice("accessToken", basicLetter.value.basicLetterId);
+    store.successPratice(accessToken, basicLetter.value.basicLetterId);
   } else {
     sr.stop();
     Swal.fire(
@@ -132,7 +135,7 @@ const CheckSuccess = (result) => {
 };
 
 const ToggleMic = () => {
-  store.tryPractice("accessToken", basicLetter.value.basicLetterId).then(() => {
+  store.tryPractice(accessToken, basicLetter.value.basicLetterId).then(() => {
     sr.start();
     recordStatus.value = "녹음중";
   });
