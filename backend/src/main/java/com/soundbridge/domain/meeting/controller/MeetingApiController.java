@@ -4,6 +4,7 @@ import com.soundbridge.domain.meeting.request.MeetingSaveReq;
 import com.soundbridge.domain.meeting.response.MeetingDetailRes;
 import com.soundbridge.domain.meeting.service.MeetingRoomService;
 import com.soundbridge.domain.meeting.service.MeetingService;
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +45,8 @@ public class MeetingApiController {
     })
     public ResponseEntity meetingSave(@Valid @RequestBody MeetingSaveReq req,
         Authentication authentication) {
-        meetingService.saveMeeting(req, 1L);
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        meetingService.saveMeeting(req, memberId);
         return ResponseEntity.ok().build();
     }
 
@@ -58,7 +60,8 @@ public class MeetingApiController {
         @PageableDefault(size = 5) Pageable pageable,
         @RequestParam(required = false) Long cursorId,
         Authentication authentication) {
-        return ResponseEntity.ok(meetingService.findAllWithPaging(pageable, cursorId, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(meetingService.findAllWithPaging(pageable, cursorId, memberId));
     }
 
     @GetMapping("/{meetingId}")
