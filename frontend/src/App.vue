@@ -21,7 +21,7 @@ console.log("memberStore.member.role: ", memberStore.member.role);
 
 <template>
   <div>
-    <Header v-if="role != null" />
+    <Header v-if="role === 'APPLICANT' || role === 'HELPER'" />
     <div id="wrapper">
       <router-view
         v-bind:class="{
