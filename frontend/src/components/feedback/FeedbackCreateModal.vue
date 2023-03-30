@@ -34,7 +34,8 @@ import { ref } from "vue";
 import { apiInstance } from "@/api/index";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-
+import { memberStore } from "@/store/Member";
+const accessToken = memberStore.accessToken;
 const api = apiInstance();
 const startTime = ref();
 const endTime = ref();
@@ -64,7 +65,11 @@ const feedbackBoardSave = () => {
   feedbackArticleSaveReq.value.startTime = startTime.value;
   feedbackArticleSaveReq.value.endTime = endTime.value;
   api
-    .post(`/api/feedback-boards`, feedbackArticleSaveReq.value)
+    .post(`/api/feedback-boards`, feedbackArticleSaveReq.value, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
     .then(() => {
       alert("등록 성공");
     })
