@@ -11,8 +11,9 @@ import FooterVolunteer from "./components/FooterVolunteer.vue";
 import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 const memberStore = storeToRefs(useMember());
+
 const role = memberStore.member.role;
-console.log("role: ", role);
+console.log("role: ", memberStore.member);
 </script>
 
 <template>
