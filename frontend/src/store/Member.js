@@ -14,24 +14,17 @@ export const useMember = defineStore("member", {
   state: () => ({
     member: {
       memberId: 0,
-      email: null,
-      nickname: null,
-      profile: null,
-      role: null,
+      email: "",
+      nickname: "",
+      profile: "",
+      role: "",
     },
-    accessToken: null,
+    accessToken: "",
   }),
   //   getters == computed()  // 랜더링 될때 실행되는 함수
   getters: {
     getMemberInfo(state) {
       return state.member;
-    },
-    checkLogin(state) {
-      console.log("!!!!");
-      localStorage.setItem("isLogin", state.member.role);
-    },
-    clearLogin() {
-      localStorage.removeItem("isLogin");
     },
   },
 
@@ -68,16 +61,16 @@ export const useMember = defineStore("member", {
         this.accessToken,
         ({ data }) => {
           console.log("Data", data);
-          this.member.memberId = data.memberId;
-          this.member.email = data.email;
-          this.member.nickname = data.nickname;
-          this.member.profile = data.profile;
-          this.member.role = data.role;
-          // this.member = data;
-          localStorage.setItem("isLogin", this.member.role);
+          // this.member.memberId = data.memberId;
+          // this.member.email = data.email;
+          // this.member.nickname = data.nickname;
+          // this.member.profile = data.profile;
+          // this.member.role = data.role;
+          this.member = data;
+          // localStorage.setItem("isLogin", this.member.role);/
         },
         (error) => {
-          console.log(error);
+          console.log(error.code);
         }
       );
     },
@@ -87,10 +80,9 @@ export const useMember = defineStore("member", {
         ({ data }) => {
           // console.log(data);
           this.accessToken = data;
-          this.member = this.setMemberInfo(this.accessToken);
         },
         (error) => {
-          console.log(error);
+          console.log(error.response.status);
           router.push({ name: "login" });
         }
       );
@@ -98,7 +90,7 @@ export const useMember = defineStore("member", {
 
     async setAccessToken(accessToken) {
       // getters.checkLogin;
-      this.checkLogin;
+      // this.checkLogin;
       this.accessToken = accessToken;
     },
 
@@ -134,12 +126,6 @@ export const useMember = defineStore("member", {
       );
     },
   },
-
-  // getters: {
-  //   getMemberInfo(state) {
-  //     return state.member;
-  //   },
-  // },
 
   // return {states, action} 반환 하면됨
   //   return {};

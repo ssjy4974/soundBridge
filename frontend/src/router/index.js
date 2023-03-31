@@ -126,7 +126,7 @@ const routes = [
     component: PracticeWords,
   },
   {
-    path: "/wordsdetail",
+    path: "/wordsdetail/:index",
     name: "wordsdetail",
     component: PracticeWordsDetail,
   },
@@ -152,43 +152,48 @@ const router = createRouter({
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 router.beforeEach(async (to, from, next) => {
-  console.log("@#@ ", from.fullPath);
-  if (from.fullPath === "/" && !localStorage.getItem("isLogin")) {
-    console.log("!@!@!");
-    localStorage.removeItem("isLogin");
-    next();
+  // alert("뭐냐");
+  const memberStore = storeToRefs(useMember());
+  let accessToken = memberStore.accessToken.value;
+  const memberInfo = memberStore.member;
 
-    return;
+  console.log(" from - to ", from, to);
+
+  if (to.name === `login`) {
+    next();
   }
 
-  const memberStore = useMember();
-
-  // alert("뭐냐");
-  const { member, accessToken } = storeToRefs(memberStore);
-
-  console.log("ACc, member ", accessToken.value, member.value);
-
-  if (accessToken.value === null || accessToken.value === "") {
-    console.log("is Login !");
+  if (accessToken === null || accessToken === "") {
     await useMember().refreshAccessToken();
+    accessToken = memberStore.accessToken.value;
+  }
 
+  if (
+    accessToken !== "" &&
+    (memberInfo.email === "" || memberInfo.email === undefined)
+  ) {
     await useMember().setMemberInfo();
   }
 
-  if (accessToken != "" && member.memberId === 0) {
-    memberStore.setMemberInfo();
-  }
+  // if (accessToken === null || accessToken === "") {
+  //   // useMember().refreshAccessToken();
+  //   accessToken = memberStore.accessToken.value;
+  // }
+
+  //   if (
+  //     accessToken !== null &&
+  //     (memberInfo.email === "" || memberInfo.email === undefined)
+  //   ) {
+  //     await useMember().setMemberInfo();
+  //   }
 
   if (accessToken === null && accessToken === "") {
     alert("다시 로그인 해주세요!");
-    useMember().clearLogin;
     next({
       path: "/login",
-      query: { redirect: to.fullPath },
     });
   }
 
-  useMember().checkLogin;
   next();
 });
 

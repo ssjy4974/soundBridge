@@ -129,7 +129,7 @@ public class MemberService {
 
         Cookie refreshTokenCookie = new Cookie("refresh-token", null);
         refreshTokenCookie.setMaxAge(0);
-        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setPath("/api/token/tokenReissue");
 
         return refreshTokenCookie;
     }
