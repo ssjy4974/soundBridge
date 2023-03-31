@@ -14,6 +14,8 @@ import { ref, watch } from "vue";
 // const memberStore = storeToRefs(useMember());
 const memberStore = useMember();
 
+const { member } = storeToRefs(memberStore);
+
 const role = ref(memberStore.member.role);
 console.log("memberStore.member: ", memberStore.member);
 console.log("memberStore.member.value: ", memberStore.member.value);
@@ -22,7 +24,7 @@ console.log("memberStore.member.role: ", memberStore.member.role);
 
 const callMember = async () => {
   console.log("실행되면 뜰거야");
-  await memberStore.getMemberInfo();
+  await memberStore.setMemberInfo();
 };
 
 watch(memberStore, () => {

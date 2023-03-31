@@ -89,6 +89,7 @@ onMounted(() => {
   sr.onresult = (evt) => {
     for (let i = 0; i < evt.results.length; i++) {
       const result = evt.results[i];
+      console.log(result.isFinal);
       if (result.isFinal) {
         CheckSuccess(result);
       }
