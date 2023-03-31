@@ -41,18 +41,12 @@
 <script setup>
 import { useMySentence } from "@/store/Sentence";
 import { storeToRefs } from "pinia";
-// import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
 
 const mySentences = useMySentence();
-const {
-  sentence,
-  mysentence,
-  getmysentences,
-  addmysentence,
-  updatemysentence,
-} = mySentences;
-
+const { sentence, getmysentences, addmysentence, updatemysentence } =
+  mySentences;
+const { mysentence } = storeToRefs(mySentences);
 // const sentenceList = storeToRefs(mysentence);
 const inputSentence = ref("");
 
@@ -67,6 +61,7 @@ watch(inputSentence, () => {
 });
 
 const addSentenceHandler = (a) => {
+  console.log(a);
   addmysentence(a);
 };
 
