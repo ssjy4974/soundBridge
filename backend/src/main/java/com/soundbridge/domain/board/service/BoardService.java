@@ -51,7 +51,7 @@ public class BoardService {
         final Member member = memberRepository.findById(memberId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        if (member.getRole().equals(Role.APPLICANT)) {
+        if (Role.APPLICANT.equals(member.getRole())) {
             memberId = null;
         }
         return boardRepository.findAllWithPaging(pageable, cursorId, memberId);

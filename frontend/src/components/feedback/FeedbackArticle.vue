@@ -25,10 +25,13 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
 import { apiInstance } from "@/api/index";
-import FeedbackCreateModal from "./FeedbackCreateModal.vue";
+import { useMember } from "@/store/Member";
 import { ref } from "vue";
+import FeedbackCreateModal from "./FeedbackCreateModal.vue";
 import Swal from "sweetalert2";
 
+const memberStore = useMember();
+const { accessToken } = memberStore;
 const api = apiInstance();
 const props = defineProps(["feedbackArticle", "index"]);
 const emit = defineEmits(["updateProps"]);
@@ -53,7 +56,14 @@ const deleteFeedbackArticle = () => {
   }).then((result) => {
     if (result.isConfirmed) {
       api
-        .delete(`/api/feedback-boards/${props.feedbackArticle.feedbackBoardId}`)
+        .delete(
+          `/api/feedback-boards/${props.feedbackArticle.feedbackBoardId}`,
+          {
+            headers: {
+              "access-token": accessToken,
+            },
+          }
+        )
         .then(() => {
           emit("updateProps", { index: props.index });
           Swal.fire("삭제되었습니다", "success");

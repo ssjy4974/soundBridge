@@ -78,13 +78,13 @@ onMounted(() => {
   sr.maxAlternatives = 0;
   sr.onstart = () => {
     console.log("연습 시작");
+    transcript.value = "";
     isRecording.value = true;
   };
   sr.onend = () => {
     console.log("연습 종료");
     isRecording.value = false;
     recordStatus.value = "연습하기";
-    transcript.value = "";
   };
   sr.onresult = (evt) => {
     for (let i = 0; i < evt.results.length; i++) {
@@ -134,10 +134,14 @@ const CheckSuccess = (result) => {
 };
 
 const ToggleMic = () => {
-  store.tryPractice(accessToken, basicLetter.value.basicLetterId).then(() => {
-    sr.start();
-    recordStatus.value = "녹음중";
-  });
+  if (isRecording.value) {
+    sr.stop();
+  } else {
+    store.tryPractice(accessToken, basicLetter.value.basicLetterId).then(() => {
+      sr.start();
+      recordStatus.value = "녹음중";
+    });
+  }
 };
 </script>
 

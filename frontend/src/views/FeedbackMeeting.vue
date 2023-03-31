@@ -72,12 +72,10 @@ onBeforeMount(() => {
       // openviduInfo.value.OV.enableProdMode();
       openviduInfo.value.session = openviduInfo.value.OV.initSession();
       // On every new Stream received...
-      console.log("streamCreate 전 ");
       openviduInfo.value.session.on("streamCreated", ({ stream }) => {
         const subscriber = openviduInfo.value.session.subscribe(stream);
         openviduInfo.value.subscribers.push(subscriber);
       });
-      console.log("streamCreate 후");
       // On every Stream destroyed...
       openviduInfo.value.session.on("streamDestroyed", ({ stream }) => {
         const index = openviduInfo.value.subscribers.indexOf(
