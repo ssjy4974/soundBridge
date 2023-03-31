@@ -118,12 +118,22 @@ const CheckSuccess = (result) => {
     sr.stop();
     const wordMemberId = DailyWordList[index].wordMemberId;
     MyDailyWord.updatesuccesscount(wordMemberId);
+    MyDailyWord.getmydailyword();
+    DailyWordList = JSON.parse(localStorage.getItem("dailyWordList"))._value;
+    Swal.fire({
+      title: "다시 한번 해볼까요?",
+      html:
+        "성공횟수 : " +
+        DailyWordList[index].successCount +
+        "<br/>" +
+        "시도 횟수 : " +
+        DailyWordList[index].tryCount,
+      position: "bottom-end",
+    });
   } else {
     sr.stop();
     MyDailyWord.getmydailyword();
     DailyWordList = JSON.parse(localStorage.getItem("dailyWordList"))._value;
-    console.log("성공횟수", DailyWordList[index].successCount);
-    console.log("시도횟수", DailyWordList[index].tryCount);
     Swal.fire({
       title: "다시 한번 해볼까요?",
       html:

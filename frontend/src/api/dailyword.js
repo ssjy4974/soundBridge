@@ -14,13 +14,13 @@ async function getMyDailyWord(accessToken, success, fail) {
     .catch(fail);
 }
 
-async function addMyDailyWord(word, accessToken, success, fail) {
+async function addMyDailyWord(word, memberId, accessToken, success, fail) {
   await api
     .post(
       `/ai/daily-words`,
       {
         dailyWord: word,
-        memberId: 1,
+        memberId: memberId,
       },
       {
         headers: {
@@ -39,22 +39,30 @@ async function saveOrUpdateTryHistory(
   fail
 ) {
   await api
-    .post(`/api/try-histories/daily-words/${wordMemberId}`, {
-      headers: {
-        "access-token": accessToken,
-      },
-    })
+    .post(
+      `/api/try-histories/daily-words/${wordMemberId}`,
+      {},
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
     .then(success)
     .catch(fail);
 }
 
 async function updateSuccessCount(wordMemberId, accessToken, success, fail) {
   await api
-    .put(`/api/try-histories/daily-words/${wordMemberId}`, {
-      headers: {
-        "access-token": accessToken,
-      },
-    })
+    .put(
+      `/api/try-histories/daily-words/${wordMemberId}`,
+      {},
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
     .then(success)
     .catch(fail);
 }
