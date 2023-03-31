@@ -35,7 +35,6 @@ onMounted(() => {
     isRecording.value = false;
   };
   sr.onresult = (evt) => {
-    console.log(evt.results);
     const t = Array.from(evt.results)
       .map((result) => result[0])
       .map((result) => result.transcript)
