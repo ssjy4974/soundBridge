@@ -163,7 +163,7 @@ jwt:
 cloud:
   aws:
     s3:
-      bucket: ${AWS_S3_BUCKET}
+      bucket:  yeon-chung
     credentials:
       access-key: AKIAVFN3UTF7HNEMVS5U
       secret-key: 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
