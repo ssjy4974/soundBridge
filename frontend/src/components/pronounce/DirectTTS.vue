@@ -14,7 +14,9 @@
           @click="
             () => {
               addSentenceHandler(inputSentence);
+              getAudio(inputSentence);
               // addmysentence(inputSentence);
+              inputSentence = '';
             }
           "
           style="font-size: 1.3rem"
@@ -22,41 +24,43 @@
       </div>
     </div>
     <div
-      v-for="(mysen, index) in mySentences.mysentence"
+      v-for="(mysen, index) in sentenceList"
       :key="index"
       class="auto__dropdown"
     >
-      <p>{{ mySentences.mysentence }}</p>
-
-      <p>
-        {{ mysen.sentence }}
-      </p>
+      <!-- <p>{{ mysen }}</p> -->
+      <div>
+        <p>
+          {{ mysen.sentence }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { useMySentence } from "@/store/Sentence";
+import { storeToRefs } from "pinia";
 // import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
 
 const mySentences = useMySentence();
 const {
   sentence,
-  // mysentence,
+  mysentence,
   getmysentences,
   addmysentence,
   updatemysentence,
 } = mySentences;
 
-// const mysentence = ref(mySentences.mysentence);
-
+// const sentenceList = storeToRefs(mysentence);
 const inputSentence = ref("");
+const sentenceList = ref();
 
 const callgetAPI = async () => {
-  await getmysentences(inputSentence);
-
-  console.log("mysentence???", mySentences.mysentence);
+  sentenceList.value = await getmysentences(inputSentence);
+  // sentenceList.value = mySentences.mysentence;
+  console.log("mysentence???", sentenceList);
 };
 
 watch(inputSentence, () => {
@@ -67,6 +71,16 @@ watch(inputSentence, () => {
 const addSentenceHandler = (a) => {
   addmysentence(a);
 };
+
+// 선택한 목소리로 TTS 실행하기
+const getAudio = (text) => {
+  console.log("TTS test", text);
+  let audio = new Audio(
+    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}`
+  );
+  audio.play();
+};
+
 addSentenceHandler(inputSentence);
 </script>
 <style lang="scss" scoped>

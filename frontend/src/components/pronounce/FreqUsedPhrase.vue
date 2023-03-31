@@ -23,7 +23,7 @@
         :key="index"
       >
         <div>
-          <p>{{ phrase.sentence }}</p>
+          <p @click="getAudio(phrase.sentence)">{{ phrase.sentence }}</p>
         </div>
         <div>
           <font-awesome-icon
@@ -116,6 +116,19 @@ const delPhraseHandler = (sentenceId) => {
   callSentenceAPI();
 };
 
+// 선택한 목소리로 TTS 실행하기
+const getAudio = (text) => {
+  console.log("TTS test", text);
+  let audio = new Audio(
+    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}`
+  );
+  audio.play();
+};
+// const playTTS = () => {
+//   //AI 함수 호출는 부분
+//   console.log("AI TTS 실행시키기");
+//   getAudio();
+// };
 // GET catagoires
 callCategoryAPI();
 callSentenceAPI();

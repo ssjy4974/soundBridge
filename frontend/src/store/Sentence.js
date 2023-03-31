@@ -22,10 +22,11 @@ export const useMySentence = defineStore("mysentence", () => {
       accessToken,
       ({ data }) => {
         mysentence.value = data;
-        // console.log("Get method responses", mysentence.value);
+        console.log("Get method responses", data, mysentence.value);
+        // return data;
       },
       ({ fail }) => {
-        mysentence.value = {};
+        // mysentence.value = [];
       }
     );
   }
