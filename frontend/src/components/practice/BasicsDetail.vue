@@ -78,8 +78,8 @@ onMounted(() => {
   sr.maxAlternatives = 0;
   sr.onstart = () => {
     console.log("연습 시작");
-    transcript.value = "";
     isRecording.value = true;
+    transcript.value = "";
   };
   sr.onend = () => {
     console.log("연습 종료");
@@ -102,6 +102,7 @@ onMounted(() => {
 });
 
 store.getBasicLetter(accessToken, route.params.basicLetterId);
+console.log("acc", accessToken);
 const prev = () => {
   const index = Number(route.params.basicLetterId) - 1;
   router.replace(`/practicebasicsdetail/${index}`);

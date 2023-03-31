@@ -157,7 +157,7 @@ router.beforeEach(async (to, from, next) => {
   const memberInfo = memberStore.member;
 
   if (accessToken === null || accessToken === "") {
-    await useMember().refreshAccessToken();
+    // useMember().refreshAccessToken();
     accessToken = memberStore.accessToken.value;
   }
 

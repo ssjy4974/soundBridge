@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
-import { getMyDailyWord, addMyDailyWord } from "@/api/dailyword";
+import {
+  getMyDailyWord,
+  addMyDailyWord,
+  saveOrUpdateTryHistory,
+  updateSuccessCount,
+} from "@/api/dailyword";
 import { ref } from "vue";
 import { useMember } from "./Member";
 
@@ -28,12 +33,34 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
     });
   }
 
+  async function saveorupdatetryhistory(wordMemberId) {
+    await saveOrUpdateTryHistory(
+      wordMemberId,
+      memberStore.accessToken,
+      ({ data }) => {
+        console.log(data, " update tryHistory");
+      }
+    );
+  }
+
+  async function updatesuccesscount(wordMemberId) {
+    await updateSuccessCount(
+      wordMemberId,
+      memberStore.accessToken,
+      ({ data }) => {
+        console.log(data, " update tryHistory");
+      }
+    );
+  }
+
   // getters == computed()  랜더링 될때 실행되는 함수 -
   // api 불러오는 함수 선언하고, response 값 state에 저장
   //
   return {
     getmydailyword,
     addmydailyword,
+    saveorupdatetryhistory,
+    updatesuccesscount,
     mydailyword,
   };
 });

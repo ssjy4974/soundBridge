@@ -66,8 +66,8 @@ async function signUp(memberId, role, age, gender, accessToken, success, fail) {
     .catch(fail);
 }
 
-async function getNewAccessToken(success, fail) {
-  await api.get(`/api/token/tokenReissue`, {}).then(success).catch(fail);
+function getNewAccessToken(success, fail) {
+  api.get(`/api/token/tokenReissue`, {}).then(success).catch(fail);
 }
 
 export {

@@ -94,7 +94,7 @@ public class PronunciationApiController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/try-histories/daily-words/{dailyWordId}")
+    @PutMapping("/try-histories/daily-words/{wordMemberId}")
     @Operation(summary = "일상 단어 발음 성공 업데이트")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "일상 단어 발음 성공 업데이트"),
@@ -128,7 +128,8 @@ public class PronunciationApiController {
     })
     public ResponseEntity<DailyWordRes> dailyWordDetails(@PathVariable String word,
                                                           Authentication authentication) {
-        return ResponseEntity.ok(dailyWordService.findDailyWord(word, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(dailyWordService.findDailyWord(word, memberId));
     }
 
 
