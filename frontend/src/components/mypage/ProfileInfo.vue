@@ -1,13 +1,26 @@
 <template>
   <div>
-    <i class="fa-solid fa-gear" id="set"></i>
+    <div>
+      <i class="fa-solid fa-gear" id="set" @click="profileOption"></i>
+      <ProfileOption v-if="isProfileOption" @closemodal="profileOption" />
+    </div>
     <div id="profileImg">
-      <img
+      <input
+        type="file"
+        @change="imgUploadEvent"
+        accept=".jpg,.jpeg,.png"
+        id="imgInput"
+        style="display: none"
+      />
+      <label for="imgInput">
+        <img :src="`${IMAGE_PATH}/${member.profile}`" id="profile" />
+      </label>
+      <!-- <img
         :src="`${member.profile}`"
-        @click="changeProfile"
+        @click="imgUploadEvent"
         alt="profile"
         id="profile"
-      />
+      /> -->
     </div>
     <div>
       <div id="nickname" v-if="!save">
@@ -33,7 +46,13 @@
 import { computed, ref } from "vue";
 import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
+import ProfileOption from "@/components/mypage/item/ProfileOption.vue";
+
+const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
+
 const memberStore = useMember();
+
+const isProfileOption = ref(false);
 
 const { accessToken, member } = memberStore;
 const maxSize = 2 * 1024 * 1024;
@@ -42,6 +61,12 @@ let name = ref(member.nickname);
 let checkNickname = ref(false);
 
 let save = ref(false);
+
+console.log(member);
+
+const profileOption = () => {
+  isProfileOption.value = !isProfileOption.value;
+};
 
 const modifyNameInput = () => {
   save.value = !save.value;
@@ -64,16 +89,17 @@ const modifyName = (e) => {
 };
 
 const imgUploadEvent = (e) => {
-  console.log(accessToken, "  id ", member.profile);
+  console.log(accessToken, "  id ", member.profile, e);
   changeProfile(e.target.files);
 };
 
 let reg_img = ["jpg", "jpeg", "png"];
 const changeProfile = (f) => {
+  console.log("fff", f);
   const modifyImgName = f[0].name;
 
   const formData = new FormData();
-  formData.append("memberId", 1);
+  formData.append("memberId", member.memberId);
   formData.append("profile", f[0]);
 
   const ext = modifyImgName.split(".").pop().toLowerCase();

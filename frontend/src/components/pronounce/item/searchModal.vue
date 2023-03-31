@@ -1,13 +1,14 @@
 <template>
   <div class="cat__modal">
-    <div id="last">
-      <div
-        id="close"
-        @click="$emit('closemodal', checkedGender, checkedAge, checkedFeatures)"
-      >
-        X
-      </div>
-      <br />
+    <div
+      id="close"
+      @click="$emit('updateList', checkedGender, checkedAge, checkedFeatures)"
+    >
+      X
+    </div>
+    <br />
+    <div>
+      <b>성별</b>
       <div>
         <b id="gender"> &nbsp;&nbsp;&nbsp;성&nbsp;별</b>
         <div id="dv">

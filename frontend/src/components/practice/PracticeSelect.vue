@@ -1,22 +1,26 @@
 <template>
   <div>
     <router-link to="../practicebasics">
-      <div class="basic">
-        <h1>기본 발음 연습</h1>
-        <div class="image">
-          <img class="basic_image" src="@/assets/img/기역.png" />
-          <img class="basic_image" src="@/assets/img/니은.png" />
-          <img class="basic_image" src="@/assets/img/디귿.png" />
+      <div class="basic_wrap">
+        <div class="basic">
+          <h1>기본 발음 연습</h1>
+          <div class="image">
+            <img class="basic_image" src="@/assets/img/기역.png" />
+            <img class="basic_image" src="@/assets/img/니은.png" />
+            <img class="basic_image" src="@/assets/img/디귿.png" />
+          </div>
         </div>
       </div>
     </router-link>
 
     <router-link to="../practicewords">
-      <div class="daily">
-        <h1>일상 단어 연습</h1>
-        <div class="image">
-          <img class="word_image" src="@/assets/img/image10.png" />
-          <img class="word_image" src="@/assets/img/image12.png" />
+      <div class="daily_wrap">
+        <div class="daily">
+          <h1>일상 단어 연습</h1>
+          <div class="image">
+            <img class="word_image" src="@/assets/img/image10.png" />
+            <img class="word_image" src="@/assets/img/image12.png" />
+          </div>
         </div>
       </div>
     </router-link>
@@ -28,15 +32,17 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 </script>
 
 <style scoped>
+.basic_wrap {
+  padding-top: 15%;
+  padding-bottom: 10%;
+  display: flex;
+  justify-content: center;
+}
 .basic {
   padding: 20px 0px;
-  gap: 24px;
   text-align: center;
-  position: absolute;
-  width: 370px;
-  height: 200px;
-  left: 20px;
-  top: 120px;
+  position: relative;
+  width: 95%;
 
   background: #bae4ff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -47,6 +53,10 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   justify-content: space-around;
   align-items: center;
 }
+.daily_wrap {
+  display: flex;
+  justify-content: center;
+}
 .daily {
   display: flex;
   flex-direction: column;
@@ -54,11 +64,12 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   padding: 20px 0px;
   gap: 24px;
 
-  position: absolute;
-  width: 370px;
+  position: relative;
+  /* width: 370px;
   height: 200px;
   left: 20px;
-  top: 400px;
+  top: 400px; */
+  width: 95%;
 
   background: #bae4ff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -70,8 +81,7 @@ h1 {
   color: black;
 }
 .basic_image {
-  width: 75px;
-  height: 75px;
+  width: 23%;
   padding: 3px;
   padding-left: 6.5px;
   vertical-align: middle;

@@ -8,6 +8,7 @@ import com.soundbridge.domain.member.response.MemberInfoRes;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.ImageExtensionException;
 import com.soundbridge.global.error.exception.NotFoundException;
+import com.soundbridge.global.service.AwsS3Service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Cookie;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final AwsS3Service awsS3Service;
 
     private final RedisTemplate redisTemplate;
 
@@ -59,11 +61,11 @@ public class MemberService {
         contentType.add("image/png");
 
         if(contentType.contains(newProfile.getContentType())) {
-//            String filename = awsS3Service.multipartFileUpload(newProfile);
-//            if(!member.getProfile().equals("default.png")) {
-//                awsS3Service.deleteObject(member.getProfile());
-//            }
-            String filename = newProfile.getOriginalFilename(); //s3 되면 바꾸기.
+            String filename = awsS3Service.multipartFileUpload(newProfile);
+            if(!member.getProfile().equals("default.png")) {
+                awsS3Service.deleteObject(member.getProfile());
+            }
+//            String filename = newProfile.getOriginalFilename(); //s3 되면 바꾸기.
             member.modifyProfile(filename);
 
             return filename;
@@ -129,7 +131,7 @@ public class MemberService {
 
         Cookie refreshTokenCookie = new Cookie("refresh-token", null);
         refreshTokenCookie.setMaxAge(0);
-        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setPath("/api/token/tokenReissue");
 
         return refreshTokenCookie;
     }

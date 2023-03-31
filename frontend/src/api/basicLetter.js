@@ -30,7 +30,6 @@ const getBasicLetterDetails = async (
 };
 
 const updateTryCount = async (accessToken, basicLetterId, success, fail) => {
-  console.log("여기임", accessToken);
   api
     .post(
       `/api/try-histories/basic-letters/${basicLetterId}`,

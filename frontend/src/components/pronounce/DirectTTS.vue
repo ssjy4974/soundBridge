@@ -14,7 +14,9 @@
           @click="
             () => {
               addSentenceHandler(inputSentence);
+              getAudio(inputSentence);
               // addmysentence(inputSentence);
+              inputSentence = '';
             }
           "
           style="font-size: 1.3rem"
@@ -22,12 +24,15 @@
       </div>
     </div>
     <div
-      v-for="(mysen, index) in mySentences.mysentence"
+      v-for="(mysen, index) in mysentence"
       :key="index"
       class="auto__dropdown"
     >
-      <div class="item">
-        <p class="text">{{ mysen.sentence }}</p>
+      <!-- <p>{{ mysen }}</p> -->
+      <div>
+        <p>
+          {{ mysen.sentence }}
+        </p>
       </div>
     </div>
   </div>
@@ -35,32 +40,41 @@
 
 <script setup>
 import { useMySentence } from "@/store/Sentence";
+import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
 
 const mySentences = useMySentence();
-const {
-  sentence,
-  mysentence,
-  getmysentences,
-  addmysentence,
-  updatemysentence,
-} = mySentences;
-
+const { sentence, getmysentences, addmysentence, updatemysentence } =
+  mySentences;
+const { mysentence } = storeToRefs(mySentences);
+// const sentenceList = storeToRefs(mysentence);
 const inputSentence = ref("");
 
 const callgetAPI = async () => {
-  await getmysentences(inputSentence);
-
-  // console.log("mysentence???", mysentence);
+  await getmysentences(inputSentence.value);
+  // sentenceList.value = mySentences.mysentence;
 };
 
 watch(inputSentence, () => {
-  // callgetAPI();
+  callgetAPI();
+  // mySentences.mysentence = mysentence.value;
 });
 
-const addSentenceHandler = () => {
-  addSentenceHandler();
+const addSentenceHandler = (a) => {
+  console.log(a);
+  addmysentence(a);
 };
+
+// 선택한 목소리로 TTS 실행하기
+const getAudio = (text) => {
+  console.log("TTS test", text);
+  let audio = new Audio(
+    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}`
+  );
+  audio.play();
+};
+
+addSentenceHandler(inputSentence);
 </script>
 <style lang="scss" scoped>
 .direct__container {
@@ -93,7 +107,7 @@ const addSentenceHandler = () => {
   width: 80vw;
   border-bottom: solid var(--maincolor3);
   border-radius: 12px;
-  position: absolute;
+  // position: absolute;
   padding-inline: 10%;
 }
 </style>

@@ -79,12 +79,12 @@ onMounted(() => {
   sr.onstart = () => {
     console.log("연습 시작");
     isRecording.value = true;
+    transcript.value = "";
   };
   sr.onend = () => {
     console.log("연습 종료");
     isRecording.value = false;
     recordStatus.value = "연습하기";
-    transcript.value = "";
   };
   sr.onresult = (evt) => {
     for (let i = 0; i < evt.results.length; i++) {
@@ -102,6 +102,7 @@ onMounted(() => {
 });
 
 store.getBasicLetter(accessToken, route.params.basicLetterId);
+console.log("acc", accessToken);
 const prev = () => {
   const index = Number(route.params.basicLetterId) - 1;
   router.replace(`/practicebasicsdetail/${index}`);
@@ -134,10 +135,14 @@ const CheckSuccess = (result) => {
 };
 
 const ToggleMic = () => {
-  store.tryPractice(accessToken, basicLetter.value.basicLetterId).then(() => {
-    sr.start();
-    recordStatus.value = "녹음중";
-  });
+  if (isRecording.value) {
+    sr.stop();
+  } else {
+    store.tryPractice(accessToken, basicLetter.value.basicLetterId).then(() => {
+      sr.start();
+      recordStatus.value = "녹음중";
+    });
+  }
 };
 </script>
 

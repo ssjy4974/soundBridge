@@ -5,34 +5,33 @@ import {
   getMySentences,
 } from "@/api/sentence";
 import { ref } from "vue";
+import { useMember } from "@/store/Member";
 
 export const useMySentence = defineStore("mysentence", () => {
-  const accessToken = "access-token 123";
+  const mymember = useMember();
+  const accessToken = mymember.accessToken;
   const sentence = ref("감");
-  const mysentence = ref();
+  const mysentence = ref([]);
 
   // GET
   async function getmysentences(newSentence) {
-    sentence.value = newSentence;
     await getMySentences(
-      sentence.value,
+      newSentence,
       accessToken,
       ({ data }) => {
         mysentence.value = data;
-        console.log("Get method responses", mysentence.value);
+        // return data;
       },
       ({ fail }) => {
-        mysentence.value = {};
+        // mysentence.value = [];
       }
     );
   }
 
   // POST
   async function addmysentence(newSentence) {
-    sentence.value = newSentence;
-    console.log("post new sentence", sentence.value);
-    await addMySentence(sentence.value, accessToken, ({ data }) => {
-      console.log(data, " get my sentence");
+    console.log("aa", newSentence);
+    await addMySentence(newSentence, accessToken, ({ data }) => {
       sentence.value = data;
     });
   }
