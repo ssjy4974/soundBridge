@@ -30,6 +30,7 @@ export const useMySentence = defineStore("mysentence", () => {
 
   // POST
   async function addmysentence(newSentence) {
+    console.log("aa", newSentence);
     await addMySentence(newSentence, accessToken, ({ data }) => {
       sentence.value = data;
     });
