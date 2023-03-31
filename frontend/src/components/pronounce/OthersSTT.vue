@@ -66,20 +66,21 @@ const ToggleMic = () => {
 }
 .microphone__container {
   padding-inline: 5%;
-  align-self: end;
 }
 .microphone__icon {
+  align-self: end;
   font-size: 1.5rem;
+  margin: 5%;
 }
 .fa-headphones {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  left: calc(55% - 24px / 2 + 119px);
-  top: calc(55% - 24px / 2 + 262px);
+  /* position: absolute; */
+  /* width: 24px; */
+  /* height: 24px; */
+  /* left: calc(55% - 24px / 2 + 119px); */
+  /* top: calc(55% - 24px / 2 + 262px); */
 }
 
-.fa-headphones {
+/* .fa-headphones {
   position: absolute;
   width: 24px;
   height: 24px;
@@ -93,5 +94,5 @@ const ToggleMic = () => {
   height: 24px;
   left: calc(55% - 24px / 2 + 119px);
   top: calc(55% - 24px / 2 + 262px);
-}
+} */
 </style>
