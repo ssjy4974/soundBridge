@@ -152,7 +152,6 @@ const router = createRouter({
 import { storeToRefs } from "pinia";
 
 router.beforeEach(async (to, from, next) => {
-  // alert("뭐냐");
   const memberStore = storeToRefs(useMember());
   let accessToken = memberStore.accessToken.value;
   const memberInfo = memberStore.member;
