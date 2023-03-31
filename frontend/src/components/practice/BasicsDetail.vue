@@ -32,7 +32,6 @@
         ></i>
       </div>
     </div>
-    <br />
     <div class="record" @click="ToggleMic">
       <span
         ><h3>
@@ -45,17 +44,18 @@
 
 <script setup>
 import { useBasicLetterStore } from "@/store/BasicLetter";
+import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
-import { apiInstance } from "@/api/index";
 import { ref, onMounted } from "vue";
 import router from "@/router/index";
 import Swal from "sweetalert2";
 
-const api = apiInstance();
 const route = useRoute();
 const store = useBasicLetterStore();
+const memberStore = useMember();
 const { basicLetter } = storeToRefs(store);
+const { accessToken } = memberStore;
 const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 const transcript = ref("");
 const isRecording = ref(false);
@@ -78,13 +78,13 @@ onMounted(() => {
   sr.maxAlternatives = 0;
   sr.onstart = () => {
     console.log("연습 시작");
+    transcript.value = "";
     isRecording.value = true;
   };
   sr.onend = () => {
     console.log("연습 종료");
     isRecording.value = false;
     recordStatus.value = "연습하기";
-    transcript.value = "";
   };
   sr.onresult = (evt) => {
     for (let i = 0; i < evt.results.length; i++) {
@@ -101,25 +101,24 @@ onMounted(() => {
   };
 });
 
-store.getBasicLetter("accessToken", route.params.basicLetterId);
-
+store.getBasicLetter(accessToken, route.params.basicLetterId);
 const prev = () => {
   const index = Number(route.params.basicLetterId) - 1;
   router.replace(`/practicebasicsdetail/${index}`);
-  store.getBasicLetter("accessToken", index);
+  store.getBasicLetter(accessToken, index);
 };
 
 const next = () => {
   const index = Number(route.params.basicLetterId) + 1;
   router.replace(`/practicebasicsdetail/${index}`);
-  store.getBasicLetter("accessToken", index);
+  store.getBasicLetter(accessToken, index);
 };
 
 const CheckSuccess = (result) => {
   const t = result[0].transcript;
   if (t == basicLetter.value.guidLetter) {
     sr.stop();
-    store.successPratice("accessToken", basicLetter.value.basicLetterId);
+    store.successPratice(accessToken, basicLetter.value.basicLetterId);
   } else {
     sr.stop();
     Swal.fire(
@@ -135,10 +134,14 @@ const CheckSuccess = (result) => {
 };
 
 const ToggleMic = () => {
-  store.tryPractice("accessToken", basicLetter.value.basicLetterId).then(() => {
-    sr.start();
-    recordStatus.value = "녹음중";
-  });
+  if (isRecording.value) {
+    sr.stop();
+  } else {
+    store.tryPractice(accessToken, basicLetter.value.basicLetterId).then(() => {
+      sr.start();
+      recordStatus.value = "녹음중";
+    });
+  }
 };
 </script>
 
@@ -151,15 +154,15 @@ i {
   position: absolute;
   width: 32px;
   height: 32px;
-  left: calc(50% - 32px / 2 - 147px);
-  top: calc(50% - 32px / 2 + 159px);
+  left: calc(45% - 32px / 2 - 147px);
+  top: calc(43% - 32px / 2 + 159px);
 }
 #rightI {
   position: absolute;
   width: 32px;
   height: 32px;
-  left: calc(50% - 32px / 2 + 147px);
-  top: calc(50% - 32px / 2 + 159px);
+  left: calc(55% - 32px / 2 + 147px);
+  top: calc(43% - 32px / 2 + 159px);
 }
 #mic {
   color: black;
@@ -179,8 +182,7 @@ i {
 }
 h1,
 h2 {
-  margin-top: 0px;
-  margin-bottom: 10px;
+  margin-top: 20px;
 }
 .realLetter {
   width: 100%;
@@ -223,6 +225,6 @@ img {
 }
 span h3 {
   padding: 10px;
-  margin: auto;
+  margin: 10px;
 }
 </style>

@@ -34,7 +34,12 @@ import { ref } from "vue";
 import { apiInstance } from "@/api/index";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
+import { useMember } from "@/store/Member";
+import { defineEmits } from "vue";
 
+const memberStore = useMember();
+const { accessToken } = memberStore;
+const emit = defineEmits(["closemodal", "createFeedback"]);
 const api = apiInstance();
 const startTime = ref();
 const endTime = ref();
@@ -50,23 +55,24 @@ const feedbackBoardSave = () => {
     alert("제목을 입력 해주세요");
     return;
   }
-
   if (!startTime.value) {
     alert("시작 시간를 선택 해주세요");
     return;
   }
-
   if (!endTime.value) {
     alert("종료 시간를 선택 해주세요");
     return;
   }
-
   feedbackArticleSaveReq.value.startTime = startTime.value;
   feedbackArticleSaveReq.value.endTime = endTime.value;
   api
-    .post(`/api/feedback-boards`, feedbackArticleSaveReq.value)
+    .post(`/api/feedback-boards`, feedbackArticleSaveReq.value, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
     .then(() => {
-      alert("등록 성공");
+      emit("createFeedback");
     })
     .catch((err) => {
       err;
@@ -75,7 +81,7 @@ const feedbackBoardSave = () => {
 };
 
 // Close Modal
-defineEmits(["closemodal"]);
+// defineEmits(["closemodal"]);
 </script>
 
 <style scoped>

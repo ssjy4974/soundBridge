@@ -35,6 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         log.info("요청 타입 uri {}", request.getRequestURI());
 
         String accessTokenHeader = request.getHeader("access-token");
+        log.info("asc : {}", accessTokenHeader);
         if (accessTokenHeader == null || !accessTokenHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;

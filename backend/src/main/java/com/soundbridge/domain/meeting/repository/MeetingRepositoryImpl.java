@@ -43,7 +43,7 @@ public class MeetingRepositoryImpl implements MeetingRepositorySupport {
                 .innerJoin(meeting.applicant, member)
                 .where(roleEq(memberId, role), cursorId(cursorId))
                 .limit(pageable.getPageSize() + 1)
-                .orderBy(meeting.id.desc())
+                .orderBy(meeting.openChk.asc(), meeting.id.desc())
                 .fetch();
 
         boolean hasNext = false;

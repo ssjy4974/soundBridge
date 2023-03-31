@@ -3,13 +3,11 @@
 </template>
 
 <script setup>
-import { apiInstance } from "@/api";
 import router from "@/router";
 import { onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import { useMember } from "../store/Member";
 
-const api = apiInstance();
 const route = useRoute();
 const memberStore = useMember();
 const { member } = memberStore;

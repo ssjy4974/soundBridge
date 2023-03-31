@@ -1,5 +1,6 @@
 package com.soundbridge.domain.sentence.controller;
 
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.sentence.request.MySentenceLogReq;
 import com.soundbridge.domain.sentence.response.MySentenceLogRes;
 import com.soundbridge.domain.sentence.service.MySentenceLogService;
@@ -36,8 +37,8 @@ public class SentenceApiController {
     public ResponseEntity mySentenceLogSaveOrUpdate(@Valid @RequestBody MySentenceLogReq req,
         Authentication
             authentication) {
-
-        sentenceLogService.saveOrUpdateMySentenceLog(req, 1L);
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        sentenceLogService.saveOrUpdateMySentenceLog(req, memberId);
 
         return ResponseEntity.ok().build();
     }
@@ -51,8 +52,8 @@ public class SentenceApiController {
         @PathVariable String sentence,
         Authentication
             authentication) {
-
-        return ResponseEntity.ok(sentenceLogService.findMySentenceLog(sentence, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(sentenceLogService.findMySentenceLog(sentence, memberId));
     }
 
 }

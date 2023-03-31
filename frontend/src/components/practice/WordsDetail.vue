@@ -1,30 +1,75 @@
 <template>
-  <div>
+  <div class>
     <div>
-      <button>이전으로</button>
+      {{ MyDailyWord[index] }}
     </div>
-    <div class="word__component">
-      <div>
-        <p>연습할 단어</p>
-      </div>
-      <div>
-        <p>발음 한결과 창 (STT 결과)</p>
-      </div>
-      <div>
-        <button>연습 하기 버튼</button>
-      </div>
+    <div>올바른 발음</div>
+    <div>{{ MyDailyWord[index] }}</div>
+    <div>나의 발음</div>
+    <div>???</div>
+    <div>연습하기</div>
+  </div>
+  <div class="parent">
+    <div class="child" v-if="Number(route.params.index) > 0" @click="prev">
+      이전
     </div>
-    <div>
-      <br />
-      <button>다음으로</button>
+    <div class="child" v-if="Number(route.params.index) < endIdx" @click="next">
+      다음
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { useRoute } from "vue-router";
+import router from "@/router/index";
+
+const route = useRoute();
+const MyDailyWord = localStorage.getItem("dailyWordList");
+const index = Number(route.params.index);
+const endIdx = MyDailyWord.length;
+
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const sr = new Recognition();
+
+const prev = () => {
+  console.log("이전 클릭");
+  const index = Number(route.params.index);
+
+  console.log(index);
+  router.replace(`/wordsdetail/${index - 1}`);
+};
+
+const next = () => {
+  console.log("다음 클릭");
+
+  const index = Number(route.params.index);
+
+  console.log(index);
+  console.log(MyDailyWord);
+  router.replace(`/wordsdetail/${index + 1}`);
+};
+</script>
 
 <style scoped>
-div {
+/* div {
   border: solid;
+} */
+
+.parent {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  position: fixed;
+  bottom: 7vh;
+}
+
+.child {
+  background-color: aqua;
+  width: 40%;
+  height: 70px;
+  margin: 20px 0;
 }
 </style>

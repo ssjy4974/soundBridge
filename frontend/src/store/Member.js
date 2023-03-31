@@ -12,12 +12,12 @@ export const useMember = defineStore("member", {
   state: () => ({
     member: {
       memberId: 0,
-      email: null,
-      nickname: null,
-      profile: null,
-      role: null,
+      email: "",
+      nickname: "",
+      profile: "",
+      role: "",
     },
-    accessToken: null,
+    accessToken: "",
   }),
   //   getters == computed()  // 랜더링 될때 실행되는 함수
   //   action == function()  // 함수
@@ -70,7 +70,6 @@ export const useMember = defineStore("member", {
     async refreshAccessToken() {
       await getNewAccessToken(
         ({ data }) => {
-          console.log(data);
           this.accessToken = data;
         },
         (error) => {
