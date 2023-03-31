@@ -23,17 +23,24 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
 
   // POST
   async function addmydailyword(newWord) {
-    await addMyDailyWord(newWord, memberStore.accessToken, ({ data }) => {
-      console.log(data, " add new word");
+    await addMyDailyWord(
+      newWord,
+      memberStore.getMemberInfo.memberId,
+      memberStore.accessToken,
+      ({ data }) => {
+        console.log(data, " add new word");
 
-      getMyDailyWord(memberStore.accessToken, ({ data }) => {
-        mydailyword.value = data;
-        console.log("Get method responses", mydailyword.value);
-      });
-    });
+        getMyDailyWord(memberStore.accessToken, ({ data }) => {
+          mydailyword.value = data;
+          console.log("Get method responses", mydailyword.value);
+        });
+      }
+    );
   }
 
   async function saveorupdatetryhistory(wordMemberId) {
+    console.log("savehistory 호출");
+    console.log(memberStore.accessToken);
     await saveOrUpdateTryHistory(
       wordMemberId,
       memberStore.accessToken,
