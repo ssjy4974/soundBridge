@@ -18,12 +18,7 @@ export const useMember = defineStore("member", {
       nickname: "",
       profile: "",
       role: "",
-      email: "",
-      nickname: "",
-      profile: "",
-      role: "",
     },
-    accessToken: "",
     accessToken: "",
   }),
   //   getters == computed()  // 랜더링 될때 실행되는 함수
@@ -66,12 +61,12 @@ export const useMember = defineStore("member", {
         this.accessToken,
         ({ data }) => {
           console.log("Data", data);
-          // this.member.memberId = data.memberId;
-          // this.member.email = data.email;
-          // this.member.nickname = data.nickname;
-          // this.member.profile = data.profile;
-          // this.member.role = data.role;
-          this.member = data;
+          this.member.memberId = data.memberId;
+          this.member.email = data.email;
+          this.member.nickname = data.nickname;
+          this.member.profile = data.profile;
+          this.member.role = data.role;
+
           // localStorage.setItem("isLogin", this.member.role);/
         },
         (error) => {

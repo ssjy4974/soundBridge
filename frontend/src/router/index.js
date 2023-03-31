@@ -163,9 +163,11 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (accessToken === null || accessToken === "") {
-    // useMember().refreshAccessToken();
+    await useMember().refreshAccessToken();
     accessToken = memberStore.accessToken.value;
   }
+
+  console.log("ACCCC", accessToken);
 
   if (
     accessToken !== "" &&
