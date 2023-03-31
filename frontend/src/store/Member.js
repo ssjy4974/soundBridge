@@ -27,6 +27,7 @@ export const useMember = defineStore("member", {
       return state.member;
     },
     checkLogin(state) {
+      console.log("!!!!");
       localStorage.setItem("isLogin", state.member.role);
     },
     clearLogin() {
@@ -66,16 +67,17 @@ export const useMember = defineStore("member", {
       await getMemberInfo(
         this.accessToken,
         ({ data }) => {
-          // this.member.memberId = data.memberId;
-          // this.member.email = data.email;
-          // this.member.nickname = data.nickname;
-          // this.member.profile = data.profile;
-          // this.member.role = data.role;
-          this.member = data;
-          this.checkLogin;
+          console.log("Data", data);
+          this.member.memberId = data.memberId;
+          this.member.email = data.email;
+          this.member.nickname = data.nickname;
+          this.member.profile = data.profile;
+          this.member.role = data.role;
+          // this.member = data;
+          localStorage.setItem("isLogin", this.member.role);
         },
         (error) => {
-          console.log(error.response.data);
+          console.log(error);
         }
       );
     },
@@ -133,11 +135,11 @@ export const useMember = defineStore("member", {
     },
   },
 
-  getters: {
-    getMemberInfo(state) {
-      return state.member;
-    },
-  },
+  // getters: {
+  //   getMemberInfo(state) {
+  //     return state.member;
+  //   },
+  // },
 
   // return {states, action} 반환 하면됨
   //   return {};

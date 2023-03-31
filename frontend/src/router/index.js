@@ -152,41 +152,43 @@ const router = createRouter({
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 router.beforeEach(async (to, from, next) => {
-  // console.log("@#@ ", from.fullPath);
-  // if (from.fullPath === "/" && !localStorage.getItem("isLogin")) {
-  //   console.log("!@!@!");
-  //   localStorage.removeItem("isLogin");
-  //   next();
+  console.log("@#@ ", from.fullPath);
+  if (from.fullPath === "/" && !localStorage.getItem("isLogin")) {
+    console.log("!@!@!");
+    localStorage.removeItem("isLogin");
+    next();
 
-  //   return;
-  // }
+    return;
+  }
 
-  // const memberStore = useMember();
+  const memberStore = useMember();
 
-  // // alert("뭐냐");
-  // const { member, accessToken } = storeToRefs(memberStore);
+  // alert("뭐냐");
+  const { member, accessToken } = storeToRefs(memberStore);
 
-  // if (accessToken.value === null || accessToken.value === "") {
-  //   console.log("is Login !");
-  //   await useMember().refreshAccessToken();
+  console.log("ACc, member ", accessToken.value, member.value);
 
-  //   await useMember().setMemberInfo();
-  // }
+  if (accessToken.value === null || accessToken.value === "") {
+    console.log("is Login !");
+    await useMember().refreshAccessToken();
 
-  // if (accessToken != "" && member.memberId === 0) {
-  //   memberStore.setMemberInfo();
-  // }
+    await useMember().setMemberInfo();
+  }
 
-  // if (accessToken === null && accessToken === "") {
-  //   alert("다시 로그인 해주세요!");
-  //   useMember().clearLogin();
-  //   next({
-  //     path: "/login",
-  //     query: { redirect: to.fullPath },
-  //   });
-  // }
+  if (accessToken != "" && member.memberId === 0) {
+    memberStore.setMemberInfo();
+  }
 
-  // useMember().checkLogin();
+  if (accessToken === null && accessToken === "") {
+    alert("다시 로그인 해주세요!");
+    useMember().clearLogin;
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath },
+    });
+  }
+
+  useMember().checkLogin;
   next();
 });
 
