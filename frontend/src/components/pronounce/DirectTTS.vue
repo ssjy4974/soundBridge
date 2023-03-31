@@ -24,7 +24,7 @@
       </div>
     </div>
     <div
-      v-for="(mysen, index) in sentenceList"
+      v-for="(mysen, index) in mysentence"
       :key="index"
       class="auto__dropdown"
     >
@@ -55,12 +55,10 @@ const {
 
 // const sentenceList = storeToRefs(mysentence);
 const inputSentence = ref("");
-const sentenceList = ref();
 
 const callgetAPI = async () => {
-  sentenceList.value = await getmysentences(inputSentence);
+  await getmysentences(inputSentence.value);
   // sentenceList.value = mySentences.mysentence;
-  console.log("mysentence???", sentenceList);
 };
 
 watch(inputSentence, () => {
@@ -114,7 +112,7 @@ addSentenceHandler(inputSentence);
   width: 80vw;
   border-bottom: solid var(--maincolor3);
   border-radius: 12px;
-  position: absolute;
+  // position: absolute;
   padding-inline: 10%;
 }
 </style>

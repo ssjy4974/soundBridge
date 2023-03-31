@@ -9,20 +9,17 @@ import { useMember } from "@/store/Member";
 
 export const useMySentence = defineStore("mysentence", () => {
   const mymember = useMember();
-  // console.log(accessToken);
   const accessToken = mymember.accessToken;
   const sentence = ref("감");
-  const mysentence = ref();
+  const mysentence = ref([]);
 
   // GET
   async function getmysentences(newSentence) {
-    sentence.value = newSentence;
     await getMySentences(
-      sentence.value,
+      newSentence,
       accessToken,
       ({ data }) => {
         mysentence.value = data;
-        console.log("Get method responses", data, mysentence.value);
         // return data;
       },
       ({ fail }) => {
@@ -33,10 +30,7 @@ export const useMySentence = defineStore("mysentence", () => {
 
   // POST
   async function addmysentence(newSentence) {
-    sentence.value = newSentence;
-    console.log("post new sentence", sentence.value);
-    await addMySentence(sentence.value, accessToken, ({ data }) => {
-      console.log(data, " get my sentence");
+    await addMySentence(newSentence, accessToken, ({ data }) => {
       sentence.value = data;
     });
   }
