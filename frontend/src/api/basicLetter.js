@@ -31,11 +31,15 @@ const getBasicLetterDetails = async (
 
 const updateTryCount = async (accessToken, basicLetterId, success, fail) => {
   api
-    .post(`/api/try-histories/basic-letters/${basicLetterId}`, {
-      headers: {
-        "access-token": accessToken,
-      },
-    })
+    .post(
+      `/api/try-histories/basic-letters/${basicLetterId}`,
+      {},
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
     .then(success)
     .catch(fail);
 };
@@ -47,11 +51,15 @@ const updateSuccessCount = async (
   fail
 ) => {
   api
-    .put(`/api/try-histories/basic-letters/${basicLetterId}`, {
-      headers: {
-        "access-token": accessToken,
-      },
-    })
+    .put(
+      `/api/try-histories/basic-letters/${basicLetterId}`,
+      {},
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
     .then(success)
     .catch(fail);
 };

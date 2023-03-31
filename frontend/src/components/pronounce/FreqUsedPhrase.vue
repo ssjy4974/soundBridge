@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="catadd__button">
-        <p @click="addCatModal">추가하기 +</p>
+        <font-awesome-icon @click="addCatModal" icon="fa-solid fa-gear" />
       </div>
     </div>
     <AddCatModal v-if="isCatModal" @closemodal="addCatModal" />
@@ -23,7 +23,7 @@
         :key="index"
       >
         <div>
-          <p>{{ phrase.sentence }}</p>
+          <p @click="getAudio(phrase.sentence)">{{ phrase.sentence }}</p>
         </div>
         <div>
           <font-awesome-icon
@@ -55,6 +55,9 @@ import { storeToRefs } from "pinia";
 const store = usePronounce();
 const { freqUsedCat, freqUsedPhrase } = storeToRefs(store);
 
+// 페이지 타입 구분할 변수
+const pageIndex = 1;
+
 // api 호출 함수 실행 시키는 함수
 const callCategoryAPI = async () => {
   await store.readCategories;
@@ -71,7 +74,7 @@ watch(freqUsedPhrase, () => {
 });
 watch(freqUsedCat, () => {
   // callAPI();
-  console.log("watch category", freqUsedCat);
+  // console.log("watch category", freqUsedCat);
 });
 
 const isCatModal = ref(false);
@@ -113,6 +116,19 @@ const delPhraseHandler = (sentenceId) => {
   callSentenceAPI();
 };
 
+// 선택한 목소리로 TTS 실행하기
+const getAudio = (text) => {
+  console.log("TTS test", text);
+  let audio = new Audio(
+    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}`
+  );
+  audio.play();
+};
+// const playTTS = () => {
+//   //AI 함수 호출는 부분
+//   console.log("AI TTS 실행시키기");
+//   getAudio();
+// };
 // GET catagoires
 callCategoryAPI();
 callSentenceAPI();
@@ -125,6 +141,7 @@ callSentenceAPI();
 }
 .cat__wrapper {
   display: flex;
+  justify-content: space-between;
   border-bottom: solid var(--maincolor2);
 }
 .cat__container {
@@ -135,14 +152,15 @@ callSentenceAPI();
   overflow-x: scroll;
 }
 .cat__item {
-  padding-inline: 1%;
   display: flex;
   width: 50px;
-  padding-inline: 2%;
+  padding-left: 6%;
   height: 100%;
 }
 .catadd__button {
-  padding-left: 4%;
+  padding-right: 4%;
+  align-self: center;
+  justify-self: center;
 }
 .TTS__container {
   margin-inline: 2vw;

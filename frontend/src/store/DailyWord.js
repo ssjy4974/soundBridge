@@ -49,7 +49,6 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
       memberStore.accessToken,
       ({ data }) => {
         console.log(data, " update tryHistory");
-        getmydailyword();
       }
     );
   }

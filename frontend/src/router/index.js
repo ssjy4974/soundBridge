@@ -152,26 +152,20 @@ const router = createRouter({
 import { storeToRefs } from "pinia";
 
 router.beforeEach(async (to, from, next) => {
-  // alert("뭐냐");
   const memberStore = storeToRefs(useMember());
   let accessToken = memberStore.accessToken.value;
   const memberInfo = memberStore.member;
 
-  console.log("Access ", accessToken, memberStore);
-
   if (accessToken === null || accessToken === "") {
     // useMember().refreshAccessToken();
     accessToken = memberStore.accessToken.value;
-    console.log("refresh ", accessToken);
   }
 
-  console.log("a, P", accessToken, memberInfo.email);
   if (
     accessToken !== "" &&
     (memberInfo.email === "" || memberInfo.email === undefined)
   ) {
-    console.log("re profile ");
-    useMember().setMemberInfo();
+    await useMember().setMemberInfo();
   }
 
   if (accessToken === null && accessToken === "") {

@@ -46,10 +46,8 @@ public class VoiceApiController {
         @ModelAttribute VoiceListConditionReq voiceListConditionReq,
         Authentication authentication) {
 
-        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
-
         return ResponseEntity.ok(
-            voiceService.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq, memberId));
+            voiceService.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq, null));
     }
 
     @Operation(summary = "목소리 조회", description = "목소리 조회 메소드 입니다.")

@@ -70,7 +70,6 @@ export const useMember = defineStore("member", {
     async refreshAccessToken() {
       await getNewAccessToken(
         ({ data }) => {
-          console.log(data);
           this.accessToken = data;
         },
         (error) => {

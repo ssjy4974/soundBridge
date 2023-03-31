@@ -5,9 +5,12 @@ import {
   getMySentences,
 } from "@/api/sentence";
 import { ref } from "vue";
+import { useMember } from "@/store/Member";
 
 export const useMySentence = defineStore("mysentence", () => {
-  const accessToken = "access-token 123";
+  const mymember = useMember();
+  // console.log(accessToken);
+  const accessToken = mymember.accessToken;
   const sentence = ref("감");
   const mysentence = ref();
 
@@ -19,10 +22,11 @@ export const useMySentence = defineStore("mysentence", () => {
       accessToken,
       ({ data }) => {
         mysentence.value = data;
-        console.log("Get method responses", mysentence.value);
+        console.log("Get method responses", data, mysentence.value);
+        // return data;
       },
       ({ fail }) => {
-        mysentence.value = {};
+        // mysentence.value = [];
       }
     );
   }
