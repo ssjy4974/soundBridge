@@ -16,7 +16,14 @@
           style="float: right"
           @click="searchModal"
         />
-        <SearchModal v-if="isSearchModal" @closemodal="searchModal" />
+        <!--  @closemodal="searchModal"  -->
+        <SearchModal
+          @updateList="
+            (checkedGender, checkedAge, checkedFeatures) =>
+              update(checkedGender, checkedAge, checkedFeatures)
+          "
+          v-if="isSearchModal"
+        />
       </div>
 
       <div class="box">
@@ -54,16 +61,17 @@ const callApi = () => {
   myPageStore.getVoiceList(age.value, gender.value, features.value);
 };
 
-const searchModal = (rgender, rage, rfeatures) => {
-  if (isSearchModal.value) {
-    gender.value = rgender;
-    age.value = rage;
-    features.value = rfeatures;
-    console.log("cat phrase form 3@#@#", age.value, gender.value, features);
-    myPageStore.getVoiceList(age.value, gender.value, features.value);
-  }
-
+const searchModal = () => {
   isSearchModal.value = !isSearchModal.value;
+};
+
+const update = (checkedGender, checkedAge, checkedFeatures) => {
+  isSearchModal.value = false;
+  gender.value = checkedGender;
+  age.value = checkedAge;
+  features.value = checkedFeatures;
+  console.log("cat phrase form 3@#@#", age.value, gender.value, features);
+  myPageStore.getVoiceList(age.value, gender.value, features.value);
 };
 
 callApi();
