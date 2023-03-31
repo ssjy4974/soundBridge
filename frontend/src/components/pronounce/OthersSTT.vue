@@ -24,7 +24,7 @@ onMounted(() => {
   sr.interimResults = true;
   // 언어 설정, 설정하지 않으면 디폴트로 HTML 의 lang 속성값을 받음
   sr.lang = "ko-KR";
-  sr.maxAlternatives = 10000;
+  sr.maxAlternatives = 1000000;
   sr.onstart = () => {
     console.log("발화 시작");
     isRecording.value = true;
@@ -35,6 +35,7 @@ onMounted(() => {
     isRecording.value = false;
   };
   sr.onresult = (evt) => {
+    console.log(evt.results);
     const t = Array.from(evt.results)
       .map((result) => result[0])
       .map((result) => result.transcript)
