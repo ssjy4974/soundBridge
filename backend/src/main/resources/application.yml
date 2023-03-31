@@ -159,3 +159,16 @@ jwt:
     expire-length: 300000 # 300000 #5분
   refresh-token:
     expire-length: 1209600000 #14일
+
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
