@@ -5,7 +5,9 @@ import {
   getMemberInfo,
   signUp,
   getNewAccessToken,
+  logout,
 } from "@/api/member";
+import router from "@/router";
 
 export const useMember = defineStore("member", {
   // state  == ref(), useState() 변수
@@ -20,10 +22,15 @@ export const useMember = defineStore("member", {
     accessToken: "",
   }),
   //   getters == computed()  // 랜더링 될때 실행되는 함수
+  getters: {
+    getMemberInfo(state) {
+      return state.member;
+    },
+  },
+
   //   action == function()  // 함수
   actions: {
     async modifyNickName(nickName) {
-      console.log("nickName", nickName, this.member.memberId);
       await modifyNickName(
         this.member.memberId,
         nickName,
@@ -36,14 +43,12 @@ export const useMember = defineStore("member", {
     },
 
     async modifyMyProfile(formData) {
-      console.log("ID ", formData.get("memberId"));
       await modifyMyProfile(
         formData,
         this.accessToken,
         ({ data }) => {
           console.log(data, "modify Profile");
           this.member.profile = data;
-          console.log(this.member.profile);
         },
         (error) => {
           console.log(error.response);
@@ -55,14 +60,17 @@ export const useMember = defineStore("member", {
       await getMemberInfo(
         this.accessToken,
         ({ data }) => {
+          console.log("Data", data);
           this.member.memberId = data.memberId;
           this.member.email = data.email;
           this.member.nickname = data.nickname;
           this.member.profile = data.profile;
           this.member.role = data.role;
+
+          // localStorage.setItem("isLogin", this.member.role);/
         },
         (error) => {
-          console.log(error.response.data);
+          console.log(error.code);
         }
       );
     },
@@ -73,12 +81,15 @@ export const useMember = defineStore("member", {
           this.accessToken = data;
         },
         (error) => {
-          console.log(error);
+          console.log(error.response.status);
+          router.push({ name: "login" });
         }
       );
     },
 
     async setAccessToken(accessToken) {
+      // getters.checkLogin;
+      // this.checkLogin;
       this.accessToken = accessToken;
     },
 
@@ -94,11 +105,24 @@ export const useMember = defineStore("member", {
         }
       );
     },
-  },
 
-  getters: {
-    getMemberInfo(state) {
-      return state.member;
+    async logout() {
+      console.log("logout");
+      await logout(
+        this.member.memberId,
+        this.accessToken,
+        () => {
+          this.accessToken = null;
+          this.clearLogin;
+          window.location.assign(`/`);
+        },
+        () => {
+          this.accessToken = null;
+          this.clearLogin;
+          // console.log(error);
+          window.location.assign(`/`);
+        }
+      );
     },
   },
 

@@ -35,7 +35,7 @@ async function voiceList(age, gender, features, accessToken, success, fail) {
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
           "access-token": accessToken,
         },
       }

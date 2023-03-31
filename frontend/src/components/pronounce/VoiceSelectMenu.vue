@@ -30,7 +30,7 @@
 import VoiceFeatures from "./item/VoiceFeatures.vue";
 import { defineProps, onBeforeMount, ref } from "vue";
 import { useMypage } from "@/store/MyPage";
-import { voice } from "@/api/mypage";
+// import { voice } from "@/api/mypage";
 const myPageStore = useMypage();
 
 const props = defineProps(["voice", "index"]);
@@ -44,7 +44,7 @@ const selectVoice = (e) => {
 };
 
 onBeforeMount(() => {
-  // console.log("@#@#", props.voice.featureResList);
+  console.log("@#@#", props.voice.featureResList);
 });
 </script>
 

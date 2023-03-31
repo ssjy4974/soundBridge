@@ -1,7 +1,7 @@
 <template>
   <!-- v-if="member" -->
   <div v-if="member">
-    <Header v-if="member.role === 'APPLICANT' || member.role === 'HELPER'" />
+    <Header v-if="$route.path !== `/` && member.role" />
     <div id="wrapper">
       <router-view
         v-bind:class="{
@@ -10,8 +10,10 @@
       />
     </div>
     <!-- 로그인이 되어있지 않을때 display : none, 장애인 유저 로그인 상태면 장애인용 푸터, 봉사자일 때 봉사자 푸터 -->
-    <FooterDisabled v-if="member.role === 'APPLICANT'" />
-    <FooterVolunteer v-if="member.role === 'HELPER'" />
+    <div v-if="$route.path !== `/`">
+      <FooterDisabled v-if="member.role === 'APPLICANT'" />
+      <FooterVolunteer v-if="member.role === 'HELPER'" />
+    </div>
   </div>
 </template>
 
@@ -30,6 +32,8 @@ import { storeToRefs } from "pinia";
 const memberStore = useMember();
 const { member } = storeToRefs(memberStore);
 memberStore.setMemberInfo();
+
+// console.log(${{}})
 </script>
 
 <style scoped>

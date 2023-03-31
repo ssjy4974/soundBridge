@@ -81,7 +81,7 @@ class OAuth2Attribute {
             .nickname((String) kakaoProfile.get("nickname"))
             .email((String) kakaoAccount.get("email"))
             .profile((String) kakaoProfile.get("profile_image_url"))
-            .gender((String) kakaoAccount.get("gender"))
+            .gender(gender)
             .age(age)
             .attributes(kakaoAccount)
             .attributeKey(attributeKey)

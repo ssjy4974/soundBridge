@@ -53,10 +53,10 @@ public class MemberApiController {
     @GetMapping
     public ResponseEntity getMemberInfo(Authentication authentication) {
         //401 error : 는 인증이 안된유저임 즉 토큰이 없거나 만료된 유저, ExceptionHandlerFilter에서 처리해야함.
-//        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
-        log.info("request 내 정보 조회 ID {}", 1L);
+        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
+//        log.info("request 내 정보 조회 ID {}", 1L);
 
-        MemberInfoRes member = memberService.getMemberById(1L);
+        MemberInfoRes member = memberService.getMemberById(memberId);
 
         return ResponseEntity.ok(member);
     }
@@ -140,7 +140,7 @@ public class MemberApiController {
         Cookie refreshTokenCookie = memberService.logoutMemberById(memberId,
             cookies); //cookie 정보 초기화 및 유저 DB 수정
 
-//        response.addCookie(refreshTokenCookie);
+        response.addCookie(refreshTokenCookie);
 
         return ResponseEntity.ok().build();
     }

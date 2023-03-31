@@ -150,16 +150,24 @@ const router = createRouter({
 });
 
 import { storeToRefs } from "pinia";
-
+import { ref } from "vue";
 router.beforeEach(async (to, from, next) => {
   const memberStore = storeToRefs(useMember());
   let accessToken = memberStore.accessToken.value;
   const memberInfo = memberStore.member;
 
+  console.log(" from - to ", from, to);
+
+  if (to.name === `login`) {
+    next();
+  }
+
   if (accessToken === null || accessToken === "") {
-    // useMember().refreshAccessToken();
+    await useMember().refreshAccessToken();
     accessToken = memberStore.accessToken.value;
   }
+
+  console.log("ACCCC", accessToken);
 
   if (
     accessToken !== "" &&
@@ -168,11 +176,22 @@ router.beforeEach(async (to, from, next) => {
     await useMember().setMemberInfo();
   }
 
+  // if (accessToken === null || accessToken === "") {
+  //   // useMember().refreshAccessToken();
+  //   accessToken = memberStore.accessToken.value;
+  // }
+
+  //   if (
+  //     accessToken !== null &&
+  //     (memberInfo.email === "" || memberInfo.email === undefined)
+  //   ) {
+  //     await useMember().setMemberInfo();
+  //   }
+
   if (accessToken === null && accessToken === "") {
     alert("다시 로그인 해주세요!");
     next({
       path: "/login",
-      query: { redirect: to.fullPath },
     });
   }
 

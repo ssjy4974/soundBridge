@@ -2,9 +2,12 @@ package com.soundbridge.domain.member.controller;
 
 import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.domain.member.service.TokenService;
+import com.soundbridge.global.error.ErrorCode;
+import com.soundbridge.global.error.exception.AccessDeniedException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,14 +35,17 @@ public class TokenController {
         @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping("/tokenReissue")
-    public String refreshAccessToken(HttpServletRequest request, HttpServletResponse response) {
+    public String refreshAccessToken(HttpServletRequest request, HttpServletResponse response)
+        throws IOException {
         log.info("refresh 진입");
 
         Cookie[] cookies = request.getCookies();
 
         log.info("cookie size {}", cookies);
 
-        String accessToken = "Bearer " + tokenService.reGenerateAccessToken(cookies);
+//        throw new AccessDeniedException(ErrorCode.NOT_AUTHENTICATION);
+
+        String accessToken = "Bearer " + tokenService.reGenerateAccessToken(cookies, response);
 
         response.addHeader("access-token", accessToken);
         log.info(accessToken);

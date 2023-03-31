@@ -60,11 +60,12 @@ import {
   ref,
 } from "@vue/runtime-core";
 import { useMember } from "@/store/Member";
+import { storeToRefs } from "pinia";
 import router from "@/router/index";
 
 const memberStore = useMember();
 const api = apiInstance();
-const { accessToken, member } = memberStore;
+const { accessToken, member } = storeToRefs(memberStore);
 
 let myMeetings = ref([]);
 let cursorId = ref();
@@ -95,7 +96,7 @@ const moreList = () => {
   api
     .get(`/api/meetings?cursorId=${cursorId.value}`, {
       headers: {
-        "access-token": accessToken,
+        "access-token": accessToken.value,
       },
     })
     .then((res) => {
@@ -112,7 +113,7 @@ onBeforeMount(() => {
   api
     .get("/api/meetings", {
       headers: {
-        "access-token": accessToken,
+        "access-token": accessToken.value,
       },
     })
     .then((res) => {
