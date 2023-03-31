@@ -46,7 +46,7 @@ async function addMySentence(sentence, accessToken, success, fail) {
 async function getMySentences(sentence, accessToken, success, fail) {
   // console.log("get my sentence", sentence.value, accessToken);
   await api
-    .get(`/api/my-sentence-logs/${sentence.value}`, {
+    .get(`/api/my-sentence-logs/${sentence}`, {
       headers: {
         "access-token": accessToken,
       },
