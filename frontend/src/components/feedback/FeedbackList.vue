@@ -1,36 +1,42 @@
 <template>
-  <div>
-    <FeedbackArticle
+  <div v-if="feedbackList">
+    <feedback-article
       v-for="(feedbackArticle, index) in feedbackList"
       :key="index"
       :feedbackArticle="feedbackArticle"
       :index="index"
       @updateProps="(value) => updateFeedbackList(value)"
     />
-    <div>
-      <button @click="createModalHandler" id="feedback-button">
-        피드백 요청글 작성하기
-      </button>
-      <FeedbackCreateModal
-        v-if="createModal"
-        @closemodal="createModalHandler"
-      />
-    </div>
+  </div>
+  <div>
+    <button @click="createModalHandler" id="feedback-button">
+      피드백 요청글 작성하기
+    </button>
+    <feedback-create-modal
+      v-if="createModal"
+      @closemodal="createModalHandler"
+      @createFeedback="updateList"
+    />
   </div>
 </template>
 
 <script setup scoped>
 import { apiInstance } from "@/api/index";
-import { onMounted, onBeforeUnmount, ref } from "@vue/runtime-core";
+
 import FeedbackArticle from "./FeedbackArticle.vue";
 import FeedbackCreateModal from "./FeedbackCreateModal.vue";
+import { useMember } from "@/store/Member";
+import { onMounted, onBeforeUnmount, ref } from "vue";
 
 const api = apiInstance();
+const memberStore = useMember();
+const createModal = ref(false);
 
+const { accessToken } = memberStore;
 let feedbackList = ref([]);
 let cursorId = ref();
 let hasNext = ref();
-const createModal = ref(false);
+
 onMounted(() => {
   document.addEventListener("scroll", scrollHandler);
 });
@@ -53,7 +59,11 @@ const scrollHandler = (e) => {
 
 const moreList = () => {
   api
-    .get(`/api/feedback-boards?cursorId=${cursorId.value}`)
+    .get(`/api/feedback-boards?cursorId=${cursorId.value}`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
     .then((res) => {
       feedbackList.value.push(...res.data.content);
       hasNext.value = res.data.last;
@@ -67,7 +77,6 @@ const moreList = () => {
 
 const createModalHandler = () => {
   createModal.value = !createModal.value;
-  console.log(createModal.value);
 };
 
 const updateFeedbackList = (value) => {
@@ -77,7 +86,9 @@ const updateFeedbackList = (value) => {
 const callApi = () => {
   api
     .get(`/api/feedback-boards`, {
-      params: cursorId.value,
+      headers: {
+        "access-token": accessToken,
+      },
     })
     .then((res) => {
       feedbackList.value = res.data.content;
@@ -90,10 +101,16 @@ const callApi = () => {
     });
 };
 
+const updateList = () => {
+  createModal.value = !createModal.value;
+  document.documentElement.scrollTop = 0;
+  callApi();
+};
+
 callApi();
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 #feedback-button {
   margin-left: 26%;
 }

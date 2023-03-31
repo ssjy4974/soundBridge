@@ -43,10 +43,8 @@ public class VoiceApiController {
     @GetMapping()
     public ResponseEntity voiceList(@PageableDefault Pageable pageable,
         @RequestParam(required = false) Long cursorId,
-        @ModelAttribute VoiceListConditionReq voiceListConditionReq) {
-
-//        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
-//        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
+        @ModelAttribute VoiceListConditionReq voiceListConditionReq,
+        Authentication authentication) {
 
         return ResponseEntity.ok(
             voiceService.findAllVoiceWithPaging(pageable, cursorId, voiceListConditionReq, null));
@@ -64,8 +62,6 @@ public class VoiceApiController {
     public ResponseEntity myVoice(@PathVariable Long memberId,
         Authentication authentication) {
 
-//        Long memberId = ((MemberAccessRes)authentication.getPrincipal()).getId();
-//        log.info("Selected Voice ! {}", voiceService.findMyVocieByMemberId(memberId));
         return ResponseEntity.ok(
             voiceService.findMyVocieByMemberId(memberId));
     }
@@ -82,9 +78,9 @@ public class VoiceApiController {
     @PutMapping("/select")
     public ResponseEntity selectVoice(@RequestBody VoiceSelectionReq voiceSelectionReq,
         Authentication authentication) {
-//        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
         log.info("select Voice {}", voiceSelectionReq.toString());
-        voiceService.selectByVoiceId(1L, voiceSelectionReq);
+        voiceService.selectByVoiceId(memberId, voiceSelectionReq);
 
         return ResponseEntity.ok().body(voiceSelectionReq.getVoiceId());
     }
@@ -100,9 +96,9 @@ public class VoiceApiController {
     @DeleteMapping("")
     public ResponseEntity deleteVoice(@RequestBody VoiceDeleteReq voiceDeleteReq,
         Authentication authentication) {
-//        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
 
-        voiceService.deleteVoiceById(1L, voiceDeleteReq);
+        voiceService.deleteVoiceById(memberId, voiceDeleteReq);
 
         return ResponseEntity.ok().build();
     }

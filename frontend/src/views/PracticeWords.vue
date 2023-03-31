@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>발음 교정 일상 단어 메뉴 페이지</h1>
+    <h1>일상 단어 연습하기</h1>
     <WordsList />
   </div>
 </template>

@@ -152,7 +152,6 @@ const router = createRouter({
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 router.beforeEach(async (to, from, next) => {
-  // alert("뭐냐");
   const memberStore = storeToRefs(useMember());
   let accessToken = memberStore.accessToken.value;
   const memberInfo = memberStore.member;
@@ -164,7 +163,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (accessToken === null || accessToken === "") {
-    await useMember().refreshAccessToken();
+    // useMember().refreshAccessToken();
     accessToken = memberStore.accessToken.value;
   }
 

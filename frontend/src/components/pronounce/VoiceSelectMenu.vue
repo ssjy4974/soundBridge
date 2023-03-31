@@ -3,7 +3,7 @@
     <div
       class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-2 px-2"
     >
-      <div class="box">
+      <div class="box" v-if="props.voice">
         <img :src="`${props.voice.profile}`" alt="" id="profile" />
         <div class="">
           {{ props.voice.voiceName }}

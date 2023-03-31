@@ -17,7 +17,7 @@ async function getCategories(accessToken, success, fail) {
 // POST categories
 //  Category name
 async function postCategories(category, accessToken, success, fail) {
-  console.log("post category api call");
+  console.log(`post category api call ${category}`);
   await api
     .post(
       `api/categories`,
@@ -54,5 +54,15 @@ async function putCategories(categoryId, category, accessToken, success, fail) {
     .catch(fail);
 }
 // DELETE catagoires
-
-export { getCategories, postCategories, putCategories };
+async function deleteCategories(categoryId, accessToken, success, fail) {
+  console.log("Delete category api call", categoryId);
+  await api
+    .delete(`api/categories/${categoryId}`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+export { getCategories, postCategories, putCategories, deleteCategories };

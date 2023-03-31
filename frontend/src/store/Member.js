@@ -18,7 +18,12 @@ export const useMember = defineStore("member", {
       nickname: "",
       profile: "",
       role: "",
+      email: "",
+      nickname: "",
+      profile: "",
+      role: "",
     },
+    accessToken: "",
     accessToken: "",
   }),
   //   getters == computed()  // 랜더링 될때 실행되는 함수
@@ -78,7 +83,6 @@ export const useMember = defineStore("member", {
     async refreshAccessToken() {
       await getNewAccessToken(
         ({ data }) => {
-          // console.log(data);
           this.accessToken = data;
         },
         (error) => {

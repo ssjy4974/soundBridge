@@ -7,11 +7,20 @@
         class="input__box"
         type="text"
         placeholder="카테고리 이름 입력하세요"
-        v-model="newCategory"
+        v-model="newWord"
       />
     </div>
     <div class="addbutton__container">
-      <button @click="categoryHandler">추가하기 +</button>
+      <button
+        @click="
+          () => {
+            wordHandler();
+            $emit('closemodal');
+          }
+        "
+      >
+        추가하기 +
+      </button>
     </div>
   </div>
 </template>
@@ -20,21 +29,12 @@
 //ref
 import { ref } from "vue";
 //store import
-import { usePronounce } from "@/store/Pronounce";
-const store = usePronounce();
-const freqUsedCat = store.freqUsedCat;
-const newCategory = ref("");
+import { useMyDailyWord } from "@/store/DailyWord";
+const store = useMyDailyWord();
+const newWord = ref("");
 
-const categoryHandler = () => {
-  // freqUsedCat.forEach((element) => {
-  //   console.log(element.categoryName, element.categoryId, newCategory.value);
-  //   if (element.categoryName == newCategory.value) {
-  //     console.log("Found");
-  //     // store.editCategory(element.categoryId, newCategory);
-  //     return false;
-  //   }
-  // });
-  store.addCategory(newCategory);
+const wordHandler = () => {
+  store.addmydailyword(newWord.value);
 };
 
 defineEmits(["closemodal"]);

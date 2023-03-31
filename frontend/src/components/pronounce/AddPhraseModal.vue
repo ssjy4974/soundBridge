@@ -2,14 +2,45 @@
   <div class="phrase__modal">
     <div @click="$emit('closemodalphrase')">X</div>
     <p>자주쓰는말 추가하기</p>
-    <input type="text" placeholder="자주쓰는 말을 입력하세요" />
+    <input
+      type="text"
+      v-model="newSentence"
+      placeholder="자주쓰는 말을 입력하세요"
+    />
 
-    <button>추가하기 +</button>
+    <button
+      @click="
+        () => {
+          addNewPhrase();
+          $emit('closemodalphrase');
+        }
+      "
+    >
+      추가하기 +
+    </button>
   </div>
 </template>
 
 <script setup>
+import { usePronounce } from "@/store/Pronounce";
+import { ref } from "vue";
 defineEmits(["closemodalphrase"]);
+const categoryId = defineProps(["catId"]);
+
+const newSentence = ref("");
+const pronounce = usePronounce();
+const {
+  addQuickSentence,
+  readQuickSentence,
+  editQuickSentence,
+  countQuickSentence,
+  deleteQuickSentence,
+} = pronounce;
+
+const addNewPhrase = () => {
+  // console.log(newSentence);
+  addQuickSentence(newSentence.value, categoryId.catId);
+};
 </script>
 
 <style scoped>

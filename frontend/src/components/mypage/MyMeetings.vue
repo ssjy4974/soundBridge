@@ -28,9 +28,22 @@
               strToDate(myMeeting.endTime)[1]
             }}</span
           >
-          <button class="room-btn" @click="createRoom(myMeeting.meetingId)">
+          <button
+            v-if="myMeeting.openCheck === 0"
+            class="room-btn"
+            @click="createRoom(myMeeting.meetingId)"
+          >
             방 생성
           </button>
+          <button
+            v-else-if="myMeeting.openCheck === 1"
+            class="room-btn"
+            @click="createRoom(myMeeting.meetingId)"
+          >
+            방 참가
+          </button>
+
+          <div disabled v-else class="disabled-btn">종 료</div>
         </div>
         <hr />
       </div>
@@ -40,7 +53,12 @@
 
 <script setup>
 import { apiInstance } from "@/api/index";
-import { onBeforeMount, ref } from "@vue/runtime-core";
+import {
+  onBeforeMount,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+} from "@vue/runtime-core";
 import { useMember } from "@/store/Member";
 import router from "@/router/index";
 
@@ -48,8 +66,48 @@ const memberStore = useMember();
 const api = apiInstance();
 const { accessToken, member } = memberStore;
 
-let myMeetings = ref();
+let myMeetings = ref([]);
+let cursorId = ref();
+let hasNext = ref();
 
+onMounted(() => {
+  document.addEventListener("scroll", scrollHandler);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("scroll", scrollHandler);
+});
+
+const scrollHandler = (e) => {
+  const scrollTop = document.documentElement.scrollTop;
+  const clientHeight = document.documentElement.clientHeight;
+  const scrollHeight = document.documentElement.scrollHeight;
+  // isAtTheBottom.value = scrollHeight === scrollTop + clientHeight;
+  const isAtTheBottom = scrollHeight === scrollTop + clientHeight;
+  if (isAtTheBottom && !hasNext.value) {
+    setTimeout(() => {
+      moreList();
+    }, 100);
+  }
+};
+
+const moreList = () => {
+  api
+    .get(`/api/meetings?cursorId=${cursorId.value}`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then((res) => {
+      myMeetings.value.push(...res.data.content);
+      hasNext.value = res.data.last;
+      cursorId.value =
+        res.data.content[res.data.numberOfElements - 1].meetingId;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 onBeforeMount(() => {
   api
     .get("/api/meetings", {
@@ -59,6 +117,9 @@ onBeforeMount(() => {
     })
     .then((res) => {
       myMeetings.value = res.data.content;
+      hasNext.value = res.data.last;
+      cursorId.value =
+        res.data.content[res.data.numberOfElements - 1].meetingId;
     })
     .catch((err) => {
       console.log(err);
@@ -112,5 +173,15 @@ hr {
   height: 0.2vh;
   border: 0;
   margin-top: 10px;
+}
+.disabled-btn {
+  border-radius: 16px;
+  color: black;
+  background-color: gray;
+  height: 28px;
+  width: 90px;
+  cursor: default;
+  text-align: center;
+  padding-top: 12px;
 }
 </style>

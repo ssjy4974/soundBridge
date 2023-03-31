@@ -1,3 +1,4 @@
+import os
 import re
 import os
 from unicodedata import normalize
@@ -168,6 +169,7 @@ def synthesize(text):
     wavs = synthesizer.tts(text, None, None)
     return wavs
 
+f"{MODEL_DIR}/glowtts/glowtts-v2-March-15-2023_04+42AM-3aa165ae/best_model.pth.tar",
 synthesizer = Synthesizer(
     f"{MODEL_DIR}/glowtts/glowtts-v2-March-15-2023_04+42AM-3aa165ae/best_model.pth.tar",
     f"{MODEL_DIR}/glowtts/glowtts-v2-March-15-2023_04+42AM-3aa165ae/config.json",

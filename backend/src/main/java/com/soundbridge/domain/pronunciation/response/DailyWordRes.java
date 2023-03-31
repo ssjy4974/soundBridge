@@ -11,6 +11,7 @@ import lombok.Setter;
 public class DailyWordRes {
 
     private Long wordMemberId;
+    private Long dailyWordId;
     private String word;
     private String guideWord;
     private int tryCount;
@@ -23,5 +24,12 @@ public class DailyWordRes {
         this.guideWord = guideWord;
         this.tryCount = tryCount;
         this.successCount = successCount;
+    }
+
+    @QueryProjection
+    public DailyWordRes(Long dailyWordId, String word, String guideWord){
+        this.dailyWordId = dailyWordId;
+        this.word = word;
+        this.guideWord = guideWord;
     }
 }

@@ -26,6 +26,13 @@ export default defineConfig({
         secure: false,
         ws: true,
       },
+      "/ai": {
+        target: "https://j8a703.p.ssafy.io",
+        // target: "http://localhost:8000",
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
     },
   },
 });

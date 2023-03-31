@@ -36,7 +36,6 @@ async function modifyMyProfile(formData, accessToken, success, fail) {
 }
 
 async function getMemberInfo(accessToken, success, fail) {
-  // console.log(accessToken);
   await api
     .get(`/api/members`, {
       headers: {
@@ -83,9 +82,8 @@ async function logout(memberId, accessToken, success, fail) {
     .catch(fail);
 }
 
-async function getNewAccessToken(success, fail) {
-  console.log("no access token");
-  await api.get(`/api/token/tokenReissue`, {}).then(success).catch(fail);
+function getNewAccessToken(success, fail) {
+  api.get(`/api/token/tokenReissue`, {}).then(success).catch(fail);
 }
 
 export {

@@ -5,7 +5,7 @@ const api = apiInstance();
 async function getMyDailyWord(accessToken, success, fail) {
   console.log("get my dailyword", accessToken);
   await api
-    .get(`/ai/daily-words`, {
+    .get(`/api/daily-words`, {
       headers: {
         "access-token": accessToken,
       },
@@ -17,7 +17,7 @@ async function getMyDailyWord(accessToken, success, fail) {
 async function addMyDailyWord(word, accessToken, success, fail) {
   await api
     .post(
-      `/api/my-sentence-logs`,
+      `/ai/daily-words`,
       {
         dailyWord: word,
         memberId: 1,
@@ -32,4 +32,36 @@ async function addMyDailyWord(word, accessToken, success, fail) {
     .catch(fail);
 }
 
-export { getMyDailyWord, addMyDailyWord };
+async function saveOrUpdateTryHistory(
+  wordMemberId,
+  accessToken,
+  success,
+  fail
+) {
+  await api
+    .post(`/api/try-histories/daily-words/${wordMemberId}`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+async function updateSuccessCount(wordMemberId, accessToken, success, fail) {
+  await api
+    .put(`/api/try-histories/daily-words/${wordMemberId}`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+export {
+  getMyDailyWord,
+  addMyDailyWord,
+  saveOrUpdateTryHistory,
+  updateSuccessCount,
+};

@@ -1,5 +1,6 @@
 package com.soundbridge.domain.pronunciation.controller;
 
+import com.soundbridge.domain.member.response.MemberAccessRes;
 import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import com.soundbridge.domain.pronunciation.service.BasicLetterService;
@@ -36,7 +37,8 @@ public class PronunciationApiController {
         @ApiResponse(responseCode = "200", description = "기본 발음 전체 조회 성공")
     })
     public ResponseEntity<List<BasicLetterRes>> basicLetterList(Authentication authentication) {
-        return ResponseEntity.ok(basicLetterService.findAllBasicLetters(1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(basicLetterService.findAllBasicLetters(memberId));
     }
 
     @GetMapping("/daily-words")
@@ -45,8 +47,8 @@ public class PronunciationApiController {
         @ApiResponse(responseCode = "200", description = "일상 단어 전체 조회 성공"),
     })
     public ResponseEntity<List<DailyWordRes>> dailyWordList(Authentication authentication) {
-
-        return ResponseEntity.ok(wordMemberService.findAllDailyWords(1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(wordMemberService.findAllDailyWords(memberId));
     }
 
     @PostMapping("/try-histories/basic-letters/{basicLetterId}")
@@ -58,7 +60,8 @@ public class PronunciationApiController {
     })
     public ResponseEntity tryHistorySaveOrUpdateByBasicLetter(@PathVariable Long basicLetterId,
         Authentication authentication) {
-        tryHistoryService.saveOrUpdateByBasicLetter(basicLetterId, 1L);
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        tryHistoryService.saveOrUpdateByBasicLetter(basicLetterId, memberId);
         return ResponseEntity.ok().build();
     }
 
@@ -71,7 +74,8 @@ public class PronunciationApiController {
     })
     public ResponseEntity tryHistorySaveOrUpdateByDailyWord(@PathVariable Long wordMemberId,
         Authentication authentication) {
-        tryHistoryService.saveOrUpdateBywordMemberId(wordMemberId, 1L);
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        tryHistoryService.saveOrUpdateBywordMemberId(wordMemberId, memberId);
         return ResponseEntity.ok().build();
     }
 
@@ -85,11 +89,12 @@ public class PronunciationApiController {
     })
     public ResponseEntity tryHistoryUpdateByBasicLetter(@PathVariable Long basicLetterId,
         Authentication authentication) {
-        tryHistoryService.updateByBasicLetter(basicLetterId, 1L);
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        tryHistoryService.updateByBasicLetter(basicLetterId, memberId);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/try-histories/daily-words/{dailyWordId}")
+    @PutMapping("/try-histories/daily-words/{wordMemberId}")
     @Operation(summary = "일상 단어 발음 성공 업데이트")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "일상 단어 발음 성공 업데이트"),
@@ -111,19 +116,21 @@ public class PronunciationApiController {
     })
     public ResponseEntity<BasicLetterRes> basicLetterDetails(@PathVariable Long basicLetterId,
         Authentication authentication) {
-        return ResponseEntity.ok(basicLetterService.findBasicLetter(basicLetterId, 1L));
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(basicLetterService.findBasicLetter(basicLetterId, memberId));
     }
 
-//    @GetMapping("/daily-words/{dailyWord}")
-//    @Operation(summary = "일상 단어 상세조회")
-//    @ApiResponses({
-//        @ApiResponse(responseCode = "200", description = "일상 단어 상세 조회 성공"),
-//        @ApiResponse(responseCode = "404", description = "존재 하지 않는 일상 단어")
-//    })
-//    public ResponseEntity<BasicLetterRes> basicLetterDetails(@PathVariable String dailyWord,
-//        Authentication authentication) {
-//        return ResponseEntity.ok(dailyWordService.findDailyWord(dailyWord, 1L));
-//    }
+    @GetMapping("/daily-words/{word}")
+    @Operation(summary = "일상 단어 상세조회")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "일상 단어 상세 조회 성공"),
+        @ApiResponse(responseCode = "404", description = "존재 하지 않는 일상 단어")
+    })
+    public ResponseEntity<DailyWordRes> dailyWordDetails(@PathVariable String word,
+                                                          Authentication authentication) {
+        Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
+        return ResponseEntity.ok(dailyWordService.findDailyWord(word, memberId));
+    }
 
 
 }

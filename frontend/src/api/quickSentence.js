@@ -22,8 +22,8 @@ async function updateQuickSentence(
         },
       }
     )
-    .catch(success)
-    .then(fail);
+    .then(success)
+    .catch(fail);
 }
 //POST
 async function saveQuickSentence(
@@ -46,9 +46,10 @@ async function saveQuickSentence(
         },
       }
     )
-    .catch(success)
-    .then(fail);
+    .then(success)
+    .catch(fail);
 }
+
 //GET
 async function getQuickSentence(categoryId, accessToken, success, fail) {
   await api
@@ -57,8 +58,8 @@ async function getQuickSentence(categoryId, accessToken, success, fail) {
         "access-token": accessToken,
       },
     })
-    .catch(success)
-    .then(fail);
+    .then(success)
+    .catch(fail);
 }
 //PUT count
 async function countQuickSentenceAndCategory(
@@ -73,8 +74,8 @@ async function countQuickSentenceAndCategory(
         "access-token": accessToken,
       },
     })
-    .catch(success)
-    .then(fail);
+    .then(success)
+    .catch(fail);
 }
 // DELETE
 async function delQuickSentence(quickSentenceId, accessToken, success, fail) {
@@ -84,8 +85,8 @@ async function delQuickSentence(quickSentenceId, accessToken, success, fail) {
         "access-token": accessToken,
       },
     })
-    .catch(success)
-    .then(fail);
+    .then(success)
+    .catch(fail);
 }
 
 export {
