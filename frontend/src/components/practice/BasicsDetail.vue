@@ -46,6 +46,7 @@
 import { useBasicLetterStore } from "@/store/BasicLetter";
 import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
+z;
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import router from "@/router/index";
