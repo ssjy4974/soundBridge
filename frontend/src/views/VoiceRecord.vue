@@ -23,7 +23,8 @@
       <button class="saveBtn disabled" v-else>저장 하기</button>
     </div>
 
-    <h3 class="state">{{ sentenceNum }}/3922</h3>
+    <h3 class="state">{{ sentenceNum }}/{{ totalSentenceCnt }}</h3>
+    <regist-modal v-if="isRegistModal" @closeModal="modalState"></regist-modal>
   </div>
 </template>
 
@@ -31,7 +32,9 @@
 import { onBeforeMount, ref } from "@vue/runtime-core";
 import { apiInstance } from "@/api/index";
 import { useMember } from "@/store/Member";
+import RegistModal from "../components/record/RegistModal.vue";
 
+const totalSentenceCnt = 3922;
 const memberStore = useMember();
 const api = apiInstance();
 const isRecording = ref(false);
@@ -40,6 +43,7 @@ const sentenceNum = ref(0);
 const curFile = ref(null);
 const blob = ref(null);
 const text = ref();
+const isRegistModal = ref(false);
 
 const { accessToken, member } = memberStore;
 let mediaRecorder = null;
@@ -113,6 +117,14 @@ const save = () => {
       audioEl.setAttribute("src", null);
       curFile.value = null;
     });
+
+  if (sentenceNum.value == totalSentenceCnt) {
+    modalState();
+  }
+};
+
+const modalState = () => {
+  isRegistModal.value = !isRegistModal.value;
 };
 </script>
 

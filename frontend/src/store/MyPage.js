@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { voiceList, voice, select } from "@/api/mypage";
+import { voiceList, voice, select, registVoice } from "@/api/mypage";
 import { useMember } from "./Member";
 import { ref } from "vue";
+import router from "@/router";
 
 export const useMypage = defineStore("mypage", () => {
   // const voice = ref(0);
@@ -53,7 +54,23 @@ export const useMypage = defineStore("mypage", () => {
     );
   }
 
+  async function regist(voiceName, voiceAge, voiceGender, features) {
+    console.log(memberStore.accessToken);
+    await registVoice(
+      voiceName,
+      voiceAge,
+      voiceGender,
+      features,
+      memberStore.accessToken,
+      ({ data }) => {
+        window.alert("등록이 완료되었습니다.")
+        router.push("/");
+
+      }
+    );
+  }
+
   // action == function()  함수
 
-  return { selectedVoice, voices, getVoiceList, getSelectedVoice, selectVoice }; //반환 하면됨
+  return { selectedVoice, voices, getVoiceList, getSelectedVoice, selectVoice, regist }; //반환 하면됨
 });

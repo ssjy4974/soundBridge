@@ -55,7 +55,11 @@ public class RecordService {
         RecordState recordState = RecordState.builder().member(member)
                 .recordSentence(recordSentence)
                 .build();
-        System.out.println("---------------save---------------");
         recordStateRepository.save(recordState);
+    }
+
+    public void deleteRecord(Long memberId){
+        RecordState recordState = recordStateRepository.findByMemberId(memberId);
+        recordStateRepository.delete(recordState);
     }
 }

@@ -63,4 +63,24 @@ async function select(memberId, voiceId, accessToken, success, fail) {
     .catch(fail);
 }
 
-export { voice, voiceList, select };
+async function registVoice(voiceName, voiceAge, voiceGender, features, accessToken, success, fail) {
+  await api
+    .post(
+      `/api/voices/regist`,
+      {
+        voiceName,
+        voiceAge,
+        voiceGender,
+        features
+      },
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
+    .then(success)
+    .catch(fail);
+}
+
+export { voice, voiceList, select, registVoice };
