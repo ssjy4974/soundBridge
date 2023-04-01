@@ -39,10 +39,6 @@ public class Voice {
     @Column(length = 200, nullable = false)
     private String voiceName;
 
-
-    @Column(length = 200, nullable = false)
-    private String modelUrl;
-
     @Column(length = 10, nullable = false)
     private String voiceGender;
 
@@ -51,11 +47,10 @@ public class Voice {
 
 
     @Builder
-    public Voice(Member member, int voiceAge, String voiceName, String modelUrl, String voiceGender) {
+    public Voice(Member member, int voiceAge, String voiceName, String voiceGender) {
         this.member = member;
         this.voiceAge = voiceAge;
         this.voiceName = voiceName;
-        this.modelUrl = modelUrl;
         this.voiceGender = voiceGender;
     }
 }

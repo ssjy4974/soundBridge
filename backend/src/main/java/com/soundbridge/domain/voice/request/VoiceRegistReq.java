@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 public class VoiceRegistReq {
     private String voiceName;
-    private String modelUrl;
     private Integer voiceAge;
     private String voiceGender;
     private List<Long> features;
@@ -18,7 +17,6 @@ public class VoiceRegistReq {
     public Voice toEntity(Member member){
         return Voice.builder()
                 .voiceName(this.voiceName)
-                .modelUrl(this.modelUrl)
                 .voiceAge(this.voiceAge)
                 .voiceGender(this.voiceGender)
                 .member(member)

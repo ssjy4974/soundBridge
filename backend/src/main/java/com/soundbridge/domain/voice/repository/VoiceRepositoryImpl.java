@@ -51,7 +51,6 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
                     new QVoiceDetailRes(
                         voice.id.as("voiceId"),
                         voice.voiceAge.as("age"),
-                        voice.modelUrl.as("modelUrl"),
                         voice.voiceGender.as("voiceGender"),
                         voice.voiceName.as("voiceName"),
                         voice.member.id.as("memberId"),
@@ -86,7 +85,6 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
                     new QVoiceDetailRes(
                         voice.id.as("voiceId"),
                         voice.voiceAge.as("age"),
-                        voice.modelUrl.as("modelUrl"),
                         voice.voiceGender.as("voiceGender"),
                         voice.voiceName.as("voiceName"),
                         voice.member.id.as("memberId"),
