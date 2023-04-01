@@ -7,6 +7,7 @@ import {
 } from "@/api/dailyword";
 import { ref } from "vue";
 import { useMember } from "./Member";
+import Swal from "sweetalert2";
 
 export const useMyDailyWord = defineStore("mydailyword", () => {
   const mydailyword = ref();
@@ -16,7 +17,6 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
   async function getmydailyword() {
     await getMyDailyWord(memberStore.accessToken, ({ data }) => {
       mydailyword.value = data;
-      localStorage.setItem("dailyWordList", JSON.stringify(mydailyword));
       console.log("Get method responses", mydailyword.value);
     });
   }
@@ -29,7 +29,6 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
       memberStore.accessToken,
       ({ data }) => {
         console.log(data, " add new word");
-
         getMyDailyWord(memberStore.accessToken, ({ data }) => {
           mydailyword.value = data;
           console.log("Get method responses", mydailyword.value);
@@ -38,7 +37,7 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
     );
   }
 
-  async function saveorupdatetryhistory(wordMemberId) {
+  async function saveorupdatetryhistory(wordMemberId, index) {
     console.log("savehistory 호출");
     console.log(memberStore.accessToken);
     await saveOrUpdateTryHistory(
@@ -46,16 +45,28 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
       memberStore.accessToken,
       ({ data }) => {
         console.log(data, " update tryHistory");
+        mydailyword.value[index].tryCount++;
       }
     );
   }
 
-  async function updatesuccesscount(wordMemberId) {
+  async function updatesuccesscount(wordMemberId, index) {
     await updateSuccessCount(
       wordMemberId,
       memberStore.accessToken,
       ({ data }) => {
-        console.log(data, " update tryHistory");
+        console.log(data, " update successCount");
+        mydailyword.value[index].successCount++;
+        Swal.fire({
+          title: "성공!",
+          html:
+            "성공횟수 : " +
+            mydailyword.value[index].successCount +
+            "<br/>" +
+            "시도 횟수 : " +
+            mydailyword.value[index].tryCount,
+          position: "bottom-end",
+        });
       }
     );
   }

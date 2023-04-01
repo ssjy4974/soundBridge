@@ -1,9 +1,9 @@
 <template>
   <div class>
-    <div class="info">
-      <div>연습 단어: {{ DailyWordList[Number(route.params.index)].word }}</div>
+    <div class="info" v-if="mydailyword">
+      <div>연습 단어: {{ mydailyword[Number(route.params.index)].word }}</div>
       <div>발음 방법</div>
-      <div>{{ DailyWordList[Number(route.params.index)].guideWord }}</div>
+      <div>{{ mydailyword[Number(route.params.index)].guideWord }}</div>
     </div>
     <div class="myResult">
       <div>나의 발음</div>
@@ -13,11 +13,15 @@
     </div>
     <div class="practice" @click="tryHistoryHandler">{{ recordStatus }}</div>
   </div>
-  <div class="parent">
+  <div class="parent" v-if="mydailyword">
     <div class="child" v-if="Number(route.params.index) > 0" @click="prev">
       이전
     </div>
-    <div class="child" v-if="Number(route.params.index) < endIdx" @click="next">
+    <div
+      class="child"
+      v-if="Number(route.params.index) < mydailyword.length - 1"
+      @click="next"
+    >
       다음
     </div>
   </div>
@@ -27,17 +31,20 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import router from "@/router/index";
 import { useMyDailyWord } from "@/store/DailyWord";
 import Swal from "sweetalert2";
 
-const MyDailyWord = useMyDailyWord();
-
 const route = useRoute();
-let DailyWordList = JSON.parse(localStorage.getItem("dailyWordList"))._value;
-const tryCount = ref(DailyWordList.tryCount);
-const successCount = ref(DailyWordList.successCount);
-const endIdx = DailyWordList.length - 1;
+const store = useMyDailyWord();
+const { mydailyword } = storeToRefs(store);
+const callApi = () => {
+  store.getmydailyword();
+};
+callApi();
+
+console.log("detail에서 워드리스트", mydailyword);
 
 const transcript = ref("");
 const isRecording = ref(false);
@@ -87,9 +94,9 @@ onMounted(() => {
 
 const tryHistoryHandler = () => {
   const index = Number(route.params.index);
-  const wordMemberId = DailyWordList[index].wordMemberId;
-  console.log(typeof wordMemberId);
-  MyDailyWord.saveorupdatetryhistory(wordMemberId);
+  const wordMemberId = store.mydailyword[index].wordMemberId;
+  console.log("1", index);
+  store.saveorupdatetryhistory(wordMemberId, index);
   sr.start();
   recordStatus.value = "녹음중";
 };
@@ -114,34 +121,21 @@ const next = () => {
 const CheckSuccess = (result) => {
   const t = result[0].transcript;
   const index = Number(route.params.index);
-  if (t == DailyWordList[index].word) {
+  if (t == store.mydailyword[index].word) {
     sr.stop();
-    const wordMemberId = DailyWordList[index].wordMemberId;
-    MyDailyWord.updatesuccesscount(wordMemberId);
-    MyDailyWord.getmydailyword();
-    DailyWordList = JSON.parse(localStorage.getItem("dailyWordList"))._value;
-    Swal.fire({
-      title: "다시 한번 해볼까요?",
-      html:
-        "성공횟수 : " +
-        DailyWordList[index].successCount +
-        "<br/>" +
-        "시도 횟수 : " +
-        DailyWordList[index].tryCount,
-      position: "bottom-end",
-    });
+    const wordMemberId = store.mydailyword[index].wordMemberId;
+    store.updatesuccesscount(wordMemberId, index);
   } else {
     sr.stop();
-    MyDailyWord.getmydailyword();
-    DailyWordList = JSON.parse(localStorage.getItem("dailyWordList"))._value;
+    store.getmydailyword();
     Swal.fire({
       title: "다시 한번 해볼까요?",
       html:
         "성공횟수 : " +
-        DailyWordList[index].successCount +
+        store.mydailyword[index].successCount +
         "<br/>" +
         "시도 횟수 : " +
-        DailyWordList[index].tryCount,
+        store.mydailyword[index].tryCount,
       position: "bottom-end",
     });
   }
