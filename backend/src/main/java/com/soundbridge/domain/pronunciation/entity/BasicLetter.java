@@ -34,12 +34,16 @@ public class BasicLetter {
     @Column(length = 200, nullable = false)
     private String guideImage;
 
+    @Column(length = 50)
+    private String startTime;
+
     @Builder
     public BasicLetter(String letter, String guideLetter, String letterImage,
-        String guideImage) {
+        String guideImage, String startTime) {
         this.letter = letter;
         this.guideLetter = guideLetter;
         this.letterImage = letterImage;
         this.guideImage = guideImage;
+        this.startTime = startTime;
     }
 }

@@ -39,6 +39,13 @@
         </h3>
       </span>
     </div>
+    <div v-if="basicLetter.startTime">
+      <iframe
+        allowfullscreen
+        :src="`https://www.youtube.com/embed/start?${basicLetter.startTime}`"
+        frameborder="0"
+      ></iframe>
+    </div>
   </div>
 </template>
 

@@ -43,9 +43,7 @@ const selectVoice = (e) => {
   window.location.reload(true);
 };
 
-onBeforeMount(() => {
-  console.log("@#@#", props.voice.featureResList);
-});
+onBeforeMount(() => {});
 </script>
 
 <style lang="scss" scoped>
