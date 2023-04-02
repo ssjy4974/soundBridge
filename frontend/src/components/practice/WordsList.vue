@@ -12,61 +12,7 @@
       </div>
     </div>
     <div>
-      <button @click="addWordModal">연습할 단어 추가하는 버튼</button>
-      <AddWordModal v-if="isWordModal" @closemodal="addWordModal" />
-    </div>
-    <!--  -->
-    <!-- <div class="parent">
-      <div class="child">
-        <div class="link__container">
-          <router-link :to="`/wordsdetail/${index}`">돈까스 </router-link>
-        </div>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-      <div class="child">
-        <router-link :to="`/wordsdetail/${index}`"> 돈까스 </router-link>
-      </div>
-    </div> -->
-    <div>
-      <button @click="addWordModal">연습할 단어 추가하는 버튼</button>
+      <button @click="addWordModal">연습 단어 추가하기 +</button>
       <AddWordModal v-if="isWordModal" @closemodal="addWordModal" />
     </div>
   </div>
@@ -115,6 +61,7 @@ const addWordModal = () => {
 .child {
   background-color: var(--maincolor2);
   border-radius: 8px;
+  box-shadow: 4px 4px 4px 0px var(--black4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,7 +70,9 @@ const addWordModal = () => {
   color: white;
   margin-block: 3vh;
 }
-.child a {
+.child a :hover {
+  background-color: var(--maincolor6);
+  border: 10px solid;
   // color: var(--black);
 }
 </style>
