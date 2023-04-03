@@ -3,6 +3,7 @@ import { voiceList, voice, select, registVoice } from "@/api/mypage";
 import { useMember } from "./Member";
 import { ref } from "vue";
 import router from "@/router";
+import Swal from "sweetalert2";
 
 export const useMypage = defineStore("mypage", () => {
   // const voice = ref(0);
@@ -63,14 +64,20 @@ export const useMypage = defineStore("mypage", () => {
       features,
       memberStore.accessToken,
       ({ data }) => {
-        window.alert("등록이 완료되었습니다.")
+        Swal.fire("등록이 완료되었습니다.", "", "success");
         router.push("/");
-
       }
     );
   }
 
   // action == function()  함수
 
-  return { selectedVoice, voices, getVoiceList, getSelectedVoice, selectVoice, regist }; //반환 하면됨
+  return {
+    selectedVoice,
+    voices,
+    getVoiceList,
+    getSelectedVoice,
+    selectVoice,
+    regist,
+  }; //반환 하면됨
 });

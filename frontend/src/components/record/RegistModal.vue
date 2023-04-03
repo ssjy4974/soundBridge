@@ -165,6 +165,7 @@
 <script setup>
 import { ref } from "vue";
 import { useMypage } from "@/store/MyPage";
+import Swal from "sweetalert2";
 
 const myPageStore = useMypage();
 let voiceName = ref("");
@@ -199,16 +200,56 @@ const checked = (target) => {
 
 const regist = () => {
   if (voiceName.value == "") {
-    window.alert("이름을 입력해주세요.");
+    Swal.fire({
+      text: "이름을 입력해주세요.",
+      target: "#custom-target",
+      customClass: {
+        container: "position-absolute",
+      },
+      toast: true,
+      position: "center-center",
+      showConfirmButton: false,
+      timer: 1000,
+    });
     return;
   } else if (checkedGender.value == 0) {
-    window.alert("성별을 선택해주세요.");
+    Swal.fire({
+      text: "성별을 선택해주세요.",
+      target: "#custom-target",
+      customClass: {
+        container: "position-absolute",
+      },
+      toast: true,
+      position: "center-center",
+      showConfirmButton: false,
+      timer: 1000,
+    });
     return;
   } else if (checkedAge.value == 0) {
-    window.alert("연령을 선택해주세요.");
+    Swal.fire({
+      text: "연령을 선택해주세요.",
+      target: "#custom-target",
+      customClass: {
+        container: "position-absolute",
+      },
+      toast: true,
+      position: "center-center",
+      showConfirmButton: false,
+      timer: 1000,
+    });
     return;
   } else if (feature.value.length == 0) {
-    window.alert("특징을 선택해주세요.");
+    Swal.fire({
+      text: "특징을 선택해주세요.",
+      target: "#custom-target",
+      customClass: {
+        container: "position-absolute",
+      },
+      toast: true,
+      position: "center-center",
+      showConfirmButton: false,
+      timer: 1000,
+    });
     return;
   }
   myPageStore.regist(
