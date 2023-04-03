@@ -10,7 +10,7 @@
       />
     </div>
     <!-- 로그인이 되어있지 않을때 display : none, 장애인 유저 로그인 상태면 장애인용 푸터, 봉사자일 때 봉사자 푸터 -->
-    <div v-if="$route.path !== `/`">
+    <div v-if="$route.path !== `/` && !$route.path.includes(`feedbackMeeting`)">
       <FooterDisabled v-if="member.role === 'APPLICANT'" />
       <FooterVolunteer v-if="member.role === 'HELPER'" />
     </div>
