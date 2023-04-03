@@ -11,9 +11,16 @@
           <font-awesome-icon icon="fa-solid fa-xmark" style="font-size: 1rem" />
         </div>
         <div>
-          <router-link :to="`/wordsdetail/${index}`">
+          <router-link :to="`/wordsdetail/${index}`" class="word">
             {{ item.word }}
           </router-link>
+        </div>
+        <div class="myProgress">
+          <div class="myBar"></div>
+          <div class="percent" v-if="item.tryCount != 0">
+            {{ (item.successCount / item.tryCount) * 100 }}%
+          </div>
+          <div class="percent" v-else>0%</div>
         </div>
       </div>
     </div>
@@ -33,11 +40,24 @@ import { ref } from "vue";
 import Swal from "sweetalert2";
 
 const MyDailyWord = useMyDailyWord();
-
+const per = ref(0);
 const isWordModal = ref(false);
 
 const callAPI = () => {
-  MyDailyWord.getmydailyword();
+  MyDailyWord.getmydailyword().then(() => {
+    per.value = ((3000 / 3922) * 100).toFixed(1);
+    let elem = document.querySelector(".myBar");
+    var width = 1;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (width >= per.value) {
+        clearInterval(id);
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  });
 };
 callAPI();
 
@@ -113,6 +133,9 @@ const addWordModal = () => {
   padding-bottom: 10px;
 }
 
+.word {
+  color: blue;
+}
 .addButton {
   // display: flex;
   height: 10vh;
@@ -121,5 +144,31 @@ const addWordModal = () => {
   position: fixed;
   bottom: 0vh;
   left: 28vw;
+}
+
+.myProgress {
+  width: 150px;
+  height: 20px;
+  margin-top: 10px;
+  border-radius: 32px;
+  background-color: #f1f1f1;
+  display: flex;
+  position: relative;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 5px 5px rgba(0, 0, 0, 0.22);
+}
+
+.myBar {
+  width: 0%;
+  height: 20px;
+  border-radius: 32px;
+  background-color: #8ad1ff;
+  color: #0b76bb;
+}
+
+.percent {
+  position: absolute;
+  color: black;
+  font-size: 15px;
+  left: 50px;
 }
 </style>

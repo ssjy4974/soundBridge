@@ -22,7 +22,7 @@
         <p>나의 발음</p>
       </div>
       <div class="STT__box">
-        <h2>임시용 태그</h2>
+        <h2></h2>
         <h1 v-text="transcript"></h1>
       </div>
     </div>
@@ -40,6 +40,7 @@
       >
         <font-awesome-icon icon="fa-solid fa-chevron-left" />
       </div>
+      <div v-else></div>
       <div
         class="icon__box"
         v-if="Number(route.params.index) < mydailyword.length - 1"
