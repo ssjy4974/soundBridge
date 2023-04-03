@@ -1,29 +1,30 @@
 <template>
   <div>
     <div id="selectedVoice">
-      <h3 class="">내 목소리</h3>
+      <h3 class="title">내 목소리</h3>
       <div v-if="selectedVoice">
         <voice-select-menu :voice="selectedVoice[0]"> </voice-select-menu>
       </div>
     </div>
     <div>
-      <div><b class="font">전체 보기</b></div>
-
-      <div id="controls">
-        <img
-          src="@/assets/img/controls-alt.png"
-          id="controls"
-          style="float: right"
-          @click="searchModal"
-        />
-        <!--  @closemodal="searchModal"  -->
-        <SearchModal
-          @updateList="
-            (checkedGender, checkedAge, checkedFeatures) =>
-              update(checkedGender, checkedAge, checkedFeatures)
-          "
-          v-if="isSearchModal"
-        />
+      <div id="all">
+        <b class="title" id="font">전체 보기</b>
+        <span id="controls">
+          <img
+            src="@/assets/img/controls-alt.png"
+            id="controls"
+            style="float: right"
+            @click="searchModal"
+          />
+          <!--  @closemodal="searchModal"  -->
+          <SearchModal
+            @updateList="
+              (checkedGender, checkedAge, checkedFeatures) =>
+                update(checkedGender, checkedAge, checkedFeatures)
+            "
+            v-if="isSearchModal"
+          />
+        </span>
       </div>
 
       <div class="box">
@@ -82,11 +83,21 @@ callApi();
   margin-bottom: 10px;
 }
 #controls {
-  display: block;
-  height: 24px;
-  margin-right: 5px;
+  // display: block;
+  height: 28px;
+  margin-right: 12px;
+  padding-top: 8px;
 }
-.font {
+
+#all {
+  margin-bottom: 15px;
+}
+
+.title {
+  margin-left: 16px;
+}
+
+#font {
   font-size: 24px;
 }
 </style>
