@@ -26,6 +26,7 @@ import recordState from "./RecordState.vue";
 #menu-section {
   display: flex;
   justify-content: space-around;
+  margin-bottom: 5%;
 }
 a {
   text-decoration: none;

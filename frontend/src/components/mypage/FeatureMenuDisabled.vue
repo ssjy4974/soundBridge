@@ -26,6 +26,7 @@ import FreqUsedPhrase from "../pronounce/FreqUsedPhrase.vue";
   border-bottom: solid 2px;
   padding-block: 12px;
   border-bottom-color: var(--maincolor8);
+  margin-bottom: 5%;
 }
 #qs {
   position: relative;
