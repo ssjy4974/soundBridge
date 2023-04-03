@@ -2,15 +2,13 @@
   <div>
     <div>
       <div id="menu-section">
-        <div>
-          <router-link to="/mypagev/recordState"> 목소리 기부 </router-link>
-        </div>
-
-        <div>
-          <router-link to="/mypagev/meetings"> 발음 피드백 </router-link>
-        </div>
+        <router-link to="/mypagev/recordState" id="qs">
+          <span>목소리 기부</span>
+        </router-link>
+        <router-link to="/mypagev/meetings" id="fd">
+          <span>발음 피드백</span>
+        </router-link>
       </div>
-      <hr />
 
       <router-view></router-view>
     </div>
@@ -24,22 +22,23 @@ import recordState from "./RecordState.vue";
 
 <style scoped>
 #menu-section {
-  display: flex;
-  justify-content: space-around;
+  margin-top: 13%;
+  border-bottom: solid 2px;
+  padding-block: 12px;
+  border-bottom-color: var(--maincolor8);
   margin-bottom: 5%;
 }
-a {
-  text-decoration: none;
-  color: black;
+
+#qs {
+  position: relative;
+  font-size: 1.2rem;
+  left: 15%;
 }
-.router-link-active {
-  color: #0b76bb;
-}
-hr {
-  width: 95%;
-  background: #5bbeff;
-  height: 0.2vh;
-  border: 0;
-  margin-top: 10px;
+#fd {
+  /* text-align: center; */
+  float: right;
+  position: relative;
+  font-size: 1.2rem;
+  right: 15%;
 }
 </style>
