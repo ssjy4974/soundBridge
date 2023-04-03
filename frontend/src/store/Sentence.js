@@ -20,7 +20,6 @@ export const useMySentence = defineStore("mysentence", () => {
       accessToken,
       ({ data }) => {
         mysentence.value = data;
-        // return data;
       },
       ({ fail }) => {
         // mysentence.value = [];
@@ -30,7 +29,6 @@ export const useMySentence = defineStore("mysentence", () => {
 
   // POST
   async function addmysentence(newSentence) {
-    console.log("aa", newSentence);
     await addMySentence(newSentence, accessToken, ({ data }) => {
       sentence.value = data;
     });
