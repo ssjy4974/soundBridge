@@ -13,7 +13,6 @@ public class VoiceDetailRes {
 
     private Long voiceId;
     private int age;
-    private String modelUrl;
     private String voiceGender;
     private String voiceName;
     private Long memberId;
@@ -21,11 +20,10 @@ public class VoiceDetailRes {
     private List<FeatureRes> featureResList;
 
     @QueryProjection
-    public VoiceDetailRes(Long voiceId, int age, String modelUrl, String voiceGender,
+    public VoiceDetailRes(Long voiceId, int age, String voiceGender,
         String voiceName, Long memberId, String profile, List<FeatureRes> featureResList) {
         this.voiceId = voiceId;
         this.age = age;
-        this.modelUrl = modelUrl;
         this.voiceGender = voiceGender;
         this.voiceName = voiceName;
         this.memberId = memberId;

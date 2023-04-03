@@ -61,9 +61,19 @@ const toRecord = () => {
 };
 
 const startRecord = () => {
-  api.post("/api/records/start").then(() => {
-    router.replace(`/record`);
-  });
+  api
+    .post(
+      "/api/records/start",
+      {},
+      {
+        headers: {
+          "access-token": accessToken,
+        },
+      }
+    )
+    .then(() => {
+      router.replace(`/record`);
+    });
 };
 </script>
 
