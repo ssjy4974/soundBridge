@@ -5,14 +5,14 @@
     <p>시작 시간 : {{ props.feedbackArticle.startTime }}</p>
     <p>종료 시간 : {{ props.feedbackArticle.endTime }}</p>
     <button
-      v-if="userRole === 'HELPER'"
+      v-if="member.role === 'HELPER'"
       @click="acceptMeeting(props.feedbackArticle)"
       id="accept-button"
     >
       수락
     </button>
     <font-awesome-icon
-      v-if="userRole === 'APPLICANT'"
+      v-if="member.role === 'APPLICANT'"
       icon="fa-solid fa-trash"
       @click="deleteFeedbackArticle"
       id="delete-article"
@@ -31,12 +31,10 @@ import FeedbackCreateModal from "./FeedbackCreateModal.vue";
 import Swal from "sweetalert2";
 
 const memberStore = useMember();
-const { accessToken } = memberStore;
+const { accessToken, member } = memberStore;
 const api = apiInstance();
 const props = defineProps(["feedbackArticle", "index"]);
 const emit = defineEmits(["updateProps"]);
-const userRole = "APPLICANT";
-const userName = "Nicksss";
 const meetingSaveReq = ref({
   feedbackBoardId: undefined,
   title: undefined,
