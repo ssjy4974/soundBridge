@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="myinfo">
-      <router-link to="/mypaged/frequsedphrase">
-        <span id="qs">자주 쓰는말 </span>
+      <router-link to="/mypaged/frequsedphrase" id="qs">
+        <span>자주 쓰는말 </span>
       </router-link>
-      <router-link to="/mypaged/meetings">
-        <span id="fd">발음 피드백 </span>
+      <router-link to="/mypaged/meetings" id="fd">
+        <span>발음 피드백 </span>
       </router-link>
-      <router-link to="/voiceselect">
-        <span id="vo">목소리 선택 </span>
+      <router-link to="/voiceselect" id="vo">
+        <span>목소리 선택 </span>
       </router-link>
     </div>
     <router-view></router-view>
@@ -26,6 +26,7 @@ import FreqUsedPhrase from "../pronounce/FreqUsedPhrase.vue";
   border-bottom: solid 2px;
   padding-block: 12px;
   border-bottom-color: var(--maincolor8);
+  margin-bottom: 5%;
 }
 #qs {
   position: relative;
