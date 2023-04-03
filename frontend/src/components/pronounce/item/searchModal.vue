@@ -2,7 +2,7 @@
   <div class="cat__modal">
     <div
       id="close"
-      @click="$emit('updateList', checkedGender, checkedAge, checkedFeatures)"
+      @click="$emit('updateList', checkedGender, checkedAge, feature)"
     >
       X
     </div>
