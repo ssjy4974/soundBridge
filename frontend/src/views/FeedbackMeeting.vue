@@ -15,17 +15,18 @@
         <my-video :stream-manager="openviduInfo.publisher" />
       </div>
     </div>
-    <div class="button-section">
-      <button id="doneBtn" @click="feedbackDone">상담 종료</button>
+    <!-- <div class="button-section"> -->
+    <button id="doneBtn" @click="feedbackDone">
+      <i class="fa-solid fa-phone fa-2x"></i>
+    </button>
 
-      <button id="exitBtn" @click="leaveSession">
-        <i class="fa-solid fa-circle-xmark fa-3x"></i>
-      </button>
-
-      <button id="chatBtn" @click="openChatModal">
-        <i class="fa-solid fa-message fa-3x"></i>
-      </button>
-    </div>
+    <button id="chatBtn" @click="openChatModal">
+      <i
+        class="fa-solid fa-message fa-2x"
+        :class="{ 'fa-bounce': chatAlarm }"
+      ></i>
+    </button>
+    <!-- </div> -->
     <transition name="slide-fade">
       <chat-modal
         :msgList="msgList"
@@ -47,6 +48,7 @@ import UserVideo from "@/components/meeting/UserVideo.vue";
 import MyVideo from "@/components/meeting/MyVideo.vue";
 import ChatModal from "@/components/meeting/ChatModal.vue";
 import { useMember } from "@/store/Member";
+import Swal from "sweetalert2";
 
 const route = useRoute();
 const api = apiInstance();
@@ -63,6 +65,7 @@ const openviduInfo = ref({
 });
 const msgList = ref([]);
 const chatModal = ref(false);
+const chatAlarm = ref(false);
 
 onBeforeMount(() => {
   api
@@ -102,6 +105,7 @@ onBeforeMount(() => {
           msgList.value.push({ text: event.data, side: "right" });
         } else {
           msgList.value.push({ text: event.data, side: "left" });
+          chatAlarm.value = true;
         }
       });
       openviduInfo.value.session
@@ -157,22 +161,33 @@ const leaveSession = () => {
 };
 
 const feedbackDone = () => {
-  // 여기 방번호
-  api
-    .put(`/api/meetings/rooms/${route.params.meetingId}`)
-    .then(() => {
-      openviduInfo.value.session.signal({
-        type: "done",
-      });
-    })
-    .catch((err) => {
-      err;
-      alert("상담 종료 실패");
-    });
+  Swal.fire({
+    title: "상담이 종료됩니다",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      api
+        .put(`/api/meetings/rooms/${route.params.meetingId}`)
+        .then(() => {
+          openviduInfo.value.session.signal({
+            type: "done",
+          });
+        })
+        .catch((err) => {
+          err;
+          alert("상담 종료 실패");
+        });
+    }
+  });
 };
 
 const openChatModal = () => {
   chatModal.value = !chatModal.value;
+  chatAlarm.value = false;
 };
 
 const appendMsg = (text) => {
@@ -184,20 +199,27 @@ const appendMsg = (text) => {
 </script>
 
 <style scoped>
-.button-section {
+#doneBtn {
+  /* margin-left: 15px; */
   position: absolute;
-  bottom: 56px;
-  z-index: 10;
-}
-
-#exitBtn {
-  margin-left: 5vh;
-  background-color: transparent;
+  bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background-color: red;
+  border-radius: 50%;
+  left: 120px;
 }
 
 #chatBtn {
-  margin-left: 5vh;
+  /* display: flex; */
+  /* margin-left: 5vh; */
   background-color: transparent;
+  position: absolute;
+  bottom: 0px;
+  left: 240px;
 }
 
 .slide-fade-enter-from {
@@ -217,5 +239,12 @@ const appendMsg = (text) => {
 .slide-fade-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(500px);
+}
+.fa-phone {
+  color: white;
+}
+.fa-message {
+  font-size: 3rem;
+  color: var(--maincolor5);
 }
 </style>
