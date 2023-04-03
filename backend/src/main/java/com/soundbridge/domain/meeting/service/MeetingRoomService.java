@@ -60,7 +60,7 @@ public class MeetingRoomService {
         final Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEETING_NOT_FOUND));
 
-        if (meeting.getOpenChk() == 0) {
+        if (meeting.getOpenChk() == 1) {
             throw new NotFoundException(ErrorCode.MEETING_ROOM_NOT_FOUND);
         }
 
