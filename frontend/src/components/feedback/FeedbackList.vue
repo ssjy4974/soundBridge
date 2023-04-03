@@ -1,5 +1,5 @@
 <template>
-  <div v-if="feedbackList">
+  <div v-if="feedbackList.length">
     <feedback-article
       v-for="(feedbackArticle, index) in feedbackList"
       :key="index"
@@ -7,6 +7,9 @@
       :index="index"
       @updateProps="(value) => updateFeedbackList(value)"
     />
+  </div>
+  <div v-else id="noResult">
+    <p>조회 결과가 없습니다.</p>
   </div>
   <div v-if="member.role === 'APPLICANT'">
     <font-awesome-icon
@@ -69,7 +72,7 @@ const moreList = () => {
       feedbackList.value.push(...res.data.content);
       hasNext.value = res.data.last;
       cursorId.value =
-        res.data.content[res.data.numberOfElements - 1].feedbackBoardId;
+        res.data.content[res.data.content.length - 1].feedbackBoardId;
     })
     .catch((err) => {
       console.log(err);
@@ -92,10 +95,12 @@ const callApi = () => {
       },
     })
     .then((res) => {
-      feedbackList.value = res.data.content;
-      hasNext.value = res.data.last;
-      cursorId.value =
-        res.data.content[res.data.numberOfElements - 1].feedbackBoardId;
+      if (res.data.content.length) {
+        feedbackList.value = res.data.content;
+        hasNext.value = res.data.last;
+        cursorId.value =
+          res.data.content[res.data.content.length - 1].feedbackBoardId;
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -118,5 +123,12 @@ callApi();
   position: fixed;
   bottom: 9%;
   color: var(--maincolor5);
+}
+#noResult {
+  position: absolute;
+  bottom: 45%;
+  left: 30%;
+  color: gray;
+  font-size: 20px;
 }
 </style>
