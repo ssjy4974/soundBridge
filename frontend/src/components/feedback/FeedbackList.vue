@@ -8,10 +8,12 @@
       @updateProps="(value) => updateFeedbackList(value)"
     />
   </div>
-  <div>
-    <button @click="createModalHandler" id="feedback-button">
-      피드백 요청글 작성하기
-    </button>
+  <div v-if="member.role === 'APPLICANT'">
+    <font-awesome-icon
+      icon="fa-solid fa-circle-plus"
+      id="feedback-button"
+      @click="createModalHandler"
+    />
     <feedback-create-modal
       v-if="createModal"
       @closemodal="createModalHandler"
@@ -27,12 +29,11 @@ import FeedbackArticle from "./FeedbackArticle.vue";
 import FeedbackCreateModal from "./FeedbackCreateModal.vue";
 import { useMember } from "@/store/Member";
 import { onMounted, onBeforeUnmount, ref } from "vue";
-
 const api = apiInstance();
 const memberStore = useMember();
 const createModal = ref(false);
 
-const { accessToken } = memberStore;
+const { accessToken, member } = memberStore;
 let feedbackList = ref([]);
 let cursorId = ref();
 let hasNext = ref();
@@ -112,6 +113,10 @@ callApi();
 
 <style scoped>
 #feedback-button {
-  margin-left: 26%;
+  font-size: 3.5rem;
+  margin-left: 80%;
+  position: fixed;
+  bottom: 9%;
+  color: var(--maincolor5);
 }
 </style>

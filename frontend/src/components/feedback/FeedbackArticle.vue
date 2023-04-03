@@ -13,7 +13,7 @@
     </button>
     <font-awesome-icon
       v-if="member.role === 'APPLICANT'"
-      icon="fa-solid fa-trash"
+      icon="fa-solid fa-xmark"
       @click="deleteFeedbackArticle"
       id="delete-article"
     />
@@ -137,8 +137,8 @@ const acceptMeeting = (feedbackArticle) => {
 
 #delete-article {
   float: right;
-  margin-right: 4%;
+  margin-right: 2%;
   position: relative;
-  top: -25px;
+  top: -145px;
 }
 </style>
