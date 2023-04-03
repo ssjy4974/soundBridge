@@ -54,6 +54,7 @@ const routes = [
     path: "/mypaged/",
     name: "mypagedisabled",
     component: MypageDisabled,
+    redirect: "/mypaged/FreqUsedPhrase",
     // 자식 컴포넌트
     children: [
       { path: "freqUsedPhrase", component: FreqUsedPhrase },
@@ -64,6 +65,7 @@ const routes = [
     path: "/mypagev",
     name: "mypagevolunteer",
     component: MypageVolunteer,
+    redirect: "/mypagev/RecordState",
     children: [
       { path: "recordState", component: RecordState },
       { path: "meetings", component: MyMeetings },
