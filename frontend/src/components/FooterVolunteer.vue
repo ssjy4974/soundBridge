@@ -22,17 +22,17 @@
 
 <style scoped>
 .footer {
-  width: 60vw;
-  height: 48px;
+  width: 100vw;
+  height: 56px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   text-align: center;
   align-content: center;
   background-color: var(--maincolor2);
-
-  padding-inline: 10vw;
-
-  position: relative;
-  transform: translateY(-100%);
+  align-items: center;
+  border-radius: 20px 24px 0px 0px;
+  position: fixed;
+  bottom: 0vh;
+  border: 1px solid #ffffff;
 }
 </style>
