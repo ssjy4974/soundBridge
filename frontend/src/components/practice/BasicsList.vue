@@ -7,13 +7,11 @@
             <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
           </div>
         </router-link>
-        <div class="bar_wrap">
-          <progress
-            id="progressBar"
-            :value="`${basicLetter.successCount}`"
-            :max="`${basicLetter.tryCount}`"
-          ></progress>
-        </div>
+        <progress
+          id="progressBar"
+          :value="`${basicLetter.successCount}`"
+          :max="`${basicLetter.tryCount}`"
+        ></progress>
       </div>
     </div>
   </div>
@@ -66,7 +64,7 @@ img {
 #progressBar {
   width: 85%;
   height: 30px;
-  left: 7%;
+  left: 8%;
   position: relative;
 }
 </style>
