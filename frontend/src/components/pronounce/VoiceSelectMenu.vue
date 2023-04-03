@@ -21,20 +21,29 @@
           </voice-features>
         </div>
       </div>
-      <div style="text-align: right">
+      <div
+        style="text-align: right"
+        v-if="selectedVoice[0].voiceId !== props.voice.voiceId"
+      >
         <button type="button" @click="selectVoice">선택하기</button>
+      </div>
+      <div style="text-align: right" v-else>
+        <button type="button" id="selected">선택됨</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { storeToRefs } from "pinia";
 import VoiceFeatures from "./item/VoiceFeatures.vue";
 import { defineProps, onBeforeMount, ref } from "vue";
 import { useMypage } from "@/store/MyPage";
 // import { voice } from "@/api/mypage";
+
 const myPageStore = useMypage();
 
+const { selectedVoice } = storeToRefs(myPageStore);
 const props = defineProps(["voice", "index"]);
 // let voice = ref(props);
 
@@ -91,5 +100,9 @@ button:hover {
 #show {
   min-height: 100px;
   height: auto;
+}
+
+#selected {
+  background-color: var(--black3);
 }
 </style>
