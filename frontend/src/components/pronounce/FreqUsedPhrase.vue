@@ -163,6 +163,7 @@ callSentenceAPI();
   justify-self: center;
 }
 .TTS__container {
+  background-color: var(--black1);
   margin-inline: 2vw;
   margin-bottom: 2vh;
   padding: 1vh;

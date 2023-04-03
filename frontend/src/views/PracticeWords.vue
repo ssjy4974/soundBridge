@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>일상 단어 연습하기</h1>
     <WordsList />
   </div>
 </template>

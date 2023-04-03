@@ -1,31 +1,57 @@
 <template>
-  <div class>
-    <div class="info" v-if="mydailyword">
-      <div>연습 단어: {{ mydailyword[Number(route.params.index)].word }}</div>
-      <div>발음 방법</div>
-      <div>{{ mydailyword[Number(route.params.index)].guideWord }}</div>
+  <div class="container">
+    <div class="info__container" v-if="mydailyword">
+      <div>
+        <p>연습 단어</p>
+        <p style="font-size: 1.5rem">
+          {{ mydailyword[Number(route.params.index)].word }}
+        </p>
+      </div>
+      <div>
+        <p style="font-size: 1rem">발음 방법</p>
+      </div>
+      <div>
+        <p style="font-size: 1.5rem">
+          {{ mydailyword[Number(route.params.index)].guideWord }}
+        </p>
+      </div>
     </div>
-    <div class="myResult">
-      <div>나의 발음</div>
-      <div class="realLetter">
+    <!--  -->
+    <div class="myvoice__container">
+      <div>
+        <p>나의 발음</p>
+      </div>
+      <div class="STT__box">
+        <h2>임시용 태그</h2>
         <h1 v-text="transcript"></h1>
       </div>
     </div>
-    <div class="practice" @click="tryHistoryHandler">{{ recordStatus }}</div>
-  </div>
-  <div class="parent" v-if="mydailyword">
-    <div class="child" v-if="Number(route.params.index) > 0" @click="prev">
-      이전
+    <div class="record__container" @click="tryHistoryHandler">
+      <button class="record__button">
+        {{ recordStatus }}
+      </button>
     </div>
-    <div
-      class="child"
-      v-if="Number(route.params.index) < mydailyword.length - 1"
-      @click="next"
-    >
-      다음
+    <!--  -->
+    <div class="link__container" v-if="mydailyword">
+      <div
+        class="icon__box"
+        v-if="Number(route.params.index) > 0"
+        @click="prev"
+      >
+        <font-awesome-icon icon="fa-solid fa-chevron-left" />
+      </div>
+      <div
+        class="icon__box"
+        v-if="Number(route.params.index) < mydailyword.length - 1"
+        @click="next"
+      >
+        <font-awesome-icon icon="fa-solid fa-chevron-right" />
+      </div>
+    </div>
+    <div class="goback__container">
+      <button class="record__button" @click="backToList">돌아가기</button>
     </div>
   </div>
-  <div @click="backToList">돌아가기</div>
 </template>
 
 <script setup>
@@ -143,57 +169,53 @@ const CheckSuccess = (result) => {
 </script>
 
 <style scoped>
-/* div {
-  border: solid;
-} */
-
-.parent {
-  width: 90%;
-  margin: 0 auto;
+.container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  position: fixed;
-  bottom: 7vh;
+  height: 90vh;
+  flex-direction: column;
+  align-items: center;
 }
-
-.child {
-  background-color: aqua;
-  width: 40%;
-  height: 70px;
-  margin: 20px 0;
-}
-
-.info {
-  width: 100%;
-  margin-top: 80px;
-  background-color: aqua;
-}
-
-.myResult {
-  width: 100%;
-  margin-top: 30px;
-  background-color: aqua;
-}
-
-.practice {
-  width: 100%;
-  margin-top: 30px;
-  background-color: red;
-}
-
-.realLetter {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-.realLetter h1 {
-  border: 1px solid white;
+.info__container {
+  box-shadow: 6px 6px 6px 6px var(--black3);
+  width: 80vw;
+  padding-inline: 4vw;
+  padding-block: 2vh;
   border-radius: 16px;
-  margin-left: 35px;
-  margin-right: 35px;
-  background: #eaf6ff;
-  text-align: center;
-  color: #1990dd;
+  margin-top: 2vh;
+  margin-bottom: 4vh;
+}
+.myvoice__container {
+  box-shadow: 6px 6px 6px 6px var(--black3);
+  width: 80vw;
+  padding-inline: 4vw;
+  padding-block: 2vh;
+  border-radius: 16px;
+  margin-bottom: 4vh;
+  font-size: 1.2rem;
+}
+.STT__box {
+  padding-block: 0.5vh;
+  padding-inline: 2vw;
+  background-color: var(--black2);
+  /* font-size: 1.2rem; */
+}
+.link__container {
+  width: 90vw;
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+  margin-block: 10vh;
+}
+.record__button {
+  width: 70vw;
+  background-color: var(--maincolor2);
+  margin: 2vh;
+}
+.goback__container {
+  position: fixed;
+  bottom: 10vh;
+}
+.icon__box {
+  font-size: 2rem;
 }
 </style>

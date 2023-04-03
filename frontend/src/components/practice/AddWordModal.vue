@@ -6,7 +6,7 @@
       <input
         class="input__box"
         type="text"
-        placeholder="카테고리 이름 입력하세요"
+        placeholder="연습할 단어를 입력하세요"
         v-model="newWord"
       />
     </div>

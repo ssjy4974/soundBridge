@@ -20,6 +20,12 @@
         type="text"
         placeholder="카테고리 이름 입력하세요"
         v-model="newCategory"
+        @keyup.enter="
+          () => {
+            categoryHandler(newCategory);
+            $emit('closemodal');
+          }
+        "
       />
     </div>
     <div class="addbutton__container">
@@ -65,7 +71,11 @@ const delCatHandler = (data) => {
 };
 
 const categoryHandler = () => {
-  store.addCategory(newCategory.value);
+  if (newCategory.value.length < 5) {
+    store.addCategory(newCategory.value);
+  } else {
+    alert("카테고리는 4글자 이하여야 합니다.");
+  }
 };
 
 defineEmits(["closemodal"]);

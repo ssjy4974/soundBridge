@@ -132,6 +132,9 @@ const acceptMeeting = (feedbackArticle) => {
   flex: none;
   order: 0;
   flex-grow: 0;
+
+  // background color
+  background-color: var(--black1);
 }
 
 #delete-article {
