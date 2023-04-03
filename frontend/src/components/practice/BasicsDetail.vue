@@ -3,7 +3,7 @@
     <div class="letter">
       <h1>{{ basicLetter.letter }}</h1>
       <i
-        class="fa-regular fa-circle-question"
+        class="fa-brands fa-youtube"
         @click="isModalViewed = true"
         id="help"
       ></i>
@@ -79,15 +79,8 @@ const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const sr = new Recognition();
 
 onMounted(() => {
-  // 각각의 인식 결과마다 continuous한 results를 받을지 혹은 single result를 받을지 결정
-  // 디폴트 값은 false, single word를 리턴함
   sr.continuous = false;
-  // 중간 결과를 리턴할지 아닐지 결정
-  // 아직 인식이 완료 되지 않은 중간 results
-  // 인식이 모두 완료되면 isFinal이 true, 아직 인식 전이면 false
-  // 인식이 모두 완료 되면 내가 발음 한 발음과 실제 발음을 비교하는 api 호출 함
   sr.interimResults = true;
-  // 언어 설정, 설정하지 않으면 디폴트로 HTML 의 lang 속성값을 받음
   sr.lang = "ko-KR";
   sr.maxAlternatives = 0;
   sr.onstart = () => {
@@ -180,10 +173,11 @@ i {
   top: calc(47% - 32px / 2 + 159px);
 }
 #help {
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   position: relative;
   left: 12.5vh;
   top: 7.5vh;
+  color: red;
 }
 #mic {
   color: black;

@@ -5,9 +5,13 @@
         <router-link :to="`/practicebasicsdetail/${basicLetter.basicLetterId}`">
           <div class="wrap">
             <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
-            <!-- <h2 class="wrap_text">{{ basicLetter.successCount }}</h2> -->
           </div>
         </router-link>
+        <progress
+          id="progressBar"
+          :value="`${basicLetter.successCount}`"
+          :max="`${basicLetter.tryCount}`"
+        ></progress>
       </div>
     </div>
   </div>
@@ -50,9 +54,17 @@ img {
   margin-left: 1px;
   vertical-align: auto;
 }
+
 .wrap_text {
   position: absolute;
   transform: translate(330%, -200%);
   color: black;
+}
+
+#progressBar {
+  width: 85%;
+  height: 30px;
+  left: 8%;
+  position: relative;
 }
 </style>
