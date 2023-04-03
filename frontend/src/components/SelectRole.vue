@@ -1,59 +1,66 @@
 <template>
-  <div class="container">
-    <div class="info-section">
-      <div class="age-section">
-        <p>나이:</p>
+  <div id="loginpage">
+    <img id="big-logo" src="../assets/img/biglogo.png" />
+    <img id="small-logo" src="../assets/img/small.png" />
+    <div class="container">
+      <div class="info-section">
+        <div class="age-section">
+          <p>나이:</p>
 
-        <div class="age" :class="showDrawer ? 'highlight' : ''" @click="show">
-          <p class="age-copy">{{ age }}</p>
-          <i
-            class="icon fas fa-chevron-down"
-            :style="{ transform: showDrawer ? 'rotate(180deg)' : '' }"
-          ></i>
-        </div>
-        <transition name="slide">
-          <div class="age-drawer" v-if="showDrawer">
-            <ul class="drawer-list">
-              <li
-                class="drawer-list-item"
-                v-for="a in ageList"
-                :key="a"
-                @click="updateAge(a)"
-              >
-                <div class="drawer-list-name">
-                  <label>{{ a }}</label>
-                </div>
-              </li>
-            </ul>
+          <div class="age" :class="showDrawer ? 'highlight' : ''" @click="show">
+            <p class="age-copy">{{ age }}</p>
+            <i
+              class="icon fas fa-chevron-down"
+              :style="{ transform: showDrawer ? 'rotate(180deg)' : '' }"
+            ></i>
           </div>
-        </transition>
-      </div>
+          <transition name="slide">
+            <div class="age-drawer" v-if="showDrawer">
+              <ul class="drawer-list">
+                <li
+                  class="drawer-list-item"
+                  v-for="a in ageList"
+                  :key="a"
+                  @click="updateAge(a)"
+                >
+                  <div class="drawer-list-name">
+                    <label>{{ a }}</label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </transition>
+        </div>
 
-      <div class="gender-section">
-        <p>성별:</p>
+        <div class="gender-section">
+          <p id="gen">성별:</p>
 
-        <div class="select">
-          <input type="radio" v-model="gender" value="male" id="select" /><label
-            for="select"
-            >남성</label
-          >
-          <input
-            type="radio"
-            v-model="gender"
-            value="female"
-            id="select2"
-          /><label for="select2">여성</label>
+          <div class="select">
+            <input
+              type="radio"
+              v-model="gender"
+              value="male"
+              id="select"
+            /><label for="select" id="ma">남성</label>
+            <input
+              type="radio"
+              v-model="gender"
+              value="female"
+              id="select2"
+              class="fe"
+            /><label for="select2" id="fem">여성</label>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="button-section">
-      <button @click="signUp(`HELPER`)" class="signup-button">
-        목소리 기부하기<br />(청인)
-      </button>
-      <button @click="signUp(`APPLICANT`)" class="signup-button">
-        목소리 사용하기<br />(농인)
-      </button>
+      <div class="button-section">
+        <button @click="signUp(`HELPER`)" class="signup-button">
+          목소리 기부하기<br />(청인)
+        </button>
+        <button @click="signUp(`APPLICANT`)" class="signup-button">
+          목소리 사용하기<br />(농인)
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -97,6 +104,35 @@ const signUp = (role) => {
 </script>
 
 <style scoped>
+#ma {
+  border: 1px solid #eaf6ff;
+}
+#fem {
+  position: relative;
+  left: 2vh;
+  border: 1px solid #eaf6ff;
+}
+#gen {
+  position: relative;
+  top: 1.3vh;
+}
+#loginpage {
+  height: 100vh;
+  width: 100vw;
+  background-color: #eaf6ff;
+}
+#big-logo {
+  position: relative;
+  width: 90%;
+  height: auto;
+  top: 26vh;
+  left: 2.5vh;
+}
+#small-logo {
+  position: relative;
+  top: 27vh;
+  left: 12vh;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -110,11 +146,15 @@ const signUp = (role) => {
 .age-section {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  top: 35vh;
 }
 
 .gender-section {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  top: 36vh;
 }
 
 .info-container {
@@ -134,6 +174,7 @@ const signUp = (role) => {
   transition: 0.4s border ease;
   background: white;
   cursor: pointer;
+  border: 1px solid #eaf6ff;
 }
 
 .age-copy {
@@ -158,14 +199,18 @@ const signUp = (role) => {
   margin: 10px 0;
   padding: 0px;
   border-radius: 5px;
+  position: absolute;
+  right: 0vh;
+  top: 4.5vh;
+  z-index: 10;
 }
 
-.age-drawer .drawer-list,
 .age-drawer .drawer-list-item {
   padding: 0;
   margin: 0;
+  position: relative;
+  right: 2vh;
 }
-
 .age-drawer .drawer-list-item {
   list-style-type: none;
   margin: 20px 0;
@@ -244,6 +289,10 @@ const signUp = (role) => {
 .select {
   padding: 15px 10px;
 }
+#select2 {
+  position: relative;
+  right: 3vh;
+}
 .select input[type="radio"] {
   display: none;
 }
@@ -269,6 +318,8 @@ const signUp = (role) => {
 
 .button-section {
   margin-top: 30px;
+  position: relative;
+  top: 35vh;
 }
 
 .signup-button {

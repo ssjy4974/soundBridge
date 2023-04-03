@@ -8,8 +8,7 @@
     </div>
     <br />
     <div>
-      <b>성별</b>
-      <div>
+      <div id="filter">
         <b id="gender"> &nbsp;&nbsp;&nbsp;성&nbsp;별</b>
         <div id="dv">
           <input
@@ -226,7 +225,7 @@ const checked2 = () => {
 #close {
   position: relative;
   left: 36vh;
-  bottom: 1.3vh;
+  bottom: 5vh;
   display: block;
 }
 #gender {
@@ -371,6 +370,10 @@ const checked2 = () => {
   order: 0;
   flex-grow: 0;
   position: relative;
+}
+#filter {
+  position: relative;
+  bottom: 2.5vh;
 }
 #but2 {
   box-sizing: border-box;
