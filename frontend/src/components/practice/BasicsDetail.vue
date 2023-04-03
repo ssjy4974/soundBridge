@@ -2,6 +2,12 @@
   <div class="main" v-if="basicLetter">
     <div class="letter">
       <h1>{{ basicLetter.letter }}</h1>
+      <i
+        class="fa-regular fa-circle-question"
+        @click="isModalViewed = true"
+        id="help"
+      ></i>
+
       <div class="letterImage">
         <img
           :src="`${IMAGE_PATH}/${basicLetter.guidImage}`"
@@ -40,11 +46,9 @@
       </span>
     </div>
     <div v-if="basicLetter.startTime">
-      <iframe
-        allowfullscreen
-        :src="`https://www.youtube.com/embed/start?${basicLetter.startTime}`"
-        frameborder="0"
-      ></iframe>
+      <video-modal v-if="isModalViewed" @closeModal="isModalViewed = false">
+        <youtube-video :basicLetter="basicLetter"></youtube-video>
+      </video-modal>
     </div>
   </div>
 </template>
@@ -58,6 +62,8 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import router from "@/router/index";
 import Swal from "sweetalert2";
+import VideoModal from "./item/VideoModal.vue";
+import YoutubeVideo from "./item/YoutubeVideo.vue";
 
 const route = useRoute();
 const store = useBasicLetterStore();
@@ -68,6 +74,7 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 const transcript = ref("");
 const isRecording = ref(false);
 const recordStatus = ref("연습하기");
+const isModalViewed = ref(false);
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const sr = new Recognition();
@@ -164,14 +171,20 @@ i {
   width: 32px;
   height: 32px;
   left: calc(45% - 32px / 2 - 147px);
-  top: calc(43% - 32px / 2 + 159px);
+  top: calc(47% - 32px / 2 + 159px);
 }
 #rightI {
   position: absolute;
   width: 32px;
   height: 32px;
   left: calc(55% - 32px / 2 + 147px);
-  top: calc(43% - 32px / 2 + 159px);
+  top: calc(47% - 32px / 2 + 159px);
+}
+#help {
+  font-size: 2.5rem;
+  position: relative;
+  left: 12.5vh;
+  top: 7.5vh;
 }
 #mic {
   color: black;
