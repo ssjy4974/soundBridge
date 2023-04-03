@@ -44,7 +44,7 @@ public class Meeting {
 
     @Column
     @ColumnDefault("1")
-    private short openChk;
+    private Short openChk;
 
     @Column(length = 40, nullable = false)
     private String code;
