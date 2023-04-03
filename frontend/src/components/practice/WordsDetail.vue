@@ -1,17 +1,10 @@
 <template>
-<<<<<<< HEAD
-  <div class>
-    <div class="info" v-if="mydailyword">
-      <div>연습 단어: {{ mydailyword[Number(route.params.index)].word }}</div>
-      <div>발음 방법</div>
-      <div>{{ mydailyword[Number(route.params.index)].guideWord }}</div>
-=======
   <div class="container">
-    <div class="info__container">
+    <div class="info__container" v-if="mydailyword">
       <div>
         <p>연습 단어</p>
         <p style="font-size: 1.5rem">
-          {{ DailyWordList[Number(route.params.index)].word }}
+          {{ mydailyword[Number(route.params.index)].word }}
         </p>
       </div>
       <div>
@@ -19,10 +12,9 @@
       </div>
       <div>
         <p style="font-size: 1.5rem">
-          {{ DailyWordList[Number(route.params.index)].guideWord }}
+          {{ mydailyword[Number(route.params.index)].guideWord }}
         </p>
       </div>
->>>>>>> b9cfc85 (style : 일상단어 디테일 페이지)
     </div>
     <!--  -->
     <div class="myvoice__container">
@@ -34,27 +26,13 @@
         <h1 v-text="transcript"></h1>
       </div>
     </div>
-<<<<<<< HEAD
-    <div class="practice" @click="tryHistoryHandler">{{ recordStatus }}</div>
-  </div>
-  <div class="parent" v-if="mydailyword">
-    <div class="child" v-if="Number(route.params.index) > 0" @click="prev">
-      이전
-    </div>
-    <div
-      class="child"
-      v-if="Number(route.params.index) < mydailyword.length - 1"
-      @click="next"
-    >
-      다음
-=======
     <div class="record__container" @click="tryHistoryHandler">
       <button class="record__button">
         {{ recordStatus }}
       </button>
     </div>
     <!--  -->
-    <div class="link__container">
+    <div class="link__container" v-if="mydailyword">
       <div
         class="icon__box"
         v-if="Number(route.params.index) > 0"
@@ -64,7 +42,7 @@
       </div>
       <div
         class="icon__box"
-        v-if="Number(route.params.index) < endIdx"
+        v-if="Number(route.params.index) < mydailyword.length - 1"
         @click="next"
       >
         <font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -72,7 +50,6 @@
     </div>
     <div class="goback__container">
       <button class="record__button" @click="backToList">돌아가기</button>
->>>>>>> b9cfc85 (style : 일상단어 디테일 페이지)
     </div>
   </div>
 </template>
