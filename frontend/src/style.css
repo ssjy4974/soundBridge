@@ -20,6 +20,27 @@
   src: url("./assets/font/NanumSquareNeo-eHv.ttf");
 }
 
+.blue__color {
+  --maincolor2: #bae4ff;
+  --maincolor3: #8ad1ff;
+  --maincolor4: #5bbeff;
+  --maincolor5: #2bacff;
+  --maincolor6: #1990dd;
+  --maincolor7: #0b76bb;
+  --maincolor8: #005d99;
+}
+.black__color {
+  --black1: #ffffff;
+  --black2: #f1f1f1;
+  --black3: #dddddd;
+  --black4: #c9c9c9;
+  --black5: #b4b4b4;
+  --black6: #a0a0a0;
+  --black7: #8b8b8b;
+  --black8: #777777;
+  --black9: #636363;
+  --black10: #4e4e4e;
+}
 a {
   font-weight: 500;
   text-decoration: inherit;
@@ -49,6 +70,7 @@ a:hover {
   }
 }
 body {
+  background-color: var(--black5);
   font-family: NanumSquare3;
   display: flex;
   min-width: 320px;
@@ -98,28 +120,7 @@ button:focus-visible {
 /* Figma에 있는 색깔들 변수화 */
 #app {
   /* text-align: center; */
+  background-color: var(--black1);
   width: 100vw;
   height: auto;
-}
-
-.blue__color {
-  --maincolor2: #bae4ff;
-  --maincolor3: #8ad1ff;
-  --maincolor4: #5bbeff;
-  --maincolor5: #2bacff;
-  --maincolor6: #1990dd;
-  --maincolor7: #0b76bb;
-  --maincolor8: #005d99;
-}
-.black__color {
-  --black1: #ffffff;
-  --black2: #f1f1f1;
-  --black3: #dddddd;
-  --black4: #c9c9c9;
-  --black5: #b4b4b4;
-  --black6: #a0a0a0;
-  --black7: #8b8b8b;
-  --black8: #777777;
-  --black9: #636363;
-  --black10: #4e4e4e;
 }

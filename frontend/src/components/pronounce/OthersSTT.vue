@@ -54,6 +54,8 @@ const ToggleMic = () => {
 
 <style scoped>
 .STT__container {
+  background-color: var(--black1);
+
   height: 32vh;
   margin-inline: 2vw;
   margin-top: 2vh;

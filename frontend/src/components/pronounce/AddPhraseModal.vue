@@ -1,23 +1,27 @@
 <template>
   <div class="phrase__modal">
-    <div @click="$emit('closemodalphrase')">X</div>
+    <div class="close__button" @click="$emit('closemodalphrase')">
+      <font-awesome-icon icon="fa-solid fa-xmark" />
+    </div>
     <p>자주쓰는말 추가하기</p>
     <input
+      class="input__box"
       type="text"
       v-model="newSentence"
       placeholder="자주쓰는 말을 입력하세요"
     />
-
-    <button
-      @click="
-        () => {
-          addNewPhrase();
-          $emit('closemodalphrase');
-        }
-      "
-    >
-      추가하기 +
-    </button>
+    <div class="addbutton__container">
+      <button
+        @click="
+          () => {
+            addNewPhrase();
+            $emit('closemodalphrase');
+          }
+        "
+      >
+        추가하기 +
+      </button>
+    </div>
   </div>
 </template>
 
@@ -61,5 +65,37 @@ const addNewPhrase = () => {
   left: 5vw;
   width: 80%;
   z-index: 2;
+}
+.close__button {
+  display: flex;
+  justify-content: end;
+}
+.addbutton__container {
+  margin-top: 10%;
+  align-self: center;
+}
+.input__box {
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 5px;
+
+  margin-left: 2%;
+  margin-right: 2%;
+  /* Black/200 / */
+  width: 90%;
+  border-top: 2px solid #f1f1f1;
+  border-right: 2px solid #f1f1f1;
+  border-bottom: 2px solid #f1f1f1;
+  border-left: 1px solid #f1f1f1;
+
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 8px;
+
+  /* / Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 }
 </style>
