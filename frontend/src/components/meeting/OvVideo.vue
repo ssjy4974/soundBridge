@@ -14,30 +14,11 @@ onMounted(() => {
 });
 </script>
 <style scoped>
-#parent {
-  /* border: 1px solid red; */
-  /* width: 100%; */
-  /* height: 100%; */
-  border: 1px solid blue;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
 #myVideo1 {
-  border-radius: 10px;
-  /* border: 1px solid red; */
-  /* box-shadow: 0 0 0 1px aqua inset; */
-  /* visibility: hidden; */
-  /* width: 150px;
-  height: 150px; */
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  margin-top: -70px;
   height: 100vh;
   width: 100%;
   object-fit: cover;
-  z-index: -1;
+  z-index: 11;
 }
 </style>
