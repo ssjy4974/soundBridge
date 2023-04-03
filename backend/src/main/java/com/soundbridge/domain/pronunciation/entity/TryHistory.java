@@ -1,6 +1,7 @@
 package com.soundbridge.domain.pronunciation.entity;
 
 import com.soundbridge.domain.member.entity.Member;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -39,7 +40,7 @@ public class TryHistory {
     @JoinColumn(name = "member_id", nullable = false, foreignKey = @ForeignKey(name = "fk_try_history_member_idx"))
     private Member member;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "word_member_id", foreignKey = @ForeignKey(name = "fk_try_history_word_member_idx"))
     private WordMember wordMember;
 

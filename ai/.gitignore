@@ -3,3 +3,5 @@ secrets.json
 glowtts
 hifigan
 __pycache__
+.py
+.pyc

@@ -29,10 +29,11 @@ public class WordMemberRepositoryImpl implements WordMemberRepositorySupport{
             )
             .from(wordMember)
             .leftJoin(tryHistory)
-            .on(wordMember.member.id.eq(memberId),
-                tryHistory.type.eq(PronunciationType.DAILY_WORD),
-                tryHistory.wordMember.id.eq(wordMember.id))
-            .innerJoin(wordMember.dailyWord, dailyWord)
+            .on(wordMember.id.eq(tryHistory.wordMember.id))
+            .innerJoin(dailyWord)
+            .on(wordMember.dailyWord.id.eq(dailyWord.id))
+            .where(wordMember.member.id.eq(memberId))
+            .orderBy(wordMember.id.desc())
             .fetch();
     }
 }

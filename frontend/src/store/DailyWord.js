@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import {
   getMyDailyWord,
   addMyDailyWord,
+  deleteDailyWord,
   saveOrUpdateTryHistory,
   updateSuccessCount,
 } from "@/api/dailyword";
@@ -71,6 +72,16 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
     );
   }
 
+  async function deletedailyword(wordMemberId) {
+    await deleteDailyWord(wordMemberId, memberStore.accessToken, ({ data }) => {
+      console.log("delete dailyWord");
+      getMyDailyWord(memberStore.accessToken, ({ data }) => {
+        mydailyword.value = data;
+        console.log("Get method responses", mydailyword.value);
+      });
+    });
+  }
+
   // getters == computed()  랜더링 될때 실행되는 함수 -
   // api 불러오는 함수 선언하고, response 값 state에 저장
   //
@@ -79,6 +90,7 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
     addmydailyword,
     saveorupdatetryhistory,
     updatesuccesscount,
+    deletedailyword,
     mydailyword,
   };
 });

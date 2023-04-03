@@ -70,8 +70,6 @@ const callApi = () => {
 };
 callApi();
 
-console.log("detail에서 워드리스트", mydailyword);
-
 const transcript = ref("");
 const isRecording = ref(false);
 const recordStatus = ref("연습하기");

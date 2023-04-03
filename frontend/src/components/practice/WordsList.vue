@@ -1,18 +1,26 @@
 <template>
   <div class="container">
+    <h1>연습 단어 목록</h1>
     <div class="parent">
       <div
         class="child"
         v-for="(item, index) in MyDailyWord.mydailyword"
         :key="index"
       >
-        <router-link :to="`/wordsdetail/${index}`">
-          {{ item.word }}
-        </router-link>
+        <div class="xmak" @click="deleteHandler(item.wordMemberId)">
+          <font-awesome-icon icon="fa-solid fa-xmark" style="font-size: 1rem" />
+        </div>
+        <div>
+          <router-link :to="`/wordsdetail/${index}`">
+            {{ item.word }}
+          </router-link>
+        </div>
       </div>
     </div>
-    <div>
-      <button @click="addWordModal">연습 단어 추가하기 +</button>
+    <div class="addButton">
+      <button class="addButton__button" @click="addWordModal">
+        연습 단어 추가하기 +
+      </button>
       <AddWordModal v-if="isWordModal" @closemodal="addWordModal" />
     </div>
   </div>
@@ -22,6 +30,7 @@
 import { useMyDailyWord } from "@/store/DailyWord";
 import AddWordModal from "./AddWordModal.vue";
 import { ref } from "vue";
+import Swal from "sweetalert2";
 
 const MyDailyWord = useMyDailyWord();
 
@@ -31,6 +40,21 @@ const callAPI = () => {
   MyDailyWord.getmydailyword();
 };
 callAPI();
+
+const deleteHandler = (wordMemberId) => {
+  Swal.fire({
+    title: "삭제 하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      MyDailyWord.deletedailyword(wordMemberId);
+    }
+  });
+};
 
 const addWordModal = () => {
   console.log("?????????", MyDailyWord.mydailyword);
@@ -63,16 +87,39 @@ const addWordModal = () => {
   border-radius: 8px;
   box-shadow: 4px 4px 4px 0px var(--black4);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  // justify-content: space-between;
   align-items: center;
-  height: 8vh;
+  height: 14vh;
   width: 40vw;
   color: white;
   margin-block: 3vh;
+  font-size: 40px;
 }
 .child a :hover {
   background-color: var(--maincolor6);
   border: 10px solid;
   // color: var(--black);
+}
+
+.close__button {
+  display: flex;
+  justify-content: end;
+}
+.xmak {
+  margin-inline: 10%;
+  // justify-self: flex-start;
+  align-self: flex-end;
+  padding-bottom: 10px;
+}
+
+.addButton {
+  // display: flex;
+  height: 10vh;
+  width: 100%;
+  background-color: var(--black1);
+  position: fixed;
+  bottom: 0vh;
+  left: 28vw;
 }
 </style>
