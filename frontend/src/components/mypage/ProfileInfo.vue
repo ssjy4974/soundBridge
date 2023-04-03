@@ -31,8 +31,12 @@
       </div>
       <div v-else>
         <form id="modifyInput" @submit="modifyName" onsubmit="return false">
-          <input type="text" v-model="name" /><br />
-          <button type="button" @click="modifyName">수정</button>
+          <input type="text" v-model="name" id="updatename" /><br />
+          <i
+            class="fa-sharp fa-solid fa-pen-to-square"
+            @click="modifyName"
+            id="updatebut"
+          ></i>
         </form>
         <span v-if="checkNickname" id="checkNickname">
           2~15글자내외, 특수문자 사용 불가능
@@ -76,7 +80,8 @@ let reg_nickname = /^[A-z가-힣0-9_-]{2,15}$/;
 const modifyName = (e) => {
   console.log("닉네임 수정 버튼?", name.value);
   if (reg_nickname.test(name.value)) {
-    memberStore.modifyNickName(name.value);
+    if (confirm("닉네임을 수정하시겠습니까?"))
+      memberStore.modifyNickName(name.value);
     save.value = !save.value;
     if (checkNickname.value) {
       checkNickname.value = !checkNickname.value;
@@ -117,6 +122,22 @@ const changeProfile = (f) => {
 </script>
 
 <style lang="scss" scoped>
+#updatebut {
+  position: fixed;
+  left: 38vh;
+  bottom: 66vh;
+  font-size: 1.7rem;
+}
+
+#updatename {
+  border: 1px solid #3a389e;
+  height: 40px;
+  position: fixed;
+  font-family: NanumSquare3;
+  font-size: 1.3rem;
+  left: 5vh;
+  text-align: center;
+}
 #profile {
   width: 170px;
   height: 170px;

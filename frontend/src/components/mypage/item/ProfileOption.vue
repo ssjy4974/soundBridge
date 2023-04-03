@@ -1,6 +1,5 @@
 <template>
   <div class="cat__modal">
-    <div class="close__button" @click="$emit('closemodal')">X</div>
     <div>
       <button type="button" id="logout" @click="logoutMember">로그아웃</button>
     </div>
@@ -16,7 +15,7 @@ const memberStore = useMember();
 
 const logoutMember = () => {
   console.log("logout");
-  memberStore.logout();
+  if (confirm("정말 로그아웃 하시겠습니까?")) memberStore.logout();
 };
 
 defineEmits(["closemodal"]);
@@ -38,8 +37,11 @@ defineEmits(["closemodal"]);
   position: fixed;
   top: 30vh;
   left: 5vw;
-  width: 80%;
+  width: 28%;
   z-index: 2;
+  position: fixed;
+  top: 10vh;
+  left: 24vh;
 }
 .close__button {
   display: flex;
@@ -51,6 +53,9 @@ defineEmits(["closemodal"]);
 }
 
 #logout {
-  align-content: center;
+  position: relative;
+  left: 8%;
+  right: 8%;
+  background-color: var(--maincolor5);
 }
 </style>
