@@ -2,17 +2,26 @@
   <div class="TTS__container">
     <div class="cat__wrapper">
       <div class="cat__container">
-        <div class="cat__item" v-for="(category, c) in freqUsedCat" :key="c">
+        <div
+          class="cat__item"
+          v-for="(category, c) in freqUsedCat"
+          :key="c"
+          :class="{ touched: isTouched, index: c ? idx == c : false }"
+        >
           <p
             style="width: max-content"
-            @click="phraseHandler(category.categoryId)"
+            @click="
+              () => {
+                activeHandler(c), phraseHandler(category.categoryId);
+              }
+            "
           >
             {{ category.categoryName }}
           </p>
         </div>
       </div>
       <div class="catadd__button">
-        <font-awesome-icon @click="addCatModal" icon="fa-solid fa-gear" />
+        <font-awesome-icon @click="addCatModal" icon="fa-solid fa-plus" />
       </div>
     </div>
     <AddCatModal v-if="isCatModal" @closemodal="addCatModal" />
@@ -54,6 +63,12 @@ import { storeToRefs } from "pinia";
 // data from store
 const store = usePronounce();
 const { freqUsedCat, freqUsedPhrase } = storeToRefs(store);
+
+// 카테고리 길이만큼의 배열
+// const categoryArray = ref(
+//   Array.from({ length: freqUsedCat.value.length() }, (v, i) => false)
+// );
+console.log(freqUsedCat);
 
 // 페이지 타입 구분할 변수
 const pageIndex = 1;
@@ -124,11 +139,27 @@ const getAudio = (text) => {
   );
   audio.play();
 };
-// const playTTS = () => {
-//   //AI 함수 호출는 부분
-//   console.log("AI TTS 실행시키기");
-//   getAudio();
-// };
+const playTTS = () => {
+  //AI 함수 호출는 부분
+  console.log("AI TTS 실행시키기");
+  getAudio();
+};
+
+// touch interaction
+const isTouched = ref(true);
+const idx = ref(0);
+
+function activeHandler(c) {
+  isTouched.value = !isTouched.value;
+  console.log('???"', freqUsedCat.value.length);
+  for (let index = 0; index < freqUsedCat.value.length; index++) {
+    if (index == c) {
+      idx.value = c;
+      console.log(idx.value);
+    }
+  }
+}
+
 // GET catagoires
 callCategoryAPI();
 callSentenceAPI();
@@ -152,6 +183,9 @@ callSentenceAPI();
   overflow-x: scroll;
 }
 .cat__item {
+  // border-top: 5px solid var(--maincolor2);
+  border-left: solid var(--maincolor2);
+  border-right: solid var(--maincolor2);
   display: flex;
   width: 50px;
   padding-left: 6%;
@@ -180,5 +214,8 @@ callSentenceAPI();
 }
 .freqButton__box {
   padding-inline: 3vw;
+}
+.touched {
+  background-color: var(--maincolor2);
 }
 </style>

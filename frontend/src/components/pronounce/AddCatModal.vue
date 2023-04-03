@@ -3,7 +3,8 @@
     <div class="close__button" @click="$emit('closemodal')">
       <font-awesome-icon icon="fa-solid fa-xmark" />
     </div>
-    <div class="del__container">
+    <p>내 카테고리</p>
+    <div class="del__container" v-if="freqUsedCat">
       <div class="del__list" v-for="(cat, index) in freqUsedCat" :key="index">
         <p>{{ cat.categoryName }}</p>
         <font-awesome-icon
@@ -123,8 +124,10 @@ defineEmits(["closemodal"]);
   border-bottom: 2px solid #f1f1f1;
   border-left: 1px solid #f1f1f1;
 
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
   border-radius: 8px;
+
+  font-size: 1.1rem;
 
   /* / Inside auto layout */
 
