@@ -43,7 +43,7 @@ public class MeetingService {
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         // 수락을 누른 대상의 역할이 봉사자가 아닌 경우 권한 없음 예외 발생
-        if (!applicant.getRole().equals(Role.APPLICANT)) {
+        if (!applicant.getRole().equals(Role.HELPER)) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZATION);
         }
         String code = createCode();

@@ -82,7 +82,11 @@ const acceptMeeting = (feedbackArticle) => {
   meetingSaveReq.value.endTime = feedbackArticle.endTime;
 
   api
-    .post(`/api/meetings`, meetingSaveReq.value)
+    .post(`/api/meetings`, meetingSaveReq.value, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
     .then(() => {
       alert("상담 수락 완료");
       emit("updateProps", { index: props.index });
