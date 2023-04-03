@@ -40,7 +40,7 @@ const props = defineProps(["voice", "index"]);
 
 const selectVoice = (e) => {
   e.preventDefault();
-  console.log("목소리 선택!", props.voice.voiceId);
+  // console.log("목소리 선택!", props.voice.voiceId);
   myPageStore.selectVoice(props.voice.voiceId);
   window.location.reload(true);
 };
