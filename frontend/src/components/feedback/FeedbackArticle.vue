@@ -13,7 +13,7 @@
     </button>
     <font-awesome-icon
       v-if="member.role === 'APPLICANT'"
-      icon="fa-solid fa-trash"
+      icon="fa-solid fa-xmark"
       @click="deleteFeedbackArticle"
       id="delete-article"
     />
@@ -38,7 +38,7 @@ const emit = defineEmits(["updateProps"]);
 const meetingSaveReq = ref({
   feedbackBoardId: undefined,
   title: undefined,
-  helperId: undefined,
+  applicantId: undefined,
   startTime: undefined,
   endTime: undefined,
 });
@@ -77,12 +77,16 @@ const deleteFeedbackArticle = () => {
 const acceptMeeting = (feedbackArticle) => {
   meetingSaveReq.value.feedbackBoardId = feedbackArticle.feedbackBoardId;
   meetingSaveReq.value.title = feedbackArticle.title;
-  meetingSaveReq.value.helperId = feedbackArticle.writerId;
+  meetingSaveReq.value.applicantId = feedbackArticle.writerId;
   meetingSaveReq.value.startTime = feedbackArticle.startTime;
   meetingSaveReq.value.endTime = feedbackArticle.endTime;
 
   api
-    .post(`/api/meetings`, meetingSaveReq.value)
+    .post(`/api/meetings`, meetingSaveReq.value, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
     .then(() => {
       alert("상담 수락 완료");
       emit("updateProps", { index: props.index });
@@ -137,8 +141,8 @@ const acceptMeeting = (feedbackArticle) => {
 
 #delete-article {
   float: right;
-  margin-right: 4%;
+  margin-right: 2%;
   position: relative;
-  top: -25px;
+  top: -145px;
 }
 </style>

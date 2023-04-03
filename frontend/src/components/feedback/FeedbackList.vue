@@ -1,5 +1,5 @@
 <template>
-  <div v-if="feedbackList">
+  <div v-if="feedbackList.length">
     <feedback-article
       v-for="(feedbackArticle, index) in feedbackList"
       :key="index"
@@ -8,10 +8,15 @@
       @updateProps="(value) => updateFeedbackList(value)"
     />
   </div>
-  <div>
-    <button @click="createModalHandler" id="feedback-button">
-      피드백 요청글 작성하기
-    </button>
+  <div v-else id="noResult">
+    <p>조회 결과가 없습니다.</p>
+  </div>
+  <div v-if="member.role === 'APPLICANT'">
+    <font-awesome-icon
+      icon="fa-solid fa-circle-plus"
+      id="feedback-button"
+      @click="createModalHandler"
+    />
     <feedback-create-modal
       v-if="createModal"
       @closemodal="createModalHandler"
@@ -27,12 +32,11 @@ import FeedbackArticle from "./FeedbackArticle.vue";
 import FeedbackCreateModal from "./FeedbackCreateModal.vue";
 import { useMember } from "@/store/Member";
 import { onMounted, onBeforeUnmount, ref } from "vue";
-
 const api = apiInstance();
 const memberStore = useMember();
 const createModal = ref(false);
 
-const { accessToken } = memberStore;
+const { accessToken, member } = memberStore;
 let feedbackList = ref([]);
 let cursorId = ref();
 let hasNext = ref();
@@ -68,7 +72,7 @@ const moreList = () => {
       feedbackList.value.push(...res.data.content);
       hasNext.value = res.data.last;
       cursorId.value =
-        res.data.content[res.data.numberOfElements - 1].feedbackBoardId;
+        res.data.content[res.data.content.length - 1].feedbackBoardId;
     })
     .catch((err) => {
       console.log(err);
@@ -91,10 +95,12 @@ const callApi = () => {
       },
     })
     .then((res) => {
-      feedbackList.value = res.data.content;
-      hasNext.value = res.data.last;
-      cursorId.value =
-        res.data.content[res.data.numberOfElements - 1].feedbackBoardId;
+      if (res.data.content.length) {
+        feedbackList.value = res.data.content;
+        hasNext.value = res.data.last;
+        cursorId.value =
+          res.data.content[res.data.content.length - 1].feedbackBoardId;
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -112,6 +118,17 @@ callApi();
 
 <style scoped>
 #feedback-button {
-  margin-left: 26%;
+  font-size: 3.5rem;
+  margin-left: 80%;
+  position: fixed;
+  bottom: 9%;
+  color: var(--maincolor5);
+}
+#noResult {
+  position: absolute;
+  bottom: 45%;
+  left: 30%;
+  color: gray;
+  font-size: 20px;
 }
 </style>

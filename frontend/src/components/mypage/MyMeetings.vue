@@ -29,14 +29,14 @@
             }}</span
           >
           <button
-            v-if="myMeeting.openCheck === 0"
+            v-if="myMeeting.openCheck === 1"
             class="room-btn"
             @click="createRoom(myMeeting.meetingId)"
           >
             방 생성
           </button>
           <button
-            v-else-if="myMeeting.openCheck === 1"
+            v-else-if="myMeeting.openCheck === 0"
             class="room-btn"
             @click="createRoom(myMeeting.meetingId)"
           >
@@ -56,12 +56,10 @@ import { apiInstance } from "@/api/index";
 import { onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue";
 import { useMember } from "@/store/Member";
 import router from "@/router/index";
-import { storeToRefs } from "pinia";
 
 const memberStore = useMember();
 const api = apiInstance();
-const { member } = memberStore;
-const { accessToken } = storeToRefs(memberStore);
+const { member, accessToken } = memberStore;
 
 let myMeetings = ref([]);
 let cursorId = ref();
@@ -98,8 +96,7 @@ const moreList = () => {
     .then((res) => {
       myMeetings.value.push(...res.data.content);
       hasNext.value = res.data.last;
-      cursorId.value =
-        res.data.content[res.data.numberOfElements - 1].meetingId;
+      cursorId.value = res.data.content[res.data.content.length - 1].meetingId;
     })
     .catch((err) => {
       console.log(err);
@@ -109,14 +106,13 @@ onBeforeMount(() => {
   api
     .get("/api/meetings", {
       headers: {
-        "access-token": accessToken.value,
+        "access-token": accessToken,
       },
     })
     .then((res) => {
       myMeetings.value = res.data.content;
       hasNext.value = res.data.last;
-      cursorId.value =
-        res.data.content[res.data.numberOfElements - 1].meetingId;
+      cursorId.value = res.data.content[res.data.content.length - 1].meetingId;
     })
     .catch((err) => {
       console.log(err);

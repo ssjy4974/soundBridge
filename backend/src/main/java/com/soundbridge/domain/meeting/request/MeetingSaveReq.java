@@ -21,7 +21,7 @@ public class MeetingSaveReq {
     @NotEmpty(message = "title cannot be empty.")
     private String title;
     @NotNull(message = "helperId cannot be null.")
-    private Long helperId;
+    private Long applicantId;
     @NotNull(message = "startTime cannot be null")
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime startTime;

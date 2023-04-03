@@ -35,15 +35,15 @@ public class MeetingService {
      *
      * @param req
      */
-    public void saveMeeting(MeetingSaveReq req, Long applicantId) {
-        final Member applicant = memberRepository.findById(applicantId).orElseThrow(() ->
+    public void saveMeeting(MeetingSaveReq req, Long helperId) {
+        final Member helper = memberRepository.findById(helperId).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        final Member helper = memberRepository.findById(req.getHelperId()).orElseThrow(() ->
+        final Member applicant = memberRepository.findById(req.getApplicantId()).orElseThrow(() ->
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         // 수락을 누른 대상의 역할이 봉사자가 아닌 경우 권한 없음 예외 발생
-        if (!applicant.getRole().equals(Role.APPLICANT)) {
+        if (!helper.getRole().equals(Role.HELPER)) {
             throw new AccessDeniedException(ErrorCode.NOT_AUTHORIZATION);
         }
         String code = createCode();
