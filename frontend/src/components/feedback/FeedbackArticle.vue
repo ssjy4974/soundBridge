@@ -38,7 +38,7 @@ const emit = defineEmits(["updateProps"]);
 const meetingSaveReq = ref({
   feedbackBoardId: undefined,
   title: undefined,
-  helperId: undefined,
+  applicantId: undefined,
   startTime: undefined,
   endTime: undefined,
 });
@@ -77,7 +77,7 @@ const deleteFeedbackArticle = () => {
 const acceptMeeting = (feedbackArticle) => {
   meetingSaveReq.value.feedbackBoardId = feedbackArticle.feedbackBoardId;
   meetingSaveReq.value.title = feedbackArticle.title;
-  meetingSaveReq.value.helperId = feedbackArticle.writerId;
+  meetingSaveReq.value.applicantId = feedbackArticle.writerId;
   meetingSaveReq.value.startTime = feedbackArticle.startTime;
   meetingSaveReq.value.endTime = feedbackArticle.endTime;
 

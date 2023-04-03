@@ -43,7 +43,7 @@ public class Meeting {
     private String title;
 
     @Column
-    @ColumnDefault("0")
+    @ColumnDefault("1")
     private short openChk;
 
     @Column(length = 40, nullable = false)
@@ -67,7 +67,7 @@ public class Meeting {
     }
 
     public void startMeeting() {
-        this.openChk = 1;
+        this.openChk = 0;
     }
 
     public void doneMeeting() {
