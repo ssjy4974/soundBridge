@@ -23,7 +23,7 @@
       /> -->
     </div>
     <div>
-      <div id="nickname" v-if="!save">
+      <div id="nickname" v-if="!save" style="text-align: center">
         <span id="nickNameSpan">{{ member.nickname }} </span>
         <span @click="modifyNameInput">
           <font-awesome-icon icon="fa-solid fa-pen" id="pen" />
@@ -77,6 +77,10 @@ const modifyName = (e) => {
   console.log("닉네임 수정 버튼?", name.value);
   if (reg_nickname.test(name.value)) {
     memberStore.modifyNickName(name.value);
+    save.value = !save.value;
+    if (checkNickname.value) {
+      checkNickname.value = !checkNickname.value;
+    }
   } else {
     console.log("닉네임 규칙에 맞게");
     if (!checkNickname.value) {
@@ -84,7 +88,6 @@ const modifyName = (e) => {
     }
   }
   name = ref(member.nickname);
-  save.value = !save.value;
   console.log("save ", save.value);
 };
 
@@ -141,14 +144,12 @@ const changeProfile = (f) => {
 #nickNameSpan {
   margin-right: 10px;
   position: relative;
-  left: 41.7%;
   font-size: 1.5rem;
   color: var(--maincolor9);
 }
 
 #pen {
   position: relative;
-  left: 44%;
   font-size: 1.3rem;
   color: var(--maincolor7);
 }
