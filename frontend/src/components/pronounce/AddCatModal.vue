@@ -4,8 +4,12 @@
       <font-awesome-icon icon="fa-solid fa-xmark" />
     </div>
     <p>내 카테고리</p>
-    <div class="del__container" v-if="freqUsedCat">
-      <div class="del__list" v-for="(cat, index) in freqUsedCat" :key="index">
+    <div
+      class="del__container"
+      v-for="(cat, index) in freqUsedCat"
+      :key="index"
+    >
+      <div class="del__list">
         <p>{{ cat.categoryName }}</p>
         <font-awesome-icon
           icon="fa-solid fa-xmark"

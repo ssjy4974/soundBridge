@@ -3,10 +3,12 @@
     <div class="cat__wrapper">
       <div class="cat__container">
         <div
+          role="checkbox"
+          :aria-checked="true"
           class="cat__item"
           v-for="(category, c) in freqUsedCat"
           :key="c"
-          :class="{ touched: isTouched, index: c ? idx == c : false }"
+          :class="{ touched: c }"
         >
           <p
             style="width: max-content"
@@ -59,6 +61,7 @@ import AddCatModal from "./AddCatModal.vue";
 import AddPhraseModal from "./AddPhraseModal.vue";
 import { usePronounce } from "@/store/Pronounce.js";
 import { storeToRefs } from "pinia";
+import Swal from "sweetalert2";
 
 // data from store
 const store = usePronounce();
@@ -119,15 +122,26 @@ const addPhraseModal = () => {
 // category 별 phrase 불러오는 함수 + categoryID 저장하기
 const parseCategoryId = ref(1);
 const phraseHandler = (categoryId) => {
-  console.log(categoryId);
+  // console.log(categoryId);
   store.readQuickSentence(categoryId);
   parseCategoryId.value = categoryId;
 };
 
 // Delete 자주쓰는문장 Handler
 const delPhraseHandler = (sentenceId) => {
+  Swal.fire({
+    title: "삭제 하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      store.deleteQuickSentence(sentenceId);
+    }
+  });
   // alert("삭제 되었습니다.");
-  store.deleteQuickSentence(sentenceId);
   callSentenceAPI();
 };
 
@@ -139,26 +153,8 @@ const getAudio = (text) => {
   );
   audio.play();
 };
-const playTTS = () => {
-  //AI 함수 호출는 부분
-  console.log("AI TTS 실행시키기");
-  getAudio();
-};
 
-// touch interaction
-const isTouched = ref(true);
-const idx = ref(0);
-
-function activeHandler(c) {
-  isTouched.value = !isTouched.value;
-  console.log('???"', freqUsedCat.value.length);
-  for (let index = 0; index < freqUsedCat.value.length; index++) {
-    if (index == c) {
-      idx.value = c;
-      console.log(idx.value);
-    }
-  }
-}
+function activeHandler(c) {}
 
 // GET catagoires
 callCategoryAPI();
@@ -184,8 +180,6 @@ callSentenceAPI();
 }
 .cat__item {
   // border-top: 5px solid var(--maincolor2);
-  border-left: solid var(--maincolor2);
-  border-right: solid var(--maincolor2);
   display: flex;
   width: 50px;
   padding-left: 6%;
@@ -197,12 +191,12 @@ callSentenceAPI();
   justify-self: center;
 }
 .TTS__container {
+  border: solid var(--maincolor2);
   background-color: var(--black1);
   margin-inline: 2vw;
   margin-bottom: 2vh;
   padding: 1vh;
   border-radius: 16px;
-  border: solid var(--maincolor2) 3px;
 }
 .phrase__box {
   padding-inline: 3vw;

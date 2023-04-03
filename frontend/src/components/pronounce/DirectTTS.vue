@@ -7,6 +7,12 @@
         placeholder="텍스트를 입력하고 마이크 버튼을 누르세요"
         v-model="inputSentence"
         @input="callgetAPI"
+        @keyup.enter="
+          () => {
+            getAudio(inputSentence);
+            directMessageHandler();
+          }
+        "
       />
       <div class="icon__box">
         <font-awesome-icon
@@ -59,6 +65,7 @@ const callgetAPI = async () => {
 };
 
 watch(inputSentence, () => {
+  console.log(mysentence.value);
   callgetAPI();
   // mySentences.mysentence = mysentence.value;
 });
@@ -76,6 +83,9 @@ const getAudio = (text, voice) => {
   );
   audio.play();
 };
+function directMessageHandler() {
+  inputSentence.value = "";
+}
 
 addSentenceHandler(inputSentence);
 </script>
@@ -112,5 +122,6 @@ addSentenceHandler(inputSentence);
   border-radius: 12px;
   // position: absolute;
   padding-inline: 10%;
+  z-index: 2;
 }
 </style>
