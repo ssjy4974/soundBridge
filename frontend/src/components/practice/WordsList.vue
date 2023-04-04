@@ -60,7 +60,7 @@ const callAPI = () => {
   });
 };
 callAPI();
-
+//
 const deleteHandler = (wordMemberId) => {
   Swal.fire({
     title: "삭제 하시겠습니까?",
