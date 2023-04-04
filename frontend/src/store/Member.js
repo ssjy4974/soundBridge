@@ -18,6 +18,7 @@ export const useMember = defineStore("member", {
       nickname: "",
       profile: "",
       role: "",
+      voiceId: 0,
     },
     accessToken: "",
   }),
@@ -66,7 +67,7 @@ export const useMember = defineStore("member", {
           this.member.nickname = data.nickname;
           this.member.profile = data.profile;
           this.member.role = data.role;
-
+          this.member.voiceId = data.voiceId;
           // localStorage.setItem("isLogin", this.member.role);/
         },
         (error) => {

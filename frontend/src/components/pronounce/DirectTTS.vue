@@ -14,7 +14,7 @@
           @click="
             () => {
               addSentenceHandler(inputSentence);
-              getAudio(inputSentence);
+              getAudio(inputSentence, member.voiceId);
               // addmysentence(inputSentence);
               inputSentence = '';
             }
@@ -40,13 +40,16 @@
 
 <script setup>
 import { useMySentence } from "@/store/Sentence";
+import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
 
 const mySentences = useMySentence();
+const memberStore = useMember();
 const { sentence, getmysentences, addmysentence, updatemysentence } =
   mySentences;
 const { mysentence } = storeToRefs(mySentences);
+const { member } = storeToRefs(memberStore);
 // const sentenceList = storeToRefs(mysentence);
 const inputSentence = ref("");
 
@@ -66,10 +69,10 @@ const addSentenceHandler = (a) => {
 };
 
 // 선택한 목소리로 TTS 실행하기
-const getAudio = (text) => {
+const getAudio = (text, voice) => {
   console.log("TTS test", text);
   let audio = new Audio(
-    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}`
+    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=${voice}`
   );
   audio.play();
 };
