@@ -37,7 +37,7 @@ public class MemberService {
             new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         return MemberInfoRes.of(member.getId(), member.getEmail(), member.getNickname()
-            , member.getProfile(), member.getRole());
+            , member.getProfile(), member.getRole(), member.getVoice().getId());
     }
 
     @Transactional

@@ -4,9 +4,10 @@ from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile, Form
 from starlette.middleware.cors import CORSMiddleware
 from database import engineconn
-from models import Record_Sentence, Record_State, Daily_Word, Word_Member, Member
+from models import Record_Sentence, Record_State, Daily_Word, Word_Member, Member, Voice
 from fastapi.responses import StreamingResponse
 import os
+import urllib.request
 from s3 import s3util
 import numpy as np
 import tts
@@ -26,6 +27,9 @@ engine = engineconn()
 session = engine.sessionmaker()
 s3util = s3util()
 synthesizer = tts.synthesizer
+
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
 class AudioOut(BaseModel):
     audio: List[float] = []
@@ -71,15 +75,31 @@ async def upload_audio(file: UploadFile = File(), member_id: int = Form()):
 
 
 @app.get("/ai/infer/", response_class=StreamingResponse)
-async def read_item(text: str):
-    normalized_text = tts.normalize_text(text)
-    audio = synthesizer.tts(normalized_text, None, None)
+async def read_item(text: str, voice: int):
+    find_voice = session.query(Voice).get(voice)
+    print(find_voice.model_url)
+    if (find_voice.model_url == None):
+        normalized_text = tts.normalize_text(text)
+        audio = synthesizer.tts(normalized_text, None, None)
 
-    wav = BytesIO()
-    wavf.write(wav, rate=22050, data=(np.array(audio).astype(np.float32)))
+        wav = BytesIO()
+        wavf.write(wav, rate=22050, data=(np.array(audio).astype(np.float32)))
+        return StreamingResponse(wav, media_type="audio/wav")
+    else:
+        encText = urllib.parse.quote(text)
+        data = "speaker=" + find_voice.model_url + "&volume=0&speed=0&pitch=0&format=wav&text=" + encText;
+        url = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts"
+        request = urllib.request.Request(url)
+        request.add_header("X-NCP-APIGW-API-KEY-ID", CLIENT_ID)
+        request.add_header("X-NCP-APIGW-API-KEY", CLIENT_SECRET)
+        response = urllib.request.urlopen(request, data=data.encode('utf-8'))
+        rescode = response.getcode()
 
+        if (rescode == 200):
+            response_body = response.read()
+            wav = BytesIO(response_body)
 
-    return StreamingResponse(wav, media_type="audio/wav")
+            return StreamingResponse(wav, media_type="audio/wav")
 
 
 @app.post("/ai/daily-words")
