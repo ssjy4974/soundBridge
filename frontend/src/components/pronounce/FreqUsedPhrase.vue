@@ -92,6 +92,7 @@ const callCategoryAPI = async () => {
     phraseHandler(freqUsedCat.value[0].categoryId);
   }
 };
+
 const callSentenceAPI = async () => {
   await store.readQuickSentence(parseCategoryId.value);
 };

@@ -85,6 +85,8 @@ export const usePronounce = defineStore("pronounce", () => {
       accessToken,
       ({ data }) => {
         console.log("API file, PUT count sentences", data);
+        freqUsedPhrase.value = data;
+        this.readCategories();
       }
     );
   }
