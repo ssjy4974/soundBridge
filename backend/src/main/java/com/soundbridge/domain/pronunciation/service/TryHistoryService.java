@@ -130,4 +130,20 @@ public class TryHistoryService {
         tryHistory.increaseSuccessCount();
 
     }
+
+    public void deleteByWordMemberId(Long wordMemberId) {
+
+        Optional<TryHistory> tryHistory = tryHistoryRepository.findBywordMemberId(
+            wordMemberId);
+
+        if(tryHistory.isPresent()){
+            tryHistoryRepository.delete(tryHistory.get());
+        }else{
+            final WordMember wordMember = wordMemberRepository.findById(wordMemberId)
+                .orElseThrow(() ->
+                    new NotFoundException(ErrorCode.WORDMEMBER_NOT_FOUND));
+            wordMemberRepository.delete(wordMember);
+        }
+    }
+
 }

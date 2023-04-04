@@ -14,6 +14,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -131,6 +132,15 @@ public class PronunciationApiController {
         Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
         return ResponseEntity.ok(dailyWordService.findDailyWord(word, memberId));
     }
+
+    @DeleteMapping("/daily-words/{wordMemberId}")
+    @Operation(summary = "일상 단어 삭제")
+    public ResponseEntity deleteDailyWordByWordMemberId(@PathVariable Long wordMemberId,
+        Authentication authentication) {
+        tryHistoryService.deleteByWordMemberId(wordMemberId);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 }

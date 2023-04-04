@@ -67,9 +67,22 @@ async function updateSuccessCount(wordMemberId, accessToken, success, fail) {
     .catch(fail);
 }
 
+async function deleteDailyWord(wordMemberId, accessToken, success, fail) {
+  console.log("Delete word api call", wordMemberId);
+  await api
+    .delete(`api/daily-words/${wordMemberId}`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
 export {
   getMyDailyWord,
   addMyDailyWord,
   saveOrUpdateTryHistory,
   updateSuccessCount,
+  deleteDailyWord,
 };
