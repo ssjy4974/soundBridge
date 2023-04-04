@@ -66,7 +66,7 @@ public class MemberService {
 
         if (contentType.contains(newProfile.getContentType())) {
             String filename = awsS3Service.multipartFileUpload(newProfile);
-            if (!member.getProfile().equals("default.png")) {
+            if (!member.getProfile().equals("https://yeon-chung.s3.ap-northeast-2.amazonaws.com/default.png")) {
                 awsS3Service.deleteObject(member.getProfile());
             }
 //            String filename = newProfile.getOriginalFilename(); //s3 되면 바꾸기.

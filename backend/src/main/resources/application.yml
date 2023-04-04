@@ -156,7 +156,7 @@ jwt:
   token:
     secret-key: ${JWT_TOKEN_SECRET_KEY}
   access-token:
-    expire-length: 300000 # 300000 #5분
+    expire-length: 1800000 # 300000 #5분
   refresh-token:
     expire-length: 1209600000 #14일
 
