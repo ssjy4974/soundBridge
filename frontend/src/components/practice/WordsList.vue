@@ -16,11 +16,13 @@
           </router-link>
         </div>
         <div class="myProgress">
-          <div class="myBar"></div>
-          <div class="percent" v-if="item.tryCount != 0">
-            {{ (item.successCount / item.tryCount) * 100 }}%
+          <div class="myBar" :id="`mybar` + index"></div>
+          <div class="test">
+            <div class="percent" v-if="item.tryCount != 0">
+              성공률: {{ per[index] }}%
+            </div>
+            <div class="percent" v-else>성공률:0%</div>
           </div>
-          <div class="percent" v-else>0%</div>
         </div>
       </div>
     </div>
@@ -40,23 +42,32 @@ import { ref } from "vue";
 import Swal from "sweetalert2";
 
 const MyDailyWord = useMyDailyWord();
-const per = ref(0);
+const per = ref([]);
 const isWordModal = ref(false);
 
 const callAPI = () => {
   MyDailyWord.getmydailyword().then(() => {
-    per.value = ((3000 / 3922) * 100).toFixed(1);
-    let elem = document.querySelector(".myBar");
-    var width = 1;
-    var id = setInterval(frame, 10);
-    function frame() {
-      if (width >= per.value) {
-        clearInterval(id);
+    console.log(MyDailyWord.mydailyword);
+    MyDailyWord.mydailyword.forEach((element, index) => {
+      var percent = 0;
+      if (element.tryCount == 0) {
+        percent = 0;
       } else {
-        width++;
-        elem.style.width = width + "%";
+        percent = (element.successCount / element.tryCount) * 100;
       }
-    }
+      per.value.push(percent.toFixed(1));
+      let elem = document.querySelector(`#mybar${index}`);
+      var width = 1;
+      var id = setInterval(frame, 1);
+      function frame() {
+        if (width >= percent) {
+          clearInterval(id);
+        } else {
+          width++;
+          elem.style.width = width + "%";
+        }
+      }
+    });
   });
 };
 callAPI();
@@ -77,7 +88,6 @@ const deleteHandler = (wordMemberId) => {
 };
 
 const addWordModal = () => {
-  console.log("?????????", MyDailyWord.mydailyword);
   // console.log("addWord form Wordmodal", isWordModal.value);
 
   isWordModal.value = !isWordModal.value;
@@ -96,7 +106,6 @@ const addWordModal = () => {
   margin-inline: 5vw;
   // border: 1px solid var(--maincolor3);
   // padding-inline: 5%;
-  padding-block: 10%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -127,22 +136,29 @@ const addWordModal = () => {
   justify-content: end;
 }
 .xmak {
+  position: relative;
   margin-inline: 10%;
+  left: 40%;
+  bottom: 8%;
+  color: black;
   // justify-self: flex-start;
-  align-self: flex-end;
+  // align-self: flex-end;
   padding-bottom: 10px;
 }
 
 .word {
-  color: blue;
+  position: relative;
+  bottom: 30%;
+  color: var(--maincolor8);
 }
 .addButton {
   // display: flex;
-  height: 10vh;
-  width: 100%;
+  // height: 10vh;
+  width: fit-content;
+  border-radius: 8px;
   background-color: var(--black1);
   position: fixed;
-  bottom: 0vh;
+  bottom: 7vh;
   left: 28vw;
 }
 
@@ -155,9 +171,15 @@ const addWordModal = () => {
   display: flex;
   position: relative;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12), 0 5px 5px rgba(0, 0, 0, 0.22);
+  // align-content: center;
 }
-
+.test {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .myBar {
+  position: absolute;
   width: 0%;
   height: 20px;
   border-radius: 32px;
@@ -166,9 +188,8 @@ const addWordModal = () => {
 }
 
 .percent {
-  position: absolute;
+  position: relative;
   color: black;
   font-size: 15px;
-  left: 50px;
 }
 </style>
