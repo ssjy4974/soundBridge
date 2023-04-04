@@ -3,21 +3,17 @@
     <div class="cat__wrapper">
       <div class="cat__container">
         <div
-          role="checkbox"
-          :aria-checked="true"
           class="cat__item"
-          v-for="(category, c) in freqUsedCat"
-          :key="c"
-          :class="{ touched: c }"
+          :id="`${index}`"
+          v-for="(category, index) in freqUsedCat"
+          :key="index"
+          @click="
+            (e) => {
+              activeHandler(index), phraseHandler(category.categoryId);
+            }
+          "
         >
-          <p
-            style="width: max-content"
-            @click="
-              () => {
-                activeHandler(c), phraseHandler(category.categoryId);
-              }
-            "
-          >
+          <p>
             {{ category.categoryName }}
           </p>
         </div>
@@ -56,7 +52,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import AddCatModal from "./AddCatModal.vue";
 import AddPhraseModal from "./AddPhraseModal.vue";
 import { usePronounce } from "@/store/Pronounce.js";
@@ -71,29 +67,22 @@ const { freqUsedCat, freqUsedPhrase } = storeToRefs(store);
 // const categoryArray = ref(
 //   Array.from({ length: freqUsedCat.value.length() }, (v, i) => false)
 // );
-console.log(freqUsedCat);
 
 // 페이지 타입 구분할 변수
 const pageIndex = 1;
-
+const idIndex = ref(undefined);
 // api 호출 함수 실행 시키는 함수
 const callCategoryAPI = async () => {
   await store.readCategories;
+  if (freqUsedCat.value.length) {
+    idIndex.value = 0;
+    document.getElementById(idIndex.value).className = "cat__item touched";
+    phraseHandler(freqUsedCat.value[0].categoryId);
+  }
 };
 const callSentenceAPI = async () => {
-  console.log("callsentence API", parseCategoryId.value);
   await store.readQuickSentence(parseCategoryId.value);
 };
-
-// 스토어 값이 변할 때마다 실행되어야함,
-watch(freqUsedPhrase, () => {
-  // callSentenceAPI();
-  console.log("watch sentence", freqUsedPhrase.value);
-});
-watch(freqUsedCat, () => {
-  // callAPI();
-  // console.log("watch category", freqUsedCat);
-});
 
 const isCatModal = ref(false);
 const isPhraseModal = ref(false);
@@ -154,8 +143,13 @@ const getAudio = (text) => {
   audio.play();
 };
 
-function activeHandler(c) {}
-
+const activeHandler = (index) => {
+  if (idIndex.value !== undefined) {
+    document.getElementById(idIndex.value).className = "cat__item";
+  }
+  document.getElementById(index).className = "cat__item touched";
+  idIndex.value = document.getElementById(index).getAttribute("id");
+};
 // GET catagoires
 callCategoryAPI();
 callSentenceAPI();
@@ -181,9 +175,16 @@ callSentenceAPI();
 .cat__item {
   // border-top: 5px solid var(--maincolor2);
   display: flex;
-  width: 50px;
-  padding-left: 6%;
-  height: 100%;
+  width: fit-content;
+  margin-top: -3%;
+  padding-left: 3%;
+  padding-right: 3%;
+  height: 70%;
+  border-radius: 5px;
+  align-items: center;
+}
+p {
+  text-align: center;
 }
 .catadd__button {
   padding-right: 4%;
