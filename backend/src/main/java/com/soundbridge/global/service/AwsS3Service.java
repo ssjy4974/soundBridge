@@ -47,6 +47,7 @@ public class AwsS3Service {
 
     public String multipartFileUpload(MultipartFile uploadFile) {
         String fileName = UUID.randomUUID().toString() + uploadFile.getOriginalFilename();
+        String finalFileName = "https://yeon-chung.s3.ap-northeast-2.amazonaws.com/" + fileName;
         try (InputStream inputStream = uploadFile.getInputStream()){
             ObjectMetadata om = new ObjectMetadata();
             om.setContentType(uploadFile.getContentType());
@@ -56,7 +57,7 @@ public class AwsS3Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return fileName;
+        return finalFileName;
     }
 
     public String InputStreamUpload(byte[] byteImages) {

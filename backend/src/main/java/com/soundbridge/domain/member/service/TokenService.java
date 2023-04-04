@@ -43,7 +43,7 @@ public class TokenService {
 
     public Token generateToken(Long uid, String role) {
         long tokenPeriod = Long.parseLong(
-            env.getProperty("jwt.access-token.expire-length")); // 10 min
+            env.getProperty("jwt.access-token.expire-length")); // 30 min
         long refreshPeriod = Long.parseLong(
             env.getProperty("jwt.refresh-token.expire-length")); // 2 week
 

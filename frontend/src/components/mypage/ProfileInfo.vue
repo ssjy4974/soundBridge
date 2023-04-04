@@ -13,7 +13,7 @@
         style="display: none"
       />
       <label for="imgInput">
-        <img :src="`${IMAGE_PATH}/${member.profile}`" id="profile" />
+        <img :src="`${member.profile}`" id="profile" />
       </label>
       <!-- <img
         :src="`${member.profile}`"

@@ -45,7 +45,7 @@ public class Member {
     private String email;
 
     @Column(length = 150)
-    @ColumnDefault("'default.png'")
+    @ColumnDefault("'https://yeon-chung.s3.ap-northeast-2.amazonaws.com/default.png'")
     private String profile;
 
     private int age;
