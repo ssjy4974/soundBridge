@@ -69,9 +69,12 @@ import Swal from "sweetalert2";
 const store = usePronounce();
 const { freqUsedCat, freqUsedPhrase } = storeToRefs(store);
 
-// 페이지 타입 구분할 변수
-const pageIndex = 1;
 const idIndex = ref(undefined);
+const parseCategoryId = ref(undefined);
+const isCatModal = ref(false);
+const isPhraseModal = ref(false);
+const audio = ref();
+
 // api 호출 함수 실행 시키는 함수
 const callCategoryAPI = async () => {
   await store.readCategories;
@@ -85,9 +88,6 @@ const callSentenceAPI = async () => {
   await store.readQuickSentence(parseCategoryId.value);
 };
 
-const isCatModal = ref(false);
-const isPhraseModal = ref(false);
-const audio = ref();
 // catagory add modal
 const addCatModal = () => {
   callCategoryAPI();
@@ -109,7 +109,7 @@ const addPhraseModal = () => {
 };
 
 // category 별 phrase 불러오는 함수 + categoryID 저장하기
-const parseCategoryId = ref(1);
+
 const phraseHandler = (categoryId) => {
   // console.log(categoryId);
   store.readQuickSentence(categoryId);
@@ -156,7 +156,6 @@ const activeHandler = (index) => {
 
 // GET catagoires
 callCategoryAPI();
-callSentenceAPI();
 </script>
 
 <style lang="scss" scoped>
