@@ -104,7 +104,7 @@ const save = () => {
   fd.append("file", new File([blob.value], `${sentenceNum.value}.weba`));
   fd.append("member_id", member.memberId);
   api
-    .post("http://j8a703.p.ssafy.io/ai/upload", fd, {
+    .post("https://j8a703.p.ssafy.io/ai/upload", fd, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
