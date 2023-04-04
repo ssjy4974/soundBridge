@@ -64,7 +64,7 @@ const addNewPhrase = () => {
   top: 30vh;
   left: 5vw;
   width: 80%;
-  z-index: 2;
+  z-index: 15;
 }
 .close__button {
   display: flex;

@@ -4,12 +4,8 @@
       <font-awesome-icon icon="fa-solid fa-xmark" />
     </div>
     <p>내 카테고리</p>
-    <div
-      class="del__container"
-      v-for="(cat, index) in freqUsedCat"
-      :key="index"
-    >
-      <div class="del__list">
+    <div class="del__container" v-if="freqUsedCat[0]">
+      <div class="del__list" v-for="(cat, index) in freqUsedCat" :key="index">
         <p>{{ cat.categoryName }}</p>
         <font-awesome-icon
           icon="fa-solid fa-xmark"
@@ -54,6 +50,7 @@ import { ref, watch } from "vue";
 //store import
 import { usePronounce } from "@/store/Pronounce";
 import { storeToRefs } from "pinia";
+import Swal from "sweetalert2";
 
 const store = usePronounce();
 const { freqUsedCat } = storeToRefs(store);
@@ -70,8 +67,20 @@ watch(freqUsedCat, () => {
 const newCategory = ref("");
 
 const delCatHandler = (data) => {
-  store.delCategory(data.categoryId);
-  callCategoryAPI();
+  Swal.fire({
+    title: "삭제 하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      store.delCategory(data.categoryId);
+      callCategoryAPI();
+    }
+  });
+
   console.log("????????????");
 };
 
@@ -103,7 +112,7 @@ defineEmits(["closemodal"]);
   top: 30vh;
   left: 5vw;
   width: 80%;
-  z-index: 2;
+  z-index: 12;
 }
 .close__button {
   display: flex;
