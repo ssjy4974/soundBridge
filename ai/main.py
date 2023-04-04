@@ -47,9 +47,8 @@ async def get_sentence(sentence_id):
 
 @app.post("/ai/upload")
 async def upload_audio(file: UploadFile = File(), member_id: int = Form()):
-    UPLOAD_DIR = ".\\audio"  # 이미지를 저장할 서버 경로
     content = await file.read()
-    file_path = os.path.join(UPLOAD_DIR, file.filename)
+    file_path = os.path.join(file.filename)
     result_file_path = file_path.rstrip('.weba') + ".wav"
 
     with open(file_path, "wb") as fp:

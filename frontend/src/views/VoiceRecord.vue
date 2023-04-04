@@ -102,8 +102,7 @@ const stop = () => {
 const save = () => {
   let fd = new FormData();
   fd.append("file", new File([blob.value], `${sentenceNum.value}.weba`));
-  fd.append("member_id", 1);
-
+  fd.append("member_id", member.memberId);
   api
     .post("http://j8a703.p.ssafy.io/ai/upload", fd, {
       headers: {
