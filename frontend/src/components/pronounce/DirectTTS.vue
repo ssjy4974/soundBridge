@@ -30,23 +30,23 @@
         />
       </div>
     </div>
-    <div class="auto__dropdown">
-      <p
-        v-for="(mysen, index) in mysentence"
-        :key="index"
-        @click="
-          () => {
-            // play tts
-            getAudio(mysen.sentence);
-            // auto complete 입력칸
-            directMessageHandler();
-            // 자동완성 후 store 업데이트
-            callgetAPI();
-          }
-        "
-      >
-        {{ mysen.sentence }}
-      </p>
+    <div class="auto__dropdown" v-if="inputSentence">
+      <div v-for="(mysen, index) in mysentence" :key="index">
+        <p
+          @click="
+            () => {
+              // play tts
+              getAudio(mysen.sentence);
+              // auto complete 입력칸
+              directMessageHandler();
+              // 자동완성 후 store 업데이트
+              // callgetAPI();
+            }
+          "
+        >
+          {{ mysen.sentence }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
