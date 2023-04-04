@@ -11,6 +11,7 @@
           () => {
             getAudio(inputSentence);
             directMessageHandler();
+            callgetAPI();
           }
         "
       />
@@ -29,17 +30,23 @@
         />
       </div>
     </div>
-    <div
-      v-for="(mysen, index) in mysentence"
-      :key="index"
-      class="auto__dropdown"
-    >
-      <!-- <p>{{ mysen }}</p> -->
-      <div>
-        <p>
-          {{ mysen.sentence }}
-        </p>
-      </div>
+    <div class="auto__dropdown">
+      <p
+        v-for="(mysen, index) in mysentence"
+        :key="index"
+        @click="
+          () => {
+            // play tts
+            getAudio(mysen.sentence);
+            // auto complete 입력칸
+            directMessageHandler();
+            // 자동완성 후 store 업데이트
+            callgetAPI();
+          }
+        "
+      >
+        {{ mysen.sentence }}
+      </p>
     </div>
   </div>
 </template>
@@ -49,6 +56,7 @@ import { useMySentence } from "@/store/Sentence";
 import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
+// import { throttle } from "lodash";
 
 const mySentences = useMySentence();
 const memberStore = useMember();
@@ -79,7 +87,11 @@ const addSentenceHandler = (a) => {
 const getAudio = (text, voice) => {
   console.log("TTS test", text);
   let audio = new Audio(
+<<<<<<< HEAD
     `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=${voice}`
+=======
+    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=1`
+>>>>>>> 254a9e3 (style : 자동완성)
   );
   audio.play();
 };
@@ -115,13 +127,12 @@ addSentenceHandler(inputSentence);
 }
 .auto__dropdown {
   background-color: var(--black1);
-  justify-self: center;
-  align-self: center;
-  width: 80vw;
   border-bottom: solid var(--maincolor3);
   border-radius: 12px;
-  // position: absolute;
   padding-inline: 10%;
   z-index: 2;
+  position: absolute;
+  width: 75%;
+  left: 2vw;
 }
 </style>

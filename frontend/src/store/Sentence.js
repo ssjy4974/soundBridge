@@ -4,7 +4,7 @@ import {
   addMySentence,
   getMySentences,
 } from "@/api/sentence";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useMember } from "@/store/Member";
 
 export const useMySentence = defineStore("mysentence", () => {
@@ -45,6 +45,7 @@ export const useMySentence = defineStore("mysentence", () => {
 
   // getters == computed()  랜더링 될때 실행되는 함수 -
   // api 불러오는 함수 선언하고, response 값 state에 저장
+
   //
   return {
     sentence,
