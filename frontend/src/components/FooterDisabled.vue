@@ -27,6 +27,8 @@
 
 <style scoped>
 .footer {
+  max-width: 412px;
+
   width: 100vw;
   height: 56px;
   display: flex;

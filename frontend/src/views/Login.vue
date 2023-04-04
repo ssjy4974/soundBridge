@@ -1,9 +1,17 @@
 <template>
-  <div id="loginpage">
-    <img id="big-logo" src="../assets/img/biglogo.png" />
-    <img id="small-logo" src="../assets/img/small.png" />
-    <img id="start" src="../assets/img/start.png" />
-    <div id="loginBtn">
+  <div id="loginpage" style="max-width: 412px">
+    <img
+      id="big-logo"
+      src="../assets/img/biglogo.png"
+      style="max-width: 412px"
+    />
+    <img
+      id="small-logo"
+      src="../assets/img/small.png"
+      style="max-width: 412px"
+    />
+    <img id="start" src="../assets/img/start.png" style="max-width: 412px" />
+    <div id="loginBtn" style="max-width: 412px">
       <img
         class="kakao-btn"
         src="../assets/img/kakao.png"

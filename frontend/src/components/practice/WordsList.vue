@@ -10,8 +10,8 @@
         <div class="xmak" @click="deleteHandler(item.wordMemberId)">
           <font-awesome-icon icon="fa-solid fa-xmark" style="font-size: 1rem" />
         </div>
-        <div>
-          <router-link :to="`/words-detail/${index}`" class="word">
+        <div class="word">
+          <router-link :to="`/words-detail/${index}`">
             {{ item.word }}
           </router-link>
         </div>
@@ -117,13 +117,13 @@ const addWordModal = () => {
   box-shadow: 4px 4px 4px 0px var(--black4);
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
+  justify-content: space-between;
   align-items: center;
   height: 14vh;
   width: 40vw;
   color: white;
   margin-block: 3vh;
-  font-size: 40px;
+  font-size: 1.7rem;
 }
 .child a :hover {
   background-color: var(--maincolor6);
@@ -136,21 +136,25 @@ const addWordModal = () => {
   justify-content: end;
 }
 .xmak {
-  position: relative;
   margin-inline: 10%;
   left: 40%;
-  bottom: 8%;
+  // bottom: 8%;
   color: black;
-  // justify-self: flex-start;
-  // align-self: flex-end;
-  padding-bottom: 10px;
+  justify-self: flex-start;
+  align-self: flex-end;
+  // padding-bottom: 10px;
 }
 
 .word {
-  position: relative;
-  bottom: 30%;
+  // position: relative;
+  width: 70%;
+  // bottom: 30%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: var(--maincolor8);
 }
+
 .addButton {
   // display: flex;
   // height: 10vh;

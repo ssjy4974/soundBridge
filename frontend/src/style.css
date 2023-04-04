@@ -69,12 +69,15 @@ a:hover {
     width: 412px;
   }
 }
+/* div {
+  max-width: 412px;
+} */
 body {
   background-color: var(--black5);
   font-family: NanumSquare3;
   display: flex;
   min-width: 320px;
-  max-width: 450px;
+  max-width: 412px;
   min-height: 100vh;
   overflow-y: scroll;
   /* overflow-x: scroll; */

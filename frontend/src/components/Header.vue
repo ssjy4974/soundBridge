@@ -29,6 +29,8 @@ function goback() {
   }
 }
 .header {
+  max-width: 412px;
+
   background-color: var(--maincolor2);
   border-radius: 0px 0px 24px 24px;
 

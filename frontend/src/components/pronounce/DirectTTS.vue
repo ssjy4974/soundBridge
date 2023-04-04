@@ -9,7 +9,7 @@
         @input="callgetAPI"
         @keyup.enter="
           () => {
-            getAudio(inputSentence);
+            getAudio(inputSentence, member.voiceId);
             directMessageHandler();
             callgetAPI();
           }
