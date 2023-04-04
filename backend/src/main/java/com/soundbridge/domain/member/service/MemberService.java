@@ -1,10 +1,11 @@
 package com.soundbridge.domain.member.service;
 
 import com.soundbridge.domain.member.entity.Member;
-import com.soundbridge.domain.member.entity.Role;
 import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.domain.member.request.SaveAddInfoReq;
 import com.soundbridge.domain.member.response.MemberInfoRes;
+import com.soundbridge.domain.voice.entity.Voice;
+import com.soundbridge.domain.voice.repository.VoiceRepository;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.ImageExtensionException;
 import com.soundbridge.global.error.exception.NotFoundException;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final VoiceRepository voiceRepository;
     private final AwsS3Service awsS3Service;
 
     private final RedisTemplate redisTemplate;
@@ -34,18 +36,20 @@ public class MemberService {
     public MemberInfoRes getMemberById(Long memberId) {
         log.info("memberId {}", memberId);
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        Long voiceId = (member.getVoice() == null) ? 0L : member.getVoice().getId();
 
         return MemberInfoRes.of(member.getId(), member.getEmail(), member.getNickname()
-            , member.getProfile(), member.getRole(), member.getVoice().getId());
+                , member.getProfile(), member.getRole(), voiceId);
     }
 
     @Transactional
     public void modifyMemberNickname(Long memberId, String nickname) {
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        if(!member.getNickname().equals(nickname)) {
+        if (!member.getNickname().equals(nickname)) {
             member.modifyNickname(nickname);
         }
     }
@@ -53,16 +57,16 @@ public class MemberService {
     @Transactional
     public String modifyMemberProfile(Long memberId, MultipartFile newProfile) {
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         List<String> contentType = new ArrayList<>();
         contentType.add("image/jpg");
         contentType.add("image/jpeg");
         contentType.add("image/png");
 
-        if(contentType.contains(newProfile.getContentType())) {
+        if (contentType.contains(newProfile.getContentType())) {
             String filename = awsS3Service.multipartFileUpload(newProfile);
-            if(!member.getProfile().equals("default.png")) {
+            if (!member.getProfile().equals("default.png")) {
                 awsS3Service.deleteObject(member.getProfile());
             }
 //            String filename = newProfile.getOriginalFilename(); //s3 되면 바꾸기.
@@ -77,10 +81,12 @@ public class MemberService {
     @Transactional
     public String saveAddInfo(Long id, SaveAddInfoReq saveAddInfoReq) {
         Member member = memberRepository.findById(id).orElseThrow(() ->
-            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        member.saveAddInfo(saveAddInfoReq.getAge(), saveAddInfoReq.getGender(), saveAddInfoReq.getRole());
-
+        Long defalutVoiceId = saveAddInfoReq.getGender().equals("male") ? 1L : 2L;
+        Voice defalutVoice = voiceRepository.findById(defalutVoiceId).get();
+        member.saveAddInfo(saveAddInfoReq.getAge(), saveAddInfoReq.getGender(),
+                saveAddInfoReq.getRole(), defalutVoice);
 
         return member.getGender();
     }
@@ -90,7 +96,7 @@ public class MemberService {
         Cookie refreshTokenCookie = deleteCookie(cookies);
 
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         member.deleteMember();
 
@@ -101,7 +107,7 @@ public class MemberService {
         Cookie refreshTokenCookie = deleteCookie(cookies);
 
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-            new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+                new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         redisTemplate.delete(member.getEmail());
 
@@ -111,7 +117,6 @@ public class MemberService {
 //        }
 
         log.info("redis rt {}", refreshToken2);
-
 
         return refreshTokenCookie;
     }

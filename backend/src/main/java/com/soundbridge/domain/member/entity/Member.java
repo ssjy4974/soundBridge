@@ -87,10 +87,11 @@ public class Member {
         this.delFlag = 1;
     }
 
-    public void saveAddInfo(int age, String gender, Role role) {
+    public void saveAddInfo(int age, String gender, Role role, Voice voice) {
         this.age = age;
         this.gender = gender;
         this.role = role;
+        this.voice = voice;
     }
 
     public void selectVoice(Voice voice) {
