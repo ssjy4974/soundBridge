@@ -54,10 +54,10 @@ const routes = [
     path: "/mypaged/",
     name: "mypagedisabled",
     component: MypageDisabled,
-    redirect: "/mypaged/FreqUsedPhrase",
+    redirect: "/mypaged/freq-used-phrase",
     // 자식 컴포넌트
     children: [
-      { path: "freqUsedPhrase", component: FreqUsedPhrase },
+      { path: "freq-used-phrase", component: FreqUsedPhrase },
       { path: "meetings", component: MyMeetings },
     ],
   },
@@ -65,9 +65,9 @@ const routes = [
     path: "/mypagev",
     name: "mypagevolunteer",
     component: MypageVolunteer,
-    redirect: "/mypagev/RecordState",
+    redirect: "/mypagev/record-state",
     children: [
-      { path: "recordState", component: RecordState },
+      { path: "record-state", component: RecordState },
       { path: "meetings", component: MyMeetings },
     ],
   },
@@ -79,7 +79,7 @@ const routes = [
     component: Pronounce,
   },
   {
-    path: "/voiceselect",
+    path: "/voice-select",
     name: "voiceselect",
     component: VoiceSelect,
   },
@@ -92,49 +92,49 @@ const routes = [
   },
   // 발음 교정 경로들
   {
-    path: "/practicebasics",
+    path: "/practice-basics",
     name: "practicebasics",
     component: PracticeBasics,
   },
   {
-    path: "/practicebasicsdetail/:basicLetterId",
+    path: "/practice-basics-detail/:basicLetterId",
     name: "praticebasicsdetail",
     component: PracticeBasicsDetail,
   },
   {
-    path: "/practicewords",
+    path: "/practice-words",
     name: "practicewords",
     component: PracticeWords,
     //detail child로 만들기
   },
   {
-    path: "/practiceselect",
+    path: "/practice-select",
     name: "practiceselect",
     component: PracticeSelect,
   },
   {
-    path: "/practicebasics",
+    path: "/practice-basics",
     name: "practicebasics",
     component: PracticeBasics,
   },
   {
-    path: "/basicsdetail",
+    path: "/basics-detail",
     name: "basicsdetail",
     component: PracticeBasicsDetail,
   },
   {
-    path: "/practicewords",
+    path: "/practice-words",
     name: "practicewords",
     component: PracticeWords,
   },
   {
-    path: "/wordsdetail/:index",
+    path: "/words-detail/:index",
     name: "wordsdetail",
     component: PracticeWordsDetail,
   },
   // Feedback Openvidu
   {
-    path: "/feedbackMeeting/:meetingId",
+    path: "/feedback-meeting/:meetingId",
     name: "feedbackMeeting",
     component: FeedbackMeeting,
   },
