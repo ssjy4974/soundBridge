@@ -1,7 +1,7 @@
 <template>
   <div class="STT__container">
     <div>
-      <p v-text="transcript"></p>
+      <p class="STT__ptag" v-text="transcript"></p>
     </div>
     <div class="microphone__icon" @click="ToggleMic">
       <font-awesome-icon v-if="!isRecording" icon="fa-solid fa-headphones" />
@@ -65,6 +65,8 @@ const ToggleMic = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  overflow: scroll;
 }
 .microphone__container {
   padding-inline: 5%;
@@ -73,6 +75,11 @@ const ToggleMic = () => {
   align-self: end;
   font-size: 1.5rem;
   margin: 5%;
+}
+.STT__ptag {
+  margin-block: 2%;
+  font-size: 1.2rem;
+  line-height: 1.8;
 }
 .fa-headphones {
   /* position: absolute; */

@@ -7,6 +7,13 @@
         placeholder="텍스트를 입력하고 마이크 버튼을 누르세요"
         v-model="inputSentence"
         @input="callgetAPI"
+        @keyup.enter="
+          () => {
+            getAudio(inputSentence);
+            directMessageHandler();
+            callgetAPI();
+          }
+        "
       />
       <div class="icon__box">
         <font-awesome-icon
@@ -23,17 +30,23 @@
         />
       </div>
     </div>
-    <div
-      v-for="(mysen, index) in mysentence"
-      :key="index"
-      class="auto__dropdown"
-    >
-      <!-- <p>{{ mysen }}</p> -->
-      <div>
-        <p>
-          {{ mysen.sentence }}
-        </p>
-      </div>
+    <div class="auto__dropdown">
+      <p
+        v-for="(mysen, index) in mysentence"
+        :key="index"
+        @click="
+          () => {
+            // play tts
+            getAudio(mysen.sentence);
+            // auto complete 입력칸
+            directMessageHandler();
+            // 자동완성 후 store 업데이트
+            callgetAPI();
+          }
+        "
+      >
+        {{ mysen.sentence }}
+      </p>
     </div>
   </div>
 </template>
@@ -43,6 +56,7 @@ import { useMySentence } from "@/store/Sentence";
 import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
+// import { throttle } from "lodash";
 
 const mySentences = useMySentence();
 const memberStore = useMember();
@@ -59,6 +73,7 @@ const callgetAPI = async () => {
 };
 
 watch(inputSentence, () => {
+  console.log(mysentence.value);
   callgetAPI();
   // mySentences.mysentence = mysentence.value;
 });
@@ -76,6 +91,9 @@ const getAudio = (text, voice) => {
   );
   audio.play();
 };
+function directMessageHandler() {
+  inputSentence.value = "";
+}
 
 addSentenceHandler(inputSentence);
 </script>
@@ -105,12 +123,12 @@ addSentenceHandler(inputSentence);
 }
 .auto__dropdown {
   background-color: var(--black1);
-  justify-self: center;
-  align-self: center;
-  width: 80vw;
   border-bottom: solid var(--maincolor3);
   border-radius: 12px;
-  // position: absolute;
   padding-inline: 10%;
+  z-index: 2;
+  position: absolute;
+  width: 75%;
+  left: 2vw;
 }
 </style>

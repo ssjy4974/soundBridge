@@ -64,7 +64,7 @@ const addNewPhrase = () => {
   top: 30vh;
   left: 5vw;
   width: 80%;
-  z-index: 2;
+  z-index: 15;
 }
 .close__button {
   display: flex;
@@ -91,6 +91,8 @@ const addNewPhrase = () => {
 
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: 8px;
+
+  font-size: 1.1rem;
 
   /* / Inside auto layout */
 

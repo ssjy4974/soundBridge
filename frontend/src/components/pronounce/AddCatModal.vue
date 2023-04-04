@@ -3,7 +3,8 @@
     <div class="close__button" @click="$emit('closemodal')">
       <font-awesome-icon icon="fa-solid fa-xmark" />
     </div>
-    <div class="del__container">
+    <p>내 카테고리</p>
+    <div class="del__container" v-if="freqUsedCat[0]">
       <div class="del__list" v-for="(cat, index) in freqUsedCat" :key="index">
         <p>{{ cat.categoryName }}</p>
         <font-awesome-icon
@@ -49,6 +50,7 @@ import { ref, watch } from "vue";
 //store import
 import { usePronounce } from "@/store/Pronounce";
 import { storeToRefs } from "pinia";
+import Swal from "sweetalert2";
 
 const store = usePronounce();
 const { freqUsedCat } = storeToRefs(store);
@@ -65,8 +67,20 @@ watch(freqUsedCat, () => {
 const newCategory = ref("");
 
 const delCatHandler = (data) => {
-  store.delCategory(data.categoryId);
-  callCategoryAPI();
+  Swal.fire({
+    title: "삭제 하시겠습니까?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      store.delCategory(data.categoryId);
+      callCategoryAPI();
+    }
+  });
+
   console.log("????????????");
 };
 
@@ -98,7 +112,7 @@ defineEmits(["closemodal"]);
   top: 30vh;
   left: 5vw;
   width: 80%;
-  z-index: 2;
+  z-index: 12;
 }
 .close__button {
   display: flex;
@@ -123,8 +137,10 @@ defineEmits(["closemodal"]);
   border-bottom: 2px solid #f1f1f1;
   border-left: 1px solid #f1f1f1;
 
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
   border-radius: 8px;
+
+  font-size: 1.1rem;
 
   /* / Inside auto layout */
 
