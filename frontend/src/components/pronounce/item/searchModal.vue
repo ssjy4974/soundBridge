@@ -7,7 +7,7 @@
       X
     </div>
     <br />
-    <div>
+    <div id="all">
       <div id="filter">
         <b id="gender"> &nbsp;&nbsp;&nbsp;성&nbsp;별</b>
         <div id="dv">
@@ -40,93 +40,26 @@
           </button>
         </div>
         <b id="age">&nbsp;&nbsp;&nbsp;연&nbsp;령</b>
-        <div id="dv">
-          <input
-            id="age10"
-            type="radio"
-            v-model="checkedAge"
-            name="age"
-            value="10"
-          /><button
-            id="but2"
-            :class="{ checked: checkedAge == 10 }"
-            for="age10"
-          >
-            <label for="age10">10대</label>
-          </button>
-          <input
-            id="age20"
-            type="radio"
-            v-model="checkedAge"
-            name="age"
-            value="20"
-          /><button
-            id="but2"
-            :class="{ checked: checkedAge == 20 }"
-            for="age20"
-          >
-            <label for="age20">20대</label>
-          </button>
-          <input
-            id="age30"
-            type="radio"
-            v-model="checkedAge"
-            name="age"
-            value="30"
-          /><button
-            id="but2"
-            :class="{ checked: checkedAge == 30 }"
-            for="age30"
-          >
-            <label for="age30">30대</label>
-          </button>
-          <div id="dv">
+        <div class="parent" id="dv">
+          <div class="child" v-for="(a, idx) in ageList" :key="idx">
             <input
               type="radio"
               v-model="checkedAge"
-              name="age"
-              value="40"
-              id="age40"
+              :value="(idx + 1) * 10"
+              :id="a"
             />
             <button
-              id="but3"
-              :class="{ checked: checkedAge == 40 }"
-              for="age40"
+              id="but2"
+              :class="{ checked: checkedAge == (idx + 1) * 10 }"
+              :for="a"
             >
-              <label for="age40">40대</label>
-            </button>
-            <input
-              type="radio"
-              v-model="checkedAge"
-              name="age"
-              value="50"
-              id="age50"
-            />
-            <button
-              id="but3"
-              :class="{ checked: checkedAge == 50 }"
-              for="age50"
-            >
-              <label for="age50">50대</label>
-            </button>
-            <input
-              type="radio"
-              v-model="checkedAge"
-              name="age"
-              value="60"
-              id="age60"
-            />
-            <button
-              id="but3"
-              :class="{ checked: checkedAge == 60 }"
-              for="age60"
-            >
-              <label for="age60">60대</label>
+              <label :for="a">{{ a }}</label>
             </button>
           </div>
         </div>
-        <br />
-
+      </div>
+      <br />
+      <div id="featarea">
         <b id="feat">&nbsp;&nbsp;&nbsp;특&nbsp;징</b>
         <div class="parent" id="dv">
           <div class="child" v-for="(f, idx) in featureList" :key="idx">
@@ -136,11 +69,11 @@
             </button>
           </div>
         </div>
-        <br />
-        <!-- {{ checkedGender }}
+      </div>
+      <br />
+      <!-- {{ checkedGender }}
       {{ checkedAge }}
       {{ checkedFeatures }} -->
-      </div>
     </div>
   </div>
 </template>
@@ -151,6 +84,7 @@ defineEmits(["closemodal"]);
 
 let checkedGender = ref(0);
 let checkedAge = ref(0);
+const ageList = ["10대", "20대", "30대", "40대", "50대", "60대"];
 const feature = ref([]);
 const featureList = [
   "부드러운",
@@ -183,6 +117,14 @@ const checked2 = () => {
 </script>
 
 <style scoped>
+#all {
+  position: relative;
+  top: 2vh;
+}
+#featarea {
+  position: relative;
+  bottom: 7vh;
+}
 #last {
   position: relative;
   bottom: 2.5vh;
@@ -216,7 +158,7 @@ const checked2 = () => {
   align-self: center;
   height: 75%;
   position: fixed;
-  top: 10vh;
+  top: 11vh;
   left: 5vw;
   width: 80%;
   z-index: 2;
@@ -224,8 +166,7 @@ const checked2 = () => {
 
 #close {
   position: relative;
-  left: 36vh;
-  bottom: 5vh;
+  left: 98%;
   display: block;
 }
 #gender {
@@ -373,7 +314,7 @@ const checked2 = () => {
 }
 #filter {
   position: relative;
-  bottom: 2.5vh;
+  bottom: 1vh;
 }
 #but2 {
   box-sizing: border-box;
@@ -387,10 +328,11 @@ const checked2 = () => {
   padding: 10px 18px;
   gap: 8px;
   margin-inline: 3%;
-  width: 27%;
-  height: 32px;
   /* MainBlue/300 */
-
+  position: relative;
+  left: 1vh;
+  bottom: 1vh;
+  height: 35px;
   /* MainBlue/300 */
 
   /* Shadow/xs */
@@ -403,9 +345,6 @@ const checked2 = () => {
   flex: none;
   order: 0;
   flex-grow: 0;
-
-  position: relative;
-  top: 4vh;
 }
 #but3 {
   box-sizing: border-box;

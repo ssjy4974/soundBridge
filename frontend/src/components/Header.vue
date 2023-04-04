@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="back_icon">
-      <font-awesome-icon @click="goback" icon="fa-solid fa-arrow-left" />
+      <i class="fa-solid fa-arrow-left" @click="goback()"></i>
     </div>
     <div class="logo__div">
       <router-link to="/">
@@ -17,6 +17,7 @@
 <script setup>
 import router from "@/router";
 function goback() {
+  console.log("ok?");
   router.go(-1);
 }
 </script>
@@ -45,9 +46,11 @@ function goback() {
   right: 3vh;
   font-size: x-large;
   bottom: 1vh;
+  width: fit-content;
 }
 .back_icon {
   padding-inline: 3%;
+  z-index: 100;
 }
 
 #logo {
