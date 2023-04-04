@@ -1,15 +1,15 @@
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
-import os
 import json
+import os
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print(BASE_DIR, "base 주소")
-SERECT_FILE = os.path.join(BASE_DIR, 'secrets.json')
-serects = json.loads(open(SERECT_FILE).read())
-DB = serects["DB"]
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DB_URL = f"mysql+pymysql://{DB['user']}:{DB['password']}@{DB['host']}/{DB['database']}?charset=utf8"
+HOST = os.getenv('DATABASE_URL')
+DB_ID = os.getenv('DATABASE_ID')
+DB_PW = os.getenv('DATABASE_PASSWORD')
+
+DB_URL = f"mysql+pymysql://{DB_ID}:{DB_PW}@{HOST}/soundbridge?charset=utf8"
 
 
 class engineconn:
