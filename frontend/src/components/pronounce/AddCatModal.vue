@@ -1,6 +1,6 @@
 <template>
   <div class="cat__modal">
-    <div class="close__button" @click="$emit('closemodal')">
+    <div class="close__button" @click="emit('closemodal')">
       <font-awesome-icon icon="fa-solid fa-xmark" />
     </div>
     <p>내 카테고리</p>
@@ -46,11 +46,13 @@
 
 <script setup>
 //ref
-import { ref, watch } from "vue";
+import { ref, watch, defineEmits } from "vue";
 //store import
 import { usePronounce } from "@/store/Pronounce";
 import { storeToRefs } from "pinia";
 import Swal from "sweetalert2";
+
+const emit = defineEmits(["reUpload", "closemodal"]);
 
 const store = usePronounce();
 const { freqUsedCat } = storeToRefs(store);
@@ -77,7 +79,7 @@ const delCatHandler = (data) => {
   }).then((result) => {
     if (result.isConfirmed) {
       store.delCategory(data.categoryId);
-      callCategoryAPI();
+      emit("reUpload");
     }
   });
 
@@ -92,7 +94,7 @@ const categoryHandler = () => {
   }
 };
 
-defineEmits(["closemodal"]);
+// defineEmits([]);
 </script>
 
 <style scoped>

@@ -22,7 +22,11 @@
         <font-awesome-icon @click="addCatModal" icon="fa-solid fa-plus" />
       </div>
     </div>
-    <AddCatModal v-if="isCatModal" @closemodal="addCatModal" />
+    <AddCatModal
+      v-if="isCatModal"
+      @closemodal="addCatModal"
+      @reUpload="reUpload"
+    />
     <div class="FUP__container">
       <div
         class="phrase__box"
@@ -94,7 +98,7 @@ const callSentenceAPI = async () => {
 
 // catagory add modal
 const addCatModal = () => {
-  callCategoryAPI();
+  // callCategoryAPI();
 
   if (isPhraseModal.value == true) {
     isPhraseModal.value = false;
@@ -158,6 +162,10 @@ const activeHandler = (index) => {
   }
   document.getElementById(index).className = "cat__item touched";
   idIndex.value = document.getElementById(index).getAttribute("id");
+};
+
+const reUpload = () => {
+  callCategoryAPI();
 };
 
 // GET catagoires
