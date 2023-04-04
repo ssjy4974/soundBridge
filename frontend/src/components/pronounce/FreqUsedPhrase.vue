@@ -62,12 +62,16 @@ import { ref } from "vue";
 import AddCatModal from "./AddCatModal.vue";
 import AddPhraseModal from "./AddPhraseModal.vue";
 import { usePronounce } from "@/store/Pronounce.js";
+import { useMember } from "@/store/Member";
 import { storeToRefs } from "pinia";
 import Swal from "sweetalert2";
 
 // data from store
 const store = usePronounce();
+const memberStore = useMember();
+
 const { freqUsedCat, freqUsedPhrase } = storeToRefs(store);
+const { member } = storeToRefs(memberStore);
 
 const idIndex = ref(undefined);
 const parseCategoryId = ref(undefined);
@@ -138,7 +142,9 @@ const delPhraseHandler = (sentenceId) => {
 const getAudio = (text, sentenceIndex) => {
   document.getElementById(`p${sentenceIndex}`).className = "p_touched";
   audio.value = new Audio(
-    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=1`
+    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=${
+      member.value.voiceId
+    }`
   );
   audio.value.play();
   audio.value.onended = function () {

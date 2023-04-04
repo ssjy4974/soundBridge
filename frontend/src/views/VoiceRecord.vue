@@ -105,7 +105,7 @@ const save = () => {
   fd.append("member_id", 1);
 
   api
-    .post("http://localhost:8000/ai/upload", fd, {
+    .post("http://j8a703.p.ssafy.io/ai/upload", fd, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

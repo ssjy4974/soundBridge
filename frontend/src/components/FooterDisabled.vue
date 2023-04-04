@@ -11,7 +11,7 @@
       </router-link>
     </div>
     <div>
-      <router-link to="/practiceselect">
+      <router-link to="/practice-select">
         <font-awesome-icon icon="fa-solid fa-microphone" />
       </router-link>
     </div>

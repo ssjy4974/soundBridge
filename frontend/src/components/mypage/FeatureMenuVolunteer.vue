@@ -2,7 +2,7 @@
   <div>
     <div>
       <div id="menu-section">
-        <router-link to="/mypagev/recordState" id="qs">
+        <router-link to="/mypagev/record-state" id="qs">
           <span>목소리 기부</span>
         </router-link>
         <router-link to="/mypagev/meetings" id="fd">

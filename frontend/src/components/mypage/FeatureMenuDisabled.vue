@@ -1,13 +1,13 @@
 <template>
   <div>
     <div id="myinfo">
-      <router-link to="/mypaged/frequsedphrase" id="qs">
+      <router-link to="/mypaged/freq-used-phrase" id="qs">
         <span>자주 쓰는말 </span>
       </router-link>
       <router-link to="/mypaged/meetings" id="fd">
         <span>발음 피드백 </span>
       </router-link>
-      <router-link to="/voiceselect" id="vo">
+      <router-link to="/voice-select" id="vo">
         <span>목소리 선택 </span>
       </router-link>
     </div>

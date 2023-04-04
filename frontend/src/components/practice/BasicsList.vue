@@ -2,7 +2,7 @@
   <div class="main">
     <div class="container" v-if="basicLetters">
       <div v-for="(basicLetter, index) in basicLetters" :key="index">
-        <router-link :to="`/practicebasicsdetail/${basicLetter.basicLetterId}`">
+        <router-link :to="`/practice-basics-detail/${basicLetter.basicLetterId}`">
           <div class="wrap">
             <img :src="`${IMAGE_PATH}/${basicLetter.letterImage}`" />
           </div>

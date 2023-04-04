@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="../practicebasics">
+    <router-link to="../practice-basics">
       <div class="basic_wrap">
         <div class="basic">
           <h1>기본 발음 연습</h1>
@@ -13,7 +13,7 @@
       </div>
     </router-link>
 
-    <router-link to="../practicewords">
+    <router-link to="../practice-words">
       <div class="daily_wrap">
         <div class="daily">
           <h1>일상 단어 연습</h1>

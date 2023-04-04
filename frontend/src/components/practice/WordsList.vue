@@ -11,7 +11,7 @@
           <font-awesome-icon icon="fa-solid fa-xmark" style="font-size: 1rem" />
         </div>
         <div>
-          <router-link :to="`/wordsdetail/${index}`" class="word">
+          <router-link :to="`/words-detail/${index}`" class="word">
             {{ item.word }}
           </router-link>
         </div>
