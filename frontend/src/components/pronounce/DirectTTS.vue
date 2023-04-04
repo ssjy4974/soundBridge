@@ -87,11 +87,7 @@ const addSentenceHandler = (a) => {
 const getAudio = (text, voice) => {
   console.log("TTS test", text);
   let audio = new Audio(
-<<<<<<< HEAD
     `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=${voice}`
-=======
-    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=1`
->>>>>>> 254a9e3 (style : 자동완성)
   );
   audio.play();
 };

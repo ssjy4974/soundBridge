@@ -35,14 +35,9 @@ defineEmits(["closemodal"]);
   margin: auto;
   align-self: center;
   position: fixed;
-<<<<<<< HEAD
   top: 30vh;
   left: 5vw;
   width: 28%;
-=======
-  right: 3%;
-  width: 30%;
->>>>>>> 330f752 (style : 메인페이지 CSS)
   z-index: 2;
   position: fixed;
   top: 10vh;
