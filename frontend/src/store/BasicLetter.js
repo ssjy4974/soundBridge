@@ -8,15 +8,13 @@ import {
 import { ref } from "vue";
 import router from "@/router/index";
 import Swal from "sweetalert2";
-import { useMember } from "./Member";
 
 export const useBasicLetterStore = defineStore("basicLetter", () => {
   const basicLetters = ref();
   const basicLetter = ref();
-  const memberStore = useMember();
 
-  const getBasicLetters = async () => {
-    await getBasicLetterList(memberStore.accessToken, ({ data }) => {
+  const getBasicLetters = async (accessToken) => {
+    await getBasicLetterList(accessToken, ({ data }) => {
       basicLetters.value = data;
     });
   };
