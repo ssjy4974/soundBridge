@@ -23,8 +23,9 @@
       </div>
       <div class="STT__box">
         <h2></h2>
-        <h1 v-text="transcript"></h1>
+        <h1 v-text="transcript" id="original"></h1>
       </div>
+      <div id="compare">비교 발음</div>
     </div>
     <div class="record__container" @click="tryHistoryHandler">
       <button class="record__button">
@@ -100,20 +101,22 @@ onMounted(() => {
     recordStatus.value = "연습하기";
     transcript.value = "";
   };
+
   sr.onresult = (evt) => {
-    for (let i = 0; i < evt.results.length; i++) {
-      console.log(evt.results);
-      const result = evt.results[i];
-      if (result.isFinal) {
-        CheckSuccess(result);
-      }
-    }
+    // console.log(evt.results);
 
     const t = Array.from(evt.results)
       .map((result) => result[0])
       .map((result) => result.transcript)
       .join("");
+
     transcript.value = t;
+
+    const result = evt.results[0];
+
+    if (result.isFinal) {
+      CheckSuccess(result);
+    }
   };
 });
 
@@ -153,6 +156,24 @@ const CheckSuccess = (result) => {
   } else {
     sr.stop();
     store.getmydailyword();
+
+    const originalWord = store.mydailyword[Number(route.params.index)].word;
+    if (originalWord.length >= t.length) {
+      const text = document.getElementById("original").textContent;
+      const coloredText = text
+        .split("")
+        .map((char, index) => {
+          const span = document.createElement("span");
+          span.textContent = char;
+          if (text.charAt(index) != originalWord.charAt(index)) {
+            span.style.color = "red";
+          }
+          return span.outerHTML;
+        })
+        .join("");
+      document.getElementById("compare").innerHTML = coloredText;
+    } else {
+    }
     Swal.fire({
       title: "다시 한번 해볼까요?",
       html:
