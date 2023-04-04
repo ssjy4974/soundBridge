@@ -30,7 +30,13 @@
         :key="index"
       >
         <div>
-          <p @click="getAudio(phrase.sentence)">{{ phrase.sentence }}</p>
+          <p
+            :id="`p${index}`"
+            class="p_class"
+            @click="getAudio(phrase.sentence, index)"
+          >
+            {{ phrase.sentence }}
+          </p>
         </div>
         <div>
           <font-awesome-icon
@@ -63,11 +69,6 @@ import Swal from "sweetalert2";
 const store = usePronounce();
 const { freqUsedCat, freqUsedPhrase } = storeToRefs(store);
 
-// 카테고리 길이만큼의 배열
-// const categoryArray = ref(
-//   Array.from({ length: freqUsedCat.value.length() }, (v, i) => false)
-// );
-
 // 페이지 타입 구분할 변수
 const pageIndex = 1;
 const idIndex = ref(undefined);
@@ -86,11 +87,10 @@ const callSentenceAPI = async () => {
 
 const isCatModal = ref(false);
 const isPhraseModal = ref(false);
-
+const audio = ref();
 // catagory add modal
 const addCatModal = () => {
   callCategoryAPI();
-  // store.readQuickSentence();
 
   if (isPhraseModal.value == true) {
     isPhraseModal.value = false;
@@ -135,12 +135,15 @@ const delPhraseHandler = (sentenceId) => {
 };
 
 // 선택한 목소리로 TTS 실행하기
-const getAudio = (text) => {
-  console.log("TTS test", text);
-  let audio = new Audio(
-    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}`
+const getAudio = (text, sentenceIndex) => {
+  document.getElementById(`p${sentenceIndex}`).className = "p_touched";
+  audio.value = new Audio(
+    `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=1`
   );
-  audio.play();
+  audio.value.play();
+  audio.value.onended = function () {
+    document.getElementById(`p${sentenceIndex}`).className = "p_class";
+  };
 };
 
 const activeHandler = (index) => {
@@ -150,6 +153,7 @@ const activeHandler = (index) => {
   document.getElementById(index).className = "cat__item touched";
   idIndex.value = document.getElementById(index).getAttribute("id");
 };
+
 // GET catagoires
 callCategoryAPI();
 callSentenceAPI();
@@ -212,5 +216,8 @@ p {
 }
 .touched {
   background-color: var(--maincolor2);
+}
+.p_touched {
+  color: var(--maincolor4);
 }
 </style>
