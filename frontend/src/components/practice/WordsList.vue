@@ -153,6 +153,7 @@ const addWordModal = () => {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: var(--maincolor8);
+  text-align: center;
 }
 
 .addButton {
