@@ -112,13 +112,13 @@ store.getBasicLetter(accessToken, route.params.basicLetterId);
 console.log("acc", accessToken);
 const prev = () => {
   const index = Number(route.params.basicLetterId) - 1;
-  router.replace(`/practicebasicsdetail/${index}`);
+  router.replace(`/practice-basics-detail/${index}`);
   store.getBasicLetter(accessToken, index);
 };
 
 const next = () => {
   const index = Number(route.params.basicLetterId) + 1;
-  router.replace(`/practicebasicsdetail/${index}`);
+  router.replace(`/practice-basics-detail/${index}`);
   store.getBasicLetter(accessToken, index);
 };
 

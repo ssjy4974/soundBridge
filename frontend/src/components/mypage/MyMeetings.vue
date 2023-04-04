@@ -123,7 +123,7 @@ const createRoom = (meetingId) => {
   api
     .post(`/api/meetings/rooms/${meetingId}`)
     .then(() => {
-      router.replace(`/feedbackMeeting/${meetingId}`);
+      router.replace(`/feedback-meeting/${meetingId}`);
     })
     .catch((err) => {
       alert("방생성에 실패 하였습니다.");

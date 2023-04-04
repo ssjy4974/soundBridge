@@ -128,19 +128,19 @@ const tryHistoryHandler = () => {
 
 const backToList = () => {
   console.log("리스트로");
-  router.push(`/practicewords`);
+  router.push(`/practice-words`);
 };
 
 const prev = () => {
   console.log("이전 클릭");
   const index = Number(route.params.index);
-  router.replace(`/wordsdetail/${index - 1}`);
+  router.replace(`/words-detail/${index - 1}`);
 };
 
 const next = () => {
   console.log("다음 클릭");
   const index = Number(route.params.index);
-  router.replace(`/wordsdetail/${index + 1}`);
+  router.replace(`/words-detail/${index + 1}`);
 };
 
 const CheckSuccess = (result) => {

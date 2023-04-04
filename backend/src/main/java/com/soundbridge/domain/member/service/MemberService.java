@@ -83,7 +83,7 @@ public class MemberService {
         Member member = memberRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
-        Long defalutVoiceId = saveAddInfoReq.getGender().equals("male") ? 1L : 2L;
+        Long defalutVoiceId = saveAddInfoReq.getGender().equals("M") ? 1L : 2L;
         Voice defalutVoice = voiceRepository.findById(defalutVoiceId).get();
         member.saveAddInfo(saveAddInfoReq.getAge(), saveAddInfoReq.getGender(),
                 saveAddInfoReq.getRole(), defalutVoice);
