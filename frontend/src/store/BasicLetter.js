@@ -32,7 +32,7 @@ export const useBasicLetterStore = defineStore("basicLetter", () => {
           "해당 id 값은 존재 하지 않습니다.",
           "error"
         );
-        router.replace("/practicebasics");
+        router.replace("/practice-basics");
       }
     );
   };
