@@ -9,13 +9,13 @@ HOST = os.getenv('DATABASE_URL')
 DB_ID = os.getenv('DATABASE_ID')
 DB_PW = os.getenv('DATABASE_PASSWORD')
 
-DB_URL = f"mysql+pymysql://{DB_ID}:{DB_PW}@{HOST}/soundbridge?charset=utf8"
+DB_URL = f"mysql+pymysql://{DB_ID}:{DB_PW}@{HOST}/soundbridge?charset=utf8&autocommit=True"
 
 
 class engineconn:
 
     def __init__(self):
-        self.engine = create_engine(DB_URL, pool_recycle=500)
+        self.engine = create_engine(DB_URL, pool_recycle=500,  isolation_level="READ UNCOMMITTED")
 
     def sessionmaker(self):
         Session = sessionmaker(bind=self.engine)
