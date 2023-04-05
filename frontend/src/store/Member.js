@@ -101,6 +101,11 @@ export const useMember = defineStore("member", {
         this.accessToken,
         () => {
           this.member.role = role;
+          if (gender == "M") {
+            this.member.voiceId = 1;
+          } else {
+            this.member.voiceId = 2;
+          }
         }
       );
     },

@@ -36,16 +36,15 @@
           <p id="gen">성별:</p>
 
           <div class="select">
+            <input type="radio" v-model="gender" value="M" id="select" /><label
+              for="select"
+              id="ma"
+              >남성</label
+            >
             <input
               type="radio"
               v-model="gender"
-              value="male"
-              id="select"
-            /><label for="select" id="ma">남성</label>
-            <input
-              type="radio"
-              v-model="gender"
-              value="female"
+              value="W"
               id="select2"
               class="fe"
             /><label for="select2" id="fem">여성</label>
