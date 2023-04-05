@@ -37,6 +37,7 @@ class AudioOut(BaseModel):
 class AddWordBody(BaseModel):
     memberId: int
     dailyWord : str
+    type : str
 
 @app.get("/ai/records/{sentence_id}")
 async def get_sentence(sentence_id):
