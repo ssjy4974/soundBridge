@@ -23,7 +23,7 @@ export const usePronounce = defineStore("pronounce", () => {
   // state
   // 내가 쓰는 문장
   const freqUsedPhrase = ref();
-  const freqUsedCat = ref();
+  const freqUsedCat = ref([]);
 
   const qsCount = ref();
   const qsCategoryCount = ref();

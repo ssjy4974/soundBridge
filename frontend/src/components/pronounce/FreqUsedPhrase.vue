@@ -1,6 +1,9 @@
 <template>
   <div class="TTS__container">
     <div class="cat__wrapper">
+      <p class="cat_empty_p" v-if="!freqUsedCat.length">
+        카테고리를 추가 해 주세요
+      </p>
       <div class="cat__container">
         <div
           class="cat__item"
@@ -49,7 +52,7 @@
           />
         </div>
       </div>
-      <div class="freqButton__box">
+      <div class="freqButton__box" v-if="freqUsedCat.length">
         <p href="" @click="addPhraseModal">자주쓰는말 추가하기 +</p>
       </div>
     </div>
@@ -114,7 +117,6 @@ const addPhraseModal = () => {
     isCatModal.value = false;
   }
   isPhraseModal.value = !isPhraseModal.value;
-  console.log("response data", freqUsedPhrase.value);
 };
 
 // category 별 phrase 불러오는 함수 + categoryID 저장하기
@@ -145,7 +147,6 @@ const delPhraseHandler = (sentenceId) => {
 
 // 선택한 목소리로 TTS 실행하기
 const getAudio = (text, sentenceIndex, qsId) => {
-  console.log("!!!!!! 2", text, sentenceIndex, qsId);
   document.getElementById(`p${sentenceIndex}`).className = "p_touched";
   audio.value = new Audio(
     `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=${
@@ -156,7 +157,6 @@ const getAudio = (text, sentenceIndex, qsId) => {
   audio.value.onended = function () {
     document.getElementById(`p${sentenceIndex}`).className = "p_class";
   };
-  console.log("!!@!!!!");
   store.countQuickSentence(qsId);
 };
 
@@ -236,5 +236,10 @@ p {
 }
 .p_touched {
   color: var(--maincolor4);
+}
+.cat_empty_p {
+  width: 8000%;
+  text-align: center;
+  color: gray;
 }
 </style>
