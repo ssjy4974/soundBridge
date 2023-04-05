@@ -36,7 +36,7 @@ function goback() {
 
   display: flex;
   text-align: center;
-  height: 5vh;
+  height: 56px;
   position: fixed;
   width: 100%;
   z-index: 10;

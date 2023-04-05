@@ -179,7 +179,6 @@ callCategoryAPI();
 
 <style lang="scss" scoped>
 .TTS__container {
-  height: 30vh;
   border: solid var(--maincolor2);
   background-color: var(--black1);
   margin-inline: 2vw;
@@ -188,11 +187,11 @@ callCategoryAPI();
   border-radius: 16px;
 }
 .FUP__container {
-  height: 85%;
+  height: 35vh;
   overflow: scroll;
 }
 .cat__wrapper {
-  height: 15%;
+  height: 5vh;
   display: flex;
   justify-content: space-between;
   border-bottom: solid var(--maincolor2);
