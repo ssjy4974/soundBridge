@@ -23,7 +23,12 @@
       </div>
       <div class="STT__box">
         <h2></h2>
-        <h1 v-text="transcript"></h1>
+        <h1 v-text="transcript" id="original"></h1>
+      </div>
+      <p>결과</p>
+      <div class="STT__box">
+        <h2></h2>
+        <div id="compare"></div>
       </div>
     </div>
     <div class="record__container" @click="tryHistoryHandler">
@@ -100,20 +105,22 @@ onMounted(() => {
     recordStatus.value = "연습하기";
     transcript.value = "";
   };
+
   sr.onresult = (evt) => {
-    for (let i = 0; i < evt.results.length; i++) {
-      console.log(evt.results);
-      const result = evt.results[i];
-      if (result.isFinal) {
-        CheckSuccess(result);
-      }
-    }
+    // console.log(evt.results);
 
     const t = Array.from(evt.results)
       .map((result) => result[0])
       .map((result) => result.transcript)
       .join("");
+
     transcript.value = t;
+
+    const result = evt.results[0];
+
+    if (result.isFinal) {
+      CheckSuccess(result);
+    }
   };
 });
 
@@ -144,15 +151,48 @@ const next = () => {
 };
 
 const CheckSuccess = (result) => {
-  const t = result[0].transcript;
-  const index = Number(route.params.index);
-  if (t == store.mydailyword[index].word) {
+  const myPronunciation = result[0].transcript; // 최종 내 발음
+
+  const index = Number(route.params.index); // 현재 연습 단어 인덱스
+
+  const originalWord = store.mydailyword[index].word; //현재 연습 단어
+
+  if (myPronunciation == store.mydailyword[index].word) {
+    // 연습 단어와 내 발음이 정확히 일치하는 경우
+
     sr.stop();
     const wordMemberId = store.mydailyword[index].wordMemberId;
-    store.updatesuccesscount(wordMemberId, index);
+    store.updatesuccesscount(wordMemberId, index); // 성공 횟수 업데이트
+    const span = document.createElement("span"); // 발음 담을 span 요소 생성
+    span.textContent = myPronunciation; // 발음을 span의 text 로 할당
+    span.style.color = "blue"; // 색깔 파랑으로 지정
+    document.getElementById("compare").innerHTML = span.outerHTML; // html에 삽입
   } else {
     sr.stop();
     store.getmydailyword();
+
+    let text = myPronunciation;
+    text = text.split(" ").join("");
+    const coloredText = text
+      .split("")
+      .map((char, index) => {
+        const span = document.createElement("span");
+        span.textContent = char;
+
+        if (index >= originalWord.length) {
+          span.style.color = "red";
+        } else {
+          if (text.charAt(index) != originalWord.charAt(index)) {
+            span.style.color = "red";
+          } else {
+            span.style.color = "blue";
+          }
+        }
+        return span.outerHTML;
+      })
+      .join("");
+    document.getElementById("compare").innerHTML = coloredText;
+
     Swal.fire({
       title: "다시 한번 해볼까요?",
       html:

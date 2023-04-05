@@ -108,6 +108,7 @@ const addWordModal = () => {
   // padding-inline: 5%;
   display: flex;
   flex-wrap: wrap;
+  width: 95%;
   justify-content: space-evenly;
 }
 
