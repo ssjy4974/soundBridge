@@ -95,7 +95,7 @@ public class VoiceRepositoryImpl implements VoiceRepositorySupport {
                         )))));
 //        )
 
-        log.info("Selected Voice", transform);
+        log.info("Selected Voice {}", transform.toString());
 
         return transform;
     }

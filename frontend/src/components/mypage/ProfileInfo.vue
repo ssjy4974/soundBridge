@@ -43,6 +43,8 @@
         </span>
       </div>
     </div>
+
+    <div id="mEmail">{{ member.email }}</div>
   </div>
 </template>
 
@@ -164,6 +166,12 @@ const changeProfile = (f) => {
   margin-right: 10px;
   position: relative;
   font-size: 1.5rem;
+  color: var(--maincolor9);
+}
+#mEmail {
+  margin-top: 3%;
+  text-align: center;
+  font-size: 11px;
   color: var(--maincolor9);
 }
 

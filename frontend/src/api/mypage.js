@@ -63,7 +63,15 @@ async function select(memberId, voiceId, accessToken, success, fail) {
     .catch(fail);
 }
 
-async function registVoice(voiceName, voiceAge, voiceGender, features, accessToken, success, fail) {
+async function registVoice(
+  voiceName,
+  voiceAge,
+  voiceGender,
+  features,
+  accessToken,
+  success,
+  fail
+) {
   await api
     .post(
       `/api/voices/regist`,
@@ -71,7 +79,7 @@ async function registVoice(voiceName, voiceAge, voiceGender, features, accessTok
         voiceName,
         voiceAge,
         voiceGender,
-        features
+        features,
       },
       {
         headers: {
