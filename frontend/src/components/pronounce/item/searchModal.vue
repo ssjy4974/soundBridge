@@ -82,8 +82,8 @@
 import { ref } from "vue";
 defineEmits(["closemodal"]);
 
-let checkedGender = ref(0);
-let checkedAge = ref(0);
+let checkedGender = ref(null);
+let checkedAge = ref(null);
 const ageList = ["10대", "20대", "30대", "40대", "50대", "60대"];
 const feature = ref([]);
 const featureList = [
