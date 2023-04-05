@@ -14,7 +14,7 @@ import { useMember } from "@/store/Member";
 const memberStore = useMember();
 
 const logoutMember = () => {
-  console.log("logout");
+  // console.log("logout");
   if (confirm("정말 로그아웃 하시겠습니까?")) memberStore.logout();
 };
 

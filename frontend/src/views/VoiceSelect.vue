@@ -27,7 +27,7 @@
         </span>
       </div>
 
-      <div class="box">
+      <div v-if="voices[0]">
         <voice-select-menu
           v-for="(voice, index) in voices"
           :key="index"
@@ -36,6 +36,7 @@
         >
         </voice-select-menu>
       </div>
+      <div v-else id="noResult">조회된 목소리가 없습니다!</div>
     </div>
   </div>
 </template>
@@ -71,7 +72,6 @@ const update = (checkedGender, checkedAge, checkedFeatures) => {
   gender.value = checkedGender;
   age.value = checkedAge;
   features.value = checkedFeatures;
-  console.log("cat phrase form 3@#@#", age.value, gender.value, features);
   myPageStore.getVoiceList(age.value, gender.value, features.value);
 };
 
@@ -99,5 +99,10 @@ callApi();
 
 #font {
   font-size: 24px;
+}
+
+#noResult {
+  text-align: center;
+  margin-top: 20%;
 }
 </style>
