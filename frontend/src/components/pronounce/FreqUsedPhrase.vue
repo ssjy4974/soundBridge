@@ -37,7 +37,7 @@
           <p
             :id="`p${index}`"
             class="p_class"
-            @click="getAudio(phrase.sentence, index)"
+            @click="getAudio(phrase.sentence, index, phrase.quickSentenceId)"
           >
             {{ phrase.sentence }}
           </p>
@@ -92,6 +92,7 @@ const callCategoryAPI = async () => {
     phraseHandler(freqUsedCat.value[0].categoryId);
   }
 };
+
 const callSentenceAPI = async () => {
   await store.readQuickSentence(parseCategoryId.value);
 };
@@ -143,7 +144,8 @@ const delPhraseHandler = (sentenceId) => {
 };
 
 // 선택한 목소리로 TTS 실행하기
-const getAudio = (text, sentenceIndex) => {
+const getAudio = (text, sentenceIndex, qsId) => {
+  console.log("!!!!!! 2", text, sentenceIndex, qsId);
   document.getElementById(`p${sentenceIndex}`).className = "p_touched";
   audio.value = new Audio(
     `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=${
@@ -154,6 +156,8 @@ const getAudio = (text, sentenceIndex) => {
   audio.value.onended = function () {
     document.getElementById(`p${sentenceIndex}`).className = "p_class";
   };
+  console.log("!!@!!!!");
+  store.countQuickSentence(qsId);
 };
 
 const activeHandler = (index) => {

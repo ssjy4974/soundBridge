@@ -25,6 +25,9 @@ export const usePronounce = defineStore("pronounce", () => {
   const freqUsedPhrase = ref();
   const freqUsedCat = ref();
 
+  const qsCount = ref();
+  const qsCategoryCount = ref();
+
   // action
   async function addCategory(category) {
     await postCategories(category, accessToken, ({ data }) => {
@@ -76,11 +79,14 @@ export const usePronounce = defineStore("pronounce", () => {
   }
   // PUT count
   async function countQuickSentence(quickSentenceId) {
+    console.log("!!@#@!# ", quickSentenceId);
     await countQuickSentenceAndCategory(
       quickSentenceId,
       accessToken,
       ({ data }) => {
         console.log("API file, PUT count sentences", data);
+        freqUsedPhrase.value = data;
+        this.readCategories();
       }
     );
   }
