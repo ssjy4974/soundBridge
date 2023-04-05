@@ -26,8 +26,8 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
 
   async function getmysentence() {
     await getMySentence(memberStore.accessToken, ({ data }) => {
-      mydailyword.value = data;
-      console.log("Get method responses", mydailyword.value);
+      sentenceList.value = data;
+      console.log("Get method responses", sentenceList.value);
     });
   }
 
