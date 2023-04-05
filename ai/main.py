@@ -105,6 +105,7 @@ async def read_item(text: str, voice: int):
 def addDailyWord(addWordBody: AddWordBody):
     dailyWord = addWordBody.dailyWord
     memberId = addWordBody.memberId
+    wordType = addWordBody.type
     findWord = session.query(Daily_Word).filter(Daily_Word.word==dailyWord).first()
     findMember = session.query(Member).filter(Member.member_id == memberId).first()
 
@@ -118,7 +119,7 @@ def addDailyWord(addWordBody: AddWordBody):
         guideWord = g2p(dailyWord)
 
         print("g2p돌리기", guideWord)
-        newWord = Daily_Word(word=dailyWord, guide_word= guideWord)
+        newWord = Daily_Word(word=dailyWord, guide_word= guideWord, type = wordType)
         session.add(newWord)
         session.commit()
 

@@ -40,6 +40,7 @@ class Daily_Word(Base):
   daily_word_id = Column(BigInteger, primary_key=True, autoincrement=True)
   word = Column(String, nullable=False)
   guide_word = Column(String, nullable=False)
+  type = Column(String, nullable=False)
 
 class Voice(Base):
   __tablename__ = 'voice'
