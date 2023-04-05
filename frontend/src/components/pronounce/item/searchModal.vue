@@ -143,6 +143,7 @@ const checked2 = () => {
   width: 30%;
   height: 10px;
   margin: 25px 0;
+  white-space: nowrap;
 }
 .cat__modal {
   background-color: #eaf6ff;

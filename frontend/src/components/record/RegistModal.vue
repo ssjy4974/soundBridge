@@ -281,6 +281,7 @@ const regist = () => {
   width: 30%;
   height: 10px;
   margin: 25px 0;
+  white-space: nowrap;
 }
 .cat_modal {
   background-color: #eaf6ff;
