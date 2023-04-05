@@ -20,6 +20,8 @@ import PracticeBasics from "../views/PracticeBasics.vue";
 import PracticeBasicsDetail from "../views/PracticeBasicsDetail.vue";
 import PracticeWords from "../views/PracticeWords.vue";
 import PracticeWordsDetail from "../views/PracticeWordsDetail.vue";
+import PracticeSentenceDetail from "../views/PracticeSentenceDetail.vue";
+import PracticeSentence from "../views/PracticeSentence.vue";
 import PracticeSelect from "../views/PracticeSelect.vue";
 
 // 목소리 녹음
@@ -108,6 +110,12 @@ const routes = [
     //detail child로 만들기
   },
   {
+    path: "/practice-sentence",
+    name: "practicesentence",
+    component: PracticeSentence,
+    //detail child로 만들기
+  },
+  {
     path: "/practice-select",
     name: "practiceselect",
     component: PracticeSelect,
@@ -123,14 +131,14 @@ const routes = [
     component: PracticeBasicsDetail,
   },
   {
-    path: "/practice-words",
-    name: "practicewords",
-    component: PracticeWords,
-  },
-  {
     path: "/words-detail/:index",
     name: "wordsdetail",
     component: PracticeWordsDetail,
+  },
+  {
+    path: "/sentence-detail/:index",
+    name: "sentencesdetail",
+    component: PracticeSentenceDetail,
   },
   // Feedback Openvidu
   {

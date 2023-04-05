@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import {
   getMyDailyWord,
+  getMySentence,
   addMyDailyWord,
   deleteDailyWord,
   saveOrUpdateTryHistory,
@@ -17,6 +18,13 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
   // GET
   async function getmydailyword() {
     await getMyDailyWord(memberStore.accessToken, ({ data }) => {
+      mydailyword.value = data;
+      console.log("Get method responses", mydailyword.value);
+    });
+  }
+
+  async function getmysentence() {
+    await getMySentence(memberStore.accessToken, ({ data }) => {
       mydailyword.value = data;
       console.log("Get method responses", mydailyword.value);
     });
@@ -87,6 +95,7 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
   //
   return {
     getmydailyword,
+    getmysentence,
     addmydailyword,
     saveorupdatetryhistory,
     updatesuccesscount,

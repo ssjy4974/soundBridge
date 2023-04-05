@@ -5,7 +5,18 @@ const api = apiInstance();
 async function getMyDailyWord(accessToken, success, fail) {
   console.log("get my dailyword", accessToken);
   await api
-    .get(`/api/daily-words`, {
+    .get(`/api/daily-words?type=DAILY_WORD`, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+async function getMySentence(accessToken, success, fail) {
+  await api
+    .get(`/api/daily-words?type=SENTENCE`, {
       headers: {
         "access-token": accessToken,
       },
@@ -81,6 +92,7 @@ async function deleteDailyWord(wordMemberId, accessToken, success, fail) {
 
 export {
   getMyDailyWord,
+  getMySentence,
   addMyDailyWord,
   saveOrUpdateTryHistory,
   updateSuccessCount,

@@ -24,6 +24,18 @@
         </div>
       </div>
     </router-link>
+
+    <router-link to="../practice-sentence">
+      <div class="daily_wrap">
+        <div class="sentence">
+          <h1>문장 연습</h1>
+          <div class="image">
+            <img class="word_image" src="@/assets/img/image10.png" />
+            <img class="word_image" src="@/assets/img/image12.png" />
+          </div>
+        </div>
+      </div>
+    </router-link>
   </div>
 </template>
 
@@ -55,9 +67,29 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
 }
 .daily_wrap {
   display: flex;
+  padding-bottom: 10%;
+
   justify-content: center;
 }
 .daily {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0px;
+  gap: 24px;
+
+  position: relative;
+  /* width: 370px;
+  height: 200px;
+  left: 20px;
+  top: 400px; */
+  width: 95%;
+
+  background: #bae4ff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+}
+.sentence {
   display: flex;
   flex-direction: column;
   align-items: center;
