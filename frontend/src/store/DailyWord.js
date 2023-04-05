@@ -20,14 +20,14 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
   async function getmydailyword() {
     await getMyDailyWord(memberStore.accessToken, ({ data }) => {
       mydailyword.value = data;
-      console.log("Get method responses", mydailyword.value);
+      console.log("Get word responses", mydailyword.value);
     });
   }
 
   async function getmysentence() {
     await getMySentence(memberStore.accessToken, ({ data }) => {
       sentenceList.value = data;
-      console.log("Get method responses", sentenceList.value);
+      console.log("Get sentence responses", sentenceList.value);
     });
   }
 
@@ -46,6 +46,7 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
           });
         } else {
           getMySentence(memberStore.accessToken, ({ data }) => {
+            console.log(data);
             sentenceList.value = data;
             console.log("Get method responses", sentenceList.value);
           });

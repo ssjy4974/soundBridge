@@ -4,7 +4,7 @@
     <div class="parent">
       <div
         class="child"
-        v-for="(item, index) in MyDailyWord.mydailyword"
+        v-for="(item, index) in MyDailyWord.sentenceList"
         :key="index"
       >
         <div class="xmak" @click="deleteHandler(item.wordMemberId)">
@@ -47,7 +47,7 @@ const isSentenceModal = ref(false);
 
 const callAPI = () => {
   MyDailyWord.getmysentence().then(() => {
-    console.log(MyDailyWord.sentenceList);
+    console.log("then", MyDailyWord.sentenceList);
     MyDailyWord.sentenceList.forEach((element, index) => {
       var percent = 0;
       if (element.tryCount == 0) {
