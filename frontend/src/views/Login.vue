@@ -79,6 +79,9 @@ const googleLogin = () => {
   left: 12vh;
 }
 #start {
+  position: relative;
+  top: 59vh;
+  right: 7vh;
 }
 #loginBtn {
   position: relative;
