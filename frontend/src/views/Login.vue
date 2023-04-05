@@ -85,6 +85,8 @@ const googleLogin = () => {
   top: 58vh;
   right: 1vh;
 }
+.bin {
+}
 
 .kakao-btn {
   width: 26%;
