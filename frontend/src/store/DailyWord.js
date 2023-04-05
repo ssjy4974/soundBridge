@@ -19,7 +19,6 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
   async function getmydailyword() {
     await getMyDailyWord(memberStore.accessToken, ({ data }) => {
       mydailyword.value = data;
-      console.log("Get method responses", mydailyword.value);
     });
   }
 
@@ -31,29 +30,25 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
   }
 
   // POST
-  async function addmydailyword(newWord) {
+  async function addmydailyword(newWord, type) {
     await addMyDailyWord(
       newWord,
       memberStore.getMemberInfo.memberId,
+      type,
       memberStore.accessToken,
       ({ data }) => {
-        console.log(data, " add new word");
         getMyDailyWord(memberStore.accessToken, ({ data }) => {
           mydailyword.value = data;
-          console.log("Get method responses", mydailyword.value);
         });
       }
     );
   }
 
   async function saveorupdatetryhistory(wordMemberId, index) {
-    console.log("savehistory 호출");
-    console.log(memberStore.accessToken);
     await saveOrUpdateTryHistory(
       wordMemberId,
       memberStore.accessToken,
       ({ data }) => {
-        console.log(data, " update tryHistory");
         mydailyword.value[index].tryCount++;
       }
     );
@@ -64,7 +59,6 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
       wordMemberId,
       memberStore.accessToken,
       ({ data }) => {
-        console.log(data, " update successCount");
         mydailyword.value[index].successCount++;
         Swal.fire({
           title: "성공!",
@@ -82,10 +76,8 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
 
   async function deletedailyword(wordMemberId) {
     await deleteDailyWord(wordMemberId, memberStore.accessToken, ({ data }) => {
-      console.log("delete dailyWord");
       getMyDailyWord(memberStore.accessToken, ({ data }) => {
         mydailyword.value = data;
-        console.log("Get method responses", mydailyword.value);
       });
     });
   }

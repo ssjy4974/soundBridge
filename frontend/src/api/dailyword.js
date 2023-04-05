@@ -3,7 +3,6 @@ import { apiInstance } from "./index.js";
 const api = apiInstance();
 
 async function getMyDailyWord(accessToken, success, fail) {
-  console.log("get my dailyword", accessToken);
   await api
     .get(`/api/daily-words?type=DAILY_WORD`, {
       headers: {
@@ -25,13 +24,21 @@ async function getMySentence(accessToken, success, fail) {
     .catch(fail);
 }
 
-async function addMyDailyWord(word, memberId, accessToken, success, fail) {
+async function addMyDailyWord(
+  word,
+  memberId,
+  type,
+  accessToken,
+  success,
+  fail
+) {
   await api
     .post(
       `/ai/daily-words`,
       {
         dailyWord: word,
         memberId: memberId,
+        type: type,
       },
       {
         headers: {
@@ -79,7 +86,6 @@ async function updateSuccessCount(wordMemberId, accessToken, success, fail) {
 }
 
 async function deleteDailyWord(wordMemberId, accessToken, success, fail) {
-  console.log("Delete word api call", wordMemberId);
   await api
     .delete(`api/daily-words/${wordMemberId}`, {
       headers: {
