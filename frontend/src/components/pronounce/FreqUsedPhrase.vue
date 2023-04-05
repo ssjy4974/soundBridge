@@ -1,9 +1,6 @@
 <template>
   <div class="TTS__container">
     <div class="cat__wrapper">
-      <p class="cat_empty_p" v-if="!freqUsedCat.length">
-        카테고리를 추가 해 주세요
-      </p>
       <div class="cat__container">
         <div
           class="cat__item"
@@ -52,7 +49,7 @@
           />
         </div>
       </div>
-      <div class="freqButton__box" v-if="freqUsedCat.length">
+      <div class="freqButton__box">
         <p href="" @click="addPhraseModal">자주쓰는말 추가하기 +</p>
       </div>
     </div>
@@ -117,6 +114,7 @@ const addPhraseModal = () => {
     isCatModal.value = false;
   }
   isPhraseModal.value = !isPhraseModal.value;
+  console.log("response data", freqUsedPhrase.value);
 };
 
 // category 별 phrase 불러오는 함수 + categoryID 저장하기
@@ -147,8 +145,8 @@ const delPhraseHandler = (sentenceId) => {
 
 // 선택한 목소리로 TTS 실행하기
 const getAudio = (text, sentenceIndex, qsId) => {
+  console.log("!!!!!! 2", text, sentenceIndex, qsId);
   document.getElementById(`p${sentenceIndex}`).className = "p_touched";
-  // console.log("TTS ", member.value.voiceId);
   audio.value = new Audio(
     `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=${
       member.value.voiceId
@@ -158,6 +156,7 @@ const getAudio = (text, sentenceIndex, qsId) => {
   audio.value.onended = function () {
     document.getElementById(`p${sentenceIndex}`).className = "p_class";
   };
+  console.log("!!@!!!!");
   store.countQuickSentence(qsId);
 };
 
@@ -178,21 +177,11 @@ callCategoryAPI();
 </script>
 
 <style lang="scss" scoped>
-.TTS__container {
-  height: 30vh;
-  border: solid var(--maincolor2);
-  background-color: var(--black1);
-  margin-inline: 2vw;
-  margin-bottom: 2vh;
-  padding: 1vh;
-  border-radius: 16px;
-}
 .FUP__container {
-  height: 85%;
+  height: 35vh;
   overflow: scroll;
 }
 .cat__wrapper {
-  height: 15%;
   display: flex;
   justify-content: space-between;
   border-bottom: solid var(--maincolor2);
@@ -201,7 +190,7 @@ callCategoryAPI();
   display: flex;
   width: 70%;
   align-items: center;
-  // height: 5vh;
+  height: 5vh;
   overflow-x: scroll;
 }
 .cat__item {
@@ -223,6 +212,14 @@ p {
   align-self: center;
   justify-self: center;
 }
+.TTS__container {
+  border: solid var(--maincolor2);
+  background-color: var(--black1);
+  margin-inline: 2vw;
+  margin-bottom: 2vh;
+  padding: 1vh;
+  border-radius: 16px;
+}
 .phrase__box {
   padding-inline: 3vw;
   height: 15%;
@@ -239,10 +236,5 @@ p {
 }
 .p_touched {
   color: var(--maincolor4);
-}
-.cat_empty_p {
-  width: 8000%;
-  text-align: center;
-  color: gray;
 }
 </style>

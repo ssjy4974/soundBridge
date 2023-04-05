@@ -25,7 +25,7 @@
   max-width: 412px;
 
   width: 100vw;
-  height: 5vh;
+  height: 56px;
   display: flex;
   justify-content: space-around;
   text-align: center;
