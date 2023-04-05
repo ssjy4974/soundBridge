@@ -17,7 +17,7 @@ public class WordMemberRepositoryImpl implements WordMemberRepositorySupport{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<DailyWordRes> findAllByMemberId(Long memberId) {
+    public List<DailyWordRes> findAllByMemberId(Long memberId, PronunciationType pronunciationType) {
         return jpaQueryFactory.select(
                 new QDailyWordRes(
                     wordMember.id.as("wordMemberId"),
@@ -31,7 +31,7 @@ public class WordMemberRepositoryImpl implements WordMemberRepositorySupport{
             .leftJoin(tryHistory)
             .on(wordMember.id.eq(tryHistory.wordMember.id))
             .innerJoin(dailyWord)
-            .on(wordMember.dailyWord.id.eq(dailyWord.id))
+            .on(wordMember.dailyWord.id.eq(dailyWord.id), wordMember.dailyWord.type.eq(pronunciationType))
             .where(wordMember.member.id.eq(memberId))
             .orderBy(wordMember.id.desc())
             .fetch();

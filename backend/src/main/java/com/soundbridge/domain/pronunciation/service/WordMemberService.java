@@ -1,5 +1,6 @@
 package com.soundbridge.domain.pronunciation.service;
 
+import com.soundbridge.domain.pronunciation.entity.PronunciationType;
 import com.soundbridge.domain.pronunciation.repository.WordMemberRepository;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import java.util.List;
@@ -20,7 +21,7 @@ public class WordMemberService {
      * @param memberId
      * @return
      */
-    public List<DailyWordRes> findAllDailyWords(Long memberId) {
-        return wordMemberRepository.findAllByMemberId(memberId);
+    public List<DailyWordRes> findAllDailyWords(Long memberId, PronunciationType pronunciationType) {
+        return wordMemberRepository.findAllByMemberId(memberId, pronunciationType);
     }
 }

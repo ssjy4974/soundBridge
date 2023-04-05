@@ -1,6 +1,7 @@
 package com.soundbridge.domain.pronunciation.controller;
 
 import com.soundbridge.domain.member.response.MemberAccessRes;
+import com.soundbridge.domain.pronunciation.entity.PronunciationType;
 import com.soundbridge.domain.pronunciation.response.BasicLetterRes;
 import com.soundbridge.domain.pronunciation.response.DailyWordRes;
 import com.soundbridge.domain.pronunciation.service.BasicLetterService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -47,9 +49,9 @@ public class PronunciationApiController {
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "일상 단어 전체 조회 성공"),
     })
-    public ResponseEntity<List<DailyWordRes>> dailyWordList(Authentication authentication) {
+    public ResponseEntity<List<DailyWordRes>> dailyWordList(Authentication authentication, @RequestParam("type") PronunciationType pronunciationType) {
         Long memberId = ((MemberAccessRes) authentication.getPrincipal()).getId();
-        return ResponseEntity.ok(wordMemberService.findAllDailyWords(memberId));
+        return ResponseEntity.ok(wordMemberService.findAllDailyWords(memberId, pronunciationType));
     }
 
     @PostMapping("/try-histories/basic-letters/{basicLetterId}")

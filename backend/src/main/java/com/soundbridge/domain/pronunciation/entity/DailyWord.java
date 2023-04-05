@@ -2,6 +2,8 @@ package com.soundbridge.domain.pronunciation.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +28,10 @@ public class DailyWord {
 
     @Column(length = 20, nullable = false)
     private String guideWord;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15)
+    private PronunciationType type; // BASIC_LETTER 기본발음, DAILY_WORD 일상단어, SENTENCE 문장
 
     @Builder
     public DailyWord(String word, String guideWord) {
