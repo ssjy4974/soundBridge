@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 
 export const useMyDailyWord = defineStore("mydailyword", () => {
   const mydailyword = ref();
+  const sentenceList = ref();
   const memberStore = useMember();
 
   // GET
@@ -45,14 +46,13 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
           });
         } else {
           getMySentence(memberStore.accessToken, ({ data }) => {
-            mydailyword.value = data;
-            console.log("Get method responses", mydailyword.value);
+            sentenceList.value = data;
+            console.log("Get method responses", sentenceList.value);
           });
         }
       }
     );
   }
-
 
   async function saveorupdatetryhistory(wordMemberId, index) {
     console.log("savehistory 호출");
@@ -88,13 +88,23 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
     );
   }
 
-  async function deletedailyword(wordMemberId) {
+  async function deletedailyword(wordMemberId, type) {
     await deleteDailyWord(wordMemberId, memberStore.accessToken, ({ data }) => {
       console.log("delete dailyWord");
-      getMyDailyWord(memberStore.accessToken, ({ data }) => {
-        mydailyword.value = data;
-        console.log("Get method responses", mydailyword.value);
-      });
+
+      console.log(type);
+
+      if (type == "DAILY_WORD") {
+        getMyDailyWord(memberStore.accessToken, ({ data }) => {
+          mydailyword.value = data;
+          console.log("Get word responses", mydailyword.value);
+        });
+      } else {
+        getMySentence(memberStore.accessToken, ({ data }) => {
+          sentenceList.value = data;
+          console.log("Get sentence responses", sentenceList.value);
+        });
+      }
     });
   }
 
@@ -109,5 +119,6 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
     updatesuccesscount,
     deletedailyword,
     mydailyword,
+    sentenceList,
   };
 });

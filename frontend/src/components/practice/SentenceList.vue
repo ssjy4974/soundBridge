@@ -47,8 +47,8 @@ const isSentenceModal = ref(false);
 
 const callAPI = () => {
   MyDailyWord.getmysentence().then(() => {
-    console.log(MyDailyWord.mydailyword);
-    MyDailyWord.mydailyword.forEach((element, index) => {
+    console.log(MyDailyWord.sentenceList);
+    MyDailyWord.sentenceList.forEach((element, index) => {
       var percent = 0;
       if (element.tryCount == 0) {
         percent = 0;
@@ -82,7 +82,7 @@ const deleteHandler = (wordMemberId) => {
     confirmButtonText: "Yes",
   }).then((result) => {
     if (result.isConfirmed) {
-      MyDailyWord.deletedailyword(wordMemberId);
+      MyDailyWord.deletedailyword(wordMemberId, "SENTENCE");
     }
   });
 };

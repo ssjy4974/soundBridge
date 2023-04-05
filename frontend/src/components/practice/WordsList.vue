@@ -82,7 +82,7 @@ const deleteHandler = (wordMemberId) => {
     confirmButtonText: "Yes",
   }).then((result) => {
     if (result.isConfirmed) {
-      MyDailyWord.deletedailyword(wordMemberId);
+      MyDailyWord.deletedailyword(wordMemberId, "DAILY_WORD");
     }
   });
 };
