@@ -27,23 +27,23 @@
       </div>
     </div>
     <div class="addButton">
-      <button class="addButton__button" @click="addWordModal">
-        연습 단어 추가하기 +
+      <button class="addButton__button" @click="addSentenceModal">
+        연습 문장 추가하기 +
       </button>
-      <AddWordModal v-if="isWordModal" @closemodal="addWordModal" />
+      <AddSentenceModal v-if="isSentenceModal" @closemodal="addSentenceModal" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { useMyDailyWord } from "@/store/DailyWord";
-import AddWordModal from "./AddWordModal.vue";
+import AddSentenceModal from "./AddSentenceModal.vue";
 import { ref } from "vue";
 import Swal from "sweetalert2";
 
 const MyDailyWord = useMyDailyWord();
 const per = ref([]);
-const isWordModal = ref(false);
+const isSentenceModal = ref(false);
 
 const callAPI = () => {
   MyDailyWord.getmysentence().then(() => {
@@ -87,10 +87,10 @@ const deleteHandler = (wordMemberId) => {
   });
 };
 
-const addWordModal = () => {
+const addSentenceModal = () => {
   // console.log("addWord form Wordmodal", isWordModal.value);
 
-  isWordModal.value = !isWordModal.value;
+  isSentenceModal.value = !isSentenceModal.value;
   // console.log("isWordModal value", isWordModal.value);
 };
 </script>

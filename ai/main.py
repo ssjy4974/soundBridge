@@ -119,7 +119,7 @@ def addDailyWord(addWordBody: AddWordBody):
         guideWord = g2p(dailyWord)
 
         print("g2p돌리기", guideWord)
-        newWord = Daily_Word(word=dailyWord, guide_word= guideWord, type = wordType)
+        newWord = Daily_Word(word=dailyWord, guide_word=guideWord, type=wordType)
         session.add(newWord)
         session.commit()
 

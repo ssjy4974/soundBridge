@@ -1,12 +1,12 @@
 <template>
   <div class="cat__modal">
     <div class="close__button" @click="$emit('closemodal')">X</div>
-    <p>일상단어 추가하기</p>
+    <p>연습문장 추가하기</p>
     <div>
       <input
         class="input__box"
         type="text"
-        placeholder="연습할 단어를 입력하세요"
+        placeholder="연습할 문장을 입력하세요"
         v-model="newWord"
       />
     </div>
@@ -34,7 +34,7 @@ const store = useMyDailyWord();
 const newWord = ref("");
 
 const wordHandler = () => {
-  store.addmydailyword(newWord.value, "DAILY_WORD");
+  store.addmydailyword(newWord.value, "SENTENCE");
 };
 
 defineEmits(["closemodal"]);
