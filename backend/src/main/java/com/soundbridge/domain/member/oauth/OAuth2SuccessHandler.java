@@ -3,6 +3,10 @@ package com.soundbridge.domain.member.oauth;
 import com.soundbridge.domain.member.entity.Member;
 import com.soundbridge.domain.member.repository.MemberRepository;
 import com.soundbridge.domain.member.service.TokenService;
+import com.soundbridge.domain.sentence.entity.Category;
+import com.soundbridge.domain.sentence.entity.QuickSentence;
+import com.soundbridge.domain.sentence.repository.CategoryRepository;
+import com.soundbridge.domain.sentence.repository.QuickSentenceRepository;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +30,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final TokenService tokenService;
     private final MemberRepository memberRepository;
+    private final CategoryRepository categoryRepository;
+    private final QuickSentenceRepository quickSentenceRepository;
     //    private final RefreshTokenRepository refreshTokenRepository;
     private final RedisTemplate redisTemplate;
     @Value("${LOGIN_SUCCESS_URL}")
@@ -53,7 +59,25 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .age((int) attributes.get("age"))
                 .build();
 
-            memberRepository.save(member);
+            Member save = memberRepository.save(member);
+
+            Category category = Category.builder()
+                .categoryCount(0)
+                .categoryName("인사")
+                .member(save)
+                .build();
+
+            Category category1 = categoryRepository.save(category);
+
+            String[] quickSentence = {"안녕하세요", "안녕", "잘가", "다음에 뵙겠습니다."};
+
+            for (String qs : quickSentence) {
+                QuickSentence quickSentence1 = QuickSentence.builder()
+                    .sentence(qs)
+                    .category(category1)
+                    .build();
+                quickSentenceRepository.save(quickSentence1);
+            }
         }
 
         if (member.getDelFlag() == 1) { //재 가입 불가능 throw 던지기, Filter ExceptionHandler 작성

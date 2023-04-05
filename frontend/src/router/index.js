@@ -164,18 +164,19 @@ router.beforeEach(async (to, from, next) => {
     next();
   }
 
-  if (accessToken === null || accessToken === "") {
+  if (accessToken === null || accessToken === "" || accessToken === undefined) {
     await useMember().refreshAccessToken();
     accessToken = memberStore.accessToken.value;
   }
 
-  // console.log("ACCCC", accessToken);
+  // console.log("ACCCC", accessToken, memberInfo.value);
 
   if (
     accessToken !== "" &&
-    (memberInfo.email === "" || memberInfo.email === undefined)
+    (memberInfo.value.email === "" || memberInfo.value.email === undefined)
   ) {
     await useMember().setMemberInfo();
+    // console.log("ACCCC 333", memberInfo.value);
   }
 
   // if (accessToken === null || accessToken === "") {
