@@ -13,7 +13,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const transcript = ref("");
+const transcript = ref("이곳은 대화상자 입니다.");
 const isRecording = ref(false);
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -81,27 +81,4 @@ const ToggleMic = () => {
   font-size: 1.2rem;
   line-height: 1.8;
 }
-.fa-headphones {
-  /* position: absolute; */
-  /* width: 24px; */
-  /* height: 24px; */
-  /* left: calc(55% - 24px / 2 + 119px); */
-  /* top: calc(55% - 24px / 2 + 262px); */
-}
-
-/* .fa-headphones {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  left: calc(55% - 24px / 2 + 119px);
-  top: calc(55% - 24px / 2 + 262px);
-}
-
-.fa-pause {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  left: calc(55% - 24px / 2 + 119px);
-  top: calc(55% - 24px / 2 + 262px);
-} */
 </style>
