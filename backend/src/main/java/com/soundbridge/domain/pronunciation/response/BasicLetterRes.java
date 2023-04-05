@@ -17,9 +17,10 @@ public class BasicLetterRes {
     private int tryCount;
     private int successCount;
     private String startTime;
+    private String explanation;
 
     @QueryProjection
-    public BasicLetterRes(Long basicLetterId, String letter, String guidLetter, String letterImage, String guidImage, int tryCount, int successCount, String startTime) {
+    public BasicLetterRes(Long basicLetterId, String letter, String guidLetter, String letterImage, String guidImage, int tryCount, int successCount, String startTime, String explanation) {
         this.basicLetterId = basicLetterId;
         this.letter = letter;
         this.guidLetter = guidLetter;
@@ -28,5 +29,6 @@ public class BasicLetterRes {
         this.tryCount = tryCount;
         this.successCount = successCount;
         this.startTime = startTime;
+        this.explanation = explanation;
     }
 }

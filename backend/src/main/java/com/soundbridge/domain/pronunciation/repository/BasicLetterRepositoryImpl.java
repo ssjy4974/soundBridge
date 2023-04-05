@@ -27,7 +27,8 @@ public class BasicLetterRepositoryImpl implements BasicLetterRepositorySupport {
                     basicLetter.guideImage.as("guidImage"),
                     tryHistory.tryCount.as("tryCount"),
                     tryHistory.successCount.as("successCount"),
-                    basicLetter.startTime.as("startTime")
+                    basicLetter.startTime.as("startTime"),
+                    basicLetter.explanation.as("explanation")
                 )
             )
             .from(basicLetter)
@@ -49,7 +50,8 @@ public class BasicLetterRepositoryImpl implements BasicLetterRepositorySupport {
                     basicLetter.guideImage.as("guidImage"),
                     tryHistory.tryCount.as("tryCount"),
                     tryHistory.successCount.as("successCount"),
-                    basicLetter.startTime.as("startTime")
+                    basicLetter.startTime.as("startTime"),
+                    basicLetter.explanation.as("explanation")
                 )
             )
             .from(basicLetter)

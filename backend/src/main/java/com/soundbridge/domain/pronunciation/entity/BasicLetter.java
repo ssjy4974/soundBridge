@@ -37,13 +37,17 @@ public class BasicLetter {
     @Column(length = 50)
     private String startTime;
 
+    @Column(nullable = false)
+    private String explanation;
+
     @Builder
     public BasicLetter(String letter, String guideLetter, String letterImage,
-        String guideImage, String startTime) {
+        String guideImage, String startTime, String explanation) {
         this.letter = letter;
         this.guideLetter = guideLetter;
         this.letterImage = letterImage;
         this.guideImage = guideImage;
         this.startTime = startTime;
+        this.explanation = explanation;
     }
 }
