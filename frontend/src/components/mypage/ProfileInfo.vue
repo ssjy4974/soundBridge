@@ -66,8 +66,6 @@ let checkNickname = ref(false);
 
 let save = ref(false);
 
-console.log(member);
-
 const profileOption = () => {
   isProfileOption.value = !isProfileOption.value;
 };
