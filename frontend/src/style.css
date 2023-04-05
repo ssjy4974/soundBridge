@@ -64,7 +64,6 @@ a:hover {
     max-width: 450px;
     min-height: 100vh;
     overflow-y: scroll;
-    /* overflow-x: scroll; */
     margin: 0;
     width: 412px;
   }
@@ -78,9 +77,9 @@ body {
   display: flex;
   min-width: 320px;
   max-width: 412px;
-  min-height: 100vh;
+  /* height: 100vh; */
   overflow-y: scroll;
-  /* overflow-x: scroll; */
+  overflow-x: scroll;
   margin: 0;
 }
 
