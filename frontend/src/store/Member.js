@@ -37,7 +37,6 @@ export const useMember = defineStore("member", {
         nickName,
         this.accessToken,
         ({ data }) => {
-          console.log(data, " modify nickName");
           this.member.nickname = data;
         }
       );
@@ -48,7 +47,6 @@ export const useMember = defineStore("member", {
         formData,
         this.accessToken,
         ({ data }) => {
-          console.log(data, "modify Profile");
           this.member.profile = data;
         },
         (error) => {
@@ -61,7 +59,7 @@ export const useMember = defineStore("member", {
       await getMemberInfo(
         this.accessToken,
         ({ data }) => {
-          console.log("Data", data);
+          // console.log("Data", data);
           this.member.memberId = data.memberId;
           this.member.email = data.email;
           this.member.nickname = data.nickname;
@@ -71,7 +69,7 @@ export const useMember = defineStore("member", {
           // localStorage.setItem("isLogin", this.member.role);/
         },
         (error) => {
-          console.log(error.code);
+          // console.log(error.code);
         }
       );
     },
@@ -82,7 +80,7 @@ export const useMember = defineStore("member", {
           this.accessToken = data;
         },
         (error) => {
-          console.log(error.response.status);
+          // console.log(error.response.status);
           router.push({ name: "login" });
         }
       );
@@ -108,7 +106,6 @@ export const useMember = defineStore("member", {
     },
 
     async logout() {
-      console.log("logout");
       await logout(
         this.member.memberId,
         this.accessToken,

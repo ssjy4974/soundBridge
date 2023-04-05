@@ -169,7 +169,7 @@ router.beforeEach(async (to, from, next) => {
     accessToken = memberStore.accessToken.value;
   }
 
-  console.log("ACCCC", accessToken);
+  // console.log("ACCCC", accessToken);
 
   if (
     accessToken !== "" &&

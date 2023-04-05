@@ -72,7 +72,6 @@ const update = (checkedGender, checkedAge, checkedFeatures) => {
   gender.value = checkedGender;
   age.value = checkedAge;
   features.value = checkedFeatures;
-  console.log("cat phrase form 3@#@#", age.value, gender.value, features);
   myPageStore.getVoiceList(age.value, gender.value, features.value);
 };
 

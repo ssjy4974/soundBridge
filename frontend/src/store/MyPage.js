@@ -26,7 +26,7 @@ export const useMypage = defineStore("mypage", () => {
       features,
       memberStore.accessToken,
       ({ data }) => {
-        console.log(data, " Voice List Result");
+        // console.log(data, " Voice List Result");
         this.voices = data.content;
       }
     );
