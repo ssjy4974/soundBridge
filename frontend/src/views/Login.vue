@@ -79,16 +79,11 @@ const googleLogin = () => {
   left: 12vh;
 }
 #start {
-  position: relative;
-  top: 59vh;
-  right: 7vh;
 }
 #loginBtn {
   position: relative;
   top: 58vh;
   right: 1vh;
-}
-.bin {
 }
 
 .kakao-btn {
