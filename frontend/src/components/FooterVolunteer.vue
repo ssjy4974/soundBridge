@@ -22,8 +22,10 @@
 
 <style scoped>
 .footer {
+  max-width: 412px;
+
   width: 100vw;
-  height: 56px;
+  height: 5vh;
   display: flex;
   justify-content: space-around;
   text-align: center;

@@ -40,12 +40,13 @@ memberStore.setMemberInfo();
 
 <style scoped>
 #wrapper {
-  height: 100%;
+  /* height: 100%; */
+  overflow: scroll;
 }
 .router {
-  padding-top: 70px;
+  padding-top: 6vh;
 
-  padding-bottom: 64px;
+  padding-bottom: 6vh;
 }
 
 /* .dummy {

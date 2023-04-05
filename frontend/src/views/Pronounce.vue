@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pronounce">
     <div>
       <FreqUsedPhrase />
     </div>

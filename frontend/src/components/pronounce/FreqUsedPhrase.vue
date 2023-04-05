@@ -177,11 +177,21 @@ callCategoryAPI();
 </script>
 
 <style lang="scss" scoped>
+.TTS__container {
+  height: 30vh;
+  border: solid var(--maincolor2);
+  background-color: var(--black1);
+  margin-inline: 2vw;
+  margin-bottom: 2vh;
+  padding: 1vh;
+  border-radius: 16px;
+}
 .FUP__container {
-  height: 35vh;
+  height: 85%;
   overflow: scroll;
 }
 .cat__wrapper {
+  height: 15%;
   display: flex;
   justify-content: space-between;
   border-bottom: solid var(--maincolor2);
@@ -190,7 +200,7 @@ callCategoryAPI();
   display: flex;
   width: 70%;
   align-items: center;
-  height: 5vh;
+  // height: 5vh;
   overflow-x: scroll;
 }
 .cat__item {
@@ -211,14 +221,6 @@ p {
   padding-right: 4%;
   align-self: center;
   justify-self: center;
-}
-.TTS__container {
-  border: solid var(--maincolor2);
-  background-color: var(--black1);
-  margin-inline: 2vw;
-  margin-bottom: 2vh;
-  padding: 1vh;
-  border-radius: 16px;
 }
 .phrase__box {
   padding-inline: 3vw;
