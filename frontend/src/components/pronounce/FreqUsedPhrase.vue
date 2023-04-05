@@ -148,6 +148,7 @@ const delPhraseHandler = (sentenceId) => {
 // 선택한 목소리로 TTS 실행하기
 const getAudio = (text, sentenceIndex, qsId) => {
   document.getElementById(`p${sentenceIndex}`).className = "p_touched";
+  // console.log("TTS ", member.value.voiceId);
   audio.value = new Audio(
     `http://j8a703.p.ssafy.io/ai/infer/?text=${encodeURI(text)}&voice=${
       member.value.voiceId

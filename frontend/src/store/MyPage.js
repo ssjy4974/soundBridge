@@ -9,7 +9,7 @@ export const useMypage = defineStore("mypage", () => {
   // const voice = ref(0);
   // const nmae = ref(0);
 
-  const voices = ref();
+  const voices = ref([]);
   const selectedVoice = ref();
 
   // getters == computed()  랜더링 될때 실행되는 함수
