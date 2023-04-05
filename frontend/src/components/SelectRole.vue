@@ -4,6 +4,19 @@
     <img id="small-logo" src="../assets/img/small.png" />
     <div class="container">
       <div class="info-section">
+        <div>
+          <i
+            class="fa-solid fa-circle-question"
+            id="question"
+            @click="isExpModalViewed = true"
+          ></i>
+          <video-modal
+            v-if="isExpModalViewed"
+            @closeModal="isExpModalViewed = false"
+          >
+            <role-explain id="roleex" />
+          </video-modal>
+        </div>
         <div class="age-section">
           <p>나이:</p>
 
@@ -69,9 +82,12 @@ import { apiInstance } from "@/api";
 import router from "@/router";
 import { ref } from "@vue/runtime-core";
 import { useMember } from "../store/Member";
-
+import RoleExplain from "./RoleExplain.vue";
+import VideoModal from "@/components/practice/item/VideoModal.vue";
 const api = apiInstance();
 const memberStore = useMember();
+
+const isExpModalViewed = ref(false);
 
 const ageList = ref(["10대", "20대", "30대", "40대", "50대", "60대"]);
 const age = ref("연령대 선택");
@@ -103,6 +119,14 @@ const signUp = (role) => {
 </script>
 
 <style scoped>
+#question {
+  font-size: 2.3rem;
+  position: fixed;
+  left: 84%;
+  top: 47%;
+  bottom: 8.9vh;
+  color: gold;
+}
 #ma {
   border: 1px solid #eaf6ff;
 }
