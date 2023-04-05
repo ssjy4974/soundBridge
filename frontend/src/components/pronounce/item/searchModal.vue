@@ -334,7 +334,7 @@ const checked2 = () => {
   bottom: 1vh;
   height: 35px;
   /* MainBlue/300 */
-
+  z-index: 80;
   /* Shadow/xs */
 
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);

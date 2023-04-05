@@ -15,7 +15,7 @@ import lombok.Setter;
 public class QuickSentenceReq {
 
     @NotNull(message = "category name cannot be null.")
-    @Size(max = 10, message = "The maximum length of the category name is 10.")
+    @Size(max = 30, message = "The maximum length of the category name is 30.")
     private String sentence;
 
     @NotNull(message = "categoryId cannot be null.")
