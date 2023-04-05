@@ -1,11 +1,18 @@
 <template>
   <div class="main" v-if="basicLetter">
     <div class="letter">
-      <h1>{{ basicLetter.letter }}</h1>
+      <h1 class="title">{{ basicLetter.letter }}</h1>
       <i
+        v-if="basicLetter.startTime"
         class="fa-brands fa-youtube"
         @click="isModalViewed = true"
         id="help"
+      ></i>
+      <i
+        v-else
+        id="help"
+        class="fa-brands fa-youtube"
+        style="visibility: hidden"
       ></i>
 
       <div class="letterImage">
@@ -14,10 +21,15 @@
           alt="조음법 이미지"
         />
       </div>
+      <i
+        class="fa-solid fa-circle-question"
+        id="question"
+        @click="isExpModalViewed = true"
+      ></i>
     </div>
 
     <div class="guidLetter">
-      <h1>{{ basicLetter.guidLetter }}</h1>
+      <h1 class="guid_h1">{{ basicLetter.guidLetter }}</h1>
     </div>
     <div class="realLetter">
       <h1 v-text="transcript"></h1>
@@ -50,6 +62,9 @@
         <youtube-video :basicLetter="basicLetter"></youtube-video>
       </video-modal>
     </div>
+    <video-modal v-if="isExpModalViewed" @closeModal="isExpModalViewed = false">
+      <content :basicLetter="basicLetter" />
+    </video-modal>
   </div>
 </template>
 
@@ -63,6 +78,7 @@ import router from "@/router/index";
 import Swal from "sweetalert2";
 import VideoModal from "./item/VideoModal.vue";
 import YoutubeVideo from "./item/YoutubeVideo.vue";
+import Content from "./item/Content.vue";
 
 const route = useRoute();
 const store = useBasicLetterStore();
@@ -74,6 +90,7 @@ const transcript = ref("");
 const isRecording = ref(false);
 const recordStatus = ref("연습하기");
 const isModalViewed = ref(false);
+const isExpModalViewed = ref(false);
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const sr = new Recognition();
@@ -154,6 +171,9 @@ const ToggleMic = () => {
 </script>
 
 <style scoped>
+.title {
+  margin-bottom: 0%;
+}
 i {
   color: #2bacff;
   cursor: pointer;
@@ -179,6 +199,13 @@ i {
   top: 7.5vh;
   color: red;
 }
+#question {
+  font-size: 2.3rem;
+  position: relative;
+  left: 12.5vh;
+  bottom: 8.9vh;
+  color: gold;
+}
 #mic {
   color: black;
 }
@@ -188,6 +215,7 @@ i {
 }
 .letter {
   text-align: center;
+  margin-bottom: -10%;
 }
 .guidLetter {
   width: 100%;
@@ -195,9 +223,8 @@ i {
   justify-content: center;
   text-align: center;
 }
-h1,
-h2 {
-  margin-top: 20px;
+.guid_h1 {
+  padding-top: 9%;
 }
 .realLetter {
   width: 100%;
