@@ -55,7 +55,7 @@ onUpdated(() => {
     if (element.tryCount == 0) {
       percent = 0;
     } else {
-      percent = (element.successCount / element.tryCount) * 100;
+      percent = Number((element.successCount / element.tryCount) * 100);
     }
     per.value.push(percent.toFixed(1));
     let elem = document.querySelector(`#mybar${index}`);
