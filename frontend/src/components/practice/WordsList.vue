@@ -65,6 +65,7 @@ onUpdated(() => {
     per.value.push(percent.toFixed(1));
     let elem = document.querySelector(`#mybar${index}`);
     let elem2 = document.getElementById(`my_percent${index}`);
+    console.log("index확인 : ", index);
     elem.style.width = "0%";
     if (document.getElementById(`my_percent${index}`) != null) {
       elem2.textContent = `성공률: ${percent}%`;
