@@ -50,7 +50,6 @@ const per = ref([]);
 const isWordModal = ref(false);
 MyDailyWord.getmydailyword();
 onUpdated(() => {
-  per.value = [];
   console.log(MyDailyWord.mydailyword);
   MyDailyWord.mydailyword.forEach((element, index) => {
     var percent = 0;
