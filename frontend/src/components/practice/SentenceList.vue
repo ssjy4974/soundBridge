@@ -16,11 +16,11 @@
           </router-link>
         </div>
         <div class="myProgress">
-          <div class="myBar" :id="`mybar` + index"></div>
+          <div class="myBar" :id="`mybar` + item.wordMemberId"></div>
           <div class="test">
             <div
               class="percent"
-              :id="`my_percent` + index"
+              :id="`my_percent` + item.wordMemberId"
               v-if="item.tryCount != 0"
             ></div>
             <div class="percent" v-else>성공률:0%</div>
@@ -58,10 +58,10 @@ onUpdated(() => {
       percent = (element.successCount / element.tryCount) * 100;
     }
     per.value.push(percent.toFixed(1));
-    let elem = document.querySelector(`#mybar${index}`);
-    let elem2 = document.getElementById(`my_percent${index}`);
+    let elem = document.querySelector(`#mybar${element.wordMemberId}`);
+    let elem2 = document.getElementById(`my_percent${element.wordMemberId}`);
     elem.style.width = "0%";
-    if (document.getElementById(`my_percent${index}`) != null) {
+    if (document.getElementById(`my_percent${element.wordMemberId}`) != null) {
       elem2.textContent = `성공률: ${percent.toFixed(1)}%`;
     }
     var width = 1;
