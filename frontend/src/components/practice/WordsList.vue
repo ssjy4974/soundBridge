@@ -83,6 +83,7 @@ const deleteHandler = (wordMemberId) => {
   }).then((result) => {
     if (result.isConfirmed) {
       MyDailyWord.deletedailyword(wordMemberId, "DAILY_WORD");
+      callAPI();
     }
   });
 };
