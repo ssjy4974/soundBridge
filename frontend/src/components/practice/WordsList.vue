@@ -53,7 +53,7 @@ const isWordModal = ref(false);
 MyDailyWord.getmydailyword();
 onUpdated(() => {
   MyDailyWord.mydailyword.forEach((element, index) => {
-    var percent = 0;
+    let percent = 0;
     if (element.tryCount == 0) {
       percent = 0;
     } else {
@@ -67,8 +67,8 @@ onUpdated(() => {
       elem2.textContent = `성공률: ${percent}%`;
     }
 
-    var width = 1;
-    var id = setInterval(frame, 1);
+    let width = 1;
+    let id = setInterval(frame, 1);
     function frame() {
       if (width >= percent) {
         clearInterval(id);
