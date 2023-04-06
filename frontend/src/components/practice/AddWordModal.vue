@@ -26,18 +26,16 @@
 
 <script setup>
 //ref
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 //store import
 import { useMyDailyWord } from "@/store/DailyWord";
 const store = useMyDailyWord();
 const newWord = ref("");
-
+const emit = defineEmits(["completeAdd", "closemodal"]);
 const wordHandler = async () => {
   await store.addmydailyword(newWord.value, "DAILY_WORD");
-  $emit("completeAdd");
+  emit("completeAdd");
 };
-
-defineEmits(["completeAdd", "closemodal"]);
 </script>
 
 <style scoped>
