@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-link to="../practice-basics">
-      <div class="basic_wrap">
+      <div class="daily_wrap">
         <div class="daily">
           <h1>기본 발음 연습</h1>
           <div class="daily__box">
@@ -72,6 +72,7 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   align-items: center;
 }
 .daily_wrap {
+  margin-top: 4%;
   display: flex;
   padding-bottom: 10%;
 
