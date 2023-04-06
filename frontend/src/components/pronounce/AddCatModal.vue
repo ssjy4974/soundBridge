@@ -24,7 +24,6 @@
         @keyup.enter="
           () => {
             categoryHandler(newCategory);
-            $emit('closemodal');
           }
         "
       />
@@ -34,7 +33,6 @@
         @click="
           () => {
             categoryHandler();
-            $emit('closemodal');
           }
         "
       >
@@ -86,9 +84,11 @@ const delCatHandler = (data) => {
   console.log("????????????");
 };
 
-const categoryHandler = () => {
+const categoryHandler = async () => {
   if (newCategory.value.length < 5) {
-    store.addCategory(newCategory.value);
+    await store.addCategory(newCategory.value);
+    emit("reUpload");
+    emit("closemodal");
   } else {
     alert("카테고리는 4글자 이하여야 합니다.");
   }

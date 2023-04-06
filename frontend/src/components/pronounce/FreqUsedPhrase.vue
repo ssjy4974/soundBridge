@@ -28,7 +28,7 @@
     <AddCatModal
       v-if="isCatModal"
       @closemodal="addCatModal"
-      @reUpload="reUpload"
+      @reUpload="reUpload()"
     />
     <div class="FUP__container">
       <div
