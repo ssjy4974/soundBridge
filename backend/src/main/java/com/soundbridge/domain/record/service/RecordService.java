@@ -9,6 +9,7 @@ import com.soundbridge.domain.record.repository.RecordStateRepository;
 import com.soundbridge.domain.record.response.NextRecordSentenceRes;
 import com.soundbridge.global.error.ErrorCode;
 import com.soundbridge.global.error.exception.NotFoundException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,11 @@ public class RecordService {
         Long sentenceId = 1L;
         String content = "";
 
-        RecordState recordState = recordStateRepository.findByMemberId(memberId);
+        Optional<RecordState> recordState = recordStateRepository.findByMemberId(memberId);
 //        log.info("recordState {}", recordState);
-        if (recordState != null) {
-            sentenceId = recordState.getRecordSentence().getId();
-            content = recordState.getRecordSentence().getContent();
+        if (recordState.isPresent()) {
+            sentenceId = recordState.get().getRecordSentence().getId();
+            content = recordState.get().getRecordSentence().getContent();
         } else {
             content = recordSentenceRepository.findById(sentenceId).get().getContent();
         }
@@ -46,7 +47,9 @@ public class RecordService {
 
     public void startRecord(Long memberId) {
         Long sentenceId = 1L;
-
+        if(recordStateRepository.findByMemberId(memberId).isPresent()){
+            return;
+        }
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
@@ -59,7 +62,7 @@ public class RecordService {
     }
 
     public void deleteRecord(Long memberId){
-        RecordState recordState = recordStateRepository.findByMemberId(memberId);
+        RecordState recordState = recordStateRepository.findByMemberId(memberId).get();
         recordStateRepository.delete(recordState);
     }
 }
