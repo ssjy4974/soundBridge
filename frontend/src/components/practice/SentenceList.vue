@@ -55,14 +55,14 @@ onUpdated(() => {
     if (element.tryCount == 0) {
       percent = 0;
     } else {
-      percent = Math.floor(element.successCount / element.tryCount) * 100;
+      percent = (element.successCount / element.tryCount) * 100;
     }
     per.value.push(percent.toFixed(1));
     let elem = document.querySelector(`#mybar${index}`);
     let elem2 = document.getElementById(`my_percent${index}`);
     elem.style.width = "0%";
     if (document.getElementById(`my_percent${index}`) != null) {
-      elem2.textContent = `성공률: ${percent}%`;
+      elem2.textContent = `성공률: ${percent.toFixed(1)}%`;
     }
     var width = 1;
     var id = setInterval(frame, 1);

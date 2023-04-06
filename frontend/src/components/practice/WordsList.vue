@@ -64,7 +64,7 @@ onUpdated(() => {
     let elem2 = document.getElementById(`my_percent${element.wordMemberId}`);
     elem.style.width = "0%";
     if (document.getElementById(`my_percent${element.wordMemberId}`) != null) {
-      elem2.textContent = `성공률: ${percent}%`;
+      elem2.textContent = `성공률: ${percent.toFixed(1)}%`;
     }
 
     let width = 1;
