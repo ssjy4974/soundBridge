@@ -32,7 +32,11 @@
       <button class="addButton__button" @click="addSentenceModal">
         연습 문장 추가하기 +
       </button>
-      <AddSentenceModal v-if="isSentenceModal" @completeAdd="completeAdd" />
+      <AddSentenceModal
+        v-if="isSentenceModal"
+        @closemodal="addWordModal"
+        @completeAdd="completeAdd"
+      />
     </div>
   </div>
 </template>
@@ -47,35 +51,38 @@ const MyDailyWord = useMyDailyWord();
 const per = ref([]);
 const isSentenceModal = ref(false);
 
-MyDailyWord.getmysentence();
-onUpdated(() => {
-  console.log("then", MyDailyWord.sentenceList);
-  MyDailyWord.sentenceList.forEach((element, index) => {
-    var percent = 0;
-    if (element.tryCount == 0) {
-      percent = 0;
-    } else {
-      percent = (element.successCount / element.tryCount) * 100;
-    }
-    per.value.push(percent.toFixed(1));
-    let elem = document.querySelector(`#mybar${element.wordMemberId}`);
-    let elem2 = document.getElementById(`my_percent${element.wordMemberId}`);
-    elem.style.width = "0%";
-    if (document.getElementById(`my_percent${element.wordMemberId}`) != null) {
-      elem2.textContent = `성공률: ${percent.toFixed(1)}%`;
-    }
-    var width = 1;
-    var id = setInterval(frame, 1);
-    function frame() {
-      if (width >= percent) {
-        clearInterval(id);
+const call = () => {
+  MyDailyWord.getmysentence().then(() => {
+    MyDailyWord.sentenceList.forEach((element, index) => {
+      var percent = 0;
+      if (element.tryCount == 0) {
+        percent = 0;
       } else {
-        width++;
-        elem.style.width = width + "%";
+        percent = (element.successCount / element.tryCount) * 100;
       }
-    }
+      per.value.push(percent.toFixed(1));
+      let elem = document.querySelector(`#mybar${element.wordMemberId}`);
+      let elem2 = document.getElementById(`my_percent${element.wordMemberId}`);
+      elem.style.width = "0%";
+      if (
+        document.getElementById(`my_percent${element.wordMemberId}`) != null
+      ) {
+        elem2.textContent = `성공률: ${percent.toFixed(1)}%`;
+      }
+      var width = 1;
+      var id = setInterval(frame, 1);
+      function frame() {
+        if (width >= percent) {
+          clearInterval(id);
+        } else {
+          width++;
+          elem.style.width = width + "%";
+        }
+      }
+    });
   });
-});
+};
+call();
 const deleteHandler = (wordMemberId) => {
   Swal.fire({
     title: "삭제 하시겠습니까?",
@@ -99,6 +106,7 @@ const addSentenceModal = () => {
 };
 
 const completeAdd = () => {
+  call();
   addSentenceModal();
 };
 </script>

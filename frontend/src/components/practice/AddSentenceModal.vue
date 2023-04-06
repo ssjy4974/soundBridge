@@ -34,8 +34,9 @@ const newWord = ref("");
 const emit = defineEmits(["completeAdd", "closemodal"]);
 
 const wordHandler = async () => {
-  await store.addmydailyword(newWord.value, "SENTENCE");
-  emit("completeAdd");
+  store.addmydailyword(newWord.value, "SENTENCE").then(() => {
+    emit("completeAdd");
+  });
 };
 </script>
 
