@@ -10,6 +10,7 @@
         @keyup.enter="
           () => {
             getAudio(inputSentence, member.voiceId);
+            addSentenceHandler(inputSentence);
             directMessageHandler();
             callgetAPI();
           }
@@ -36,7 +37,7 @@
           @click="
             () => {
               // play tts
-              getAudio(mysen.sentence);
+              getAudio(mysen.sentence, member.voiceId);
               // auto complete 입력칸
               directMessageHandler();
               // 자동완성 후 store 업데이트
@@ -99,6 +100,7 @@ addSentenceHandler(inputSentence);
 </script>
 <style lang="scss" scoped>
 .direct__container {
+  height: 5vh;
 }
 .icon__box {
   align-self: center;
