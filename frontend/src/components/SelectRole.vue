@@ -232,8 +232,9 @@ const signUp = (role) => {
   padding: 0px;
   border-radius: 5px;
   position: absolute;
-  right: 4vh;
-  top: 3vh;
+  right: 10%;
+  top: 10%;
+  /* top: 1vh; */
   z-index: 10;
 }
 
