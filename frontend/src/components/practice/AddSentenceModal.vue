@@ -6,7 +6,7 @@
       <input
         class="input__box"
         type="text"
-        placeholder="연습할 문장을 입력하세요"
+        placeholder="띄어쓰기를 정확히 하여 문장을 입력하세요"
         v-model="newWord"
       />
     </div>
