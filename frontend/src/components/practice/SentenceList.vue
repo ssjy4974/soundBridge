@@ -30,7 +30,7 @@
       <button class="addButton__button" @click="addSentenceModal">
         연습 문장 추가하기 +
       </button>
-      <AddSentenceModal v-if="isSentenceModal" @closemodal="addSentenceModal" />
+      <AddSentenceModal v-if="isSentenceModal" @completeAdd="completeAdd" />
     </div>
   </div>
 </template>
@@ -38,40 +38,38 @@
 <script setup>
 import { useMyDailyWord } from "@/store/DailyWord";
 import AddSentenceModal from "./AddSentenceModal.vue";
-import { ref } from "vue";
+import { onUpdated, ref } from "vue";
 import Swal from "sweetalert2";
 
 const MyDailyWord = useMyDailyWord();
 const per = ref([]);
 const isSentenceModal = ref(false);
 
-const callAPI = () => {
-  MyDailyWord.getmysentence().then(() => {
-    console.log("then", MyDailyWord.sentenceList);
-    MyDailyWord.sentenceList.forEach((element, index) => {
-      var percent = 0;
-      if (element.tryCount == 0) {
-        percent = 0;
+MyDailyWord.getmysentence();
+onUpdated(() => {
+  console.log("then", MyDailyWord.sentenceList);
+  MyDailyWord.sentenceList.forEach((element, index) => {
+    var percent = 0;
+    if (element.tryCount == 0) {
+      percent = 0;
+    } else {
+      percent = (element.successCount / element.tryCount) * 100;
+    }
+    per.value.push(percent.toFixed(1));
+    let elem = document.querySelector(`#mybar${index}`);
+    elem.style.width = "0%";
+    var width = 1;
+    var id = setInterval(frame, 1);
+    function frame() {
+      if (width >= percent) {
+        clearInterval(id);
       } else {
-        percent = (element.successCount / element.tryCount) * 100;
+        width++;
+        elem.style.width = width + "%";
       }
-      per.value.push(percent.toFixed(1));
-      let elem = document.querySelector(`#mybar${index}`);
-      var width = 1;
-      var id = setInterval(frame, 1);
-      function frame() {
-        if (width >= percent) {
-          clearInterval(id);
-        } else {
-          width++;
-          elem.style.width = width + "%";
-        }
-      }
-    });
+    }
   });
-};
-callAPI();
-
+});
 const deleteHandler = (wordMemberId) => {
   Swal.fire({
     title: "삭제 하시겠습니까?",
@@ -83,7 +81,6 @@ const deleteHandler = (wordMemberId) => {
   }).then((result) => {
     if (result.isConfirmed) {
       MyDailyWord.deletedailyword(wordMemberId, "SENTENCE");
-      callAPI();
     }
   });
 };
@@ -93,6 +90,10 @@ const addSentenceModal = () => {
 
   isSentenceModal.value = !isSentenceModal.value;
   // console.log("isWordModal value", isWordModal.value);
+};
+
+const completeAdd = () => {
+  addSentenceModal();
 };
 </script>
 

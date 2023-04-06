@@ -42,39 +42,38 @@
 <script setup>
 import { useMyDailyWord } from "@/store/DailyWord";
 import AddWordModal from "./AddWordModal.vue";
-import { ref } from "vue";
+import { onUpdated, ref } from "vue";
 import Swal from "sweetalert2";
 
 const MyDailyWord = useMyDailyWord();
 const per = ref([]);
 const isWordModal = ref(false);
-
-const callAPI = () => {
-  MyDailyWord.getmydailyword().then(() => {
-    console.log(MyDailyWord.mydailyword);
-    MyDailyWord.mydailyword.forEach((element, index) => {
-      var percent = 0;
-      if (element.tryCount == 0) {
-        percent = 0;
+MyDailyWord.getmydailyword();
+onUpdated(() => {
+  per.value = [];
+  console.log(MyDailyWord.mydailyword);
+  MyDailyWord.mydailyword.forEach((element, index) => {
+    var percent = 0;
+    if (element.tryCount == 0) {
+      percent = 0;
+    } else {
+      percent = (element.successCount / element.tryCount) * 100;
+    }
+    per.value.push(percent.toFixed(1));
+    let elem = document.querySelector(`#mybar${index}`);
+    elem.style.width = "0%";
+    var width = 1;
+    var id = setInterval(frame, 1);
+    function frame() {
+      if (width >= percent) {
+        clearInterval(id);
       } else {
-        percent = (element.successCount / element.tryCount) * 100;
+        width++;
+        elem.style.width = width + "%";
       }
-      per.value.push(percent.toFixed(1));
-      let elem = document.querySelector(`#mybar${index}`);
-      var width = 1;
-      var id = setInterval(frame, 1);
-      function frame() {
-        if (width >= percent) {
-          clearInterval(id);
-        } else {
-          width++;
-          elem.style.width = width + "%";
-        }
-      }
-    });
+    }
   });
-};
-callAPI();
+});
 
 const deleteHandler = (wordMemberId) => {
   Swal.fire({
@@ -87,7 +86,6 @@ const deleteHandler = (wordMemberId) => {
   }).then((result) => {
     if (result.isConfirmed) {
       MyDailyWord.deletedailyword(wordMemberId, "DAILY_WORD");
-      callAPI();
     }
   });
 };
@@ -101,7 +99,6 @@ const addWordModal = () => {
 
 const completeAdd = () => {
   addWordModal();
-  callAPI();
 };
 </script>
 

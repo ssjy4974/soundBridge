@@ -15,7 +15,6 @@
         @click="
           () => {
             wordHandler();
-            $emit('closemodal');
           }
         "
       >
@@ -27,17 +26,17 @@
 
 <script setup>
 //ref
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 //store import
 import { useMyDailyWord } from "@/store/DailyWord";
 const store = useMyDailyWord();
 const newWord = ref("");
+const emit = defineEmits(["completeAdd", "closemodal"]);
 
-const wordHandler = () => {
-  store.addmydailyword(newWord.value, "SENTENCE");
+const wordHandler = async () => {
+  await store.addmydailyword(newWord.value, "SENTENCE");
+  emit("completeAdd");
 };
-
-defineEmits(["closemodal"]);
 </script>
 
 <style scoped>
