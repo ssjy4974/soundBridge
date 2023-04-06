@@ -2,12 +2,13 @@
   <div>
     <router-link to="../practice-basics">
       <div class="basic_wrap">
-        <div class="basic">
+        <div class="daily">
           <h1>기본 발음 연습</h1>
-          <div class="image">
-            <img class="basic_image" src="@/assets/img/기역.png" />
-            <img class="basic_image" src="@/assets/img/니은.png" />
-            <img class="basic_image" src="@/assets/img/디귿.png" />
+          <div class="daily__box">
+            <p>
+              한글 자음을 연습 할 수 있는 페이지 입니다. 조음법과 영상으로
+              발음을 연습 할 수 있습니다.
+            </p>
           </div>
         </div>
       </div>
@@ -17,9 +18,10 @@
       <div class="daily_wrap">
         <div class="daily">
           <h1>일상 단어 연습</h1>
-          <div class="image">
-            <img class="word_image" src="@/assets/img/image10.png" />
-            <img class="word_image" src="@/assets/img/image12.png" />
+          <div class="daily__box">
+            <p>
+              일상에서 자주 쓰이는 단어를 추가하여 발음 연습을 할 수 있습니다.
+            </p>
           </div>
         </div>
       </div>
@@ -27,11 +29,10 @@
 
     <router-link to="../practice-sentence">
       <div class="daily_wrap">
-        <div class="sentence">
+        <div class="daily">
           <h1>문장 연습</h1>
-          <div class="image">
-            <img class="word_image" src="@/assets/img/image10.png" />
-            <img class="word_image" src="@/assets/img/image12.png" />
+          <div class="sentence_box">
+            <p>연습 하고 싶은 문장을 직접 등록하고 연습 할 수 있습니다.</p>
           </div>
         </div>
       </div>
@@ -51,7 +52,8 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   justify-content: center;
 }
 .basic {
-  padding: 20px 0px;
+  /* padding: 25px 0px; */
+  padding-top: 10%;
   text-align: center;
   position: relative;
   width: 95%;
@@ -59,6 +61,10 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   background: #bae4ff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
+}
+.basic__box {
+  /* display: block; */
+  /* padding: -40px; */
 }
 .image {
   display: flex;
@@ -72,18 +78,18 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   justify-content: center;
 }
 .daily {
+  /* margin-block: 3%; */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px 0px;
-  gap: 24px;
 
-  position: relative;
+  /* position: relative; */
   /* width: 370px;
   height: 200px;
   left: 20px;
   top: 400px; */
-  width: 95%;
+  width: 90%;
 
   background: #bae4ff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -108,18 +114,17 @@ const IMAGE_PATH = import.meta.env.VITE_IMAGE_PATH;
   border-radius: 16px;
 }
 h1 {
-  margin-top: 0px;
-  margin-bottom: 50px;
   color: black;
+  margin-top: 3%;
 }
-.basic_image {
-  width: 23%;
-  padding: 3px;
-  padding-left: 6.5px;
-  vertical-align: middle;
+.daily__box {
+  /* padding-block: 2vh; */
+  line-height: 1.7rem;
+  width: 75%;
 }
-.word_image {
-  margin-top: -30px;
-  padding: 10px;
+.sentence_box {
+  width: 75%;
+  line-height: 1.7rem;
+  /* white-space: nowrap; */
 }
 </style>
