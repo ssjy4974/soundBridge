@@ -50,35 +50,42 @@ import Swal from "sweetalert2";
 const MyDailyWord = useMyDailyWord();
 const per = ref([]);
 const isWordModal = ref(false);
-MyDailyWord.getmydailyword();
-onUpdated(() => {
-  MyDailyWord.mydailyword.forEach((element, index) => {
-    let percent = 0;
-    if (element.tryCount == 0) {
-      percent = 0;
-    } else {
-      percent = (element.successCount / element.tryCount) * 100;
-    }
-    per.value.push(percent.toFixed(1));
-    let elem = document.querySelector(`#mybar${element.wordMemberId}`);
-    let elem2 = document.getElementById(`my_percent${element.wordMemberId}`);
-    elem.style.width = "0%";
-    if (document.getElementById(`my_percent${element.wordMemberId}`) != null) {
-      elem2.textContent = `성공률: ${percent.toFixed(1)}%`;
-    }
 
-    let width = 1;
-    let id = setInterval(frame, 1);
-    function frame() {
-      if (width >= percent) {
-        clearInterval(id);
+// onUpdated(() => {});
+
+const call = () => {
+  MyDailyWord.getmydailyword().then(() => {
+    MyDailyWord.mydailyword.forEach((element, index) => {
+      let percent = 0;
+      if (element.tryCount == 0) {
+        percent = 0;
       } else {
-        width++;
-        elem.style.width = width + "%";
+        percent = (element.successCount / element.tryCount) * 100;
       }
-    }
+      per.value.push(percent.toFixed(1));
+      let elem = document.querySelector(`#mybar${element.wordMemberId}`);
+      let elem2 = document.getElementById(`my_percent${element.wordMemberId}`);
+      elem.style.width = "0%";
+      if (
+        document.getElementById(`my_percent${element.wordMemberId}`) != null
+      ) {
+        elem2.textContent = `성공률: ${percent.toFixed(1)}%`;
+      }
+
+      let width = 1;
+      let id = setInterval(frame, 1);
+      function frame() {
+        if (width >= percent) {
+          clearInterval(id);
+        } else {
+          width++;
+          elem.style.width = width + "%";
+        }
+      }
+    });
   });
-});
+};
+call();
 
 const deleteHandler = (wordMemberId) => {
   Swal.fire({
@@ -90,7 +97,9 @@ const deleteHandler = (wordMemberId) => {
     confirmButtonText: "Yes",
   }).then((result) => {
     if (result.isConfirmed) {
-      MyDailyWord.deletedailyword(wordMemberId, "DAILY_WORD");
+      MyDailyWord.deletedailyword(wordMemberId, "DAILY_WORD").then(() => {
+        call();
+      });
     }
   });
 };
@@ -103,6 +112,7 @@ const addWordModal = () => {
 };
 
 const completeAdd = () => {
+  call();
   addWordModal();
 };
 </script>
