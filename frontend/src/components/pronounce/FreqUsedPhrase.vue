@@ -224,7 +224,7 @@ p {
 }
 .phrase__box {
   padding-inline: 3vw;
-  height: 15%;
+  height: 5vh;
   border-bottom: var(--black5) solid 1px;
   display: flex;
   align-items: baseline;
