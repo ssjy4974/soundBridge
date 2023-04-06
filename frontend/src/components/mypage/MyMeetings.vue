@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="myMeetings">
+    <div v-if="myMeetings[0]">
       <div
         class="meeting"
         v-for="myMeeting in myMeetings"
@@ -47,6 +47,17 @@
         </div>
         <hr />
       </div>
+    </div>
+    <div v-else id="none">
+      피드백 조회 결과가 없습니다.
+      <br />
+      <div v-if="member.role == `HELPER`">
+        피드백 게시판에서 피드백 요청을 수락해주세요!
+      </div>
+      <div v-else>피드백 게시판을 이용하여 피드백을 신청하세요!</div>
+      <br />
+      <br />
+      이곳에서 피드백을 바로 진행할 수 있어요
     </div>
   </div>
 </template>
@@ -176,5 +187,10 @@ hr {
   cursor: default;
   text-align: center;
   padding-top: 12px;
+}
+
+#none {
+  text-align: center;
+  margin-top: 20%;
 }
 </style>
