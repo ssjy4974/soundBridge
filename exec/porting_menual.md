@@ -28,9 +28,7 @@ password=ssafy
 
 ![](./assets/architecture.drawio.png)
 
-### 소셜인증 : 종민이 정리
-
-
+### 소셜인증 : SOCIAL-LOGIN 폴더
 
 ### 빌드시 사용되는 환경변수
 
