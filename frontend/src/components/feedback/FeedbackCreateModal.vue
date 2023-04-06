@@ -67,21 +67,21 @@ const feedbackBoardSave = () => {
     alert("시작 일자가 종료 일자보다 앞설 수 없습니다.");
     return;
   }
-  // feedbackArticleSaveReq.value.startTime = startTime.value;
-  // feedbackArticleSaveReq.value.endTime = endTime.value;
-  // api
-  //   .post(`/api/feedback-boards`, feedbackArticleSaveReq.value, {
-  //     headers: {
-  //       "access-token": accessToken,
-  //     },
-  //   })
-  //   .then(() => {
-  //     emit("createFeedback");
-  //   })
-  //   .catch((err) => {
-  //     err;
-  //     alert("등록 실패");
-  //   });
+  feedbackArticleSaveReq.value.startTime = startTime.value;
+  feedbackArticleSaveReq.value.endTime = endTime.value;
+  api
+    .post(`/api/feedback-boards`, feedbackArticleSaveReq.value, {
+      headers: {
+        "access-token": accessToken,
+      },
+    })
+    .then(() => {
+      emit("createFeedback");
+    })
+    .catch((err) => {
+      err;
+      alert("등록 실패");
+    });
 };
 
 // Close Modal
