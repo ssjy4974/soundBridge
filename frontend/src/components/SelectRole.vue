@@ -1,22 +1,26 @@
 <template>
-  <div id="loginpage">
-    <img id="big-logo" src="../assets/img/biglogo.png" />
-    <img id="small-logo" src="../assets/img/small.png" />
+  <div class="loginpage">
+    <div class="logo__container">
+      <img class="big__logo" src="../assets/img/biglogo.png" />
+      <img class="small__logo" src="../assets/img/small.png" />
+    </div>
+    <div class="q__modal">
+      <i
+        class="fa-solid fa-circle-question"
+        id="question"
+        @click="isExpModalViewed = true"
+      ></i>
+    </div>
     <div class="container">
+      <div>
+        <video-modal
+          v-if="isExpModalViewed"
+          @closeModal="isExpModalViewed = false"
+        >
+          <role-explain />
+        </video-modal>
+      </div>
       <div class="info-section">
-        <div>
-          <i
-            class="fa-solid fa-circle-question"
-            id="question"
-            @click="isExpModalViewed = true"
-          ></i>
-          <video-modal
-            v-if="isExpModalViewed"
-            @closeModal="isExpModalViewed = false"
-          >
-            <role-explain id="roleex" />
-          </video-modal>
-        </div>
         <div class="age-section">
           <p>나이:</p>
 
@@ -119,65 +123,69 @@ const signUp = (role) => {
 </script>
 
 <style scoped>
-#question {
-  font-size: 2.3rem;
-  position: fixed;
-  left: 84%;
-  top: 47%;
-  bottom: 8.9vh;
-  color: gold;
-}
-#ma {
-  border: 1px solid #eaf6ff;
-}
-#fem {
-  position: relative;
-  left: 2vh;
-  border: 1px solid #eaf6ff;
-}
-#gen {
-  position: relative;
-  top: 1.3vh;
-}
-#loginpage {
+.loginpage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
   width: 100vw;
   background-color: #eaf6ff;
 }
-#big-logo {
-  position: relative;
+.logo__container {
   width: 90%;
-  height: auto;
-  top: 26vh;
-  left: 2.5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10vh;
+  /* margin-block: 5vh; */
 }
-#small-logo {
-  position: relative;
-  top: 27vh;
-  left: 12vh;
+.big__logo {
+  width: 90%;
+}
+.small__logo {
+  width: 55%;
+}
+.q__modal {
+  align-self: end;
+  margin-inline: 10%;
+  margin-block: 3vh;
+}
+#question {
+  font-size: 2.3rem;
+  /* position: fixed; */
+  /* left: 84%; */
+  /* top: 47%; */
+  /* bottom: 8.9vh; */
+  color: gold;
 }
 .container {
+  /* border: solid 1px; */
+  margin-inline: 10vw;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 25vh;
 }
-
 .info-section {
-  width: 300px;
+  /* border: solid 1px blue; */
+  width: 80vw;
 }
 
 .age-section {
   display: flex;
   justify-content: space-between;
-  position: relative;
-  top: 35vh;
+  /* position: relative; */
+  /* top: 35vh; */
 }
 
 .gender-section {
   display: flex;
   justify-content: space-between;
-  position: relative;
-  top: 36vh;
+  padding-block: 5%;
+  /* position: relative; */
+  /* top: 36vh; */
 }
 
 .info-container {
@@ -214,6 +222,7 @@ const signUp = (role) => {
 
 .age-drawer {
   background: white;
+
   position: absolute;
   width: 120px;
   height: auto;
@@ -223,8 +232,8 @@ const signUp = (role) => {
   padding: 0px;
   border-radius: 5px;
   position: absolute;
-  right: 0vh;
-  top: 4.5vh;
+  right: 4vh;
+  top: 3vh;
   z-index: 10;
 }
 
@@ -310,7 +319,7 @@ const signUp = (role) => {
 }
 
 .select {
-  padding: 15px 10px;
+  padding-inline: 2vw;
 }
 #select2 {
   position: relative;
@@ -340,15 +349,14 @@ const signUp = (role) => {
 }
 
 .button-section {
-  margin-top: 30px;
-  position: relative;
-  top: 35vh;
+  display: flex;
+  width: 95%;
+  justify-content: space-between;
+  /* border: 1px solid; */
 }
 
 .signup-button {
   background-color: #bae4ff;
   font-weight: bold;
-  margin-left: 20px;
-  height: 60px;
 }
 </style>
