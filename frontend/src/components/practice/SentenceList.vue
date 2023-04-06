@@ -22,9 +22,7 @@
               class="percent"
               :id="`my_percent` + index"
               v-if="item.tryCount != 0"
-            >
-              성공률: {{ per[index] }}%
-            </div>
+            ></div>
             <div class="percent" v-else>성공률:0%</div>
           </div>
         </div>
