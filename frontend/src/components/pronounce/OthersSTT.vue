@@ -1,7 +1,14 @@
 <template>
   <div class="STT__container">
     <div>
-      <p class="STT__ptag" v-text="transcript"></p>
+      <div v-if="transcript">
+        <p class="STT__ptag" v-text="transcript"></p>
+      </div>
+      <div v-else>
+        <p class="STT__ptag">
+          헤드셋을 눌러서 상대방의 <br />말을 읽을 수 있어요!
+        </p>
+      </div>
     </div>
     <div class="microphone__icon" @click="ToggleMic">
       <font-awesome-icon v-if="!isRecording" icon="fa-solid fa-headphones" />
@@ -13,7 +20,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
-const transcript = ref("이곳은 대화상자 입니다.");
+const transcript = ref();
 const isRecording = ref(false);
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;

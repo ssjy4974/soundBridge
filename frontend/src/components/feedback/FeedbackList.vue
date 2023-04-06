@@ -10,6 +10,25 @@
   </div>
   <div v-else id="noResult">
     <p>조회 결과가 없습니다.</p>
+    <p v-if="member.role === 'APPLICANT'">
+      피드백을 신청해보세요! <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      봉사자가 요청을 수락하면 <br /><br />
+      마이페이지에서 확인할 수 있어요
+    </p>
+    <p v-else>
+      피드백 요청을 기다려보아요!
+      <br />
+      <br />
+      <br />
+      <br />
+
+      수락한 피드백 내역은 <br /><br />
+      마이페이지에서 확인할 수 있어요
+    </p>
   </div>
   <div v-if="member.role === 'APPLICANT'">
     <font-awesome-icon
@@ -125,8 +144,8 @@ callApi();
   color: var(--maincolor5);
 }
 #noResult {
-  position: absolute;
-  bottom: 45%;
+  margin-top: 50%;
+  text-align: center;
   left: 30%;
   color: gray;
   font-size: 20px;
