@@ -18,7 +18,11 @@
         <div class="myProgress">
           <div class="myBar" :id="`mybar` + index"></div>
           <div class="test">
-            <div class="percent" v-if="item.tryCount != 0">
+            <div
+              class="percent"
+              :id="`my_percent${index}`"
+              v-if="item.tryCount != 0"
+            >
               성공률: {{ per[index] }}%
             </div>
             <div class="percent" v-else>성공률:0%</div>
@@ -60,7 +64,12 @@ onUpdated(() => {
     }
     per.value.push(percent.toFixed(1));
     let elem = document.querySelector(`#mybar${index}`);
+    let elem2 = document.getElementById(`my_percent${index}`);
     elem.style.width = "0%";
+    if (document.getElementById(`my_percent${index}`) != null) {
+      elem2.textContent = `성공률: ${percent}%`;
+    }
+
     var width = 1;
     var id = setInterval(frame, 1);
     function frame() {
