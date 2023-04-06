@@ -107,7 +107,7 @@ def addDailyWord(addWordBody: AddWordBody):
     dailyWord = addWordBody.dailyWord
     memberId = addWordBody.memberId
     wordType = addWordBody.type
-    findWord = session.query(Daily_Word).filter(Daily_Word.word==dailyWord).first()
+    findWord = session.query(Daily_Word).filter(Daily_Word.word==dailyWord, Daily_Word.type == wordType).first()
     findMember = session.query(Member).filter(Member.member_id == memberId).first()
 
     print("단어 찾아보기", findWord)
@@ -124,7 +124,7 @@ def addDailyWord(addWordBody: AddWordBody):
         session.add(newWord)
         session.commit()
 
-    word =  session.query(Daily_Word).filter(Daily_Word.word == dailyWord).first()
+    word =  session.query(Daily_Word).filter(Daily_Word.word == dailyWord, Daily_Word.type == wordType).first()
     hasWord =  session.query(Word_Member).filter(Word_Member.daily_word_id == word.daily_word_id
                                       , Word_Member.member_id == findMember.member_id).first()
     print(hasWord,"단어 있니?")

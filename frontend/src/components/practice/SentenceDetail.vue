@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <div class="info__container" v-if="mydailyword">
+    <div class="info__container" v-if="sentenceList">
       <div>
         <p>연습 문장</p>
         <p style="font-size: 1.5rem">
-          {{ mydailyword[Number(route.params.index)].word }}
+          {{ sentenceList[Number(route.params.index)].word }}
         </p>
       </div>
       <div>
@@ -12,7 +12,7 @@
       </div>
       <div>
         <p style="font-size: 1.5rem">
-          {{ mydailyword[Number(route.params.index)].guideWord }}
+          {{ sentenceList[Number(route.params.index)].guideWord }}
         </p>
       </div>
     </div>
@@ -37,7 +37,7 @@
       </button>
     </div>
     <!--  -->
-    <div class="link__container" v-if="mydailyword">
+    <div class="link__container" v-if="sentenceList">
       <div
         class="icon__box"
         v-if="Number(route.params.index) > 0"
@@ -48,7 +48,7 @@
       <div v-else></div>
       <div
         class="icon__box"
-        v-if="Number(route.params.index) < mydailyword.length - 1"
+        v-if="Number(route.params.index) < sentenceList.length - 1"
         @click="next"
       >
         <font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -70,7 +70,7 @@ import Swal from "sweetalert2";
 
 const route = useRoute();
 const store = useMyDailyWord();
-const { mydailyword } = storeToRefs(store);
+const { sentenceList } = storeToRefs(store);
 const callApi = () => {
   store.getmysentence();
 };
@@ -126,7 +126,7 @@ onMounted(() => {
 
 const tryHistoryHandler = () => {
   const index = Number(route.params.index);
-  const wordMemberId = store.mydailyword[index].wordMemberId;
+  const wordMemberId = store.sentenceList[index].wordMemberId;
   console.log("1", index);
   store.saveorupdatetryhistory(wordMemberId, index);
   sr.start();
@@ -155,13 +155,13 @@ const CheckSuccess = (result) => {
 
   const index = Number(route.params.index); // 현재 연습 단어 인덱스
 
-  const originalWord = store.mydailyword[index].word; //현재 연습 단어
+  const originalWord = store.sentenceList[index].word; //현재 연습 단어
 
-  if (myPronunciation == store.mydailyword[index].word) {
+  if (myPronunciation == store.sentenceList[index].word) {
     // 연습 단어와 내 발음이 정확히 일치하는 경우
 
     sr.stop();
-    const wordMemberId = store.mydailyword[index].wordMemberId;
+    const wordMemberId = store.sentenceList[index].wordMemberId;
     store.updatesuccesscount(wordMemberId, index); // 성공 횟수 업데이트
     const span = document.createElement("span"); // 발음 담을 span 요소 생성
     span.textContent = myPronunciation; // 발음을 span의 text 로 할당
@@ -196,10 +196,10 @@ const CheckSuccess = (result) => {
       title: "다시 한번 해볼까요?",
       html:
         "성공횟수 : " +
-        store.mydailyword[index].successCount +
+        store.sentenceList[index].successCount +
         "<br/>" +
         "시도 횟수 : " +
-        store.mydailyword[index].tryCount,
+        store.sentenceList[index].tryCount,
       position: "bottom-end",
     });
   }
