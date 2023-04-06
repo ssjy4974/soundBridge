@@ -92,7 +92,7 @@ const modifyName = (e) => {
       checkNickname.value = !checkNickname.value;
     }
   }
-  name = ref(member.nickname);
+  // name = ref(member.nickname);
   console.log("save ", save.value);
 };
 
