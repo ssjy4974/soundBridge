@@ -92,7 +92,6 @@ const addSentenceModal = () => {
   // console.log("addWord form Wordmodal", isWordModal.value);
 
   isSentenceModal.value = !isSentenceModal.value;
-  callAPI();
   // console.log("isWordModal value", isWordModal.value);
 };
 </script>

@@ -30,7 +30,11 @@
       <button class="addButton__button" @click="addWordModal">
         연습 단어 추가하기 +
       </button>
-      <AddWordModal v-if="isWordModal" @closemodal="addWordModal" />
+      <AddWordModal
+        v-if="isWordModal"
+        @closemodal="addWordModal"
+        @completeAdd="completeAdd"
+      />
     </div>
   </div>
 </template>
@@ -92,8 +96,12 @@ const addWordModal = () => {
   // console.log("addWord form Wordmodal", isWordModal.value);
 
   isWordModal.value = !isWordModal.value;
-  callAPI();
   // console.log("isWordModal value", isWordModal.value);
+};
+
+const completeAdd = () => {
+  addWordModal();
+  callAPI();
 };
 </script>
 

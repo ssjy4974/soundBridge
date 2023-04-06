@@ -15,7 +15,6 @@
         @click="
           () => {
             wordHandler();
-            $emit('closemodal');
           }
         "
       >
@@ -33,11 +32,12 @@ import { useMyDailyWord } from "@/store/DailyWord";
 const store = useMyDailyWord();
 const newWord = ref("");
 
-const wordHandler = () => {
-  store.addmydailyword(newWord.value, "DAILY_WORD");
+const wordHandler = async () => {
+  await store.addmydailyword(newWord.value, "DAILY_WORD");
+  $emit("completeAdd");
 };
 
-defineEmits(["closemodal"]);
+defineEmits(["completeAdd", "closemodal"]);
 </script>
 
 <style scoped>
