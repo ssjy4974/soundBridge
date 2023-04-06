@@ -55,7 +55,7 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
     );
   }
 
-  async function saveorupdatetryhistory(wordMemberId, index) {
+  async function saveorupdatetryhistory(wordMemberId, index, type) {
     console.log("savehistory 호출");
     console.log(memberStore.accessToken);
     await saveOrUpdateTryHistory(
@@ -63,28 +63,47 @@ export const useMyDailyWord = defineStore("mydailyword", () => {
       memberStore.accessToken,
       ({ data }) => {
         console.log(data, " update tryHistory");
-        mydailyword.value[index].tryCount++;
+
+        if (type == "DAILY_WORD") {
+          mydailyword.value[index].tryCount++;
+        } else {
+          sentenceList.value[index].tryCount++;
+        }
       }
     );
   }
 
-  async function updatesuccesscount(wordMemberId, index) {
+  async function updatesuccesscount(wordMemberId, index, type) {
     await updateSuccessCount(
       wordMemberId,
       memberStore.accessToken,
       ({ data }) => {
         console.log(data, " update successCount");
-        mydailyword.value[index].successCount++;
-        Swal.fire({
-          title: "성공!",
-          html:
-            "성공횟수 : " +
-            mydailyword.value[index].successCount +
-            "<br/>" +
-            "시도 횟수 : " +
-            mydailyword.value[index].tryCount,
-          position: "bottom-end",
-        });
+        if (type == "DAILY_WORD") {
+          mydailyword.value[index].successCount++;
+          Swal.fire({
+            title: "성공!",
+            html:
+              "성공횟수 : " +
+              mydailyword.value[index].successCount +
+              "<br/>" +
+              "시도 횟수 : " +
+              mydailyword.value[index].tryCount,
+            position: "bottom-end",
+          });
+        } else {
+          sentenceList.value[index].successCount++;
+          Swal.fire({
+            title: "성공!",
+            html:
+              "성공횟수 : " +
+              sentenceList.value[index].successCount +
+              "<br/>" +
+              "시도 횟수 : " +
+              sentenceList.value[index].tryCount,
+            position: "bottom-end",
+          });
+        }
       }
     );
   }

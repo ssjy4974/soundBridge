@@ -128,7 +128,7 @@ const tryHistoryHandler = () => {
   const index = Number(route.params.index);
   const wordMemberId = store.mydailyword[index].wordMemberId;
   console.log("1", index);
-  store.saveorupdatetryhistory(wordMemberId, index);
+  store.saveorupdatetryhistory(wordMemberId, index, "DAILY_WORD");
   sr.start();
   recordStatus.value = "녹음중";
 };
@@ -162,7 +162,7 @@ const CheckSuccess = (result) => {
 
     sr.stop();
     const wordMemberId = store.mydailyword[index].wordMemberId;
-    store.updatesuccesscount(wordMemberId, index); // 성공 횟수 업데이트
+    store.updatesuccesscount(wordMemberId, index, "DAILY_WORD"); // 성공 횟수 업데이트
     const span = document.createElement("span"); // 발음 담을 span 요소 생성
     span.textContent = myPronunciation; // 발음을 span의 text 로 할당
     span.style.color = "blue"; // 색깔 파랑으로 지정
