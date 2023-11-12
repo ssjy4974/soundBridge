@@ -17,7 +17,7 @@ feature : 기능을 개발하는 브랜치 → EPIC과 연동
 ### Hotfix 수정사항을 작업중인 branch에 적용시킬때
 
 ```
-💡 feature에서 기능 개발 중일때 
+💡 feature에서 기능 개발 중일때
 
 **hotfix를 통해 급하게 중요한 부분이 develop에 변경되었을때**
 
@@ -60,7 +60,7 @@ feature : 기능을 개발하는 브랜치 → EPIC과 연동
   5. remote에서 merge request를 보내 팀의 리더가 확인한 후 merge 시킨다
 
   6. remote develop이 merge 됬으면 내가 생각했을때 가장 편한 방법은
-     local develop branch를 지우고 최신 변경사항을 인지시킨후 
+     local develop branch를 지우고 최신 변경사항을 인지시킨후
      다시 switch로 가져오는것
     ⇒ git branch -D develop
       git fetch
@@ -78,14 +78,14 @@ feature : 기능을 개발하는 브랜치 → EPIC과 연동
   1. git status를 통해 commit할 내역을 확인한 후에 add,commit,push
    ⇒ git status
      git add .
-     git commit -m “feat : ~" 
+     git commit -m “feat : ~"
      git push origin feat/be/sng
 
   2. remote에서 merge request를 보내면 rebase가 필요할때 rebase 버튼이 생성된다.
    ⇒ gitLab에 따로 설정하겠습니다. 충돌이 있다면 remote에서 해결
 
   3. remote develop이 merge 됬으면 내가 생각했을때 가장 편한 방법은
-     local develop branch를 지우고 최신 변경사항을 인지시킨후 
+     local develop branch를 지우고 최신 변경사항을 인지시킨후
      다시 switch로 가져오는것
    ⇒ git branch -D develop
      git fetch
@@ -95,12 +95,12 @@ feature : 기능을 개발하는 브랜치 → EPIC과 연동
 </aside>
 
 - 참고블로그
-  
+
   [충돌 없는 Git을 위해 Git Flow에 대해 알아보자](https://velog.io/@couchcoding/충돌-없는-Git을-위해-Git-Flow에-대해-알아보자)
-  
+
   [우린 Git-flow를 사용하고 있어요 | 우아한형제들 기술블로그](https://techblog.woowahan.com/2553/)
 
-## 
+##
 
 ## Branch Convention
 
@@ -111,19 +111,19 @@ feature : 기능을 개발하는 브랜치 → EPIC과 연동
 
 ## Commit Convention
 
-| 커밋 타입    | 리스트                                     |
-| -------- | --------------------------------------- |
-| feat     | 기능 (새로운 기능)                             |
-| fix      | 버그 (버그 수정)                              |
-| design   | CSS 등 사용자 UI 디자인 변경                     |
-| refactor | 리팩토링                                    |
-| style    | 스타일 (코드 형식, 세미콜론 추가 : 비즈니스 로직에 변경 없음)   |
-| docs     | 문서 (문서 추가, 수정, 삭제)                      |
-| test     | 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음) |
-| chore    | 기타 변경사항 (빌드 스크립트 수정 등)                  |
-| post     | 블로그 포스트 추가 (신규 포스트 작성 및 수정)             |
-| rename   | 파일 혹은 폴더명을 수정하거나 옮기는 작업만 하는 경우          |
-| remove   | 파일을 삭제하는 작업만 수행한 경우                     |
+| 커밋 타입 | 리스트                                                           |
+| --------- | ---------------------------------------------------------------- |
+| feat      | 기능 (새로운 기능)                                               |
+| fix       | 버그 (버그 수정)                                                 |
+| design    | CSS 등 사용자 UI 디자인 변경                                     |
+| refactor  | 리팩토링                                                         |
+| style     | 스타일 (코드 형식, 세미콜론 추가 : 비즈니스 로직에 변경 없음)    |
+| docs      | 문서 (문서 추가, 수정, 삭제)                                     |
+| test      | 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없음) |
+| chore     | 기타 변경사항 (빌드 스크립트 수정 등)                            |
+| post      | 블로그 포스트 추가 (신규 포스트 작성 및 수정)                    |
+| rename    | 파일 혹은 폴더명을 수정하거나 옮기는 작업만 하는 경우            |
+| remove    | 파일을 삭제하는 작업만 수행한 경우                               |
 
 ```
 💡 ex) feat : ~~기능 구현
@@ -138,7 +138,7 @@ feature : 기능을 개발하는 브랜치 → EPIC과 연동
 
 1. 에픽이 완료되어 merge할 경우 브랜치를 삭제시키는 것이 가장 좋다.
 
-2. 혹시 충돌이 발생한다면 혼자 해결하려 하지 말고 
+2. 혹시 충돌이 발생한다면 혼자 해결하려 하지 말고
    최소한 충돌난 부분을 작성한 사람과 함께 해결한다.
 
 3. branch는 remote에서 판다. develop에서 뻗어나올 수 있도록 주의한다.
@@ -152,7 +152,7 @@ feature : 기능을 개발하는 브랜치 → EPIC과 연동
 
 ### Merge 정책
 
-💡 ****[Merge commit with semi-linear history](https://iseunghan.tistory.com/330#2.%20Merge%20commit%20with%20semi-linear%20history-1)****
+💡 \***\*[Merge commit with semi-linear history](https://iseunghan.tistory.com/330#2.%20Merge%20commit%20with%20semi-linear%20history-1)\*\***
 
 ## ✔️ **Jira 사용법**
 
@@ -175,4 +175,4 @@ feature : 기능을 개발하는 브랜치 → EPIC과 연동
     - ex) [개발-BE] USER API
 - 스토리
   - 기능 : 하위기능 - (세부기능)
-  - ex)  `로그인: 토큰 - (토큰발급 로직 구현)`
+  - ex) `로그인: 토큰 - (토큰발급 로직 구현)`
