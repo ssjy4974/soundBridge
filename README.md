@@ -3,7 +3,7 @@
 ## Git Flow~
 
 ```
-💡 우리가 사용하는 Branch1
+💡 우리가 사용하는 Branch2
 
 master : 제품으로 출시될 수 있는 브랜치 ⇒ 마지막에 merge 할듯
 
